@@ -1,9 +1,19 @@
-import React from 'react'
+import React from "react";
+import MainContainer from "components/Containers/MainContainer";
+import LeftContainer from "components/Containers/LeftContainer";
+import MiddleContainer from "components/Containers/MiddleContainer";
+import RightContainer from "components/Containers/RightContainer";
 
 const MainPage = () => {
   return (
-    <div>MainPage</div>
-  )
-}
+    <MainContainer>
+      <LeftContainer>Left</LeftContainer>
 
-export default MainPage
+      <MiddleContainer>Middle</MiddleContainer>
+
+      <RightContainer>Right</RightContainer>
+    </MainContainer>
+  );
+};
+
+export default MainPage;
