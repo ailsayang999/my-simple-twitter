@@ -1,0 +1,97 @@
+///// Base /////
+
+//Google Fonts
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700&family=Noto+Sans+TC:wght@200;300;400;500;600;700&display=swap");
+
+// Scss variables: Style prefix
+:root {
+  // color
+  --brand: #ff6600;
+  --primary: #0062ff;
+  --secondary: #6c757d;
+  --success: #3dd598;
+  --warning: #ffc542;
+  --error: #fc5a5a;
+  --secondary-orange: #ff974a;
+  --secondary-blue: #50b5ff;
+  --secondary-green: #82c43c;
+  --secondary-purple: #a461d8;
+  --secondary-pink: #ff9ad5;
+  --border: #e6ecf0;
+  --bg-color: #ffffff;
+
+  // 灰階色
+  --white: #ffffff;
+  --grayscale-dark-20: #fafafb;
+  --grayscale-dark-30: #f1f1f5;
+  --grayscale-dark-40: #e2e2ea;
+  --grayscale-dark-50: #d5d5dc;
+  --grayscale-dark-60: #b5b5be;
+  --grayscale-dark-70: #92929d;
+  --grayscale-dark-80: #696974;
+  --grayscale-dark-90: #44444f;
+  --grayscale-dark-100: #171725;
+
+  // Typography
+  --main-font: "Noto Sans TC", sans-serif;
+  --main-font-number: "Montserrat", sans-serif;
+}
+
+///// Reset /////
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: var(--bg-color);
+}
+
+h1 {
+  font-size: 68px;
+  font-weight: 700;
+}
+
+h2 {
+  font-size: 42px;
+  font-weight: 700;
+}
+
+h3 {
+  font-size: 28px;
+  font-weight: 700;
+}
+
+h4 {
+  font-size: 24px;
+  font-weight: 700;
+}
+
+h5 {
+  font-size: 18px;
+  font-weight: 700;
+}
+
+ul {
+  list-style: none;
+}
+
+p {
+  line-height: 1.8;
+}
+
+a {
+  text-decoration: none;
+}
+
+input {
+  border: none;
+  outline: none;
+}
+
+img {
+  max-width: 100%;
+}
+
+///// Reuseable styles /////
