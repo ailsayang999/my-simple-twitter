@@ -1,4 +1,4 @@
-import "./rightContainer.scss";
+import "./containersSharedStyle.scss";
 
 const RightContainer = ({ children }) => {
   return <div className="right-container">{children}</div>;
