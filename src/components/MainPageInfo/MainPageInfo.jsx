@@ -11,89 +11,13 @@ import PostTweetModal from "components/PostTweetModal/PostTweetModal";
 
 //下面之後要串後端
 import userAvatar from "assets/images/fakeUserAvatar.png";
-import otherAvatar from "assets/images/fakeUserOtherAvatar.png";
-
-// allTweetsDummyData
-const allTweetsDummyData = [
-  {
-    id: 1,
-    description:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Placeat corrupti temporibus porro dolore, praesentium assumenda. Ea, asperiores! Ut, natus ad?",
-    createAt: "2023-08-22",
-    likeCount: 1,
-    replyCount: 1,
-    author: { id: 1, name: "User1", account: "user1", avatar: otherAvatar },
-  },
-  {
-    id: 2,
-    description:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Placeat corrupti temporibus porro dolore, praesentium assumenda. Ea, asperiores! Ut, natus ad?",
-    createAt: "2023-08-22",
-    likeCount: 1,
-    replyCount: 1,
-    author: { id: 2, name: "User2", account: "user2", avatar: otherAvatar },
-  },
-  {
-    id: 3,
-    description:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Placeat corrupti temporibus porro dolore, praesentium assumenda. Ea, asperiores! Ut, natus ad?",
-    createAt: "2023-08-22",
-    likeCount: 1,
-    replyCount: 1,
-    author: { id: 3, name: "User3", account: "user3", avatar: otherAvatar },
-  },
-  {
-    id: 4,
-    description:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Placeat corrupti temporibus porro dolore, praesentium assumenda. Ea, asperiores! Ut, natus ad?",
-    createAt: "2023-08-22",
-    likeCount: 1,
-    replyCount: 1,
-    author: { id: 4, name: "User4", account: "user4", avatar: otherAvatar },
-  },
-  {
-    id: 5,
-    description:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Placeat corrupti temporibus porro dolore, praesentium assumenda. Ea, asperiores! Ut, natus ad?",
-    createAt: "2023-08-22",
-    likeCount: 1,
-    replyCount: 1,
-    author: { id: 5, name: "User5", account: "user5", avatar: otherAvatar },
-  },
-  {
-    id: 6,
-    description:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Placeat corrupti temporibus porro dolore, praesentium assumenda. Ea, asperiores! Ut, natus ad?",
-    createAt: "2023-08-22",
-    likeCount: 1,
-    replyCount: 1,
-    author: { id: 6, name: "User6", account: "user6", avatar: otherAvatar },
-  },
-  {
-    id: 7,
-    description:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Placeat corrupti temporibus porro dolore, praesentium assumenda. Ea, asperiores! Ut, natus ad?",
-    createAt: "2023-08-22",
-    likeCount: 1,
-    replyCount: 1,
-    author: { id: 6, name: "User7", account: "user7", avatar: otherAvatar },
-  },
-  {
-    id: 8,
-    description:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Placeat corrupti temporibus porro dolore, praesentium assumenda. Ea, asperiores! Ut, natus ad?",
-    createAt: "2023-08-22",
-    likeCount: 1,
-    replyCount: 1,
-    author: { id: 8, name: "User8", account: "user8", avatar: otherAvatar },
-  },
-];
 
 const MainPageInfo = () => {
   // 從Context中拿取togglePostModal的function
   const { postModal, togglePostModal } = useContext(AuthContext);
-  //從後端拿到所有貼文資料
-  const [tweets, setTweets] = useState(allTweetsDummyData);
+  //從後端拿到所有貼文資料，和操作
+  const { allTweets, setAllTweets } = useContext(AuthContext);
+
   //當點擊like的時候，可以切換愛心顏色
   const [likeActive, setLikeActive] = useState();
 
@@ -116,6 +40,7 @@ const MainPageInfo = () => {
         <div className="post-area-container">
           <div className="posting-area">
             <img src={userAvatar} alt="" className="user-avatar" />
+            {/* 點擊Post區會改變postModal的布林值，post彈出 */}
             <span className="text-area" onClick={togglePostModal}>
               有什麼新鮮事
             </span>
@@ -126,8 +51,8 @@ const MainPageInfo = () => {
         </div>
       </div>
 
-      {/* Render All Tweet Item With map */}
-      {tweets.map(
+      {/* Render All Tweet Items With map */}
+      {allTweets.map(
         ({ id, description, author, createAt, likeCount, replyCount }) => {
           return (
             <>
@@ -183,8 +108,8 @@ const MainPageInfo = () => {
         }
       )}
 
-      {/* Modal */}
-      {postModal && <PostTweetModal togglePostModal={togglePostModal} />}
+      {/* Modal ：根據postModal的布林值決定是否要跳出PostTweetModal component*/}
+      {postModal && <PostTweetModal />}
     </div>
   );
 };
