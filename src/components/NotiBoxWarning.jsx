@@ -1,4 +1,5 @@
 import React from 'react'
+import './CommonStyle.scss'
 import { WarningIcon } from 'assets/icons'
 
 const NotiBoxWarning = ({notiText}) => {
