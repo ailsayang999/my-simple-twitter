@@ -5,7 +5,8 @@ import { ReactComponent as ReplyIcon } from "assets/icons/replyIcon.svg";
 import { ReactComponent as LikeIcon } from "assets/icons/likeIcon.svg";
 import { ReactComponent as LikeActiveIcon } from "assets/icons/likeIconActive.svg";
 import { useState } from "react";
-import { ReactComponent as ClosedIcon } from "assets/icons/crossIcon.svg";
+
+import PostTweetModal from "components/PostTweetModal/PostTweetModal";
 
 //下面之後要串後端
 import userAvatar from "assets/images/fakeUserAvatar.png";
@@ -87,16 +88,11 @@ const allTweetsDummyData = [
   },
 ];
 
-const MainPageInfo = () => {
+const MainPageInfo = ({ postModal, togglePostModal }) => {
   //從後端拿到所有貼文資料
   const [tweets, setTweets] = useState(allTweetsDummyData);
   //當點擊like的時候，可以切換愛心顏色
   const [likeActive, setLikeActive] = useState();
-  const [modal, setModal] = useState(false);
-
-  const toggleModal = () => {
-    setModal(!modal);
-  };
 
   const handleLikeClick = (id) => {
     setLikeActive(!likeActive);
@@ -117,7 +113,7 @@ const MainPageInfo = () => {
         <div className="post-area-container">
           <div className="posting-area">
             <img src={userAvatar} alt="" className="user-avatar" />
-            <span className="text-area" onClick={toggleModal}>
+            <span className="text-area" onClick={togglePostModal}>
               有什麼新鮮事
             </span>
           </div>
@@ -185,46 +181,7 @@ const MainPageInfo = () => {
       )}
 
       {/* Modal */}
-      {modal && (
-        <div className="modal">
-          <div className="overlay">
-            <modal className="modal-content-wrapper">
-              <div className="closed-icon-container">
-                <ClosedIcon className="cross-icon" onClick={toggleModal} />
-              </div>
-
-              <div className="modal-content">
-                <div className="modal-avatar-text-container">
-                  <div className="modal-user-avatar-wrapper">
-                    <img
-                      src={userAvatar}
-                      alt=""
-                      className="modal-user-avatar"
-                    />
-                  </div>
-
-                  <div className="modal-post-area">
-                    <span className="modal-text-area">
-                      <textarea
-                        type="text"
-                        className="modal-textarea"
-                        placeholder="有什麼新鮮事"
-                      
-                      />
-                    </span>
-                  </div>
-                </div>
-
-                <div className="toggle-btn-container">
-                  <button className="tweet-modal-btn" onClick={toggleModal}>
-                    推文
-                  </button>
-                </div>
-              </div>
-            </modal>
-          </div>
-        </div>
-      )}
+      {postModal && <PostTweetModal togglePostModal={togglePostModal} />}
     </div>
   );
 };

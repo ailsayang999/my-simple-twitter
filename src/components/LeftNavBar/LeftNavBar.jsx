@@ -6,7 +6,8 @@ import { ReactComponent as HomeIcon } from "assets/icons/homeIcon.svg";
 import { ReactComponent as UserIcon } from "assets/icons/userIcon.svg";
 import { ReactComponent as SettingIcon } from "assets/icons/settingIcon.svg";
 import { ReactComponent as LogOutIcon } from "assets/icons/logOutIcon.svg";
-const LeftNavBar = () => {
+
+const LeftNavBar = ({ togglePostModal }) => {
   const location = useLocation();
   const [url, setUrl] = useState(null);
 
@@ -62,7 +63,9 @@ const LeftNavBar = () => {
           </Link>
         </div>
 
-        <button className="tweet-button">推文</button>
+        <button className="tweet-button" onClick={togglePostModal}>
+          推文
+        </button>
       </div>
 
       <div className="log-out-item">
