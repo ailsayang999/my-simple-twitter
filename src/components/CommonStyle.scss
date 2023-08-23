@@ -200,4 +200,111 @@
   }
 }
 
+.userCardContainer{
+  .userCard {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 210px;
+    height: 314px;
+    border-radius: 10px;
+    background-color: #F6F7F8;
+    .bgImg {
+      width: 100%;
+      height: 140px;
+      .bgCover {
+        height: 140px;
+        object-fit: cover;
+        border-radius: 10px 10px 0 0;
+      }
+    }
+    .userImg{
+      position: absolute;
+      top: 64px;
+      left: 55px;
+      right: 55px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      .userAvatar{
+        width: 100px;
+        height: 100px;
+        object-fit: cover;
+        border: 4px solid #fff;
+        border-radius: 100px;
+      }
+    }
+    .userInfo{
+      width: 100px;
+      margin: 32px auto 0;
+      .userName {
+        width: 100px;
+        color: #171725;
+        font-size: 16px;
+        font-weight: 700;
+        text-align: center;
+      }
+      .userAccount {
+        width: 90px;
+        color: #6C757D;
+        font-size: 14px;
+        font-weight: 400;
+        text-align: center;
+      }
+    }
+    .tweetInfo{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 16px auto 0;
+      color: #1c1c1c;
+      font-size: 16px;
+      font-weight: 500;
+      .post {
+        display: flex;
+        margin: 0px 8px;
+        .icon {
+          width: 24px;
+          height: 24px;
+          margin-right: 8px;
+        }
+      }
+      .like{
+        display: flex;
+        margin: 0px 8px;
+        .icon {
+          width: 24px;
+          height: 24px;
+          margin-right: 8px;
+        }
+      }
+    }
+    .followInfo{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 8px auto 24px;
+      font-size: 14px; 
+      font-weight: 400;
+      color: #6C757D;
+      .following{
+        display: flex;
+        margin: 0px 4px;
+        p {
+          color:#171725;
+          line-height: 20px;
+        }
+      }
+      .follower{
+        display: flex;
+        margin: 0px 4px;
+        p {
+          color:#171725;
+          line-height: 20px;
+        }
+      }
+    }
+  }
+}
+
 
