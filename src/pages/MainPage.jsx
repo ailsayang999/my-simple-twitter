@@ -1,4 +1,3 @@
-import { useState } from "react";
 import MainContainer from "components/Containers/MainContainer";
 import LeftContainer from "components/Containers/LeftContainer";
 import MiddleContainer from "components/Containers/MiddleContainer";
@@ -11,24 +10,14 @@ import RightBanner from "components/RightBanner/RightBanner";
 import MainPageInfo from "components/MainPageInfo/MainPageInfo";
 
 const MainPage = () => {
-  //postModal的boolean判斷是否要跳出postTweetModal
-  const [postModal, setPostModal] = useState(false);
-
-  const togglePostModal = () => {
-    setPostModal(!postModal);
-  };
-
   return (
     <MainContainer>
       <LeftContainer>
-        <LeftNavBar togglePostModal={togglePostModal} />
+        <LeftNavBar />
       </LeftContainer>
       <MiddleContainer>
         <MiddleInfo>
-          <MainPageInfo
-            postModal={postModal}
-            togglePostModal={togglePostModal}
-          />
+          <MainPageInfo/>
         </MiddleInfo>
       </MiddleContainer>
       <RightContainer>

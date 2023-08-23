@@ -4,7 +4,8 @@ import "./mainPageInfo.scss";
 import { ReactComponent as ReplyIcon } from "assets/icons/replyIcon.svg";
 import { ReactComponent as LikeIcon } from "assets/icons/likeIcon.svg";
 import { ReactComponent as LikeActiveIcon } from "assets/icons/likeIconActive.svg";
-import { useState } from "react";
+import { useState,useContext } from "react";
+import AuthContext from "context/AuthContext";
 
 import PostTweetModal from "components/PostTweetModal/PostTweetModal";
 
@@ -88,7 +89,9 @@ const allTweetsDummyData = [
   },
 ];
 
-const MainPageInfo = ({ postModal, togglePostModal }) => {
+const MainPageInfo = () => {
+  // 從Context中拿取togglePostModal的function
+  const { postModal, togglePostModal } = useContext(AuthContext);
   //從後端拿到所有貼文資料
   const [tweets, setTweets] = useState(allTweetsDummyData);
   //當點擊like的時候，可以切換愛心顏色
