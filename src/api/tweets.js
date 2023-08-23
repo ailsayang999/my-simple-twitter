@@ -20,6 +20,7 @@
 // );
 
 ///////////////////////////////////////////////// getTweets /////////////////////////////////////////////////
+
 // 拿到所有的 tweets
 // export const getTweets = async () => {
 //   try {
@@ -29,6 +30,8 @@
 //     console.error("[Get Tweets failed]: ", error);
 //   }
 // };
+
+///////////////////////////////////////////////// getTweets /////////////////////////////////////////////////
 
   //前台allTweetsDummyData
   import otherAvatar from "assets/images/fakeUserOtherAvatar.png";
@@ -147,4 +150,33 @@
     },
   ];
 
- 
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+//////////////////////////////////////////////// postTweetLike ////////////////////////////////////////////////
+
+// //把後端某篇貼文Like改為true，新增喜歡
+// export const postTweetLike = async (id) => {
+//   try {
+//     const res = axiosInstance.post(`/tweets/${id}/like`);
+//     console.log(res);
+//     return res;
+//   } catch (error) {
+//     console.error("[Post like tweet failed]: ", error.response.data.message);
+//   }
+// };
+
+// //把後端某篇貼文Like改為false，取消喜歡
+// export const postTweetUnlike = async (id) => {
+//   try {
+//     const res = axiosInstance.post(`/tweets/${id}/unlike`);
+//     console.log(res);
+//     return res;
+//   } catch (error) {
+//     console.error("[Post unlike tweet failed]: ", error.response.data.message);
+//   }
+// };
+
+//////////////////////////////////////////////////////////////////////////////////////////////

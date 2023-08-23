@@ -5,10 +5,10 @@ import { ReactComponent as LikeActiveIcon } from "assets/icons/likeIconActive.sv
 import { useState, useContext, useEffect } from "react";
 import AuthContext from "context/AuthContext";
 // 之後串接用的function，之後下面那一行就可以刪掉
-// import { getTweets, createTweets, patchTweets, deleteTweets } from "api/tweets";
+// import { getTweets, createTweets, postTweetLike, postTweetUnlike, deleteTweets } from "api/tweets";
 
 // allTweetsDummyData和 patchTweets
-import { allTweetsDummyData, patchTweets } from "api/tweets";
+import { allTweetsDummyData } from "api/tweets";
 
 import PostTweetModal from "components/PostTweetModal/PostTweetModal";
 
@@ -24,7 +24,7 @@ const MainPageInfo = () => {
 
   ////////////////////////////////////////////////////////////////////////////////////////////串接API getTweets ///////////////////////////
 
-  // //串接API: 從後端拿到我們所有tweets 資料後會更新 tweets 的state，畫面會重新更新
+  // //串接API: tweets畫面初始化，顯示過去tweets內所有資訊
   // useEffect(() => {
   //   const getTweetsAsync = async () => {
   //     //因為getTweets是非同步的操作，有可能會失敗，所以我們要用try catch把它包起來
@@ -37,10 +37,13 @@ const MainPageInfo = () => {
   //   //getTweetsAsync這個function定義完成之後，我們可以直接執行它
   //   getTweetsAsync();
   // }, []); //後面的dependency讓他是空的，因為只要在畫面一開始被渲染的時候才做操作
+  // const [tweets, setTweets] = useState(tweets);
 
-  ////////////////////////////////////////////////////////////////////////////////////////////串接API getTweets: ///////////////////////////
+  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
   //當點擊like的時候，可以切換愛心顏色
+  const [isLikedActive, setIsLikedActive] = useState(tweets.isLiked);
+
   const handleToggleLike = (id) => {
     setTweets((prevTweets) => {
       return prevTweets.map((tweet) => {
@@ -55,36 +58,44 @@ const MainPageInfo = () => {
     });
   };
   console.log(tweets);
-  ////////////////////////////////////////////////////////////////////////////////////////////串接API patchTweets：處理某篇貼文isLike的boolean值 ///////////////////////////
 
-  //監聽器：handleLike: 會在handleLike去做PATCH的動作
+  ////////////////////////////////////////////////////////////////////////////////////////////串接API postTweetLike：處理某篇貼文isLike的boolean值 ///////////////////////////
+
+  // // 前端畫面處理isLikedActive的state做畫面渲染
+  // const [isLikedActive, setIsLikedActive] = useState(tweets.isLiked);
+  // // 喜歡功能
   // const handleToggleLike = async (id) => {
-  //   //先找出使用者toggle Like的項目
-  //   const currentTweet = tweets.find((tweet) => tweet.id === id);
+  //   console.log("此篇貼文的Like初始狀態: ", isLikedActive);
 
-  //   try {
-  //     await patchTweets({
-  //       id,
-  //       isLike: !currentTweet.isLike,
-  //     }); //可以看到Toggle只有改到isLike的true false，所以傳給patchTweets的payload只有id跟isLike的值
+  //   if (isLikedActive === true) {
+  //     const res = await postTweetUnlike(id);
+  //     //若後端有把isLike改成false成功
+  //     if (res.data) {
+  //       if (res.data.message === "Unlike成功") {
+  //         //把前端畫面的isLikedActive改為false做畫面渲染
+  //         setIsLikedActive(false);
+  //         return;
+  //       }
+  //     } else {
+  //       return alert("Unlike未成功");
+  //     }
+  //   }
 
-  //     setTweets((prevTweets) => {
-  //       return prevTweets.map((tweet) => {
-  //         if (tweet.id === id) {
-  //           return {
-  //             ...tweet,
-  //             isLike: !tweet.isLike,
-  //           };
-  //         }
-  //         return tweet; //其他tweet原封不動傳回去
-  //       });
-  //     });
-  //   } catch (err) {
-  //     console.error(err);
+  //   if (isLikedActive === false) {
+  //     const res = await postTweetLike(id);
+  //     if (res.data) {
+  //       //若喜歡喜歡成功
+  //       if (res.data.status === "Like成功！") {
+  //         setIsLikedActive(true);
+  //         return;
+  //       } else {
+  //         return alert("Like成功！");
+  //       }
+  //     }
   //   }
   // };
 
-  ////////////////////////////////////////////////////////////////////////////////////////////串接API patchTweets ///////////////////////////
+  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
   return (
     <div className="main-page-info">
@@ -119,7 +130,6 @@ const MainPageInfo = () => {
           createdAt,
           likeCount,
           replyCount,
-          isLike,
         }) => {
           return (
             <>
@@ -154,12 +164,12 @@ const MainPageInfo = () => {
                         >
                           <LikeIcon
                             className={`like-icon ${
-                              !isLike ? "like-gray" : ""
+                              !isLikedActive ? "like-gray" : ""
                             }`}
                           />
                           <LikeActiveIcon
                             className={`liked-icon ${
-                              isLike ? "like-active" : ""
+                              isLikedActive ? "like-active" : ""
                             }`}
                           />
                         </div>
