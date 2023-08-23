@@ -1,4 +1,3 @@
-// 更改後端Liked的問題還沒解決，還沒有登入者對某篇貼文isLike的boolean值，要在handleLikeClick那裡處理
 import "./mainPageInfo.scss";
 import { ReactComponent as ReplyIcon } from "assets/icons/replyIcon.svg";
 import { ReactComponent as LikeIcon } from "assets/icons/likeIcon.svg";
@@ -23,15 +22,6 @@ const MainPageInfo = () => {
   //暫時先從假資料拿
   const [tweets, setTweets] = useState(allTweetsDummyData);
 
-  //當點擊like的時候，可以切換愛心顏色
-  const [likeActive, setLikeActive] = useState();
-
-  const handleLikeClick = (id) => {
-    setLikeActive(!likeActive);
-    //之後後端資料進來要改這裡，要把後端的like資料改掉
-    // setTweets({ ...tweets, likeCount: nextLikeCount++  });
-  };
-
   ////////////////////////////////////////////////////////////////////////////////////////////串接API getTweets ///////////////////////////
 
   // //串接API: 從後端拿到我們所有tweets 資料後會更新 tweets 的state，畫面會重新更新
@@ -48,7 +38,53 @@ const MainPageInfo = () => {
   //   getTweetsAsync();
   // }, []); //後面的dependency讓他是空的，因為只要在畫面一開始被渲染的時候才做操作
 
-  ////////////////////////////////////////////////////////////////////////////////////////////串接API getTweets ///////////////////////////
+  ////////////////////////////////////////////////////////////////////////////////////////////串接API getTweets: ///////////////////////////
+
+  //當點擊like的時候，可以切換愛心顏色
+  const handleToggleLike = (id) => {
+    setTweets((prevTweets) => {
+      return prevTweets.map((tweet) => {
+        if (tweet.id === id) {
+          return {
+            ...tweet,
+            isLike: !tweet.isLike,
+          };
+        }
+        return tweet; //其他tweet原封不動傳回去
+      });
+    });
+  };
+  console.log(tweets);
+  ////////////////////////////////////////////////////////////////////////////////////////////串接API patchTweets：處理某篇貼文isLike的boolean值 ///////////////////////////
+
+  //監聽器：handleLike: 會在handleLike去做PATCH的動作
+  // const handleToggleLike = async (id) => {
+  //   //先找出使用者toggle Like的項目
+  //   const currentTweet = tweets.find((tweet) => tweet.id === id);
+
+  //   try {
+  //     await patchTweets({
+  //       id,
+  //       isLike: !currentTweet.isLike,
+  //     }); //可以看到Toggle只有改到isLike的true false，所以傳給patchTweets的payload只有id跟isLike的值
+
+  //     setTweets((prevTweets) => {
+  //       return prevTweets.map((tweet) => {
+  //         if (tweet.id === id) {
+  //           return {
+  //             ...tweet,
+  //             isLike: !tweet.isLike,
+  //           };
+  //         }
+  //         return tweet; //其他tweet原封不動傳回去
+  //       });
+  //     });
+  //   } catch (err) {
+  //     console.error(err);
+  //   }
+  // };
+
+  ////////////////////////////////////////////////////////////////////////////////////////////串接API patchTweets ///////////////////////////
 
   return (
     <div className="main-page-info">
@@ -76,7 +112,15 @@ const MainPageInfo = () => {
 
       {/* Render All Tweet Items With map */}
       {tweets.map(
-        ({ id, description, author, createAt, likeCount, replyCount }) => {
+        ({
+          id,
+          description,
+          author,
+          createdAt,
+          likeCount,
+          replyCount,
+          isLike,
+        }) => {
           return (
             <>
               <div className="post-item-container" key={id}>
@@ -91,7 +135,7 @@ const MainPageInfo = () => {
                     <div className="user-post-info">
                       <div className="name">{author.name}</div>
                       <div className="account">@{author.account}</div>
-                      <div className="time">· {createAt}</div>
+                      <div className="time">· {createdAt}</div>
                     </div>
 
                     <div className="post-content">{description}</div>
@@ -105,17 +149,17 @@ const MainPageInfo = () => {
                         <div
                           className="like-icons"
                           onClick={() => {
-                            handleLikeClick(id);
+                            handleToggleLike(id);
                           }}
                         >
                           <LikeIcon
                             className={`like-icon ${
-                              !likeActive ? "like-gray" : ""
+                              !isLike ? "like-gray" : ""
                             }`}
                           />
                           <LikeActiveIcon
                             className={`liked-icon ${
-                              likeActive ? "like-active" : ""
+                              isLike ? "like-active" : ""
                             }`}
                           />
                         </div>
