@@ -3,7 +3,7 @@
   flex-direction: column;
   align-items: center;
   margin: 64px auto 0px;
-  width: 30%;
+  width: 356px;
   h3 {
       margin-top: 24px;
       margin-bottom: 40px;
@@ -13,11 +13,9 @@
     }
 }
 
-
-
 .inputContainer {
   flex-direction: column;
-  width: 30%;
+  width: 356px;
   height: 78px;
   margin: 0px auto 2px;
   &:hover .inputContent {
@@ -99,7 +97,7 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: 30%;
+  width: 356px;
   margin: 0 auto;
   .mainButton {
     justify-content: center;
@@ -119,46 +117,87 @@
       cursor: pointer;
     }
   }
-  .outerLink {
-    position: relative;
+ .linkText-end{
     display: flex;
     justify-content: flex-end;
-    align-items: center;
-    color: black;
-    font-size: 16px;
-    font-weight: 400;
-    width: 100%;
-    height: 36px;
-    line-height: 36px;
-    .hide {
-      display: none;
-    }
-    .linkText-center{
-      position: absolute;
-      left: 50%;
-      transform: translateX(-50%);
+    height: 100%;
+    line-height: 100%;
+    .linkText {
       color: #0062ff;
       padding: 6px 12px;
       text-decoration: underline;
     }
-    .linkText-end{
-      display: flex;
-      justify-content: center;
-      height: 100%;
-      line-height: 100%;
-      .linkText {
-        color: #0062ff;
-        padding: 6px 12px;
-        text-decoration: underline;
-      }
-      &:hover {
-        cursor: pointer;
-      }
+    &:hover {
+      cursor: pointer;
     }
-    
   }
 }
 
-
+.notiContainer{
+  position: fixed;
+  top: 50px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  width: 394px;
+  height: 96px;
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0px 4px 16px 0px rgba(51, 51, 51, 0.08), 0px 4px 4px 0px rgba(51, 51, 51, 0.04);
+  .notiContent{
+    padding-left: 24px;
+    font-size: 20px;
+    font-weight: 700;
+  }
+  .notiImgSuccess {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 56px;
+    height: 56px;
+    border: 2px solid #82C43C;
+    border-radius: 50%;
+  }
+  .notiImgFail {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 56px;
+    height: 56px;
+    border: 2px solid #FC5A5A;
+    border-radius: 50%;
+  }
+  .notiImgWarning {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 56px;
+    height: 56px;
+    border: 2px solid #FFC542;
+    border-radius: 50%;
+  }
+  .notiImgDisconnect{
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 56px;
+    height: 56px;
+    border: 2px solid #50B5FF ;
+    border-radius: 50%;
+  }
+}
 
 
