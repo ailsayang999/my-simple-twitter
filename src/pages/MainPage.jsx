@@ -7,6 +7,9 @@ import LeftNavBar from "components/LeftNavBar/LeftNavBar";
 import MiddleInfo from "components/MiddleInfo/MiddleInfo";
 import RightBanner from "components/RightBanner/RightBanner";
 
+// MainPageInfo裡面的資訊是 MainPage的 MiddleInfo主要內容
+import MainPageInfo from "components/MainPageInfo/MainPageInfo";
+
 const MainPage = () => {
   return (
     <MainContainer>
@@ -14,7 +17,7 @@ const MainPage = () => {
         <LeftNavBar />
       </LeftContainer>
       <MiddleContainer>
-        <MiddleInfo>Change Something here</MiddleInfo>
+        <MiddleInfo><MainPageInfo/></MiddleInfo>
       </MiddleContainer>
       <RightContainer>
         <RightBanner />
