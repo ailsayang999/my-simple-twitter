@@ -1,4 +1,5 @@
 import React from 'react'
+import './CommonStyle.scss'
 import { FailIcon } from 'assets/icons'
 
 const NotiBoxFail = ({notiText}) => {
