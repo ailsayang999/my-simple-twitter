@@ -65,6 +65,7 @@
         margin-left: 10px;
         display: flex;
         flex-direction: column;
+
         .user-post-info {
           display: flex;
           .name {
@@ -78,6 +79,8 @@
         }
         .post-content {
           margin: 10px 0;
+          max-width:500px;
+          word-wrap: break-word;
         }
         .reply-like-container {
           display: flex;
@@ -130,6 +133,4 @@
       }
     }
   }
-
-  
 }

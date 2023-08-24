@@ -2,7 +2,7 @@ import "./mainPageInfo.scss";
 import { ReactComponent as ReplyIcon } from "assets/icons/replyIcon.svg";
 import { ReactComponent as LikeIcon } from "assets/icons/likeIcon.svg";
 import { ReactComponent as LikeActiveIcon } from "assets/icons/likeIconActive.svg";
-import { useState, useContext, useEffect } from "react";
+import { useState, useContext } from "react";
 import AuthContext from "context/AuthContext";
 // 之後串接用的function，之後下面那一行就可以刪掉
 // import {
