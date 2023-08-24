@@ -33,127 +33,143 @@
 
 ///////////////////////////////////////////////// getTweets /////////////////////////////////////////////////
 
-  //前台allTweetsDummyData
-  import otherAvatar from "assets/images/fakeUserOtherAvatar.png";
-  export const allTweetsDummyData = [
-    {
-      id: 1,
-      author: {
-        id: 21,
-        account: "Ailsa",
-        name: "ailsa",
-        avatar: otherAvatar,
-      },
-      description: "This is my First Post!!!!!",
-      likeCount: 6,
-      replyCount: 1,
-      isLiked: true,
-      createdAt: "2023-08-19T15:35:14.000Z",
+//前台allTweetsDummyData
+import otherAvatar from "assets/images/fakeUserOtherAvatar.png";
+export const allTweetsDummyData = [
+  {
+    id: 1,
+    author: {
+      id: 21,
+      account: "Ailsa",
+      name: "ailsa",
+      avatar: otherAvatar,
     },
-    {
-      id: 2,
-      author: {
-        id: 21,
-        account: "Ailsa",
-        name: "ailsa",
-        avatar: otherAvatar,
-      },
-      description: "This is my First Post!!!!!",
-      likeCount: 6,
-      replyCount: 1,
-      isLiked: true,
-      createdAt: "2023-08-19T15:35:14.000Z",
+    description: "This is my First Post!!!!!",
+    likeCount: 6,
+    replyCount: 1,
+    isLiked: true,
+    createdAt: "2023-08-19T15:35:14.000Z",
+  },
+  {
+    id: 2,
+    author: {
+      id: 21,
+      account: "Ailsa",
+      name: "ailsa",
+      avatar: otherAvatar,
     },
-    {
-      id: 3,
-      author: {
-        id: 21,
-        account: "Ailsa",
-        name: "ailsa",
-        avatar: otherAvatar,
-      },
-      description: "This is my First Post!!!!!",
-      likeCount: 6,
-      replyCount: 1,
-      isLiked: true,
-      createdAt: "2023-08-19T15:35:14.000Z",
+    description: "This is my First Post!!!!!",
+    likeCount: 6,
+    replyCount: 1,
+    isLiked: true,
+    createdAt: "2023-08-19T15:35:14.000Z",
+  },
+  {
+    id: 3,
+    author: {
+      id: 21,
+      account: "Ailsa",
+      name: "ailsa",
+      avatar: otherAvatar,
     },
-    {
-      id: 4,
-      author: {
-        id: 21,
-        account: "Ailsa",
-        name: "ailsa",
-        avatar: otherAvatar,
-      },
-      description: "This is my First Post!!!!!",
-      likeCount: 6,
-      replyCount: 1,
-      isLiked: true,
-      createdAt: "2023-08-19T15:35:14.000Z",
+    description: "This is my First Post!!!!!",
+    likeCount: 6,
+    replyCount: 1,
+    isLiked: true,
+    createdAt: "2023-08-19T15:35:14.000Z",
+  },
+  {
+    id: 4,
+    author: {
+      id: 21,
+      account: "Ailsa",
+      name: "ailsa",
+      avatar: otherAvatar,
     },
-    {
-      id: 5,
-      author: {
-        id: 21,
-        account: "Ailsa",
-        name: "ailsa",
-        avatar: otherAvatar,
-      },
-      description: "This is my First Post!!!!!",
-      likeCount: 6,
-      replyCount: 1,
-      isLiked: true,
-      createdAt: "2023-08-19T15:35:14.000Z",
+    description: "This is my First Post!!!!!",
+    likeCount: 6,
+    replyCount: 1,
+    isLiked: true,
+    createdAt: "2023-08-19T15:35:14.000Z",
+  },
+  {
+    id: 5,
+    author: {
+      id: 21,
+      account: "Ailsa",
+      name: "ailsa",
+      avatar: otherAvatar,
     },
-    {
-      id: 6,
-      author: {
-        id: 21,
-        account: "Ailsa",
-        name: "ailsa",
-        avatar: otherAvatar,
-      },
-      description: "This is my First Post!!!!!",
-      likeCount: 6,
-      replyCount: 1,
-      isLiked: true,
-      createdAt: "2023-08-19T15:35:14.000Z",
+    description: "This is my First Post!!!!!",
+    likeCount: 6,
+    replyCount: 1,
+    isLiked: true,
+    createdAt: "2023-08-19T15:35:14.000Z",
+  },
+  {
+    id: 6,
+    author: {
+      id: 21,
+      account: "Ailsa",
+      name: "ailsa",
+      avatar: otherAvatar,
     },
-    {
-      id: 7,
-      author: {
-        id: 21,
-        account: "Ailsa",
-        name: "ailsa",
-        avatar: otherAvatar,
-      },
-      description: "This is my First Post!!!!!",
-      likeCount: 6,
-      replyCount: 1,
-      isLiked: true,
-      createdAt: "2023-08-19T15:35:14.000Z",
+    description: "This is my First Post!!!!!",
+    likeCount: 6,
+    replyCount: 1,
+    isLiked: true,
+    createdAt: "2023-08-19T15:35:14.000Z",
+  },
+  {
+    id: 7,
+    author: {
+      id: 21,
+      account: "Ailsa",
+      name: "ailsa",
+      avatar: otherAvatar,
     },
-    {
-      id: 8,
-      author: {
-        id: 21,
-        account: "Ailsa",
-        name: "ailsa",
-        avatar: otherAvatar,
-      },
-      description: "This is my First Post!!!!!",
-      likeCount: 6,
-      replyCount: 1,
-      isLiked: true,
-      createdAt: "2023-08-19T15:35:14.000Z",
+    description: "This is my First Post!!!!!",
+    likeCount: 6,
+    replyCount: 1,
+    isLiked: true,
+    createdAt: "2023-08-19T15:35:14.000Z",
+  },
+  {
+    id: 8,
+    author: {
+      id: 21,
+      account: "Ailsa",
+      name: "ailsa",
+      avatar: otherAvatar,
     },
-  ];
-
+    description: "This is my First Post!!!!!",
+    likeCount: 6,
+    replyCount: 1,
+    isLiked: true,
+    createdAt: "2023-08-19T15:35:14.000Z",
+  },
+];
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
 
+///////////////////////////////////////////////// postTweet /////////////////////////////////////////////////
 
+// export const postTweet = async (payload) => {
+//   const { description, userId, createdAt } = payload;
+
+//   try {
+//     const res = await axiosInstance.post(`${baseUrl}/tweets`, {
+//       description,
+//       userId,
+//       createdAt,
+//     });
+//     return res.data;
+//   } catch (error) {
+//     console.error("[Post Tweet failed]: ", error);
+//   }
+// };
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
 
 //////////////////////////////////////////////// postTweetLike ////////////////////////////////////////////////
 
@@ -180,7 +196,6 @@
 // };
 
 //////////////////////////////////////////////////////////////////////////////////////////////
-
 export const replyItemsDummyData = [
   {
     replyId: 31,
