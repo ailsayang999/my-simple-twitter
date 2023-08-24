@@ -2,6 +2,7 @@ import HomePage from "./HomePage";
 import RegisterPage from "./RegisterPage";
 import LoginPage from "./LoginPage";
 import MainPage from "./MainPage";
+import ReplyPage from "./ReplyPage";
 import SettingPage from "./SettingPage";
 import UserSelfPage from "./UserSelfPage";
 import UserSelfFollowPage from "./UserSelfFollowPage";
@@ -11,14 +12,12 @@ import AdminPage from "./AdminPage";
 import AdminMainPage from "./AdminMainPage";
 import AdminUsersPage from "./AdminUsersPage";
 
-
-
-
 export {
   HomePage,
   RegisterPage,
   LoginPage,
   MainPage,
+  ReplyPage,
   SettingPage,
   UserSelfPage,
   UserSelfFollowPage,

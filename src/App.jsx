@@ -5,6 +5,7 @@ import {
   RegisterPage,
   LoginPage,
   MainPage,
+  ReplyPage,
   SettingPage,
   UserSelfPage,
   UserSelfFollowPage,
@@ -24,6 +25,7 @@ function App() {
           <Route path="register" element={<RegisterPage />} />
           <Route path="login" element={<LoginPage />} />
           <Route path="main" element={<MainPage />} />
+          <Route path="reply" element={<ReplyPage />} />
           <Route path="setting" element={<SettingPage />} />
           <Route path="user/self" element={<UserSelfPage />} />
           <Route path="user/self/follow" element={<UserSelfFollowPage />} />
