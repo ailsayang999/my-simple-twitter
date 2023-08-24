@@ -1,8 +1,9 @@
 .main-page-info {
   height: 1220px;
   overflow: scroll;
+
   .header-container {
-    height: 60px;
+    height: 70px;
     display: flex;
     align-items: center;
     padding-left: 16px;
@@ -130,6 +131,4 @@
       }
     }
   }
-
-  
 }
