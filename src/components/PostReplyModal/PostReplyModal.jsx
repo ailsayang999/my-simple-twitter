@@ -1,20 +1,21 @@
-import "./postTweetModal.scss";
+import "./postReplyModal.scss"
+
 import { ReactComponent as ClosedIcon } from "assets/icons/crossIcon.svg";
 import userAvatar from "assets/images/fakeUserAvatar.png";
 import {useContext} from "react"
 import ModalContext from "context/ModalContext";
 
-const PostTweetModal = () => {
+const PostReplyModal = () => {
   // 從Context中拿取togglePostModal的function
-  const { togglePostModal } = useContext(ModalContext);
-  
+  const { toggleReplyModal } = useContext(ModalContext);
+
   return (
     <div className="">
       <div className="post-tweet-modal">
         <div className="overlay">
           <modal className="modal-content-wrapper">
             <div className="closed-icon-container">
-              <ClosedIcon className="cross-icon" onClick={togglePostModal} />
+              <ClosedIcon className="cross-icon" onClick={toggleReplyModal} />
             </div>
 
             <div className="modal-content">
@@ -45,4 +46,4 @@ const PostTweetModal = () => {
   );
 };
 
-export default PostTweetModal;
+export default PostReplyModal;

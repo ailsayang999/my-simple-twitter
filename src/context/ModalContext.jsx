@@ -1,8 +1,8 @@
 import { createContext, useState } from "react";
 
-const AuthContext = createContext("");
+const ModalContext = createContext("");
 
-function AuthContextProvider({ children }) {
+function ModalContextProvider({ children }) {
   // toggle PostModal: postModal的boolean判斷是否要跳出postTweetModal
   const [postModal, setPostModal] = useState(false);
   const togglePostModal = () => {
@@ -13,16 +13,21 @@ function AuthContextProvider({ children }) {
     setReplyModal(!replyModal);
   };
 
-  const AuthContextValueToShare = {
-
+  const ModalContextValueToShare = {
+    postModal,
+    setPostModal,
+    togglePostModal,
+    replyModal,
+    setReplyModal,
+    toggleReplyModal,
   };
 
   return (
-    <AuthContext.Provider value={AuthContextValueToShare}>
+    <ModalContext.Provider value={ModalContextValueToShare}>
       {children}
-    </AuthContext.Provider>
+    </ModalContext.Provider>
   );
 }
 
-export { AuthContextProvider };
-export default AuthContext;
+export { ModalContextProvider };
+export default ModalContext;

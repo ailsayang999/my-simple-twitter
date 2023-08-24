@@ -3,7 +3,7 @@ import { ReactComponent as ReplyIcon } from "assets/icons/replyIcon.svg";
 import { ReactComponent as LikeIcon } from "assets/icons/likeIcon.svg";
 import { ReactComponent as LikeActiveIcon } from "assets/icons/likeIconActive.svg";
 import { useState, useContext, useEffect } from "react";
-import AuthContext from "context/AuthContext";
+import ModalContext from "context/ModalContext";
 import { useNavigate } from "react-router-dom";
 // 之後串接用的function，之後下面那一行就可以刪掉
 // import { getTweets, createTweets, postTweetLike, postTweetUnlike, deleteTweets } from "api/tweets";
@@ -12,6 +12,7 @@ import { useNavigate } from "react-router-dom";
 import { allTweetsDummyData } from "api/tweets";
 
 import PostTweetModal from "components/PostTweetModal/PostTweetModal";
+import PostReplyModal from "components/PostReplyModal/PostReplyModal";
 
 //下面之後要串後端
 import userAvatar from "assets/images/fakeUserAvatar.png";
@@ -22,7 +23,10 @@ const MainPageInfo = () => {
     navigate("/reply");
   };
   // 從Context中拿取togglePostModal的function
-  const { postModal, togglePostModal } = useContext(AuthContext);
+  const { postModal, togglePostModal } = useContext(ModalContext);
+
+  // 從Context中拿取toggleReplyModal的function
+  const { replyModal, toggleReplyModal } = useContext(ModalContext);
 
   //暫時先從假資料拿
   const [tweets, setTweets] = useState(allTweetsDummyData);
@@ -155,7 +159,10 @@ const MainPageInfo = () => {
 
                     <div className="reply-like-container">
                       <div className="reply-container">
-                        <ReplyIcon className="reply-icon" />
+                        <ReplyIcon
+                          className="reply-icon"
+                          onClick={toggleReplyModal}
+                        />
                         <div className="reply-number">{replyCount}</div>
                       </div>
                       <div className="like-container">
@@ -190,6 +197,8 @@ const MainPageInfo = () => {
 
       {/* Modal ：根據postModal的布林值決定是否要跳出PostTweetModal component*/}
       {postModal && <PostTweetModal />}
+      {/* Modal ：根據replyModal的布林值決定是否要跳出PostReplyModal component*/}
+      {replyModal && <PostReplyModal />}
     </div>
   );
 };

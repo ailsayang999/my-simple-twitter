@@ -3,13 +3,18 @@ import { ReactComponent as BackArrowIcon } from "assets/icons/backArrowIcon.svg"
 import { ReactComponent as ReplyIcon } from "assets/icons/replyIcon.svg";
 import { ReactComponent as LikeIcon } from "assets/icons/likeIcon.svg";
 import { useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import ModalContext from "context/ModalContext";
 
 //下面userAvatar之後要串後端
 import userAvatar from "assets/images/fakeUserAvatar.png";
+
+//處理reply的Modal
 import { replyItemsDummyData } from "api/tweets";
+import PostReplyModal from "components/PostReplyModal/PostReplyModal";
 
 // 元件切分
-const ReplyPost = () => {
+const ReplyPost = ({ toggleReplyModal }) => {
   return (
     <div className="reply-post">
       <div className="tweet-area-wrapper">
@@ -47,7 +52,7 @@ const ReplyPost = () => {
       </div>
       <div className="like-count-icon-area-wrapper">
         <div className="like-count-icon-area">
-          <ReplyIcon className="tweet-reply-icon" />
+          <ReplyIcon className="tweet-reply-icon" onClick={toggleReplyModal} />
           <LikeIcon className="tweet-like-icon" />
         </div>
       </div>
@@ -56,10 +61,15 @@ const ReplyPost = () => {
 };
 
 const ReplyPageInfo = () => {
+  //處理回到主頁的navigation
   const navigate = useNavigate();
   const handleBackArrowClick = () => {
     navigate("/main");
   };
+
+  // 從Context中拿取toggleReplyModal的function
+  const { replyModal, toggleReplyModal } = useContext(ModalContext);
+
   return (
     <div className="reply-page-info">
       {/* 感覺以下可以重複使用 */}
@@ -72,7 +82,7 @@ const ReplyPageInfo = () => {
       </div>
 
       {/* Render reply Post */}
-      <ReplyPost />
+      <ReplyPost toggleReplyModal={toggleReplyModal} />
 
       {replyItemsDummyData.map(
         ({
@@ -116,6 +126,9 @@ const ReplyPageInfo = () => {
           );
         }
       )}
+
+      {/* Modal ：根據replyModal的布林值決定是否要跳出PostReplyModal component*/}
+      {replyModal && <PostReplyModal />}
     </div>
   );
 };

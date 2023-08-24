@@ -139,6 +139,7 @@
         align-items: center;
         .tweet-reply-icon {
           fill: var(--secondary);
+          cursor: pointer;
         }
         .tweet-like-icon {
           fill: var(--secondary);
