@@ -180,3 +180,16 @@
 // };
 
 //////////////////////////////////////////////////////////////////////////////////////////////
+
+export const replyItemsDummyData = [
+  {
+    replyId: 31,
+    comment:
+      "I want to go swimming too! It is so hot right now. I want to eat ice cream too! I like to go to the beach",
+    replierName: "Jennifer",
+    replierAvatar: otherAvatar,
+    replierAccount: "user1",
+    tweetBelongerAccount: "Ailsa",
+    createdAt: "12小時",
+  },
+];

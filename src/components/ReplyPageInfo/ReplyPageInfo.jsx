@@ -5,6 +5,7 @@ import { ReactComponent as LikeIcon } from "assets/icons/likeIcon.svg";
 
 //下面userAvatar之後要串後端
 import userAvatar from "assets/images/fakeUserAvatar.png";
+import { replyItemsDummyData } from "api/tweets";
 
 // 元件切分
 const ReplyPost = () => {
@@ -52,8 +53,6 @@ const ReplyPost = () => {
     </div>
   );
 };
-// const ReplyList = () => {};
-// const ReplyItem = () => {};
 
 
 
@@ -69,10 +68,49 @@ const ReplyPageInfo = () => {
       {/* Render reply Post */}
       <ReplyPost />
 
-      <div className="reply-list">
+      {replyItemsDummyData.map(
+        ({
+          replyId,
+          comment,
+          replierName,
+          replierAvatar,
+          replierAccount,
+          tweetBelongerAccount,
+          createdAt,
+        }) => {
+          return (
+            <>
+              <div className="reply-item-container" key={replyId}>
+                <div className="reply-item-wrapper">
+                  <img
+                    src={replierAvatar}
+                    alt={replierAvatar}
+                    className="reply-item-avatar"
+                  />
 
-      </div>
+                  <div className="reply-item-content">
+                    <div className="user-reply-info">
+                      <div className="replier-name">{replierName}</div>
+                      <div className="replier-account">@{replierAccount}</div>
+                      <div className="reply-time">· {createdAt}</div>
+                    </div>
 
+                    <div className="reply-to-tweet-belonger-account-container">
+                      回覆
+                      <span className="reply-to-tweet-belonger-account">
+                        @{tweetBelongerAccount}
+                      </span>
+                    </div>
+
+                    <div className="reply-content">{comment}</div>
+                  </div>
+                </div>
+              </div>
+            </>
+          );
+        }
+      )}
+      
     </div>
   );
 };

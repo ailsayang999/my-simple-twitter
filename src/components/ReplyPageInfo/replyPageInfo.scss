@@ -15,7 +15,7 @@
       margin-left: 20px;
     }
   }
-// ReplyPost
+  // ReplyPost
   .reply-post {
     .tweet-area-wrapper {
       padding-top: 15px;
@@ -145,5 +145,64 @@
       }
     }
   }
+  // Reply item
+  .reply-item-container {
+    // outline: 1px solid rgb(21, 180, 191);
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 10px;
+    height: 153px;
+    padding-top: 15px;
 
+    .reply-item-wrapper {
+      // outline: 5px solid rgb(186, 9, 226);
+      height: 100%;
+      display: flex;
+      justify-content: flex-start;
+      margin-bottom: 10px;
+      padding: 0 20px;
+      .reply-item-avatar {
+        // outline: 2px solid rgb(26, 71, 89);
+        width: 50px;
+        height: 50px;
+      }
+      .reply-item-content {
+        // outline: 2px solid rgb(26, 71, 89);
+        margin-left: 10px;
+        display: flex;
+        flex-direction: column;
+
+        .user-reply-info {
+          display: flex;
+          align-items: first baseline;
+          .replier-name {
+            font-weight: bold;
+            font-size: 16px;
+            line-height: 26px;
+            margin-right: 10px;
+          }
+          .replier-account,
+          .reply-time {
+            color: var(--secondary);
+            font-size: 14px;
+            font-weight: 400;
+            line-height: 22px;
+          }
+        }
+        .reply-to-tweet-belonger-account-container {
+          // outline: 1px solid red;
+          margin:10px 0;
+          .reply-to-tweet-belonger-account {
+            margin-left:5px;
+            color: var(--brand);
+          }
+        }
+        .reply-content {
+          word-wrap: break-word;
+          font-size: 16px;
+          line-height: 26px;
+          font-weight: 400;
+        }
+      }
+    }
+  }
 }
