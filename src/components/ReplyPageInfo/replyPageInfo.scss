@@ -17,7 +17,7 @@
   }
 
   .tweet-area-wrapper {
-    padding: 10px 0;
+    padding-top: 15px;
     height: 240px;
 
     .tweet-area-container {
@@ -72,6 +72,75 @@
           font-weight: 500;
           color: var(--secondary);
         }
+      }
+    }
+  }
+
+  .reply-like-area-wrapper {
+    padding: 0 16px;
+    display: flex;
+    justify-content: start;
+    height: 60px;
+
+    .reply-like-area {
+      width: 100%;
+      height: 60px;
+      display: flex;
+      justify-content: start;
+      align-items: center;
+      column-gap: 10px;
+      border-bottom: 1px solid var(--border);
+      .reply-count {
+        display: flex;
+        justify-content: start;
+        align-items: first baseline;
+        .reply-num {
+          font-family: var(--main-font-number);
+          color: #000000;
+          font-weight: 700;
+        }
+        .reply-text {
+          margin-left: 6px;
+          color: var(--secondary);
+          font-weight: 500;
+        }
+      }
+      .like-count {
+        display: flex;
+        justify-content: start;
+        align-items: first baseline;
+        .like-num {
+          font-family: var(--main-font-number);
+          color: #000000;
+          font-weight: 700;
+        }
+        .like-text {
+          margin-left: 6px;
+          color: var(--secondary);
+          font-weight: 500;
+        }
+      }
+    }
+  }
+  .like-count-icon-area-wrapper {
+    border-bottom:1px solid var(--border);
+    height: 60px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding-left: 16px;
+    .like-count-icon-area {
+      width: 188px;
+      height: 36px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      .tweet-reply-icon {
+        fill:var(--secondary);
+      }
+      .tweet-like-icon{
+        fill:var(--secondary);
+
       }
     }
   }
