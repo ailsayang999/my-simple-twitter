@@ -5,7 +5,14 @@ import { ReactComponent as LikeActiveIcon } from "assets/icons/likeIconActive.sv
 import { useState, useContext, useEffect } from "react";
 import AuthContext from "context/AuthContext";
 // 之後串接用的function，之後下面那一行就可以刪掉
-// import { getTweets, createTweets, postTweetLike, postTweetUnlike, deleteTweets } from "api/tweets";
+// import {
+//   getTweets,
+//   createTweets,
+//   postTweetLike,
+//   postTweetUnlike,
+//   deleteTweets,
+//   postTweet,
+// } from "api/tweets";
 
 // allTweetsDummyData和 patchTweets
 import { allTweetsDummyData } from "api/tweets";
@@ -57,7 +64,6 @@ const MainPageInfo = () => {
       });
     });
   };
-  console.log(tweets);
 
   ////////////////////////////////////////////////////////////////////////////////////////////串接API postTweetLike：處理某篇貼文isLike的boolean值 ///////////////////////////
 
@@ -97,6 +103,180 @@ const MainPageInfo = () => {
 
   ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+  ///////////////////////////////////////////////// 監聽器：handleChange /////////////////////////////////////////////////
+
+  //監聽器：handleChange，當PostTweetModal的textarea發生改變時，更新inputValue的state
+  const [inputValue, setInputValue] = useState("");
+
+  const handleTweetTextAreaChange = (value) => {
+    setInputValue(value);
+  };
+
+  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  const handleAddTweet = () => {
+    if (inputValue.length > 140) {
+      alert("字數不可以超過140字");
+      return;
+    }
+
+    setTweets((prevTweets) => {
+      return [
+        {
+          id: 2,
+          author: {
+            id: 2,
+            account: "Ailsa",
+            name: "ailsa",
+            avatar: tweets[0].author.avatar,
+          },
+          description: inputValue,
+          replyCount: 0,
+          likeCount: 0,
+          isLiked: false,
+          createdAt: "2023-08-24",
+        },
+        ...prevTweets,
+      ];
+    });
+    // 把textarea裡面的訊息清掉
+    setInputValue("");
+    // 把PostModal關起來
+    togglePostModal();
+  };
+
+  const handleKeyPressAddTweet = () => {
+    if (inputValue.length > 140) {
+      alert("字數不可以超過140字");
+      return;
+    }
+
+    setTweets((prevTweets) => {
+      return [
+        {
+          id: 2,
+          author: {
+            id: 2,
+            account: "Ailsa",
+            name: "ailsa",
+            avatar: tweets[0].author.avatar,
+          },
+          description: inputValue,
+          replyCount: 0,
+          likeCount: 0,
+          isLiked: false,
+          createdAt: "2023-08-24",
+        },
+        ...prevTweets,
+      ];
+    });
+    // 把textarea裡面的訊息清掉
+    setInputValue("");
+    // 把PostModal關起來
+    togglePostModal();
+  };
+
+  ///////////////////////////////////////////////// handleAddTweet handleKeyPressAddTweet /////////////////////////////////////////////////
+
+  // //監聽器：handleAddTweet，當PostTweetModal的推文按鈕被按下時，做postTweet動作
+  // const handleAddTweet = async (inputValue) => {
+  //   if (inputValue.length > 140) {
+  //     alert("字數不可以超過140字");
+  //     return;
+  //   }
+  //   //因為他也是非同步的操作，可能會有失敗的狀況，所以我也是用try catch把它包起來
+  //   try {
+  //     //會給後端儲存的資料有：description(我們輸入的資料是inputValue)、userId、createdAt
+  //     //然後因為我們是用await方法的話，我們的handleAddTweet這個函式要改成async function
+  //     //我們在postTweet裡面給payload，也就是給我們想要新增的資訊，在api的tweets.js那裡就會去處理並return後端新增資料後的res.data，然後我們把這個res.data存到data裡面，再用setTweets來更新React裡面的tweets的state
+  //     const data = await postTweet({
+  //       description: inputValue,
+  //       userId: 1,
+  //       createdAt: "2023-08-19T15:35:14.000Z",
+  //     });
+
+  //     //因為後端其實會實際幫我們generate實際的todo id，所以我們拿到data的時候，我們可以在setTweets的id那裡帶入後端幫我們產生的id，然後其他資料(如：author,description..)都可以直接從後端建立好並傳來的data拿值
+  //     // 前端畫面也更新：我們會帶上isLiked這個欄位，我們先給他false的值
+  //     setTweets((prevTweets) => {
+  //       return [
+  //         {
+  //           id: data.id,
+  //           author: {
+  //             id: data.author.id,
+  //             account: data.author.account,
+  //             name: data.author.name,
+  //             avatar: data.author.avatar,
+  //           },
+  //           description: data.description,
+  //           replyCount: data.replyCount,
+  //           likeCount: data.likeCount,
+  //           isLiked: false,
+  //           createdAt: data.createdAt,
+  //         },
+  //         ...prevTweets,
+  //       ];
+  //     });
+  //     togglePostModal();
+  //     alert("推文發送成功!! \n請回首頁看您新增的推文~");
+
+  //     // 把textarea裡面的訊息清掉
+  //     setInputValue("");
+  //     // 把PostModal關起來
+  //     togglePostModal();
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
+  // //監聽器：handleKeyPressAddTweet （跟handleAddTweet同理），當PostTweetModal的感測到keyboard enter
+  // const handleKeyPressAddTweet = async (inputValue) => {
+  //   if (inputValue.length > 140) {
+  //     alert("字數不可以超過140字");
+  //     return;
+  //   }
+
+  //   //因為他也是非同步的操作，可能會有失敗的狀況，所以我也是用try catch把它包起來
+  //   try {
+  //     //會給後端儲存的資料有：description(我們輸入的資料是inputValue)、userId、createdAt
+  //     //然後因為我們是用await方法的話，我們的handleAddTweet這個函式要改成async function
+  //     //我們在postTweet裡面給payload，也就是給我們想要新增的資訊，在api的tweets.js那裡就會去處理並return後端新增資料後的res.data，然後我們把這個res.data存到data裡面，再用setTweets來更新React裡面的tweets的state
+  //     const data = await postTweet({
+  //       description: inputValue,
+  //       userId: 1,
+  //       createdAt: "2023-08-19T15:35:14.000Z",
+  //     });
+
+  //     //因為後端其實會實際幫我們generate實際的todo id，所以我們拿到data的時候，我們可以在setTweets的id那裡帶入後端幫我們產生的id，然後其他資料(如：author,description..)都可以直接從後端建立好並傳來的data拿值
+  //     // 前端畫面也更新：我們會帶上isLiked這個欄位，我們先給他false的值
+  //     setTweets((prevTweets) => {
+  //       return [
+  //         ...prevTweets,
+  //         {
+  //           id: data.id,
+  //           author: {
+  //             id: data.author.id,
+  //             account: data.author.account,
+  //             name: data.author.name,
+  //             avatar: data.author.avatar,
+  //           },
+  //           description: data.description,
+  //           replyCount: data.replyCount,
+  //           likeCount: data.likeCount,
+  //           isLiked: false,
+  //           createdAt: data.createdAt,
+  //         },
+  //       ];
+  //     });
+
+  //     // 把textarea裡面的訊息清掉
+  //     setInputValue("");
+  //     // 把PostModal關起來
+  //     togglePostModal();
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
+
+  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
   return (
     <div className="main-page-info">
       {/* 感覺以下可以重複使用 */}
@@ -105,6 +285,7 @@ const MainPageInfo = () => {
           <h4>{"首頁"}</h4>
         </header>
       </div>
+
       {/* Post Area */}
       <div className="post-area-wrapper">
         <div className="post-area-container">
@@ -120,17 +301,9 @@ const MainPageInfo = () => {
           </div>
         </div>
       </div>
-
       {/* Render All Tweet Items With map */}
       {tweets.map(
-        ({
-          id,
-          description,
-          author,
-          createdAt,
-          likeCount,
-          replyCount,
-        }) => {
+        ({ id, description, author, createdAt, likeCount, replyCount }) => {
           return (
             <>
               <div className="post-item-container" key={id}>
@@ -186,7 +359,14 @@ const MainPageInfo = () => {
       )}
 
       {/* Modal ：根據postModal的布林值決定是否要跳出PostTweetModal component*/}
-      {postModal && <PostTweetModal />}
+      {postModal && (
+        <PostTweetModal
+          inputValue={inputValue}
+          onTweetTextAreaChange={handleTweetTextAreaChange}
+          onAddTweet={handleAddTweet}
+          onKeyKeyPressAddTweet={handleKeyPressAddTweet}
+        />
+      )}
     </div>
   );
 };
