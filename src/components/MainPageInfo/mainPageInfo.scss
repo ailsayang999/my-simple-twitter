@@ -52,6 +52,7 @@
     border-bottom: 1px solid var(--border);
     margin-bottom: 10px;
     height: 153px;
+    z-index: 1;
 
     .post-item-wrapper {
       display: flex;
@@ -79,6 +80,7 @@
         }
         .post-content {
           margin: 10px 0;
+          cursor: pointer;
         }
         .reply-like-container {
           display: flex;
@@ -92,6 +94,8 @@
             column-gap: 8px;
             .reply-icon {
               width: 16px;
+              cursor: pointer;
+              z-index: 100;
             }
             .reply-number {
               color: var(--secondary);
@@ -108,6 +112,8 @@
                 display: none;
                 fill: #657786;
                 width: 16px;
+                z-index: 101;
+                cursor: pointer;
               }
               .like-gray {
                 display: block;

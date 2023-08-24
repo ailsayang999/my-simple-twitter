@@ -4,6 +4,7 @@ import { ReactComponent as LikeIcon } from "assets/icons/likeIcon.svg";
 import { ReactComponent as LikeActiveIcon } from "assets/icons/likeIconActive.svg";
 import { useState, useContext, useEffect } from "react";
 import AuthContext from "context/AuthContext";
+import { useNavigate } from "react-router-dom";
 // 之後串接用的function，之後下面那一行就可以刪掉
 // import { getTweets, createTweets, postTweetLike, postTweetUnlike, deleteTweets } from "api/tweets";
 
@@ -16,6 +17,10 @@ import PostTweetModal from "components/PostTweetModal/PostTweetModal";
 import userAvatar from "assets/images/fakeUserAvatar.png";
 
 const MainPageInfo = () => {
+  const navigate = useNavigate();
+  const handleNavigateToReplyPage = () => {
+    navigate("/reply");
+  };
   // 從Context中拿取togglePostModal的function
   const { postModal, togglePostModal } = useContext(AuthContext);
 
@@ -123,14 +128,7 @@ const MainPageInfo = () => {
 
       {/* Render All Tweet Items With map */}
       {tweets.map(
-        ({
-          id,
-          description,
-          author,
-          createdAt,
-          likeCount,
-          replyCount,
-        }) => {
+        ({ id, description, author, createdAt, likeCount, replyCount }) => {
           return (
             <>
               <div className="post-item-container" key={id}>
@@ -148,7 +146,12 @@ const MainPageInfo = () => {
                       <div className="time">· {createdAt}</div>
                     </div>
 
-                    <div className="post-content">{description}</div>
+                    <div
+                      className="post-content"
+                      onClick={handleNavigateToReplyPage}
+                    >
+                      {description}
+                    </div>
 
                     <div className="reply-like-container">
                       <div className="reply-container">

@@ -2,6 +2,7 @@ import "./replyPageInfo.scss";
 import { ReactComponent as BackArrowIcon } from "assets/icons/backArrowIcon.svg";
 import { ReactComponent as ReplyIcon } from "assets/icons/replyIcon.svg";
 import { ReactComponent as LikeIcon } from "assets/icons/likeIcon.svg";
+import { useNavigate } from "react-router-dom";
 
 //下面userAvatar之後要串後端
 import userAvatar from "assets/images/fakeUserAvatar.png";
@@ -54,14 +55,19 @@ const ReplyPost = () => {
   );
 };
 
-
-
 const ReplyPageInfo = () => {
+  const navigate = useNavigate();
+  const handleBackArrowClick = () => {
+    navigate("/main");
+  };
   return (
     <div className="reply-page-info">
       {/* 感覺以下可以重複使用 */}
       <div className="header-container">
-        <BackArrowIcon className="back-arrow-icon" />
+        <BackArrowIcon
+          className="back-arrow-icon"
+          onClick={handleBackArrowClick}
+        />
         <h4 className="header-title">推文</h4>
       </div>
 
@@ -110,7 +116,6 @@ const ReplyPageInfo = () => {
           );
         }
       )}
-      
     </div>
   );
 };
