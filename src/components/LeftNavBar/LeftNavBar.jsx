@@ -6,11 +6,11 @@ import { ReactComponent as HomeIcon } from "assets/icons/homeIcon.svg";
 import { ReactComponent as UserIcon } from "assets/icons/userIcon.svg";
 import { ReactComponent as SettingIcon } from "assets/icons/settingIcon.svg";
 import { ReactComponent as LogOutIcon } from "assets/icons/logOutIcon.svg";
-import AuthContext from "context/AuthContext";
+import ModalContext from "context/ModalContext";
 
 const LeftNavBar = () => {
   // 從Context中拿取togglePostModal的function
-  const { togglePostModal } = useContext(AuthContext);
+  const { togglePostModal } = useContext(ModalContext);
   
   const location = useLocation();
   const [url, setUrl] = useState(null);

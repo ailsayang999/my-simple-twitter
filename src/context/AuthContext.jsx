@@ -1,19 +1,12 @@
-import { createContext, useState } from "react";
+import { createContext } from "react";
 
 const AuthContext = createContext("");
 
 function AuthContextProvider({ children }) {
-  // toggle PostModal: postModal的boolean判斷是否要跳出postTweetModal
-  const [postModal, setPostModal] = useState(false);
-  const togglePostModal = () => {
-    setPostModal(!postModal);
-  };
 
 
   const AuthContextValueToShare = {
-    postModal,
-    setPostModal,
-    togglePostModal,
+
   };
 
   return (

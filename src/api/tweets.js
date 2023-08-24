@@ -1,6 +1,6 @@
 // import axios from "axios";
 
-// const baseUrl = "https://todo-list.alphacamp.io/api";
+// const baseUrl = "https://mighty-temple-45104-0d6672fb07d0.herokuapp.com/api";
 
 // const axiosInstance = axios.create({
 //   baseURL: baseUrl,
@@ -196,3 +196,59 @@ export const allTweetsDummyData = [
 // };
 
 //////////////////////////////////////////////////////////////////////////////////////////////
+export const replyItemsDummyData = [
+  {
+    replyId: 31,
+    comment: "It's so melting hot outside!!!!!",
+    replierName: "Jennifer",
+    replierAvatar: otherAvatar,
+    replierAccount: "user1",
+    tweetBelongerAccount: "Ailsa",
+    createdAt: "12小時",
+  },
+  {
+    replyId: 32,
+    comment: "It's so melting hot outside!!!!!",
+    replierName: "Jennifer",
+    replierAvatar: otherAvatar,
+    replierAccount: "user1",
+    tweetBelongerAccount: "Ailsa",
+    createdAt: "12小時",
+  },
+  {
+    replyId: 33,
+    comment: "It's so melting hot outside!!!!!",
+    replierName: "Jennifer",
+    replierAvatar: otherAvatar,
+    replierAccount: "user1",
+    tweetBelongerAccount: "Ailsa",
+    createdAt: "12小時",
+  },
+  {
+    replyId: 34,
+    comment: "It's so melting hot outside!!!!!",
+    replierName: "Jennifer",
+    replierAvatar: otherAvatar,
+    replierAccount: "user1",
+    tweetBelongerAccount: "Ailsa",
+    createdAt: "12小時",
+  },
+  {
+    replyId: 35,
+    comment: "It's so melting hot outside!!!!!",
+    replierName: "Jennifer",
+    replierAvatar: otherAvatar,
+    replierAccount: "user1",
+    tweetBelongerAccount: "Ailsa",
+    createdAt: "12小時",
+  },
+  {
+    replyId: 36,
+    comment: "It's so melting hot outside!!!!!",
+    replierName: "Jennifer",
+    replierAvatar: otherAvatar,
+    replierAccount: "user1",
+    tweetBelongerAccount: "Ailsa",
+    createdAt: "12小時",
+  },
+];

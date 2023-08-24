@@ -1,8 +1,8 @@
 import "./postTweetModal.scss";
 import { ReactComponent as ClosedIcon } from "assets/icons/crossIcon.svg";
 import userAvatar from "assets/images/fakeUserAvatar.png";
-import { useContext } from "react";
-import AuthContext from "context/AuthContext";
+import { useContext, useState } from "react";
+import ModalContext from "context/ModalContext";
 
 const PostTweetModal = ({
   inputValue,
@@ -11,7 +11,7 @@ const PostTweetModal = ({
   onKeyKeyPressAddTweet,
 }) => {
   // 從Context中拿取togglePostModal的function
-  const { togglePostModal } = useContext(AuthContext);
+  const { togglePostModal } = useContext(ModalContext);
 
   return (
     <div className="">
