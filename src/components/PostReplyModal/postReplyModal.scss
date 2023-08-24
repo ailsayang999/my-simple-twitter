@@ -47,6 +47,44 @@
         flex-direction: column;
         justify-content: space-between;
 
+        .reply-modal-post-item-container {
+          border-bottom: 1px solid var(--border);
+          margin-bottom: 10px;
+          height: 153px;
+          z-index: 1;
+
+          .reply-modal-post-item-wrapper {
+            display: flex;
+            justify-content: flex-start;
+            margin-bottom: 10px;
+            padding: 0 20px;
+            .reply-modal-post-item-avatar {
+              width: 50px;
+              height: 50px;
+            }
+            .reply-modal-item-content {
+              margin-left: 10px;
+              display: flex;
+              flex-direction: column;
+              .reply-modal-user-post-info {
+                display: flex;
+                .reply-modal-name {
+                  font-weight: bold;
+                  margin-right: 5px;
+                }
+                .reply-modal-account,
+                .reply-modal-time {
+                  color: var(--secondary);
+                }
+              }
+              .reply-modal-post-content {
+                margin: 10px 0;
+                cursor: pointer;
+              }
+            }
+          }
+        }
+
         .modal-avatar-text-container {
           display: flex;
           height: 100%;

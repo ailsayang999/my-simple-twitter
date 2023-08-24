@@ -1,13 +1,12 @@
 import "./postTweetModal.scss";
 import { ReactComponent as ClosedIcon } from "assets/icons/crossIcon.svg";
 import userAvatar from "assets/images/fakeUserAvatar.png";
-import {useContext} from "react"
+import { useContext, useState } from "react";
 import ModalContext from "context/ModalContext";
 
 const PostTweetModal = () => {
   // 從Context中拿取togglePostModal的function
   const { togglePostModal } = useContext(ModalContext);
-  
   return (
     <div className="">
       <div className="post-tweet-modal">

@@ -2,7 +2,7 @@ import "./mainPageInfo.scss";
 import { ReactComponent as ReplyIcon } from "assets/icons/replyIcon.svg";
 import { ReactComponent as LikeIcon } from "assets/icons/likeIcon.svg";
 import { ReactComponent as LikeActiveIcon } from "assets/icons/likeIconActive.svg";
-import { useState, useContext, useEffect } from "react";
+import { useState, useContext } from "react";
 import ModalContext from "context/ModalContext";
 import { useNavigate } from "react-router-dom";
 // 之後串接用的function，之後下面那一行就可以刪掉
@@ -51,7 +51,7 @@ const MainPageInfo = () => {
   ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
   //當點擊like的時候，可以切換愛心顏色
-  const [isLikedActive, setIsLikedActive] = useState(tweets.isLiked);
+  const [isLikedActive] = useState(tweets.isLiked);
 
   const handleToggleLike = (id) => {
     setTweets((prevTweets) => {
