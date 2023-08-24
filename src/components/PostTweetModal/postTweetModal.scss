@@ -6,6 +6,7 @@
   right: 0;
   bottom: 0;
   position: fixed;
+  z-index: 103;
 
   .overlay {
     width: 100vw;
@@ -84,20 +85,6 @@
             }
           }
         }
-
-        // .textarea-notification-container {
-        //   outline: 1px solid red;
-        //   display: flex;
-        //   justify-content: flex-end;
-        //   .textarea-notification__more-than-140 {
-        //     color: var(--brand);
-        //     font-weight: 500;
-        //   }
-        //   .notification-display-none{
-
-        //   }
-        // }
-
         .textarea-notification-tweet-modal-container {
           display: flex;
           justify-content: flex-end;

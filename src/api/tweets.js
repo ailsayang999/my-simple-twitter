@@ -37,7 +37,7 @@
 import otherAvatar from "assets/images/fakeUserOtherAvatar.png";
 export const allTweetsDummyData = [
   {
-    id: 1,
+    id: 3,
     author: {
       id: 21,
       account: "Ailsa",

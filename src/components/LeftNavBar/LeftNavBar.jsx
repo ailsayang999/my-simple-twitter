@@ -17,7 +17,6 @@ const LeftNavBar = () => {
 
   useEffect(() => {
     setUrl(location.pathname);
-    console.log(url);
   }, [location, url]);
 
   return (
