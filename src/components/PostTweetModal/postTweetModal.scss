@@ -1,5 +1,4 @@
 .post-tweet-modal {
-  z-index: 1000;
   width: 100vw;
   height: 100vh;
   top: 0;
@@ -7,6 +6,7 @@
   right: 0;
   bottom: 0;
   position: fixed;
+  z-index: 103;
 
   .overlay {
     width: 100vw;
@@ -85,11 +85,21 @@
             }
           }
         }
-
-        .toggle-btn-container {
+        .textarea-notification-tweet-modal-container {
           display: flex;
           justify-content: flex-end;
+
+          .notification-display-none {
+            display: none;
+          }
+          .textarea-notification__more-than-140 {
+            display: block;
+            align-self: center;
+            font-weight: 500;
+            color: var(--brand);
+          }
           .tweet-modal-btn {
+            margin-left: 20px;
             width: 64px;
             height: 40px;
             border-radius: 50px;

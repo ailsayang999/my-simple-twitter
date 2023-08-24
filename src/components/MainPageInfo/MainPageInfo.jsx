@@ -113,8 +113,6 @@ const MainPageInfo = () => {
 
   ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-  ///////////////////////////////////////////////// 監聽器：handleChange /////////////////////////////////////////////////
-
   //監聽器：handleChange，當PostTweetModal的textarea發生改變時，更新inputValue的state
   const [inputValue, setInputValue] = useState("");
 
@@ -122,39 +120,7 @@ const MainPageInfo = () => {
     setInputValue(value);
   };
 
-  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   const handleAddTweet = () => {
-    if (inputValue.length > 140) {
-      alert("字數不可以超過140字");
-      return;
-    }
-
-    setTweets((prevTweets) => {
-      return [
-        {
-          id: 2,
-          author: {
-            id: 2,
-            account: "Ailsa",
-            name: "ailsa",
-            avatar: tweets[0].author.avatar,
-          },
-          description: inputValue,
-          replyCount: 0,
-          likeCount: 0,
-          isLiked: false,
-          createdAt: "2023-08-24",
-        },
-        ...prevTweets,
-      ];
-    });
-    // 把textarea裡面的訊息清掉
-    setInputValue("");
-    // 把PostModal關起來
-    togglePostModal();
-  };
-
-  const handleKeyPressAddTweet = () => {
     if (inputValue.length > 140) {
       alert("字數不可以超過140字");
       return;
@@ -287,6 +253,13 @@ const MainPageInfo = () => {
 
   ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+  //監聽器：handleChange，當PostTweetModal的textarea發生改變時，更新inputValue的state
+  const [ReplyInputValue, setReplyInputValue] = useState("");
+
+  const handleReplyTextAreaChange = (value) => {
+    setReplyInputValue(value);
+  };
+
   return (
     <div className="main-page-info">
       {/* 感覺以下可以重複使用 */}
@@ -376,10 +349,14 @@ const MainPageInfo = () => {
         }
       )}
 
-      
-
       {/* Modal ：根據replyModal的布林值決定是否要跳出PostReplyModal component*/}
-      {replyModal && <PostReplyModal />}
+      {replyModal && (
+        <PostReplyModal
+          ReplyInputValue={ReplyInputValue}
+          onReplyTextAreaChange={handleReplyTextAreaChange}
+          // onAddTweetReply={handleAddTweetReply}
+        />
+      )}
 
       {/* Modal ：根據postModal的布林值決定是否要跳出PostTweetModal component*/}
       {postModal && (
@@ -387,7 +364,7 @@ const MainPageInfo = () => {
           inputValue={inputValue}
           onTweetTextAreaChange={handleTweetTextAreaChange}
           onAddTweet={handleAddTweet}
-          onKeyKeyPressAddTweet={handleKeyPressAddTweet}
+
         />
       )}
     </div>

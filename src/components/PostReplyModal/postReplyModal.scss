@@ -1,4 +1,4 @@
-.post-tweet-modal {
+.reply-post-tweet-modal {
   z-index: 1000;
   width: 100vw;
   height: 100vh;
@@ -8,7 +8,7 @@
   bottom: 0;
   position: fixed;
 
-  .overlay {
+  .reply-overlay {
     width: 100vw;
     height: 100vh;
     top: 0;
@@ -18,29 +18,30 @@
     position: fixed;
     background: rgba(49, 49, 49, 0.8);
 
-    .modal-content-wrapper {
+    .reply-modal-content-wrapper {
       position: absolute;
       width: 634px;
-      height: 300px;
-      top: 20%;
+      height: 500px;
+      top: 30%;
       left: 50%;
       transform: translate(-50%, -50%);
       line-height: 1.4;
       background: var(--white);
       border-radius: 14px;
 
-      .closed-icon-container {
+      .reply-closed-icon-container {
         position: relative;
         height: 50px;
         border-bottom: 1px solid var(--border);
-        .cross-icon {
+        cursor: pointer;
+        .reply-cross-icon {
           position: absolute;
           top: 16px;
           left: 15px;
         }
       }
 
-      .modal-content {
+      .reply-modal-content {
         height: 250px;
         padding: 24px;
         display: flex;
@@ -48,20 +49,21 @@
         justify-content: space-between;
 
         .reply-modal-post-item-container {
-          border-bottom: 1px solid var(--border);
           margin-bottom: 10px;
           height: 153px;
           z-index: 1;
 
           .reply-modal-post-item-wrapper {
+            position: relative;
             display: flex;
             justify-content: flex-start;
             margin-bottom: 10px;
-            padding: 0 20px;
+            flex-shrink: 0;
             .reply-modal-post-item-avatar {
               width: 50px;
               height: 50px;
             }
+
             .reply-modal-item-content {
               margin-left: 10px;
               display: flex;
@@ -79,55 +81,85 @@
               }
               .reply-modal-post-content {
                 margin: 10px 0;
-                cursor: pointer;
+                outline: none;
+              }
+              .reply-modal-reply-to {
+                color: var(--secondary);
+                .reply-modal-reply-belonger {
+                  color: var(--brand);
+                  margin-left: 6px;
+                }
               }
             }
           }
+          .reply-modal-post-item-wrapper::before {
+            content: "";
+            position: absolute;
+            left: 22px;
+            top: 62px;
+            width: 2px;
+            height: 80px;
+            background-color: #ccd6dd;
+          }
         }
 
-        .modal-avatar-text-container {
+        .reply-modal-avatar-text-container {
           display: flex;
           height: 100%;
           width: 100%;
-          .modal-user-avatar-wrapper {
+          .reply-modal-user-avatar-wrapper {
             width: 50px;
-            .modal-user-avatar {
+            .reply-modal-user-avatar {
               width: 50px;
               height: 50px;
             }
           }
-          .modal-post-area {
+          .reply-modal-post-area {
             display: flex;
             justify-content: flex-start;
             align-items: center;
             height: 100%;
-            width: 500px;
+            width: 550px;
 
-            .modal-text-area {
-              color: var(--secondary);
+            .reply-modal-text-area {
+              color: #9197a3;
               font-weight: bold;
               padding-left: 10px;
               width: 100%;
               height: 100%;
 
-              .modal-textarea {
-                font-size: 14px;
+              .reply-modal-textarea {
+                font-size: 18px;
+                font-weight: 500;
+
                 width: 100%;
-                height: 100%;
+                margin-top: 10px;
+                height: 180px;
                 resize: none;
                 border: 0px;
               }
-              .modal-textarea:focus {
+              .reply-modal-textarea:focus {
                 outline: none;
               }
             }
           }
         }
 
-        .toggle-btn-container {
+        .reply-textarea-notification-tweet-modal-container {
           display: flex;
           justify-content: flex-end;
-          .tweet-modal-btn {
+
+          .reply-notification-display-none {
+            display: none;
+          }
+          .textarea-notification__cannot-be-blank {
+            display: block;
+            align-self: center;
+            font-weight: 500;
+            color: var(--brand);
+          }
+          .reply-tweet-modal-btn {
+            margin-left: 20px;
             width: 64px;
             height: 40px;
             border-radius: 50px;

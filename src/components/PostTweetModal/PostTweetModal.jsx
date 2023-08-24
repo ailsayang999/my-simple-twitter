@@ -1,7 +1,7 @@
 import "./postTweetModal.scss";
 import { ReactComponent as ClosedIcon } from "assets/icons/crossIcon.svg";
 import userAvatar from "assets/images/fakeUserAvatar.png";
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import ModalContext from "context/ModalContext";
 
 const PostTweetModal = ({
