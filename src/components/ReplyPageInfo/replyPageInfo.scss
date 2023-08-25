@@ -132,6 +132,7 @@
       align-items: center;
       padding-left: 16px;
       .like-count-icon-area {
+        
         width: 188px;
         height: 36px;
         display: flex;
@@ -151,7 +152,7 @@
   .reply-item-container {
     // outline: 1px solid rgb(21, 180, 191);
     border-bottom: 1px solid var(--border);
-    margin-bottom: 10px;
+    // margin-bottom: 10px;
     height: 153px;
     padding-top: 15px;
 
@@ -193,12 +194,13 @@
         .reply-to-tweet-belonger-account-container {
           // outline: 1px solid red;
           margin:10px 0;
+          color: var(--secondary);
           .reply-to-tweet-belonger-account {
             margin-left:5px;
-            color: var(--secondary);
           }
         }
         .reply-content {
+          
           word-wrap: break-word;
           font-size: 16px;
           line-height: 26px;

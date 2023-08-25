@@ -5,16 +5,127 @@ import ModalContext from "context/ModalContext";
 import userSelfInfoCover from "assets/images/fakeUserCover.png";
 import userSelfAvatar from "assets/images/fakeUserAvatar.png";
 import { useContext, useState } from "react";
+import { ReactComponent as ReplyIcon } from "assets/icons/replyIcon.svg";
+import { ReactComponent as LikeIcon } from "assets/icons/likeIcon.svg";
+
+//這個之後刪掉
+import { getUserSelfTweetsDummyData } from "api/tweets";
+import { getUserSelfReplyItemsDummyData } from "api/tweets";
 
 import PutEditUserSelfInfoModal from "components/PutEditUserSelfInfoModal/PutEditUserSelfInfoModal";
 
+/////////////////////////////////////////// Change Content Components //////////////////////////////////
+// 瀏覽使用者所有Tweet
+const UserSelfTweetContent = ({ userSelfTweets }) => {
+  return (
+    <>
+      {/* 所有user-self 推的文 */}
+      {userSelfTweets.map(
+        ({ id, description, author, createdAt, likeCount, replyCount }) => {
+          return (
+            <>
+              <div className="post-item-container" key={id}>
+                <div className="post-item-wrapper">
+                  <img
+                    src={author.avatar}
+                    alt=""
+                    className="post-item-avatar"
+                  />
+
+                  <div className="post-item-content">
+                    <div className="user-post-info">
+                      <div className="name">{author.name}</div>
+                      <div className="account">@{author.account}</div>
+                      <div className="time">· {createdAt}</div>
+                    </div>
+
+                    <div className="post-content">{description}</div>
+
+                    <div className="reply-like-container">
+                      <div className="reply-container">
+                        <ReplyIcon className="reply-icon" />
+                        <div className="reply-number">{replyCount}</div>
+                      </div>
+                      <div className="like-container">
+                        <div className="like-icons">
+                          <LikeIcon className="like-icon" />
+                        </div>
+
+                        <div className="like-number">{likeCount}</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </>
+          );
+        }
+      )}
+    </>
+  );
+};
+// 瀏覽使用者所有的Reply
+const UserSelfReplyContent = ({ userSelfReply }) => {
+  return (
+    <>
+      {/* 所有user-self 的回覆 */}
+      {userSelfReply.map(
+        ({
+          replyId,
+          comment,
+          replierName,
+          replierAvatar,
+          replierAccount,
+          tweetBelongerAccount,
+          createdAt,
+        }) => {
+          return (
+            <>
+              <div className="reply-item-container" key={replyId}>
+                <div className="reply-item-wrapper">
+                  <img
+                    src={replierAvatar}
+                    alt={replierAvatar}
+                    className="reply-item-avatar"
+                  />
+
+                  <div className="reply-item-content">
+                    <div className="user-reply-info">
+                      <div className="replier-name">{replierName}</div>
+                      <div className="replier-account">@{replierAccount}</div>
+                      <div className="reply-time">· {createdAt}</div>
+                    </div>
+
+                    <div className="reply-to-tweet-belonger-account-container">
+                      回覆
+                      <span className="reply-to-tweet-belonger-account">
+                        @{tweetBelongerAccount}
+                      </span>
+                    </div>
+
+                    <div className="reply-content">{comment}</div>
+                  </div>
+                </div>
+              </div>
+            </>
+          );
+        }
+      )}
+    </>
+  );
+};
+// 瀏覽使用者所有的Like
+const UserSelfLikeContent = () => {};
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 const UserSelfPageInfo = () => {
+  // 返回主畫面使用
   const navigate = useNavigate();
   const handleBackArrowClick = () => {
     navigate("/main");
   };
 
+  ////////////////////////////////// Modal 相關資料處理  //////////////////////////////////
   // 從Context中拿取toggleReplyModal的function
   const { editModal, toggleEditModal } = useContext(ModalContext);
 
@@ -28,6 +139,30 @@ const UserSelfPageInfo = () => {
   const handleEditIntroInputChange = (value) => {
     setEditIntroInputValue(value);
   };
+
+  ////////////////////////////////// 更換顯示內容 相關資料處理  //////////////////////////////////
+
+  // 監聽器：handleButtonClick，當navigator的button被點按時，會選擇渲染的資料
+  const [userSelfContent, setUserSelfContent] = useState("user-self-tweet");
+  const handleChangeUserSelfContent = (contentValue) => {
+    setUserSelfContent(contentValue);
+    console.log(contentValue);
+  };
+
+  ////////////////////////////////// 所有暫時Render用DummyData  //////////////////////////////////
+  //之後刪掉：
+  //使用者所有推文
+  const [userSelfTweets, setUserSelfTweets] = useState(
+    getUserSelfTweetsDummyData
+  );
+  //使用者所有回覆
+  const [userSelfReply, setUserSelfReply] = useState(
+    getUserSelfReplyItemsDummyData
+  );
+  //使用者所有喜歡
+  // const [userSelfTweets, setUserSelfTweets] = useState(
+  //   getUserSelfTweetsDummyData
+  // );
 
   return (
     <div className="user-self-page-info">
@@ -81,7 +216,40 @@ const UserSelfPageInfo = () => {
           </div>
         </div>
       </div>
+      {/* user-self-tweet-reply-like-navigator */}
+      <div className="user-self-tweet-reply-like-navigator">
+        <button
+          className="user-self-tweet"
+          value="user-self-tweet"
+          onClick={(e) => handleChangeUserSelfContent(e.target.value)}
+        >
+          推文
+        </button>
+        <button
+          className="user-self-reply"
+          value="user-self-reply"
+          onClick={(e) => handleChangeUserSelfContent(e.target.value)}
+        >
+          回覆
+        </button>
+        <button
+          className="user-self-like"
+          value="user-self-reply"
+          onClick={(e) => handleChangeUserSelfContent(e.target.value)}
+        >
+          喜歡的內容
+        </button>
+      </div>
 
+      {userSelfContent === "user-self-tweet" && (
+        <UserSelfTweetContent userSelfTweets={userSelfTweets} />
+      )}
+      {userSelfContent === "user-self-reply" && (
+        <UserSelfReplyContent userSelfReply={userSelfReply} />
+      )}
+      {userSelfContent === "user-self-like" && <UserSelfLikeContent />}
+
+      {/* 決定編輯個人資料Modal跳出 */}
       {editModal && (
         <PutEditUserSelfInfoModal
           editNameInputValue={editNameInputValue}
