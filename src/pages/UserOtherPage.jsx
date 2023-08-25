@@ -8,6 +8,8 @@ import MiddleInfo from "components/MiddleInfo/MiddleInfo";
 import RightBanner from "components/RightBanner/RightBanner";
 import UserOtherPageInfo from "components/UserOtherPageInfo/UserOtherPageInfo";
 
+import { NavigationContextProvider } from "context/NavigationContext";
+// 因為NavigationContextProvider裡面的navigate是react-router-dom套件的函式，只能在router裡使用
 const UserOtherPage = () => {
   return (
     <MainContainer>
@@ -16,7 +18,9 @@ const UserOtherPage = () => {
       </LeftContainer>
       <MiddleContainer>
         <MiddleInfo>
-          <UserOtherPageInfo />
+          <NavigationContextProvider>
+            <UserOtherPageInfo />
+          </NavigationContextProvider>
         </MiddleInfo>
       </MiddleContainer>
       <RightContainer>

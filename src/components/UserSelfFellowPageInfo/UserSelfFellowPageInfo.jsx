@@ -11,7 +11,8 @@ const UserSelfFellowPageInfo = () => {
     navigate("/user/self");
   };
   // 從Context中拿取setFollowContent的function
-  const { followContent } = useContext(NavigationContext);
+  const { followContent, handleFollowingClick, handleFollowerClick } =
+    useContext(NavigationContext);
   console.log(followContent);
 
   return (
@@ -37,7 +38,9 @@ const UserSelfFellowPageInfo = () => {
             followContent === "follower" ? "follow-navigate-active" : ""
           }`}
           value="follower"
-          // onClick={(e) => handleChangeUserSelfContent(e.target.value)}
+          onClick={(e) => {
+            handleFollowerClick(e.target.value);
+          }}
         >
           追隨者
         </button>
@@ -46,7 +49,7 @@ const UserSelfFellowPageInfo = () => {
             followContent === "following" ? "follow-navigate-active" : ""
           }`}
           value="following"
-          // onClick={(e) => handleChangeUserSelfContent(e.target.value)}
+          onClick={(e) => handleFollowingClick(e.target.value)}
         >
           正在追隨
         </button>
