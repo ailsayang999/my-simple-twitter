@@ -37,6 +37,7 @@
           position: absolute;
           top: 13px;
           left: 15px;
+          cursor: pointer;
         }
         .closed-icon-text {
           position: absolute;
@@ -93,12 +94,14 @@
                 z-index: 10000;
                 top: 90px;
                 left: 270px;
+                cursor: pointer;
               }
               .edit-cover-close {
                 position: absolute;
                 z-index: 10000;
                 top: 90px;
                 left: 342px;
+                cursor: pointer;
               }
             }
             .put-edit-modal-user-self-avatar-container {
@@ -119,6 +122,7 @@
                 z-index: 10000;
                 top: 52px;
                 left: 55px;
+                cursor: pointer;
               }
             }
           }
