@@ -7,10 +7,12 @@ import userSelfAvatar from "assets/images/fakeUserAvatar.png";
 import { useContext, useState } from "react";
 import { ReactComponent as ReplyIcon } from "assets/icons/replyIcon.svg";
 import { ReactComponent as LikeIcon } from "assets/icons/likeIcon.svg";
+import {ReactComponent as LikeActiveIcon} from "assets/icons/likeIconActive.svg"
 
 //這個之後刪掉
 import { getUserSelfTweetsDummyData } from "api/tweets";
 import { getUserSelfReplyItemsDummyData } from "api/tweets";
+import { getUserSelfLikeItemsDummyData } from "api/tweets";
 
 import PutEditUserSelfInfoModal from "components/PutEditUserSelfInfoModal/PutEditUserSelfInfoModal";
 
@@ -115,7 +117,63 @@ const UserSelfReplyContent = ({ userSelfReply }) => {
   );
 };
 // 瀏覽使用者所有的Like
-const UserSelfLikeContent = () => {};
+const UserSelfLikeContent = ({ userSelfLike }) => {
+  return (
+    <>
+      {userSelfLike.map(
+        ({ id, description, author, createdAt, likeCount, replyCount }) => {
+          return (
+            <>
+              <div className="post-item-container" key={id}>
+                <div className="post-item-wrapper">
+                  <img
+                    src={author.avatar}
+                    alt=""
+                    className="post-item-avatar"
+                  />
+
+                  <div className="post-item-content">
+                    <div className="user-post-info">
+                      <div className="name">{author.name}</div>
+                      <div className="account">@{author.account}</div>
+                      <div className="time">· {createdAt}</div>
+                    </div>
+
+                    <div
+                      className="post-content"
+                    >
+                      {description}
+                    </div>
+
+                    <div className="reply-like-container">
+                      <div className="reply-container">
+                        <ReplyIcon
+                          className="reply-icon"
+                        />
+                        <div className="reply-number">{replyCount}</div>
+                      </div>
+                      <div className="like-container">
+                        <div
+                          className="like-icons"
+                        >
+                          <LikeActiveIcon
+                            className="liked-icon"
+                          />
+                        </div>
+
+                        <div className="like-number">{likeCount}</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </>
+          );
+        }
+      )}
+    </>
+  );
+};
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 const UserSelfPageInfo = () => {
@@ -159,10 +217,10 @@ const UserSelfPageInfo = () => {
   const [userSelfReply, setUserSelfReply] = useState(
     getUserSelfReplyItemsDummyData
   );
-  //使用者所有喜歡
-  // const [userSelfTweets, setUserSelfTweets] = useState(
-  //   getUserSelfTweetsDummyData
-  // );
+  // 使用者所有喜歡
+  const [userSelfLike, setUserSelfLike] = useState(
+    getUserSelfLikeItemsDummyData
+  );
 
   return (
     <div className="user-self-page-info">
@@ -181,7 +239,7 @@ const UserSelfPageInfo = () => {
         </div>
       </div>
       {/* user-self-info-area */}
-      <div className="user-self-info-area" onClick={toggleEditModal}>
+      <div className="user-self-info-area">
         {/* 以下在EditSelfInfoModal會用到 */}
         <div className="user-self-avatar-cover">
           <div className="user-self-cover-container">
@@ -194,6 +252,12 @@ const UserSelfPageInfo = () => {
           <div className="user-self-avatar-container">
             <img src={userSelfAvatar} alt="" className="user-self-avatar" />
           </div>
+          <button
+            className="user-self-avatar-edit-btn"
+            onClick={toggleEditModal}
+          >
+            編輯個人頁面
+          </button>
         </div>
 
         {/* 個人姓名 */}
@@ -234,7 +298,7 @@ const UserSelfPageInfo = () => {
         </button>
         <button
           className="user-self-like"
-          value="user-self-reply"
+          value="user-self-like"
           onClick={(e) => handleChangeUserSelfContent(e.target.value)}
         >
           喜歡的內容
@@ -247,7 +311,9 @@ const UserSelfPageInfo = () => {
       {userSelfContent === "user-self-reply" && (
         <UserSelfReplyContent userSelfReply={userSelfReply} />
       )}
-      {userSelfContent === "user-self-like" && <UserSelfLikeContent />}
+      {userSelfContent === "user-self-like" && (
+        <UserSelfLikeContent userSelfLike={userSelfLike} />
+      )}
 
       {/* 決定編輯個人資料Modal跳出 */}
       {editModal && (
