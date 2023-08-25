@@ -382,4 +382,53 @@
   }
 }
 
+//LeftNavAdmin
+.leftSideContainer {
+  display: flex;
+  flex-direction: column;
+  width: 178px;
+  height: 1200px;
+  font-size: 18px;
+  font-weight: 700;
+  color: #44444F;
+  .upperContainer {
+    flex-basis:calc(100% * (1200 - 58)/1200);
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    .logoContainer {
+      width: 100%;
+      height: 66px;
+      padding: 8px;
+      .logo {
+        width: 50px;
+        height: 50px;
+      }
+    }
+    .navContainer {
+      .navItem {
+        display: flex;
+        height: 58px;
+        padding: 16px;
+        margin-bottom: 8px;
+        .navText {
+          padding-left: 16px;
+        }
+      }
+    }
+  }
+  .logout {
+    flex-basis: calc(100% * 58/1200);
+    display: flex;
+    width: 100%;
+    padding: 16px;
+    .logoutIcon {
+      width: 24px;
+      height: 24px;
+    }
+    .logoutText {
+      padding-left: 16px;
+    }
+  }
+}
 
