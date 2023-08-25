@@ -2,7 +2,7 @@ import "./userSelfPageInfo.scss";
 import { ReactComponent as BackArrowIcon } from "assets/icons/backArrowIcon.svg";
 import { useNavigate } from "react-router-dom";
 import ModalContext from "context/ModalContext";
-import NavigationContext from "context/NavigationContext"
+import NavigationContext from "context/NavigationContext";
 import userSelfInfoCover from "assets/images/fakeUserCover.png";
 import userSelfAvatar from "assets/images/fakeUserAvatar.png";
 import { useContext, useState } from "react";
@@ -180,14 +180,14 @@ const UserSelfPageInfo = () => {
 
   // 導向UserSelfFollowPageInfo畫面使用，根據followContent，followContent= following
   const handleFollowingClick = (followingValue) => {
-    navigate("/user/self/follow");
     setFollowContent(followingValue);
+    navigate("/user/self/follow");
     console.log(followContent);
   };
   // 導向UserSelfFollowPageInfo畫面使用，根據followContent，followContent= follower
   const handleFollowerClick = (followerValue) => {
-    navigate("/user/self/follow");
     setFollowContent(followerValue);
+    navigate("/user/self/follow");
     console.log(followContent);
   };
 
@@ -298,7 +298,7 @@ const UserSelfPageInfo = () => {
           >
             {56} 個<span className="follower-text">跟隨者</span>
           </button>
-        </div>
+        </div>       
       </div>
       {/* user-self-tweet-reply-like-navigator */}
       <div className="user-self-tweet-reply-like-navigator">

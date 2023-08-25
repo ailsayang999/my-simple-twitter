@@ -28,6 +28,7 @@
         }
       }
     }
+  }
     .user-self-follow-follower-following-navigator {
       height: 52px;
       display: flex;
@@ -47,7 +48,7 @@
         align-items: center;
         cursor: pointer;
       }
-      .navigate-active {
+      .follow-navigate-active {
         border-bottom: 2px solid var(--brand);
         color: var(--brand);
       }
@@ -57,5 +58,4 @@
         color: var(--brand);
       }
     }
-  }
 }

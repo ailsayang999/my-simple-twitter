@@ -34,7 +34,7 @@ const UserSelfFellowPageInfo = () => {
       <div className="user-self-follow-follower-following-navigator">
         <button
           className={`user-self-follower ${
-            followContent === "follower" ? "navigate-active" : ""
+            followContent === "follower" ? "follow-navigate-active" : ""
           }`}
           value="follower"
           // onClick={(e) => handleChangeUserSelfContent(e.target.value)}
@@ -43,12 +43,12 @@ const UserSelfFellowPageInfo = () => {
         </button>
         <button
           className={`user-self-following ${
-            followContent === "following" ? "navigate-active" : ""
+            followContent === "following" ? "follow-navigate-active" : ""
           }`}
           value="following"
           // onClick={(e) => handleChangeUserSelfContent(e.target.value)}
         >
-          正在追蹤
+          正在追隨
         </button>
       </div>
     </div>
