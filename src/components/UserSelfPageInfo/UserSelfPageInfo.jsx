@@ -200,7 +200,7 @@ const UserSelfPageInfo = () => {
 
   ////////////////////////////////// 更換顯示內容 相關資料處理  //////////////////////////////////
 
-  // 監聽器：handleButtonClick，當navigator的button被點按時，會選擇渲染的資料
+  // 監聽器：handleButtonClick，當navigator的button被點按時，會選擇渲染的資料，userSelfContent所存的文字會決定要渲染哪一個元件
   const [userSelfContent, setUserSelfContent] = useState("user-self-tweet");
   const handleChangeUserSelfContent = (contentValue) => {
     setUserSelfContent(contentValue);
@@ -283,21 +283,27 @@ const UserSelfPageInfo = () => {
       {/* user-self-tweet-reply-like-navigator */}
       <div className="user-self-tweet-reply-like-navigator">
         <button
-          className="user-self-tweet"
+          className={`user-self-tweet ${
+            userSelfContent === "user-self-tweet" ? "navigate-active" : ""
+          }`}
           value="user-self-tweet"
           onClick={(e) => handleChangeUserSelfContent(e.target.value)}
         >
           推文
         </button>
         <button
-          className="user-self-reply"
+          className={`user-self-reply ${
+            userSelfContent === "user-self-reply" ? "navigate-active" : ""
+          }`}
           value="user-self-reply"
           onClick={(e) => handleChangeUserSelfContent(e.target.value)}
         >
           回覆
         </button>
         <button
-          className="user-self-like"
+          className={`user-self-like ${
+            userSelfContent === "user-self-like" ? "navigate-active" : ""
+          }`}
           value="user-self-like"
           onClick={(e) => handleChangeUserSelfContent(e.target.value)}
         >
