@@ -1,0 +1,304 @@
+.put-edit-user-self-info-modal {
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  position: fixed;
+  z-index: 103;
+
+  .overlay {
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    position: fixed;
+    background: rgba(49, 49, 49, 0.8);
+
+    .edit-self-modal-content-wrapper {
+      position: absolute;
+      width: 634px;
+      height: 610px;
+      top: 32%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      line-height: 1.4;
+      background: var(--white);
+      border-radius: 14px;
+
+      .closed-icon-container {
+        position: relative;
+        height: 50px;
+        border-bottom: 1px solid var(--border);
+        .cross-icon {
+          position: absolute;
+          top: 13px;
+          left: 15px;
+          cursor: pointer;
+        }
+        .closed-icon-text {
+          position: absolute;
+          top: 13px;
+          left: 67px;
+          color: #1c1c1c;
+          font-weight: 700;
+          font-size: 18px;
+        }
+        .edit-button-save {
+          position: absolute;
+          top: 7px;
+          right: 18px;
+          width: 60px;
+          height: 35px;
+          border-radius: 50px;
+          padding: 7px, 16px, 7px, 16px;
+          background-color: var(--brand);
+          color: var(--white);
+          border: 0px;
+          cursor: pointer;
+          font-size: 15px;
+          line-height: 24px;
+        }
+      }
+
+      .put-edit-user-self-modal-content {
+        height: 380px;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+
+        // 編輯avatar和cover
+        .put-edit-modal-user-self-info-area {
+          width: 100%;
+          height: 378px;
+          .put-edit-modal-user-self-avatar-cover {
+            position: relative;
+            height: 280px;
+
+            .put-edit-modal-user-self-cover-container {
+              position: relative;
+              width: 100%;
+              height: 200px;
+              background-color: var(--bg-color);
+              .put-edit-modal-user-self-cover {
+                width: 100%;
+                object-fit: cover;
+                filter: brightness(70%);
+              }
+              .edit-cover {
+                position: absolute;
+                z-index: 10000;
+                top: 90px;
+                left: 270px;
+                cursor: pointer;
+              }
+              .edit-cover-close {
+                position: absolute;
+                z-index: 10000;
+                top: 90px;
+                left: 342px;
+                cursor: pointer;
+              }
+            }
+            .put-edit-modal-user-self-avatar-container {
+              position: absolute;
+              top: 124px;
+              left: 16.13px;
+              width: 140px;
+              height: 140px;
+              border: 4px solid var(--bg-color);
+              border-radius: 50%;
+              .put-edit-modal-user-self-avatar {
+                width: 100%;
+                object-fit: cover;
+                filter: brightness(50%);
+              }
+              .edit-avatar {
+                position: absolute;
+                z-index: 10000;
+                top: 52px;
+                left: 55px;
+                cursor: pointer;
+              }
+            }
+          }
+        }
+        // 輸入欄位area
+        // 名稱
+        .edit-user-self-inputContainer {
+          flex-direction: column;
+          width: 602px;
+          height: 78px;
+          margin: 0px auto 2px;
+
+          &:hover .edit-user-self-inputContent {
+            border-bottom: 2px solid #50b5ff;
+          }
+          .edit-user-self-inputContent {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            padding: 2px 16px;
+            background-color: #f5f8fa;
+            border-bottom: 2px solid #657786;
+            border-radius: 2px 2px 0 0;
+
+            .edit-user-self-inputLabel {
+              color: #696974;
+              font-size: 14px;
+              line-height: 22px;
+            }
+
+            .edit-user-self-inputField {
+              color: #171725;
+              width: 100%;
+              font-size: 16px;
+              line-height: 26px;
+              outline: none;
+              border: none;
+              background: transparent;
+            }
+
+            &::placeholder {
+              color: #b5b5be;
+            }
+            .edit-user-self-inputContent {
+              display: flex;
+              flex-direction: column;
+              align-items: flex-start;
+              padding: 2px 16px;
+              background-color: #f5f8fa;
+              border-bottom: 2px solid #657786;
+              border-radius: 2px 2px 0 0;
+              .edit-user-self-inputLabel {
+                color: #696974;
+                font-size: 14px;
+                line-height: 22px;
+              }
+              .edit-user-self-inputField {
+                color: #171725;
+                width: 100%;
+                font-size: 16px;
+                line-height: 26px;
+                outline: none;
+                border: none;
+                background: transparent;
+              }
+              &::placeholder {
+                color: #b5b5be;
+              }
+            }
+          }
+          .edit-user-self-inputNote {
+            display: flex;
+            height: 20px;
+            font-size: 12px;
+            font-weight: 500;
+            .edit-user-self-errorMsg {
+              display: inline-block;
+              color: #fc5a5a;
+              margin-right: auto;
+            }
+            .edit-user-self-hide {
+              display: none;
+            }
+            .edit-user-self-inputCounter {
+              margin-left: auto;
+            }
+          }
+        }
+        // 自我介紹
+        .edit-intro-inputContainer {
+          flex-direction: column;
+          width: 602px;
+          height: 300px;
+          margin: 0px auto 2px;
+
+          &:hover .edit-intro-inputContent {
+            border-bottom: 2px solid #50b5ff;
+          }
+          .edit-intro-inputContent {
+            height: 147px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            padding: 2px 16px;
+            background-color: #f5f8fa;
+            border-bottom: 2px solid #657786;
+            border-radius: 2px 2px 0 0;
+
+            .edit-intro-inputLabel {
+              color: #696974;
+              font-size: 14px;
+              line-height: 22px;
+            }
+
+            .edit-intro-inputField {
+              color: #171725;
+              width: 100%;
+              height: 100%;
+              font-size: 16px;
+              line-height: 26px;
+              outline: none;
+              border: none;
+              background: transparent;
+              resize: none;
+            }
+
+            &::placeholder {
+              color: #b5b5be;
+            }
+            .edit-intro-inputContent {
+              display: flex;
+              flex-direction: column;
+              align-items: flex-start;
+              padding: 2px 16px;
+              background-color: #f5f8fa;
+              border-bottom: 2px solid #657786;
+              border-radius: 2px 2px 0 0;
+              .edit-intro-inputLabel {
+                color: #696974;
+                font-size: 14px;
+                line-height: 22px;
+              }
+              .edit-intro-inputField {
+                color: #171725;
+                width: 100%;
+                font-size: 16px;
+                line-height: 26px;
+                outline: none;
+                border: none;
+                background: transparent;
+              }
+              &::placeholder {
+                color: #b5b5be;
+              }
+            }
+          }
+          .edit-intro-inputNote {
+            display: flex;
+            height: 20px;
+            font-size: 12px;
+            font-weight: 500;
+            .edit-intro-errorMsg {
+              display: inline-block;
+              color: #fc5a5a;
+              margin-right: auto;
+            }
+            .edit-intro-hide {
+              display: none;
+            }
+            .edit-intro-inputCounter {
+              margin-left: auto;
+              height: 24px;
+            }
+          }
+        }
+      }
+    }
+  }
+}

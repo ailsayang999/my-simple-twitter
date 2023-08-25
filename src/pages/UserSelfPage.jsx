@@ -6,6 +6,7 @@ import RightContainer from "components/Containers/RightContainer";
 import LeftNavBar from "components/LeftNavBar/LeftNavBar";
 import MiddleInfo from "components/MiddleInfo/MiddleInfo";
 import RightBanner from "components/RightBanner/RightBanner";
+import UserSelfPageInfo from "components/UserSelfPageInfo/UserSelfPageInfo";
 
 const UserSelfPage = () => {
   return (
@@ -14,7 +15,9 @@ const UserSelfPage = () => {
         <LeftNavBar />
       </LeftContainer>
       <MiddleContainer>
-        <MiddleInfo>Change Something here</MiddleInfo>
+        <MiddleInfo>
+          <UserSelfPageInfo />
+        </MiddleInfo>
       </MiddleContainer>
       <RightContainer>
         <RightBanner />

@@ -12,6 +12,10 @@ function ModalContextProvider({ children }) {
   const toggleReplyModal = () => {
     setReplyModal(!replyModal);
   };
+   const [editModal, setEditModal] = useState(false);
+   const toggleEditModal = () => {
+     setEditModal(!editModal);
+   };
 
   const ModalContextValueToShare = {
     postModal,
@@ -20,6 +24,9 @@ function ModalContextProvider({ children }) {
     replyModal,
     setReplyModal,
     toggleReplyModal,
+    editModal,
+    setEditModal,
+    toggleEditModal,
   };
 
   return (

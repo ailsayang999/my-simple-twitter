@@ -72,7 +72,7 @@ const ReplyPageInfo = () => {
 
   return (
     <div className="reply-page-info">
-      {/* 感覺以下可以重複使用 */}
+      {/* 以下header可以重複使用 */}
       <div className="header-container">
         <BackArrowIcon
           className="back-arrow-icon"

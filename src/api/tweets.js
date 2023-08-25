@@ -33,8 +33,10 @@
 
 ///////////////////////////////////////////////// getTweets /////////////////////////////////////////////////
 
+// get /api/tweets 取得所有貼文
 //前台allTweetsDummyData
 import otherAvatar from "assets/images/fakeUserOtherAvatar.png";
+
 export const allTweetsDummyData = [
   {
     id: 3,
@@ -44,7 +46,8 @@ export const allTweetsDummyData = [
       name: "ailsa",
       avatar: otherAvatar,
     },
-    description: "This is my First Post!!!!!",
+    description:
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam eius libero ipsum modi molestiae iure praesentium non veritatis quisquam nihil.",
     likeCount: 6,
     replyCount: 1,
     isLiked: true,
@@ -58,7 +61,8 @@ export const allTweetsDummyData = [
       name: "ailsa",
       avatar: otherAvatar,
     },
-    description: "This is my First Post!!!!!",
+    description:
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam eius libero ipsum modi molestiae iure praesentium non veritatis quisquam nihil.",
     likeCount: 6,
     replyCount: 1,
     isLiked: true,
@@ -72,7 +76,8 @@ export const allTweetsDummyData = [
       name: "ailsa",
       avatar: otherAvatar,
     },
-    description: "This is my First Post!!!!!",
+    description:
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam eius libero ipsum modi molestiae iure praesentium non veritatis quisquam nihil.",
     likeCount: 6,
     replyCount: 1,
     isLiked: true,
@@ -86,7 +91,8 @@ export const allTweetsDummyData = [
       name: "ailsa",
       avatar: otherAvatar,
     },
-    description: "This is my First Post!!!!!",
+    description:
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam eius libero ipsum modi molestiae iure praesentium non veritatis quisquam nihil.",
     likeCount: 6,
     replyCount: 1,
     isLiked: true,
@@ -100,7 +106,8 @@ export const allTweetsDummyData = [
       name: "ailsa",
       avatar: otherAvatar,
     },
-    description: "This is my First Post!!!!!",
+    description:
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam eius libero ipsum modi molestiae iure praesentium non veritatis quisquam nihil.",
     likeCount: 6,
     replyCount: 1,
     isLiked: true,
@@ -114,7 +121,8 @@ export const allTweetsDummyData = [
       name: "ailsa",
       avatar: otherAvatar,
     },
-    description: "This is my First Post!!!!!",
+    description:
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam eius libero ipsum modi molestiae iure praesentium non veritatis quisquam nihil.",
     likeCount: 6,
     replyCount: 1,
     isLiked: true,
@@ -128,7 +136,8 @@ export const allTweetsDummyData = [
       name: "ailsa",
       avatar: otherAvatar,
     },
-    description: "This is my First Post!!!!!",
+    description:
+      "TLorem ipsum dolor sit amet consectetur adipisicing elit. Quam eius libero ipsum modi molestiae iure praesentium non veritatis quisquam nihil.",
     likeCount: 6,
     replyCount: 1,
     isLiked: true,
@@ -142,7 +151,8 @@ export const allTweetsDummyData = [
       name: "ailsa",
       avatar: otherAvatar,
     },
-    description: "This is my First Post!!!!!",
+    description:
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam eius libero ipsum modi molestiae iure praesentium non veritatis quisquam nihil.",
     likeCount: 6,
     replyCount: 1,
     isLiked: true,
@@ -196,6 +206,9 @@ export const allTweetsDummyData = [
 // };
 
 //////////////////////////////////////////////////////////////////////////////////////////////
+
+
+// get /api/tweets/:tweet_id/replies 取得某一則貼文的所有留言
 export const replyItemsDummyData = [
   {
     replyId: 31,
@@ -252,3 +265,313 @@ export const replyItemsDummyData = [
     createdAt: "12小時",
   },
 ];
+
+
+
+// get /api/users/:id/tweets 查看特定使用者的推文 UserSelfPage tweet
+export const getUserSelfTweetsDummyData = [
+  {
+    id: 3,
+    author: {
+      id: 21,
+      account: "Ailsa",
+      name: "ailsa",
+      avatar: otherAvatar,
+    },
+    description:
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam eius libero ipsum modi molestiae iure praesentium non veritatis quisquam nihil.",
+    likeCount: 6,
+    replyCount: 1,
+    isLiked: true,
+    createdAt: "2023-08-19T15:35:14.000Z",
+  },
+  {
+    id: 2,
+    author: {
+      id: 21,
+      account: "Ailsa",
+      name: "ailsa",
+      avatar: otherAvatar,
+    },
+    description:
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam eius libero ipsum modi molestiae iure praesentium non veritatis quisquam nihil.",
+    likeCount: 6,
+    replyCount: 1,
+    isLiked: true,
+    createdAt: "2023-08-19T15:35:14.000Z",
+  },
+  {
+    id: 3,
+    author: {
+      id: 21,
+      account: "Ailsa",
+      name: "ailsa",
+      avatar: otherAvatar,
+    },
+    description:
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam eius libero ipsum modi molestiae iure praesentium non veritatis quisquam nihil.",
+    likeCount: 6,
+    replyCount: 1,
+    isLiked: true,
+    createdAt: "2023-08-19T15:35:14.000Z",
+  },
+  {
+    id: 4,
+    author: {
+      id: 21,
+      account: "Ailsa",
+      name: "ailsa",
+      avatar: otherAvatar,
+    },
+    description:
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam eius libero ipsum modi molestiae iure praesentium non veritatis quisquam nihil.",
+    likeCount: 6,
+    replyCount: 1,
+    isLiked: true,
+    createdAt: "2023-08-19T15:35:14.000Z",
+  },
+  {
+    id: 5,
+    author: {
+      id: 21,
+      account: "Ailsa",
+      name: "ailsa",
+      avatar: otherAvatar,
+    },
+    description:
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam eius libero ipsum modi molestiae iure praesentium non veritatis quisquam nihil.",
+    likeCount: 6,
+    replyCount: 1,
+    isLiked: true,
+    createdAt: "2023-08-19T15:35:14.000Z",
+  },
+  {
+    id: 6,
+    author: {
+      id: 21,
+      account: "Ailsa",
+      name: "ailsa",
+      avatar: otherAvatar,
+    },
+    description:
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam eius libero ipsum modi molestiae iure praesentium non veritatis quisquam nihil.",
+    likeCount: 6,
+    replyCount: 1,
+    isLiked: true,
+    createdAt: "2023-08-19T15:35:14.000Z",
+  },
+  {
+    id: 7,
+    author: {
+      id: 21,
+      account: "Ailsa",
+      name: "ailsa",
+      avatar: otherAvatar,
+    },
+    description:
+      "TLorem ipsum dolor sit amet consectetur adipisicing elit. Quam eius libero ipsum modi molestiae iure praesentium non veritatis quisquam nihil.",
+    likeCount: 6,
+    replyCount: 1,
+    isLiked: true,
+    createdAt: "2023-08-19T15:35:14.000Z",
+  },
+  {
+    id: 8,
+    author: {
+      id: 21,
+      account: "Ailsa",
+      name: "ailsa",
+      avatar: otherAvatar,
+    },
+    description:
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam eius libero ipsum modi molestiae iure praesentium non veritatis quisquam nihil.",
+    likeCount: 6,
+    replyCount: 1,
+    isLiked: true,
+    createdAt: "2023-08-19T15:35:14.000Z",
+  },
+];
+
+// get /api/users/:id/replied_tweets 查看特定使用者回應過的推文 UserSelfPage reply
+export const getUserSelfReplyItemsDummyData = [
+  {
+    replyId: 31,
+    comment: "It's so melting hot outside!!!!!",
+    replierName: "Jennifer",
+    replierAvatar: otherAvatar,
+    replierAccount: "user1",
+    tweetBelongerAccount: "Ailsa",
+    createdAt: "12小時",
+  },
+  {
+    replyId: 32,
+    comment: "It's so melting hot outside!!!!!",
+    replierName: "Jennifer",
+    replierAvatar: otherAvatar,
+    replierAccount: "user1",
+    tweetBelongerAccount: "Ailsa",
+    createdAt: "12小時",
+  },
+  {
+    replyId: 33,
+    comment: "It's so melting hot outside!!!!!",
+    replierName: "Jennifer",
+    replierAvatar: otherAvatar,
+    replierAccount: "user1",
+    tweetBelongerAccount: "Ailsa",
+    createdAt: "12小時",
+  },
+  {
+    replyId: 34,
+    comment: "It's so melting hot outside!!!!!",
+    replierName: "Jennifer",
+    replierAvatar: otherAvatar,
+    replierAccount: "user1",
+    tweetBelongerAccount: "Ailsa",
+    createdAt: "12小時",
+  },
+  {
+    replyId: 35,
+    comment: "It's so melting hot outside!!!!!",
+    replierName: "Jennifer",
+    replierAvatar: otherAvatar,
+    replierAccount: "user1",
+    tweetBelongerAccount: "Ailsa",
+    createdAt: "12小時",
+  },
+  {
+    replyId: 36,
+    comment: "It's so melting hot outside!!!!!",
+    replierName: "Jennifer",
+    replierAvatar: otherAvatar,
+    replierAccount: "user1",
+    tweetBelongerAccount: "Ailsa",
+    createdAt: "12小時",
+  },
+];
+
+export const getUserSelfLikeItemsDummyData = [
+  {
+    id: 3,
+    author: {
+      id: 21,
+      account: "Ailsa",
+      name: "ailsa",
+      avatar: otherAvatar,
+    },
+    description:
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam eius libero ipsum modi molestiae iure praesentium non veritatis quisquam nihil.",
+    likeCount: 6,
+    replyCount: 1,
+    isLiked: true,
+    createdAt: "2023-08-19T15:35:14.000Z",
+  },
+  {
+    id: 2,
+    author: {
+      id: 21,
+      account: "Ailsa",
+      name: "ailsa",
+      avatar: otherAvatar,
+    },
+    description:
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam eius libero ipsum modi molestiae iure praesentium non veritatis quisquam nihil.",
+    likeCount: 6,
+    replyCount: 1,
+    isLiked: true,
+    createdAt: "2023-08-19T15:35:14.000Z",
+  },
+  {
+    id: 3,
+    author: {
+      id: 21,
+      account: "Ailsa",
+      name: "ailsa",
+      avatar: otherAvatar,
+    },
+    description:
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam eius libero ipsum modi molestiae iure praesentium non veritatis quisquam nihil.",
+    likeCount: 6,
+    replyCount: 1,
+    isLiked: true,
+    createdAt: "2023-08-19T15:35:14.000Z",
+  },
+  {
+    id: 4,
+    author: {
+      id: 21,
+      account: "Ailsa",
+      name: "ailsa",
+      avatar: otherAvatar,
+    },
+    description:
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam eius libero ipsum modi molestiae iure praesentium non veritatis quisquam nihil.",
+    likeCount: 6,
+    replyCount: 1,
+    isLiked: true,
+    createdAt: "2023-08-19T15:35:14.000Z",
+  },
+  {
+    id: 5,
+    author: {
+      id: 21,
+      account: "Ailsa",
+      name: "ailsa",
+      avatar: otherAvatar,
+    },
+    description:
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam eius libero ipsum modi molestiae iure praesentium non veritatis quisquam nihil.",
+    likeCount: 6,
+    replyCount: 1,
+    isLiked: true,
+    createdAt: "2023-08-19T15:35:14.000Z",
+  },
+  {
+    id: 6,
+    author: {
+      id: 21,
+      account: "Ailsa",
+      name: "ailsa",
+      avatar: otherAvatar,
+    },
+    description:
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam eius libero ipsum modi molestiae iure praesentium non veritatis quisquam nihil.",
+    likeCount: 6,
+    replyCount: 1,
+    isLiked: true,
+    createdAt: "2023-08-19T15:35:14.000Z",
+  },
+  {
+    id: 7,
+    author: {
+      id: 21,
+      account: "Ailsa",
+      name: "ailsa",
+      avatar: otherAvatar,
+    },
+    description:
+      "TLorem ipsum dolor sit amet consectetur adipisicing elit. Quam eius libero ipsum modi molestiae iure praesentium non veritatis quisquam nihil.",
+    likeCount: 6,
+    replyCount: 1,
+    isLiked: true,
+    createdAt: "2023-08-19T15:35:14.000Z",
+  },
+  {
+    id: 8,
+    author: {
+      id: 21,
+      account: "Ailsa",
+      name: "ailsa",
+      avatar: otherAvatar,
+    },
+    description:
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam eius libero ipsum modi molestiae iure praesentium non veritatis quisquam nihil.",
+    likeCount: 6,
+    replyCount: 1,
+    isLiked: true,
+    createdAt: "2023-08-19T15:35:14.000Z",
+  },
+];
+
+
+
