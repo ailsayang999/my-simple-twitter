@@ -29,4 +29,60 @@
       }
     }
   }
+
+  .user-self-info-area {
+    outline: 1px solid red;
+    height: 378px;
+    //以下在EditSelfInfoModal會用到
+    .user-self-avatar-cover {
+      outline: 3px solid steelblue;
+      position: relative;
+      height: 280px;
+
+      .user-self-cover-container {
+        width: 639px;
+        height: 200px;
+        background-color: var(--bg-color);
+      }
+      .user-self-avatar-container {
+        position: absolute;
+        top: 124px;
+        left: 16.13px;
+        width: 140px;
+        height: 140px;
+        border: 4px solid var(--bg-color);
+        border-radius: 50%;
+        .user-self-avatar {
+          width: 100%;
+        }
+      }
+    }
+    //個人文字介紹
+    .user-self-name-account-container {
+      margin-inline: 16px;
+      .user-self-name {
+      }
+      .user-self-account {
+        color: var(--secondary);
+      }
+    }
+    .user-self-introduction {
+      margin: 6px 16px;
+      font-size: 14px;
+    }
+    .user-self-follow-following-container {
+      margin-inline: 16px;
+      display: flex;
+      column-gap: 10px;
+      .user-self-follow,
+      .user-self-following {
+        color: #171725;
+        font-size: 14px;
+      }
+      .following-text,
+      .follower-text {
+        color: var(--secondary);
+      }
+    }
+  }
 }
