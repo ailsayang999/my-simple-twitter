@@ -1,13 +1,19 @@
 import React from "react";
 import "./userSelfFellowPageInfo.scss";
 import { ReactComponent as BackArrowIcon } from "assets/icons/backArrowIcon.svg";
+import NavigationContext from "context/NavigationContext";
 import { useNavigate } from "react-router-dom";
+import { useContext } from "react";
 
 const UserSelfFellowPageInfo = () => {
   const navigate = useNavigate();
   const handleBackArrowClick = () => {
-    navigate("/main");
+    navigate("/user/self");
   };
+  // 從Context中拿取setFollowContent的function
+  const { followContent } = useContext(NavigationContext);
+  console.log(followContent);
+
   return (
     <div className="user-self-follow-page-info">
       {/* 以下header UserSelfPage, UserOtherPage UserSelfFollowPage, UserOtherFollowPage 可以重複使用 */}

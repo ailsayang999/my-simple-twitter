@@ -2,12 +2,13 @@ import "./userSelfPageInfo.scss";
 import { ReactComponent as BackArrowIcon } from "assets/icons/backArrowIcon.svg";
 import { useNavigate } from "react-router-dom";
 import ModalContext from "context/ModalContext";
+import NavigationContext from "context/NavigationContext"
 import userSelfInfoCover from "assets/images/fakeUserCover.png";
 import userSelfAvatar from "assets/images/fakeUserAvatar.png";
 import { useContext, useState } from "react";
 import { ReactComponent as ReplyIcon } from "assets/icons/replyIcon.svg";
 import { ReactComponent as LikeIcon } from "assets/icons/likeIcon.svg";
-import {ReactComponent as LikeActiveIcon} from "assets/icons/likeIconActive.svg"
+import { ReactComponent as LikeActiveIcon } from "assets/icons/likeIconActive.svg";
 
 //這個之後刪掉
 import { getUserSelfTweetsDummyData } from "api/tweets";
@@ -139,26 +140,16 @@ const UserSelfLikeContent = ({ userSelfLike }) => {
                       <div className="time">· {createdAt}</div>
                     </div>
 
-                    <div
-                      className="post-content"
-                    >
-                      {description}
-                    </div>
+                    <div className="post-content">{description}</div>
 
                     <div className="reply-like-container">
                       <div className="reply-container">
-                        <ReplyIcon
-                          className="reply-icon"
-                        />
+                        <ReplyIcon className="reply-icon" />
                         <div className="reply-number">{replyCount}</div>
                       </div>
                       <div className="like-container">
-                        <div
-                          className="like-icons"
-                        >
-                          <LikeActiveIcon
-                            className="liked-icon"
-                          />
+                        <div className="like-icons">
+                          <LikeActiveIcon className="liked-icon" />
                         </div>
 
                         <div className="like-number">{likeCount}</div>
@@ -177,10 +168,27 @@ const UserSelfLikeContent = ({ userSelfLike }) => {
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 const UserSelfPageInfo = () => {
-  // 返回主畫面使用
   const navigate = useNavigate();
+  // 返回主畫面使用
   const handleBackArrowClick = () => {
     navigate("/main");
+  };
+
+  // UserSelfPageInfo的監聽器：，當跟隨者或是跟隨中的button被點按時，會選擇UserSelfFollowPage要渲染的資料，followContent所存的文字會決定要渲染哪一個元件
+  // 從Context中拿取setFollowContent的function
+  const { followContent, setFollowContent } = useContext(NavigationContext);
+
+  // 導向UserSelfFollowPageInfo畫面使用，根據followContent，followContent= following
+  const handleFollowingClick = (followingValue) => {
+    navigate("/user/self/follow");
+    setFollowContent(followingValue);
+    console.log(followContent);
+  };
+  // 導向UserSelfFollowPageInfo畫面使用，根據followContent，followContent= follower
+  const handleFollowerClick = (followerValue) => {
+    navigate("/user/self/follow");
+    setFollowContent(followerValue);
+    console.log(followContent);
   };
 
   ////////////////////////////////// Modal 相關資料處理  //////////////////////////////////
@@ -272,12 +280,24 @@ const UserSelfPageInfo = () => {
         </div>
         {/* 個人跟隨中和跟隨者 */}
         <div className="user-self-follow-following-container">
-          <div className="user-self-follow">
+          <button
+            className="user-self-following"
+            onClick={(e) => {
+              handleFollowingClick(e.target.value);
+            }}
+            value="following"
+          >
             {34} 個<span className="following-text">跟隨中</span>
-          </div>
-          <div className="user-self-following">
+          </button>
+          <button
+            className="user-self-follower"
+            onClick={(e) => {
+              handleFollowerClick(e.target.value);
+            }}
+            value="follower"
+          >
             {56} 個<span className="follower-text">跟隨者</span>
-          </div>
+          </button>
         </div>
       </div>
       {/* user-self-tweet-reply-like-navigator */}

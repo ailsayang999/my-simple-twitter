@@ -86,13 +86,17 @@
       font-size: 14px;
     }
     .user-self-follow-following-container {
+      cursor: pointer;
       margin-inline: 16px;
       display: flex;
       column-gap: 10px;
-      .user-self-follow,
-      .user-self-following {
+      .user-self-following,
+      .user-self-follower {
+        cursor: pointer;
         color: #171725;
         font-size: 14px;
+        background-color: transparent;
+        border:none;
       }
       .following-text,
       .follower-text {
