@@ -1,0 +1,32 @@
+.user-other-follow-page-info {
+  height: 1220px;
+  overflow: scroll;
+  .header-container {
+    height: 70px;
+    display: flex;
+    align-items: center;
+    padding-left: 16px;
+    border-bottom: 1px solid var(--border);
+
+    .back-arrow-icon {
+      width: 24px;
+      cursor: pointer;
+    }
+    .name-tweet-amount-container {
+      margin-left: 20px;
+      .header-title-user-self-name {
+        font-size: 18px;
+        line-height: 26px;
+      }
+      .tweet-amount {
+        color: var(--secondary);
+        line-height: 18.82px;
+        font-weight: 500;
+        font-size: 13px;
+        .tweet-amount-text {
+          margin-left: 3px;
+        }
+      }
+    }
+  }
+}

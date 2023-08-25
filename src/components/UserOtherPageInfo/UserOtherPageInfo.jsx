@@ -1,15 +1,14 @@
-import "./userSelfPageInfo.scss";
+import "./userOtherPageInfo.scss";
 import { ReactComponent as BackArrowIcon } from "assets/icons/backArrowIcon.svg";
 import { useNavigate } from "react-router-dom";
 
-const UserSelfPageInfo = () => {
+const UserOtherPageInfo = () => {
   const navigate = useNavigate();
   const handleBackArrowClick = () => {
     navigate("/main");
   };
-
   return (
-    <div className="user-self-page-info">
+    <div className="user-other-page-info">
       {/* 以下header UserSelfPage, UserOtherPage UserSelfFollowPage, UserOtherFollowPage 可以重複使用 */}
       <div className="header-container">
         <BackArrowIcon
@@ -18,9 +17,9 @@ const UserSelfPageInfo = () => {
         />
 
         <div className="name-tweet-amount-container">
-          <h5 className="header-title-user-self-name">{"Ailsa Yang"}</h5>
+          <h5 className="header-title-user-self-name">{"Peter"}</h5>
           <div className="tweet-amount">
-            25 <span className="tweet-amount-text">推文</span>
+            90 <span className="tweet-amount-text">推文</span>
           </div>
         </div>
       </div>
@@ -28,4 +27,4 @@ const UserSelfPageInfo = () => {
   );
 };
 
-export default UserSelfPageInfo;
+export default UserOtherPageInfo;
