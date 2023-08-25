@@ -28,5 +28,34 @@
         }
       }
     }
+    .user-self-follow-follower-following-navigator {
+      height: 52px;
+      display: flex;
+      flex-direction: row;
+      margin: 10px 0px;
+      border-bottom: 2px solid var(--border);
+      .user-self-follower,
+      .user-self-following {
+        border: none;
+        background-color: transparent;
+        color: #657786;
+        font-weight: 700;
+        font-size: 15px;
+        width: 130px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+      }
+      .navigate-active {
+        border-bottom: 2px solid var(--brand);
+        color: var(--brand);
+      }
+      .user-self-follower:hover,
+      .user-self-following:hover {
+        border-bottom: 2px solid var(--brand);
+        color: var(--brand);
+      }
+    }
   }
 }
