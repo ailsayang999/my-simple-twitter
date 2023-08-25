@@ -19,6 +19,7 @@ import { useNavigate } from "react-router-dom";
 // allTweetsDummyData和 patchTweets
 import { allTweetsDummyData } from "api/tweets";
 
+// 引入Modal元件
 import PostTweetModal from "components/PostTweetModal/PostTweetModal";
 import PostReplyModal from "components/PostReplyModal/PostReplyModal";
 
@@ -354,7 +355,7 @@ const MainPageInfo = () => {
         <PostReplyModal
           ReplyInputValue={ReplyInputValue}
           onReplyTextAreaChange={handleReplyTextAreaChange}
-          // onAddTweetReply={handleAddTweetReply}
+          // onAddTweetReply={handleAddTweetReply} 還沒做好
         />
       )}
 

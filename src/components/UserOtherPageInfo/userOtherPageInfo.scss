@@ -54,6 +54,8 @@
         border-radius: 50%;
         .user-other-avatar{
           width: 100%;
+          height:100%;
+          object-fit: cover;
         }
 
       }

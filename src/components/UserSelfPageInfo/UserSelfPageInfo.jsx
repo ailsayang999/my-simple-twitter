@@ -1,13 +1,32 @@
 import "./userSelfPageInfo.scss";
 import { ReactComponent as BackArrowIcon } from "assets/icons/backArrowIcon.svg";
 import { useNavigate } from "react-router-dom";
+import ModalContext from "context/ModalContext";
 import userSelfInfoCover from "assets/images/fakeUserCover.png";
 import userSelfAvatar from "assets/images/fakeUserAvatar.png";
+import { useContext, useState } from "react";
+
+import PutEditUserSelfInfoModal from "components/PutEditUserSelfInfoModal/PutEditUserSelfInfoModal";
+
 
 const UserSelfPageInfo = () => {
   const navigate = useNavigate();
   const handleBackArrowClick = () => {
     navigate("/main");
+  };
+
+  // 從Context中拿取toggleReplyModal的function
+  const { editModal, toggleEditModal } = useContext(ModalContext);
+
+  //監聽器：handleChange，當PutEditUserSelfInfoModal的edit-name-input發生改變時，更新editNameInput的state
+  const [editNameInputValue, setEditNameInputValue] = useState("");
+  const handleEditNameInputChange = (value) => {
+    setEditNameInputValue(value);
+  };
+  //監聽器：handleChange，當PutEditUserSelfInfoModal的edit-intro-input發生改變時，更新editIntroInput的state
+  const [editIntroInputValue, setEditIntroInputValue] = useState("");
+  const handleEditIntroInputChange = (value) => {
+    setEditIntroInputValue(value);
   };
 
   return (
@@ -27,7 +46,7 @@ const UserSelfPageInfo = () => {
         </div>
       </div>
       {/* user-self-info-area */}
-      <div className="user-self-info-area">
+      <div className="user-self-info-area" onClick={toggleEditModal}>
         {/* 以下在EditSelfInfoModal會用到 */}
         <div className="user-self-avatar-cover">
           <div className="user-self-cover-container">
@@ -62,6 +81,15 @@ const UserSelfPageInfo = () => {
           </div>
         </div>
       </div>
+
+      {editModal && (
+        <PutEditUserSelfInfoModal
+          editNameInputValue={editNameInputValue}
+          onEditNameInputChange={handleEditNameInputChange}
+          editIntroInputValue={editIntroInputValue}
+          onEditIntroInputChange={handleEditIntroInputChange}
+        />
+      )}
     </div>
   );
 };
