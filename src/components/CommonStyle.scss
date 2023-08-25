@@ -403,6 +403,9 @@
       .logo {
         width: 50px;
         height: 50px;
+        &:hover {
+            cursor: pointer;
+          }
       }
     }
     .navContainer {
@@ -413,6 +416,9 @@
         margin-bottom: 8px;
         .navText {
           padding-left: 16px;
+        }
+        &:hover {
+          cursor: pointer;
         }
       }
     }
@@ -429,6 +435,9 @@
     .logoutText {
       padding-left: 16px;
     }
+    &:hover {
+      cursor: pointer;
+   }
   }
 }
 
