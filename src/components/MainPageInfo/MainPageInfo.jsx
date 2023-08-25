@@ -262,7 +262,7 @@ const MainPageInfo = () => {
 
   return (
     <div className="main-page-info">
-      {/* 感覺以下可以重複使用 */}
+      {/* 以下header可以重複使用 */}
       <div className="header-container">
         <header>
           <h4>{"首頁"}</h4>
@@ -364,7 +364,6 @@ const MainPageInfo = () => {
           inputValue={inputValue}
           onTweetTextAreaChange={handleTweetTextAreaChange}
           onAddTweet={handleAddTweet}
-
         />
       )}
     </div>
