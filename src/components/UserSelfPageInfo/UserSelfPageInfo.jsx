@@ -1,6 +1,6 @@
 import "./userSelfPageInfo.scss";
 import { ReactComponent as BackArrowIcon } from "assets/icons/backArrowIcon.svg";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import ModalContext from "context/ModalContext";
 import NavigationContext from "context/NavigationContext";
 import userSelfInfoCover from "assets/images/fakeUserCover.png";
