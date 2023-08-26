@@ -8,9 +8,13 @@ import { AClogo, HomeIcon, HomeIconActive, UserIcon, UserIconActive, LogOutIcon}
 
 
 const LeftNavAdmin = () => {
-  const [homeActive, setHomeActive] = useState(true)
-  const [userListActive, setUserListActive] = useState(false)
   const location = useLocation()
+  const initialHomeState = (location.pathname === '/admin_main')? true : false 
+  const initialUserListState = (location.pathname === '/admin_users')? true : false 
+
+  const [homeActive, setHomeActive] = useState(initialHomeState)
+  const [userListActive, setUserListActive] = useState(initialUserListState)
+  
 
 
   const handleHomeClick = () => {
