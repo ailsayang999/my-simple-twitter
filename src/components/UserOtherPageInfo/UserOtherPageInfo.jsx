@@ -2,7 +2,7 @@ import "./userOtherPageInfo.scss";
 import { ReactComponent as BackArrowIcon } from "assets/icons/backArrowIcon.svg";
 import { useNavigate } from "react-router-dom";
 import userOtherInfoCover from "assets/images/fakeUserOtherCover.png";
-import userOtherAvatar from "assets/images/fakeUserOtherAvatar.png"
+import userOtherAvatar from "assets/images/fakeUserOtherAvatar.png";
 import { useContext, useState } from "react";
 import { ReactComponent as ReplyIcon } from "assets/icons/replyIcon.svg";
 import { ReactComponent as LikeIcon } from "assets/icons/likeIcon.svg";
@@ -193,6 +193,19 @@ const UserOtherPageInfo = () => {
     getUserSelfLikeItemsDummyData
   );
 
+  // UserSelfPageInfo的監聽器：，當跟隨者或是跟隨中的button被點按時，會選擇UserSelfFollowPage要渲染的資料 (但是因為會被navigation搶先執行，所以先不用了)
+  // const { handleFollowingClick, handleFollowerClick } = useContext(NavigationContext);
+  const handleNavigateToFollowingPage = (followingValue) => {
+    // handleFollowingClick(followingValue); //測試發現navigate這個大惡霸會搶先執行，handleFollowingClick會怎麼樣都執行不了，但不太懂為什麼navigate會搶先執行ＱＱ
+    localStorage.setItem("pageShowFollowContent", followingValue); // 所以只好先把followingValue的資料存在localStorage
+    navigate("/user/other/follow");
+  };
+  const handleNavigateToFollowerPage = (followerValue) => {
+    // handleFollowerClick(followerValue); //測試發現navigate這個大惡霸會搶先執行，handleFollowingClick會怎麼樣都執行不了，但不太懂為什麼navigate會搶先執行ＱＱ
+    localStorage.setItem("pageShowFollowContent", followerValue); // 所以只好先把followerValue的資料存在localStorage，到UserSelfFollowPage的時候再拿
+    navigate("/user/other/follow");
+  };
+
   return (
     <div className="user-other-page-info">
       {/* 以下渲染*/}
@@ -235,14 +248,27 @@ const UserOtherPageInfo = () => {
           Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aspernatur,
           nulla.
         </div>
+
         {/* 個人跟隨中和跟隨者 */}
         <div className="user-other-follow-following-container">
-          <div className="user-other-follow">
+          <button
+            className="user-other-follow"
+            value="following"
+            onClick={(e) => {
+              handleNavigateToFollowingPage(e.target.value);
+            }}
+          >
             {77} 個<span className="following-text">跟隨中</span>
-          </div>
-          <div className="user-other-following">
+          </button>
+          <button
+            className="user-other-following"
+            value="follower"
+            onClick={(e) => {
+              handleNavigateToFollowerPage(e.target.value);
+            }}
+          >
             {99} 個<span className="follower-text">跟隨者</span>
-          </div>
+          </button>
         </div>
       </div>
 

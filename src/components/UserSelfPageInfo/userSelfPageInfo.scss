@@ -172,7 +172,6 @@
           display: flex;
           align-items: center;
           min-height: 80px;
-          cursor: pointer;
         }
         .reply-like-container {
           display: flex;
@@ -186,7 +185,6 @@
             column-gap: 8px;
             .reply-icon {
               width: 16px;
-              cursor: pointer;
               z-index: 100;
             }
             .reply-number {
@@ -204,7 +202,6 @@
                 fill: #657786;
                 width: 17px;
                 z-index: 101;
-                cursor: pointer;
               }
             }
             .like-number {
@@ -312,7 +309,6 @@
           display: flex;
           align-items: center;
           min-height: 80px;
-          cursor: pointer;
         }
         .reply-like-container {
           display: flex;
@@ -326,7 +322,6 @@
             column-gap: 8px;
             .reply-icon {
               width: 16px;
-              cursor: pointer;
               z-index: 100;
             }
             .reply-number {
@@ -344,7 +339,6 @@
                 fill: #657786;
                 width: 17px;
                 z-index: 101;
-                cursor: pointer;
               }
             }
 
