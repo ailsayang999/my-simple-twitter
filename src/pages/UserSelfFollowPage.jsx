@@ -6,7 +6,7 @@ import RightContainer from "components/Containers/RightContainer";
 import LeftNavBar from "components/LeftNavBar/LeftNavBar";
 import MiddleInfo from "components/MiddleInfo/MiddleInfo";
 import RightBanner from "components/RightBanner/RightBanner";
-import UserSelfFollowPageInfo from "components/UserSelfFollowPageInfo/UserSelfFollowPageInfo";
+import UserSelfFollowPageInfo from "components/UserSelfFollowPageInfo/UserSelfFellowPageInfo"
 import { NavigationContextProvider } from "context/NavigationContext";
 // 因為NavigationContextProvider裡面的navigate是react-router-dom套件的函式，只能在router裡使用
 
