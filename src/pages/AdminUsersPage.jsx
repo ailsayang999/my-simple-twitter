@@ -4,28 +4,31 @@ import './AdminUsersPage.scss';
 import LeftNavAdmin from 'components/LeftNavAdmin';
 import UserCard from 'components/UserCard';
 import { getUsers } from '../api/admin';
+import { useAdminAuth } from 'context/AdminAuthContext';
 
 const AdminUsersPage = () => {
-  const [users, setUsers] = useState([])
+  const [users, setUsers] = useState([]);
   const navigate = useNavigate();
-  const { isAuthenticated, currentMember } = 
+  const { isAuthenticated } = useAdminAuth();
 
 
   useEffect(() => {
     const getUsers = async () => {
       try {
         const users = await getUsers();
+        setUsers(users);
+
       } catch (error) {
         console.error(error);
       }
     };
     getUsers();
-  }, [])
+  }, []);
 
   //若未登入跳轉回"後台登入"頁面
   useEffect(() => {
     if(!isAuthenticated) {
-      Navigate('/admin')
+      navigate('/admin');
     }
   }, [navigate, isAuthenticated]);
 
