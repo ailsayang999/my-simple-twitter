@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./userSelfFellowPageInfo.scss";
+import "./userSelfFollowPageInfo.scss";
 import { ReactComponent as BackArrowIcon } from "assets/icons/backArrowIcon.svg";
 import { useNavigate } from "react-router-dom";
 import followerAvatar from "assets/images/fakeUserOtherAvatar.png";

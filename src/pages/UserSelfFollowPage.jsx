@@ -6,7 +6,7 @@ import RightContainer from "components/Containers/RightContainer";
 import LeftNavBar from "components/LeftNavBar/LeftNavBar";
 import MiddleInfo from "components/MiddleInfo/MiddleInfo";
 import RightBanner from "components/RightBanner/RightBanner";
-import UserSelfFellowPageInfo from "components/UserSelfFellowPageInfo/UserSelfFellowPageInfo";
+import UserSelfFollowPageInfo from "components/UserSelfFollowPageInfo/UserSelfFollowPageInfo";
 import { NavigationContextProvider } from "context/NavigationContext";
 // 因為NavigationContextProvider裡面的navigate是react-router-dom套件的函式，只能在router裡使用
 
@@ -20,7 +20,7 @@ const UserSelfFollowPage = () => {
         <MiddleContainer>
           <MiddleInfo>
             <NavigationContextProvider>
-              <UserSelfFellowPageInfo />
+              <UserSelfFollowPageInfo />
             </NavigationContextProvider>
           </MiddleInfo>
         </MiddleContainer>
