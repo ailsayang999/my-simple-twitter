@@ -2,7 +2,7 @@ import "./userSelfPageInfo.scss";
 import { ReactComponent as BackArrowIcon } from "assets/icons/backArrowIcon.svg";
 import { useNavigate } from "react-router-dom";
 import ModalContext from "context/ModalContext";
-import NavigationContext from "context/NavigationContext";
+// import NavigationContext from "context/NavigationContext";
 import userSelfInfoCover from "assets/images/fakeUserCover.png";
 import userSelfAvatar from "assets/images/fakeUserAvatar.png";
 import { useContext, useState } from "react";
@@ -174,22 +174,17 @@ const UserSelfPageInfo = () => {
     navigate("/main");
   };
 
-  // UserSelfPageInfo的監聽器：，當跟隨者或是跟隨中的button被點按時，會選擇UserSelfFollowPage要渲染的資料
-  const { handleFollowingClick, handleFollowerClick } =
-    useContext(NavigationContext);
-
+  // UserSelfPageInfo的監聽器：，當跟隨者或是跟隨中的button被點按時，會選擇UserSelfFollowPage要渲染的資料 (但是因為會被navigation搶先執行，所以先不用了)
+  // const { handleFollowingClick, handleFollowerClick } = useContext(NavigationContext);
   const handleNavigateToFollowingPage = (followingValue) => {
-    handleFollowingClick(followingValue);
-    //測試發現如果不用setTimeout，navigate這個大惡霸會搶先執行，handleFollowingClick會怎麼樣都執行不了，但不太懂為什麼navigate會搶先執行ＱＱ
-    setTimeout(() => {
-      navigate("/user/self/follow");
-    }, 50);
+    // handleFollowingClick(followingValue); //測試發現navigate這個大惡霸會搶先執行，handleFollowingClick會怎麼樣都執行不了，但不太懂為什麼navigate會搶先執行ＱＱ
+    localStorage.setItem("pageShowFollowContent", followingValue); // 所以只好先把followingValue的資料存在localStorage
+    navigate("/user/self/follow");
   };
   const handleNavigateToFollowerPage = (followerValue) => {
-    handleFollowerClick(followerValue); //測試發現如果不用setTimeout，navigate這個大惡霸會搶先執行，handleFollowerClick會怎麼樣都執行不了
-    setTimeout(() => {
-      navigate("/user/self/follow");
-    }, 50);
+    // handleFollowerClick(followerValue); //測試發現navigate這個大惡霸會搶先執行，handleFollowingClick會怎麼樣都執行不了，但不太懂為什麼navigate會搶先執行ＱＱ
+    localStorage.setItem("pageShowFollowContent", followerValue); // 所以只好先把followerValue的資料存在localStorage，到UserSelfFollowPage的時候再拿
+    navigate("/user/self/follow");
   };
 
   ////////////////////////////////// Modal 相關資料處理  //////////////////////////////////

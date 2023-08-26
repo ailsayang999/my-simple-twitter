@@ -47,7 +47,7 @@ export const allTweetsDummyData = [
       avatar: otherAvatar,
     },
     description:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam eius libero ipsum modi molestiae iure praesentium non veritatis quisquam nihil.",
+      "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Doloremque quisquam provident iure a cumque nulla error recusandae temporibus dol.",
     likeCount: 6,
     replyCount: 1,
     isLiked: true,
@@ -62,7 +62,7 @@ export const allTweetsDummyData = [
       avatar: otherAvatar,
     },
     description:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam eius libero ipsum modi molestiae iure praesentium non veritatis quisquam nihil.",
+      "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Doloremque quisquam provident iure a cumque nulla error recusandae temporibus dol.",
     likeCount: 6,
     replyCount: 1,
     isLiked: true,
@@ -77,7 +77,7 @@ export const allTweetsDummyData = [
       avatar: otherAvatar,
     },
     description:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam eius libero ipsum modi molestiae iure praesentium non veritatis quisquam nihil.",
+      "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Doloremque quisquam provident iure a cumque nulla error recusandae temporibus dol.",
     likeCount: 6,
     replyCount: 1,
     isLiked: true,
@@ -92,7 +92,7 @@ export const allTweetsDummyData = [
       avatar: otherAvatar,
     },
     description:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam eius libero ipsum modi molestiae iure praesentium non veritatis quisquam nihil.",
+      "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Doloremque quisquam provident iure a cumque nulla error recusandae temporibus dol.",
     likeCount: 6,
     replyCount: 1,
     isLiked: true,
@@ -107,7 +107,7 @@ export const allTweetsDummyData = [
       avatar: otherAvatar,
     },
     description:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam eius libero ipsum modi molestiae iure praesentium non veritatis quisquam nihil.",
+      "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Doloremque quisquam provident iure a cumque nulla error recusandae temporibus dol.",
     likeCount: 6,
     replyCount: 1,
     isLiked: true,
@@ -122,7 +122,7 @@ export const allTweetsDummyData = [
       avatar: otherAvatar,
     },
     description:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam eius libero ipsum modi molestiae iure praesentium non veritatis quisquam nihil.",
+      "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Doloremque quisquam provident iure a cumque nulla error recusandae temporibus dol.",
     likeCount: 6,
     replyCount: 1,
     isLiked: true,
@@ -137,7 +137,7 @@ export const allTweetsDummyData = [
       avatar: otherAvatar,
     },
     description:
-      "TLorem ipsum dolor sit amet consectetur adipisicing elit. Quam eius libero ipsum modi molestiae iure praesentium non veritatis quisquam nihil.",
+      "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Doloremque quisquam provident iure a cumque nulla error recusandae temporibus dol.",
     likeCount: 6,
     replyCount: 1,
     isLiked: true,
@@ -152,7 +152,7 @@ export const allTweetsDummyData = [
       avatar: otherAvatar,
     },
     description:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam eius libero ipsum modi molestiae iure praesentium non veritatis quisquam nihil.",
+      "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Doloremque quisquam provident iure a cumque nulla error recusandae temporibus dol.",
     likeCount: 6,
     replyCount: 1,
     isLiked: true,
@@ -279,7 +279,7 @@ export const getUserSelfTweetsDummyData = [
       avatar: otherAvatar,
     },
     description:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam eius libero ipsum modi molestiae iure praesentium non veritatis quisquam nihil.",
+      "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Doloremque quisquam provident iure a cumque nulla error recusandae temporibus dol.",
     likeCount: 6,
     replyCount: 1,
     isLiked: true,
@@ -294,7 +294,7 @@ export const getUserSelfTweetsDummyData = [
       avatar: otherAvatar,
     },
     description:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam eius libero ipsum modi molestiae iure praesentium non veritatis quisquam nihil.",
+      "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Doloremque quisquam provident iure a cumque nulla error recusandae temporibus dol.",
     likeCount: 6,
     replyCount: 1,
     isLiked: true,
@@ -309,7 +309,7 @@ export const getUserSelfTweetsDummyData = [
       avatar: otherAvatar,
     },
     description:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam eius libero ipsum modi molestiae iure praesentium non veritatis quisquam nihil.",
+      "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Doloremque quisquam provident iure a cumque nulla error recusandae temporibus dol.",
     likeCount: 6,
     replyCount: 1,
     isLiked: true,
@@ -324,7 +324,7 @@ export const getUserSelfTweetsDummyData = [
       avatar: otherAvatar,
     },
     description:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam eius libero ipsum modi molestiae iure praesentium non veritatis quisquam nihil.",
+      "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Doloremque quisquam provident iure a cumque nulla error recusandae temporibus dol.",
     likeCount: 6,
     replyCount: 1,
     isLiked: true,
@@ -339,7 +339,7 @@ export const getUserSelfTweetsDummyData = [
       avatar: otherAvatar,
     },
     description:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam eius libero ipsum modi molestiae iure praesentium non veritatis quisquam nihil.",
+      "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Doloremque quisquam provident iure a cumque nulla error recusandae temporibus dol.",
     likeCount: 6,
     replyCount: 1,
     isLiked: true,
@@ -354,7 +354,7 @@ export const getUserSelfTweetsDummyData = [
       avatar: otherAvatar,
     },
     description:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam eius libero ipsum modi molestiae iure praesentium non veritatis quisquam nihil.",
+      "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Doloremque quisquam provident iure a cumque nulla error recusandae temporibus dol.",
     likeCount: 6,
     replyCount: 1,
     isLiked: true,
@@ -369,7 +369,7 @@ export const getUserSelfTweetsDummyData = [
       avatar: otherAvatar,
     },
     description:
-      "TLorem ipsum dolor sit amet consectetur adipisicing elit. Quam eius libero ipsum modi molestiae iure praesentium non veritatis quisquam nihil.",
+      "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Doloremque quisquam provident iure a cumque nulla error recusandae temporibus dol.",
     likeCount: 6,
     replyCount: 1,
     isLiked: true,
@@ -384,7 +384,7 @@ export const getUserSelfTweetsDummyData = [
       avatar: otherAvatar,
     },
     description:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam eius libero ipsum modi molestiae iure praesentium non veritatis quisquam nihil.",
+      "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Doloremque quisquam provident iure a cumque nulla error recusandae temporibus dol.",
     likeCount: 6,
     replyCount: 1,
     isLiked: true,
@@ -460,7 +460,7 @@ export const getUserSelfLikeItemsDummyData = [
       avatar: otherAvatar,
     },
     description:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam eius libero ipsum modi molestiae iure praesentium non veritatis quisquam nihil.",
+      "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Doloremque quisquam provident iure a cumque nulla error recusandae temporibus dol.",
     likeCount: 6,
     replyCount: 1,
     isLiked: true,
@@ -475,7 +475,7 @@ export const getUserSelfLikeItemsDummyData = [
       avatar: otherAvatar,
     },
     description:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam eius libero ipsum modi molestiae iure praesentium non veritatis quisquam nihil.",
+      "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Doloremque quisquam provident iure a cumque nulla error recusandae temporibus dol.",
     likeCount: 6,
     replyCount: 1,
     isLiked: true,
@@ -490,7 +490,7 @@ export const getUserSelfLikeItemsDummyData = [
       avatar: otherAvatar,
     },
     description:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam eius libero ipsum modi molestiae iure praesentium non veritatis quisquam nihil.",
+      "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Doloremque quisquam provident iure a cumque nulla error recusandae temporibus dol.",
     likeCount: 6,
     replyCount: 1,
     isLiked: true,
@@ -505,7 +505,7 @@ export const getUserSelfLikeItemsDummyData = [
       avatar: otherAvatar,
     },
     description:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam eius libero ipsum modi molestiae iure praesentium non veritatis quisquam nihil.",
+      "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Doloremque quisquam provident iure a cumque nulla error recusandae temporibus dol.",
     likeCount: 6,
     replyCount: 1,
     isLiked: true,
@@ -520,7 +520,7 @@ export const getUserSelfLikeItemsDummyData = [
       avatar: otherAvatar,
     },
     description:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam eius libero ipsum modi molestiae iure praesentium non veritatis quisquam nihil.",
+      "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Doloremque quisquam provident iure a cumque nulla error recusandae temporibus dol.",
     likeCount: 6,
     replyCount: 1,
     isLiked: true,
@@ -535,7 +535,7 @@ export const getUserSelfLikeItemsDummyData = [
       avatar: otherAvatar,
     },
     description:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam eius libero ipsum modi molestiae iure praesentium non veritatis quisquam nihil.",
+      "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Doloremque quisquam provident iure a cumque nulla error recusandae temporibus dol.",
     likeCount: 6,
     replyCount: 1,
     isLiked: true,
@@ -550,7 +550,7 @@ export const getUserSelfLikeItemsDummyData = [
       avatar: otherAvatar,
     },
     description:
-      "TLorem ipsum dolor sit amet consectetur adipisicing elit. Quam eius libero ipsum modi molestiae iure praesentium non veritatis quisquam nihil.",
+      "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Doloremque quisquam provident iure a cumque nulla error recusandae temporibus dol.",
     likeCount: 6,
     replyCount: 1,
     isLiked: true,
@@ -565,7 +565,7 @@ export const getUserSelfLikeItemsDummyData = [
       avatar: otherAvatar,
     },
     description:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam eius libero ipsum modi molestiae iure praesentium non veritatis quisquam nihil.",
+      "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Doloremque quisquam provident iure a cumque nulla error recusandae temporibus dol.",
     likeCount: 6,
     replyCount: 1,
     isLiked: true,

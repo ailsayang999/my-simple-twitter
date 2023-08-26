@@ -28,9 +28,9 @@ const ReplyPost = ({ toggleReplyModal }) => {
           </div>
 
           <div className="tweet-text-area">
-            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Doloremque
-            quisquam provident iure a cumque nulla error recusandae temporibus
-            dolore voluptas.
+            Lorem ipsum dolor, sit amet consectetur adipisicing
+            elit. Doloremque quisquam provident iure a cumque nulla error
+            recusandae temporibus dol.
           </div>
 
           <div className="tweet-time-area">
