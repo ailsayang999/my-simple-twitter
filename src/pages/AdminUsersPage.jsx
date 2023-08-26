@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import './AdminUsersPage.scss';
 import LeftNavAdmin from 'components/LeftNavAdmin';
 import UserCard from 'components/UserCard';
-import { getUsers } from '../api/admin';
+import { getUsers as fetchUsers } from '../api/admin';
 import { useAdminAuth } from 'context/AdminAuthContext';
 
 const AdminUsersPage = () => {
@@ -15,7 +15,8 @@ const AdminUsersPage = () => {
   useEffect(() => {
     const getUsers = async () => {
       try {
-        const users = await getUsers();
+         // 原本直接使用 getUsers()，但因可能造成系統混淆，故增另一個fetchUsers避免系統混淆。
+        const users = await fetchUsers();
         setUsers(users);
 
       } catch (error) {
