@@ -1,9 +1,7 @@
 import React, { useState } from "react";
 import "./userSelfFellowPageInfo.scss";
 import { ReactComponent as BackArrowIcon } from "assets/icons/backArrowIcon.svg";
-import NavigationContext from "context/NavigationContext";
 import { useNavigate } from "react-router-dom";
-import { useContext } from "react";
 import followerAvatar from "assets/images/fakeUserOtherAvatar.png";
 
 const followerDummyData = [
@@ -175,14 +173,28 @@ const FollowingContent = ({ followingDummyData }) => {
 
 const UserSelfFellowPageInfo = () => {
   const navigate = useNavigate();
+  //如果點按返回箭頭就navigate to /user/self
   const handleBackArrowClick = () => {
     navigate("/user/self");
   };
 
-  // 從Context中拿取setFollowContent的function
-  const { followContent, handleFollowingClick, handleFollowerClick } =
-    useContext(NavigationContext);
-  console.log(followContent);
+  // 先從 localStorage 拿在 UserSelfPage 在handleNavigateToFollowingPage時存在localStorage的 pageShowFollowContent 當作渲染畫面的初始值
+  const pageShowFollowContent = localStorage.getItem("pageShowFollowContent");
+
+  // 把pageShowFollowContent設為showFollowPageContent的初始值
+  const [showFollowPageContent, setShowFollowPageContent] = useState(
+    pageShowFollowContent
+  );
+  // 頁內切換FollowerContent || FollowingContent
+  const handleFollowerClick = (followerValue) => {
+    setShowFollowPageContent(followerValue);
+    console.log(showFollowPageContent);
+  };
+  // 頁內切換FollowerContent || FollowingContent
+  const handleFollowingClick = (followingValue) => {
+    setShowFollowPageContent(followingValue);
+    console.log(showFollowPageContent);
+  };
 
   const [followerArray, setFollowerArray] = useState(followerDummyData);
 
@@ -218,7 +230,7 @@ const UserSelfFellowPageInfo = () => {
       <div className="user-self-follow-follower-following-navigator">
         <button
           className={`user-self-follower ${
-            followContent === "follower" ? "follow-navigate-active" : ""
+            showFollowPageContent === "follower" ? "follow-navigate-active" : ""
           }`}
           value="follower"
           onClick={(e) => {
@@ -229,7 +241,9 @@ const UserSelfFellowPageInfo = () => {
         </button>
         <button
           className={`user-self-following ${
-            followContent === "following" ? "follow-navigate-active" : ""
+            showFollowPageContent === "following"
+              ? "follow-navigate-active"
+              : ""
           }`}
           value="following"
           onClick={(e) => handleFollowingClick(e.target.value)}
@@ -238,7 +252,7 @@ const UserSelfFellowPageInfo = () => {
         </button>
       </div>
 
-      {followContent === "follower" && (
+      {showFollowPageContent === "follower" && (
         <FollowerContent
           followerArray={followerArray}
           handleFollowBtnClick={handleFollowBtnClick}
@@ -246,11 +260,9 @@ const UserSelfFellowPageInfo = () => {
       )}
 
       {/* Render Follower */}
-      {followContent === "following" && (
+      {showFollowPageContent === "following" && (
         <FollowingContent followingDummyData={followingDummyData} />
       )}
-
-      {/* Render Following */}
     </div>
   );
 };

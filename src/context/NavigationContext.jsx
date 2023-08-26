@@ -1,26 +1,26 @@
+// 這個檔案先留著～之後解決navigate的問題
 import { createContext, useState } from "react";
 
 const NavigationContext = createContext("");
 
 function NavigationContextProvider({ children }) {
   // followContent要傳給UserSelfFollowPageInfo
-  const [followContent, setFollowContent] = useState("follower");
-  // 導向UserSelfFollowPageInfo畫面使用，根據followContent，followContent= following
-  const handleFollowingClick = (followingValue) => {
-    setFollowContent(followingValue);
-  
-    console.log(followContent);
-  };
-  // 導向UserSelfFollowPageInfo畫面使用，根據followContent，followContent= follower
+  const [showFollowPageContent, setShowFollowPageContent] = useState("");
+  // 導向UserSelfFollowPageInfo畫面使用，根據followContent，followContent= follower，但UserSelfFollowPage的navigate()會先執行，所以現在以下function只變成在UserSelfFollowPage執行
   const handleFollowerClick = (followerValue) => {
-    setFollowContent(followerValue);
-  
-    console.log(followContent);
+    setShowFollowPageContent(followerValue);
+    console.log(showFollowPageContent);
+  };
+
+  // 導向UserSelfFollowPageInfo畫面使用，根據followContent，followContent= following，但UserSelfFollowPage的navigate()會先執行，所以現在以下function只變成在UserSelfFollowPage執行
+  const handleFollowingClick = (followingValue) => {
+    setShowFollowPageContent(followingValue);
+    console.log(showFollowPageContent);
   };
 
   const NavigationContextValueToShare = {
-    followContent,
-    setFollowContent,
+    showFollowPageContent,
+    setShowFollowPageContent,
     handleFollowingClick,
     handleFollowerClick,
   };
