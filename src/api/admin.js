@@ -3,23 +3,6 @@ import axios from 'axios';
 const baseUrl = 'https://mighty-temple-45104-0d6672fb07d0.herokuapp.com/api/admin';
 
 
-
-
-
-//不知道後端有沒有做一支測試token的api?
-// export const checkPermission = async (authToken) => {
-//   try {
-//     const response = await axios.get(`${authURL}/test-token`, {
-//       headers: {
-//         Authorization: 'Bearer ' + authToken,
-//       },
-//     });
-//     return response.data.success;
-//   } catch (error) {
-//     console.error(`[Check Permission Failed]:`, error);
-//   }
-// };
-
 export const adminLogin = async ({ account, password }) => {
   try {
     const { data } = await axios.post(`${baseUrl}/login`, {
@@ -89,30 +72,3 @@ export const deleteTweet = async (id) => {
     console.error(`[Delete Tweet failed]:`, error);
   }
 };
-
-
-
-
-// export const patchTodo = async (payload) => {
-//   const { id, title, isDone } = payload;
-//   try {
-//     const res = await axiosInstance.patch(`${baseUrl}/todos/${id}`, {
-//       title,
-//       isDone,
-//     });
-
-//     return res.data;
-//   } catch (error) {
-//     console.error('[Patch Todo Failed:', error);
-//   }
-// };
-
-// export const deleteTodo = async (id) => {
-//   try {
-//     const res = await axiosInstance.patch(`${baseUrl}/todos/${id}`);
-
-//     return res.data;
-//   } catch (error) {
-//     console.error('[Delete Todo Failed:', error);
-//   }
-// };
