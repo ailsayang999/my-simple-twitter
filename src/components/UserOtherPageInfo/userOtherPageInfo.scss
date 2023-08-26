@@ -72,15 +72,20 @@
     .user-other-follow-following-container {
       margin-inline: 16px;
       display: flex;
-      column-gap: 10px;
-      .user-other-follow,
-      .user-other-following {
+      // column-gap: 10px;
+      .user-other-following,
+      .user-other-follower {
+        cursor: pointer;
         color: #171725;
         font-size: 14px;
+        background-color: transparent;
+        border: none;
       }
       .following-text,
       .follower-text {
         color: var(--secondary);
+        font-size: 14px;
+        margin-right: 10px;
       }
     }
   }
@@ -153,7 +158,6 @@
           display: flex;
           align-items: center;
           min-height: 80px;
-          cursor: pointer;
         }
         .reply-like-container {
           display: flex;
@@ -167,7 +171,6 @@
             column-gap: 8px;
             .reply-icon {
               width: 16px;
-              cursor: pointer;
               z-index: 100;
             }
             .reply-number {
@@ -185,7 +188,6 @@
                 fill: #657786;
                 width: 17px;
                 z-index: 101;
-                cursor: pointer;
               }
             }
             .like-number {
@@ -293,7 +295,6 @@
           display: flex;
           align-items: center;
           min-height: 80px;
-          cursor: pointer;
         }
         .reply-like-container {
           display: flex;
@@ -307,7 +308,6 @@
             column-gap: 8px;
             .reply-icon {
               width: 16px;
-              cursor: pointer;
               z-index: 100;
             }
             .reply-number {
@@ -325,7 +325,6 @@
                 fill: #657786;
                 width: 17px;
                 z-index: 101;
-                cursor: pointer;
               }
             }
 

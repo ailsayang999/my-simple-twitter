@@ -586,6 +586,105 @@ export const getUserSelfLikeItemsDummyData = [
 ];
 
 // get /api/users/:id/followers 查看特定使用者的粉絲
+export const followerDummyData = [
+  {
+    id: 1,
+    name: "Ailsa Yang",
+    avatar: userOtherAvatar,
+    isFollowed: true,
+    intro:
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque, dolore repudiandae.Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque, dolore repudiandae",
+  },
+  {
+    id: 2,
+    name: "Peter Lu",
+    avatar: userOtherAvatar,
+    isFollowed: true,
+    intro:
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque, dolore repudiandae.Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque, dolore repudiandae",
+  },
+  {
+    id: 3,
+    name: "Amy Johnson",
+    avatar: userOtherAvatar,
+    isFollowed: false,
+    intro:
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque, dolore repudiandae.Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque, dolore repudiandae",
+  },
+  {
+    id: 4,
+    name: "Amy Johnson",
+    avatar: userOtherAvatar,
+    isFollowed: false,
+    intro:
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque, dolore repudiandae.Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque, dolore repudiandae",
+  },
+  {
+    id: 5,
+    name: "Amy Johnson",
+    avatar: userOtherAvatar,
+    isFollowed: false,
+    intro:
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque, dolore repudiandae.Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque, dolore repudiandae",
+  },
+  {
+    id: 6,
+    name: "Amy Johnson",
+    avatar: userOtherAvatar,
+    isFollowed: false,
+    intro:
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque, dolore repudiandae.Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque, dolore repudiandae",
+  },
+  {
+    id: 7,
+    name: "Amy Johnson",
+    avatar: userOtherAvatar,
+    isFollowed: true,
+    intro:
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque, dolore repudiandae.Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque, dolore repudiandae",
+  },
+];
 
 // get /api/users/:id/followings 查看特定使用者追蹤的人
-
+export const followingDummyData = [
+  {
+    id: 1,
+    name: "Ailsa Yang",
+    avatar: userOtherAvatar,
+    isFollowed: true,
+    intro:
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque, dolore repudiandae.Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque, dolore repudiandae",
+  },
+  {
+    id: 2,
+    name: "Peter Lu",
+    avatar: userOtherAvatar,
+    isFollowed: true,
+    intro:
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque, dolore repudiandae.Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque, dolore repudiandae",
+  },
+  {
+    id: 3,
+    name: "Amy Johnson",
+    avatar: userOtherAvatar,
+    isFollowed: true,
+    intro:
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque, dolore repudiandae.Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque, dolore repudiandae",
+  },
+  {
+    id: 4,
+    name: "Amy Johnson",
+    avatar: userOtherAvatar,
+    isFollowed: true,
+    intro:
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque, dolore repudiandae.Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque, dolore repudiandae",
+  },
+  {
+    id: 5,
+    name: "Amy Johnson",
+    avatar: userOtherAvatar,
+    isFollowed: true,
+    intro:
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque, dolore repudiandae.Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque, dolore repudiandae",
+  },
+];

@@ -279,6 +279,7 @@ const UserSelfPageInfo = () => {
 
         {/* 個人跟隨中和跟隨者 */}
         <div className="user-self-follow-following-container">
+          
           <button
             className="user-self-following"
             value="following"
@@ -289,6 +290,7 @@ const UserSelfPageInfo = () => {
             {34} 個
           </button>
           <span className="following-text">跟隨中</span>
+          
           <button
             className="user-self-follower"
             value="follower"

@@ -31,6 +31,12 @@ const MainPageInfo = () => {
   const handleNavigateToReplyPage = () => {
     navigate("/reply");
   };
+
+  // 導向UserOtherPage
+  const handleNavigateToUserOtherPage = () => {
+    navigate("/user/other");
+  };
+
   // 從Context中拿取togglePostModal的function
   const { postModal, togglePostModal } = useContext(ModalContext);
 
@@ -296,6 +302,7 @@ const MainPageInfo = () => {
                     src={author.avatar}
                     alt=""
                     className="post-item-avatar"
+                    onClick={handleNavigateToUserOtherPage}
                   />
 
                   <div className="post-item-content">
