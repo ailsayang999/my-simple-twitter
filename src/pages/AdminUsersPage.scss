@@ -1,18 +1,16 @@
 .adminContainer {
   display: flex;
-  width: 1140px;
+  width: 1400px;
   height: 1200px;
-  margin: 0 auto;
-
+  margin: 0 0 0 130px;
   .rightContainer {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    width: 965px;
+    align-items: flex-start;
+    width: 1170px;
     padding: 0 0 54px 0;
     margin-left: 25px;
     border-left: 1px solid #E6ECF0;
-    border-right: 1px solid #E6ECF0;
     .title {
       display: flex;
       align-items: center;
