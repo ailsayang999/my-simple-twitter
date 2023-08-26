@@ -22,6 +22,21 @@ export const adminLogin = async ({ account, password }) => {
   }
 };
 
+//有要驗證token嗎?
+// export const checkPermission = async (authToken) => {
+//   try {
+//     const response = await axios.get(`${baseUrl}/test-token`, {
+//       headers: {
+//         Authorization: 'Bearer ' + authToken,
+//       },
+//     });
+//     return response.data.success;
+//   } catch (error) {
+//     console.error(`[Check Permission Failed]:`, error);
+//   }
+// };
+
+
 const axiosInstance = axios.create({
   baseURL: baseUrl,
 });
