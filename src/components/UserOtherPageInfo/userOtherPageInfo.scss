@@ -72,13 +72,14 @@
     .user-other-follow-following-container {
       margin-inline: 16px;
       display: flex;
-      .user-other-follow,
-      .user-other-following {
-         cursor: pointer;
+      // column-gap: 10px;
+      .user-other-following,
+      .user-other-follower {
+        cursor: pointer;
         color: #171725;
         font-size: 14px;
         background-color: transparent;
-        border:none;
+        border: none;
       }
       .following-text,
       .follower-text {

@@ -644,6 +644,7 @@ export const followerDummyData = [
       "Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque, dolore repudiandae.Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque, dolore repudiandae",
   },
 ];
+
 // get /api/users/:id/followings 查看特定使用者追蹤的人
 export const followingDummyData = [
   {

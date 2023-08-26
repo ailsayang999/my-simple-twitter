@@ -251,24 +251,28 @@ const UserOtherPageInfo = () => {
 
         {/* 個人跟隨中和跟隨者 */}
         <div className="user-other-follow-following-container">
+          
           <button
-            className="user-other-follow"
+            className="user-other-following"
             value="following"
             onClick={(e) => {
               handleNavigateToFollowingPage(e.target.value);
             }}
           >
-            {77} 個<span className="following-text">跟隨中</span>
+            {34} 個
           </button>
+          <span className="following-text">跟隨中</span>
+
           <button
-            className="user-other-following"
+            className="user-other-follower"
             value="follower"
             onClick={(e) => {
               handleNavigateToFollowerPage(e.target.value);
             }}
           >
-            {99} 個<span className="follower-text">跟隨者</span>
+            {56} 個
           </button>
+          <span className="follower-text">跟隨者</span>
         </div>
       </div>
 

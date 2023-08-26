@@ -2,10 +2,10 @@ import React, { useState } from "react";
 import "./userSelfFollowPageInfo.scss";
 import { ReactComponent as BackArrowIcon } from "assets/icons/backArrowIcon.svg";
 import { useNavigate } from "react-router-dom";
-import followerDummyData from "api/tweets";
-import followingDummyData from "api/tweets";
+import { followerDummyData } from "api/tweets";
+import { followingDummyData } from "api/tweets";
 
-const FollowerContent = ({ follower, handleFollowBtnClick }) => {
+const FollowerContent = ({ follower, handleFollowerBtnClick }) => {
   return (
     <>
       {follower.map(({ id, name, avatar, isFollowed, intro }) => {
@@ -22,7 +22,7 @@ const FollowerContent = ({ follower, handleFollowBtnClick }) => {
 
                   <button
                     className={`${isFollowed ? "following-btn" : "follow-btn"}`}
-                    onClick={() => handleFollowBtnClick(id, isFollowed)}
+                    onClick={() => handleFollowerBtnClick(id, isFollowed)}
                   >
                     {isFollowed ? "正在跟隨" : "跟隨"}
                   </button>
@@ -37,7 +37,7 @@ const FollowerContent = ({ follower, handleFollowBtnClick }) => {
   );
 };
 
-const FollowingContent = ({ following }) => {
+const FollowingContent = ({ following, handleFollowingBtnClick }) => {
   return (
     <>
       {following.map(({ id, name, avatar, isFollowed, intro }) => {
@@ -54,6 +54,7 @@ const FollowingContent = ({ following }) => {
 
                   <button
                     className={`${isFollowed ? "following-btn" : "follow-btn"}`}
+                    onClick={()=>{handleFollowingBtnClick(id)}}
                   >
                     {isFollowed ? "正在跟隨" : "跟隨"}
                   </button>
@@ -68,12 +69,16 @@ const FollowingContent = ({ following }) => {
   );
 };
 
+
+
 const UserSelfFellowPageInfo = () => {
   const navigate = useNavigate();
   //如果點按返回箭頭就navigate to /user/self
   const handleBackArrowClick = () => {
     navigate("/user/self");
   };
+
+  /////////////////////////////////////// 畫面顯示決定區///////////////////////////////////////
 
   // 先從 localStorage 拿在 UserSelfPage 在handleNavigateToFollowingPage時存在localStorage的 pageShowFollowContent 當作渲染畫面的初始值
   const pageShowFollowContent = localStorage.getItem("pageShowFollowContent");
@@ -93,12 +98,14 @@ const UserSelfFellowPageInfo = () => {
     console.log(showFollowPageContent);
   };
 
+  /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
   const [follower, setFollower] = useState(followerDummyData);
   const [following, setFollowing] = useState(followingDummyData);
 
-  const handleFollowBtnClick = (id, isFollowed) => {
-    setFollowing(
-      following.map((personObj) => {
+  const handleFollowerBtnClick = (id, isFollowed) => {
+    setFollower(
+      follower.map((personObj) => {
         if (personObj.id === id) {
           return { ...personObj, isFollowed: !isFollowed };
         } else {
@@ -107,6 +114,12 @@ const UserSelfFellowPageInfo = () => {
       })
     );
   };
+
+   const handleFollowingBtnClick = (id) => {
+     setFollowing(following.filter((fol) => fol.id !== id));
+   };
+
+
 
   return (
     <div className="user-self-follow-page-info">
@@ -124,6 +137,7 @@ const UserSelfFellowPageInfo = () => {
           </div>
         </div>
       </div>
+      
       {/* user-self-follower-following-like-navigator */}
       <div className="user-self-follow-follower-following-navigator">
         <button
@@ -153,13 +167,16 @@ const UserSelfFellowPageInfo = () => {
       {showFollowPageContent === "follower" && (
         <FollowerContent
           follower={follower}
-          handleFollowBtnClick={handleFollowBtnClick}
+          handleFollowerBtnClick={handleFollowerBtnClick}
         />
       )}
 
       {/* Render Follower */}
       {showFollowPageContent === "following" && (
-        <FollowingContent following={following} />
+        <FollowingContent
+          following={following}
+          handleFollowingBtnClick={handleFollowingBtnClick}
+        />
       )}
     </div>
   );
