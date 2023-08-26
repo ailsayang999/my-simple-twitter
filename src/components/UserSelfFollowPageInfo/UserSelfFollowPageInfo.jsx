@@ -2,115 +2,13 @@ import React, { useState } from "react";
 import "./userSelfFollowPageInfo.scss";
 import { ReactComponent as BackArrowIcon } from "assets/icons/backArrowIcon.svg";
 import { useNavigate } from "react-router-dom";
-import followerAvatar from "assets/images/fakeUserOtherAvatar.png";
+import followerDummyData from "api/tweets";
+import followingDummyData from "api/tweets";
 
-const followerDummyData = [
-  {
-    id: 1,
-    name: "Ailsa Yang",
-    avatar: followerAvatar,
-    isFollowed: true,
-    intro:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque, dolore repudiandae.Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque, dolore repudiandae",
-  },
-  {
-    id: 2,
-    name: "Peter Lu",
-    avatar: followerAvatar,
-    isFollowed: true,
-    intro:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque, dolore repudiandae.Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque, dolore repudiandae",
-  },
-  {
-    id: 3,
-    name: "Amy Johnson",
-    avatar: followerAvatar,
-    isFollowed: false,
-    intro:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque, dolore repudiandae.Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque, dolore repudiandae",
-  },
-  {
-    id: 4,
-    name: "Amy Johnson",
-    avatar: followerAvatar,
-    isFollowed: false,
-    intro:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque, dolore repudiandae.Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque, dolore repudiandae",
-  },
-  {
-    id: 5,
-    name: "Amy Johnson",
-    avatar: followerAvatar,
-    isFollowed: false,
-    intro:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque, dolore repudiandae.Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque, dolore repudiandae",
-  },
-  {
-    id: 6,
-    name: "Amy Johnson",
-    avatar: followerAvatar,
-    isFollowed: false,
-    intro:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque, dolore repudiandae.Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque, dolore repudiandae",
-  },
-  {
-    id: 7,
-    name: "Amy Johnson",
-    avatar: followerAvatar,
-    isFollowed: true,
-    intro:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque, dolore repudiandae.Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque, dolore repudiandae",
-  },
-];
-
-const followingDummyData = [
-  {
-    id: 1,
-    name: "Ailsa Yang",
-    avatar: followerAvatar,
-    isFollowed: true,
-    intro:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque, dolore repudiandae.Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque, dolore repudiandae",
-  },
-  {
-    id: 2,
-    name: "Peter Lu",
-    avatar: followerAvatar,
-    isFollowed: true,
-    intro:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque, dolore repudiandae.Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque, dolore repudiandae",
-  },
-  {
-    id: 3,
-    name: "Amy Johnson",
-    avatar: followerAvatar,
-    isFollowed: true,
-    intro:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque, dolore repudiandae.Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque, dolore repudiandae",
-  },
-  {
-    id: 4,
-    name: "Amy Johnson",
-    avatar: followerAvatar,
-    isFollowed: true,
-    intro:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque, dolore repudiandae.Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque, dolore repudiandae",
-  },
-  {
-    id: 5,
-    name: "Amy Johnson",
-    avatar: followerAvatar,
-    isFollowed: true,
-    intro:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque, dolore repudiandae.Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque, dolore repudiandae",
-  },
-];
-
-
-const FollowerContent = ({ followerArray, handleFollowBtnClick }) => {
+const FollowerContent = ({ follower, handleFollowBtnClick }) => {
   return (
     <>
-      {followerArray.map(({ id, name, avatar, isFollowed, intro }) => {
+      {follower.map(({ id, name, avatar, isFollowed, intro }) => {
         return (
           <div className="follower-item-container" key={id}>
             <div className="follower-content">
@@ -139,10 +37,10 @@ const FollowerContent = ({ followerArray, handleFollowBtnClick }) => {
   );
 };
 
-const FollowingContent = ({ followingDummyData }) => {
+const FollowingContent = ({ following }) => {
   return (
     <>
-      {followingDummyData.map(({ id, name, avatar, isFollowed, intro }) => {
+      {following.map(({ id, name, avatar, isFollowed, intro }) => {
         return (
           <div className="follower-item-container" key={id}>
             <div className="follower-content">
@@ -170,7 +68,6 @@ const FollowingContent = ({ followingDummyData }) => {
   );
 };
 
-
 const UserSelfFellowPageInfo = () => {
   const navigate = useNavigate();
   //如果點按返回箭頭就navigate to /user/self
@@ -196,11 +93,12 @@ const UserSelfFellowPageInfo = () => {
     console.log(showFollowPageContent);
   };
 
-  const [followerArray, setFollowerArray] = useState(followerDummyData);
+  const [follower, setFollower] = useState(followerDummyData);
+  const [following, setFollowing] = useState(followingDummyData);
 
   const handleFollowBtnClick = (id, isFollowed) => {
-    setFollowerArray(
-      followerArray.map((personObj) => {
+    setFollowing(
+      following.map((personObj) => {
         if (personObj.id === id) {
           return { ...personObj, isFollowed: !isFollowed };
         } else {
@@ -254,14 +152,14 @@ const UserSelfFellowPageInfo = () => {
 
       {showFollowPageContent === "follower" && (
         <FollowerContent
-          followerArray={followerArray}
+          follower={follower}
           handleFollowBtnClick={handleFollowBtnClick}
         />
       )}
 
       {/* Render Follower */}
       {showFollowPageContent === "following" && (
-        <FollowingContent followingDummyData={followingDummyData} />
+        <FollowingContent following={following} />
       )}
     </div>
   );
