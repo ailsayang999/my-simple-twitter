@@ -31,11 +31,8 @@
   }
 
   .user-other-info-area {
-    outline: 1px solid red;
     height: 378px;
-    //以下在EditSelfInfoModal會用到
     .user-other-avatar-cover {
-      outline: 3px solid steelblue;
       position: relative;
       height: 280px;
 
@@ -52,12 +49,11 @@
         height: 140px;
         border: 4px solid var(--bg-color);
         border-radius: 50%;
-        .user-other-avatar{
+        .user-other-avatar {
           width: 100%;
-          height:100%;
+          height: 100%;
           object-fit: cover;
         }
-
       }
     }
     //個人文字介紹
@@ -85,6 +81,260 @@
       .following-text,
       .follower-text {
         color: var(--secondary);
+      }
+    }
+  }
+
+  .user-other-tweet-reply-like-navigator {
+    height: 52px;
+    display: flex;
+    flex-direction: row;
+    margin: 10px 0px;
+    border-bottom: 2px solid var(--border);
+    .user-other-tweet,
+    .user-other-reply,
+    .user-other-like {
+      border: none;
+      background-color: transparent;
+      color: #657786;
+      font-weight: 700;
+      font-size: 15px;
+      width: 130px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+    }
+    .navigate-active {
+      border-bottom: 2px solid var(--brand);
+      color: var(--brand);
+    }
+    .user-other-tweet:hover,
+    .user-other-reply:hover,
+    .user-other-like:hover {
+      border-bottom: 2px solid var(--brand);
+      color: var(--brand);
+    }
+  }
+
+  // 所有user-self 推的文
+  .post-item-container {
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 10px;
+    height: 153px;
+    z-index: 1;
+
+    .post-item-wrapper {
+      display: flex;
+      justify-content: flex-start;
+      margin-bottom: 10px;
+      padding: 0 20px;
+      .post-item-avatar {
+        width: 50px;
+        height: 50px;
+      }
+      .post-item-content {
+        margin-left: 10px;
+        display: flex;
+        flex-direction: column;
+
+        .user-post-info {
+          display: flex;
+          .name {
+            font-weight: bold;
+            margin-right: 5px;
+          }
+          .account,
+          .time {
+            color: var(--secondary);
+          }
+        }
+        .post-content {
+          display: flex;
+          align-items: center;
+          min-height: 80px;
+          cursor: pointer;
+        }
+        .reply-like-container {
+          display: flex;
+          justify-content: space-between;
+          width: 120px;
+
+          .reply-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            column-gap: 8px;
+            .reply-icon {
+              width: 16px;
+              cursor: pointer;
+              z-index: 100;
+            }
+            .reply-number {
+              color: var(--secondary);
+              font-size: 14px;
+            }
+          }
+          .like-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            column-gap: 8px;
+            .like-icons {
+              .like-icon {
+                fill: #657786;
+                width: 17px;
+                z-index: 101;
+                cursor: pointer;
+              }
+            }
+            .like-number {
+              color: var(--secondary);
+              font-size: 14px;
+            }
+          }
+        }
+      }
+    }
+  }
+  // 所有user-self 回覆的文
+  .reply-item-container {
+    // outline: 1px solid rgb(21, 180, 191);
+    border-bottom: 1px solid var(--border);
+    // margin-bottom: 10px;
+    height: 153px;
+    padding-top: 15px;
+
+    .reply-item-wrapper {
+      // outline: 5px solid rgb(186, 9, 226);
+      height: 100%;
+      display: flex;
+      justify-content: flex-start;
+      margin-bottom: 10px;
+      padding: 0 20px;
+      .reply-item-avatar {
+        // outline: 2px solid rgb(26, 71, 89);
+        width: 50px;
+        height: 50px;
+      }
+      .reply-item-content {
+        // outline: 2px solid rgb(26, 71, 89);
+        margin-left: 10px;
+        display: flex;
+        flex-direction: column;
+
+        .user-reply-info {
+          display: flex;
+          align-items: first baseline;
+          .replier-name {
+            font-weight: bold;
+            font-size: 16px;
+            line-height: 26px;
+            margin-right: 10px;
+          }
+          .replier-account,
+          .reply-time {
+            color: var(--secondary);
+            font-size: 14px;
+            font-weight: 400;
+            line-height: 22px;
+          }
+        }
+        .reply-to-tweet-belonger-account-container {
+          // outline: 1px solid red;
+          margin: 10px 0;
+          color: var(--secondary);
+          .reply-to-tweet-belonger-account {
+            margin-left: 5px;
+          }
+        }
+        .reply-content {
+          word-wrap: break-word;
+          font-size: 16px;
+          line-height: 26px;
+          font-weight: 400;
+        }
+      }
+    }
+  }
+  // 所有user-self 喜歡的文
+  .post-item-container {
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 10px;
+    height: 153px;
+    z-index: 1;
+
+    .post-item-wrapper {
+      display: flex;
+      justify-content: flex-start;
+      margin-bottom: 10px;
+      padding: 0 20px;
+      .post-item-avatar {
+        width: 50px;
+        height: 50px;
+      }
+      .post-item-content {
+        margin-left: 10px;
+        display: flex;
+        flex-direction: column;
+
+        .user-post-info {
+          display: flex;
+          .name {
+            font-weight: bold;
+            margin-right: 5px;
+          }
+          .account,
+          .time {
+            color: var(--secondary);
+          }
+        }
+        .post-content {
+          display: flex;
+          align-items: center;
+          min-height: 80px;
+          cursor: pointer;
+        }
+        .reply-like-container {
+          display: flex;
+          justify-content: space-between;
+          width: 120px;
+
+          .reply-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            column-gap: 8px;
+            .reply-icon {
+              width: 16px;
+              cursor: pointer;
+              z-index: 100;
+            }
+            .reply-number {
+              color: var(--secondary);
+              font-size: 14px;
+            }
+          }
+          .like-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            column-gap: 8px;
+            .like-icons {
+              .liked-icon {
+                fill: #657786;
+                width: 17px;
+                z-index: 101;
+                cursor: pointer;
+              }
+            }
+
+            .like-number {
+              color: var(--secondary);
+              font-size: 14px;
+            }
+          }
+        }
       }
     }
   }

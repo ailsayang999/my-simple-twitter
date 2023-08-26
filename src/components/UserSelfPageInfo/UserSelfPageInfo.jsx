@@ -229,6 +229,7 @@ const UserSelfPageInfo = () => {
   return (
     <div className="user-self-page-info">
       {/* 以下header UserSelfPage, UserOtherPage UserSelfFollowPage, UserOtherFollowPage 可以重複使用 */}
+      
       <div className="header-container">
         <BackArrowIcon
           className="back-arrow-icon"
@@ -256,11 +257,12 @@ const UserSelfPageInfo = () => {
           <div className="user-self-avatar-container">
             <img src={userSelfAvatar} alt="" className="user-self-avatar" />
           </div>
+          
           <button
             className="user-self-avatar-edit-btn"
             onClick={toggleEditModal}
           >
-            編輯個人頁面
+            編輯個人資料
           </button>
         </div>
 
