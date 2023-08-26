@@ -86,10 +86,9 @@
       font-size: 14px;
     }
     .user-self-follow-following-container {
-      cursor: pointer;
       margin-inline: 16px;
       display: flex;
-      column-gap: 10px;
+      // column-gap: 10px;
       .user-self-following,
       .user-self-follower {
         cursor: pointer;
@@ -101,6 +100,8 @@
       .following-text,
       .follower-text {
         color: var(--secondary);
+        font-size: 14px;
+        margin-right: 10px;
       }
     }
   }

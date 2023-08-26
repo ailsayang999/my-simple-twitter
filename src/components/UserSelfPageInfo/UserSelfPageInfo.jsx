@@ -2,7 +2,7 @@ import "./userSelfPageInfo.scss";
 import { ReactComponent as BackArrowIcon } from "assets/icons/backArrowIcon.svg";
 import { useNavigate } from "react-router-dom";
 import ModalContext from "context/ModalContext";
-import NavigationContext from "context/NavigationContext"
+import NavigationContext from "context/NavigationContext";
 import userSelfInfoCover from "assets/images/fakeUserCover.png";
 import userSelfAvatar from "assets/images/fakeUserAvatar.png";
 import { useContext, useState } from "react";
@@ -165,7 +165,7 @@ const UserSelfLikeContent = ({ userSelfLike }) => {
     </>
   );
 };
-/////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 const UserSelfPageInfo = () => {
   const navigate = useNavigate();
@@ -174,21 +174,22 @@ const UserSelfPageInfo = () => {
     navigate("/main");
   };
 
-  // UserSelfPageInfo的監聽器：，當跟隨者或是跟隨中的button被點按時，會選擇UserSelfFollowPage要渲染的資料，followContent所存的文字會決定要渲染哪一個元件
-  // 從Context中拿取setFollowContent的function
-  const { followContent, setFollowContent } = useContext(NavigationContext);
+  // UserSelfPageInfo的監聽器：，當跟隨者或是跟隨中的button被點按時，會選擇UserSelfFollowPage要渲染的資料
+  const { handleFollowingClick, handleFollowerClick } =
+    useContext(NavigationContext);
 
-  // 導向UserSelfFollowPageInfo畫面使用，根據followContent，followContent= following
-  const handleFollowingClick = (followingValue) => {
-    navigate("/user/self/follow");
-    setFollowContent(followingValue);
-    console.log(followContent);
+  const handleNavigateToFollowingPage = (followingValue) => {
+    handleFollowingClick(followingValue);
+    //測試發現如果不用setTimeout，navigate這個大惡霸會搶先執行，handleFollowingClick會怎麼樣都執行不了，但不太懂為什麼navigate會搶先執行ＱＱ
+    setTimeout(() => {
+      navigate("/user/self/follow");
+    }, 50);
   };
-  // 導向UserSelfFollowPageInfo畫面使用，根據followContent，followContent= follower
-  const handleFollowerClick = (followerValue) => {
-    navigate("/user/self/follow");
-    setFollowContent(followerValue);
-    console.log(followContent);
+  const handleNavigateToFollowerPage = (followerValue) => {
+    handleFollowerClick(followerValue); //測試發現如果不用setTimeout，navigate這個大惡霸會搶先執行，handleFollowerClick會怎麼樣都執行不了
+    setTimeout(() => {
+      navigate("/user/self/follow");
+    }, 50);
   };
 
   ////////////////////////////////// Modal 相關資料處理  //////////////////////////////////
@@ -278,28 +279,32 @@ const UserSelfPageInfo = () => {
           Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aspernatur,
           nulla.
         </div>
+
         {/* 個人跟隨中和跟隨者 */}
         <div className="user-self-follow-following-container">
           <button
             className="user-self-following"
-            onClick={(e) => {
-              handleFollowingClick(e.target.value);
-            }}
             value="following"
+            onClick={(e) => {
+              handleNavigateToFollowingPage(e.target.value);
+            }}
           >
-            {34} 個<span className="following-text">跟隨中</span>
+            {34} 個
           </button>
+          <span className="following-text">跟隨中</span>
           <button
             className="user-self-follower"
-            onClick={(e) => {
-              handleFollowerClick(e.target.value);
-            }}
             value="follower"
+            onClick={(e) => {
+              handleNavigateToFollowerPage(e.target.value);
+            }}
           >
-            {56} 個<span className="follower-text">跟隨者</span>
+            {56} 個
           </button>
+          <span className="follower-text">跟隨者</span>
         </div>
       </div>
+
       {/* user-self-tweet-reply-like-navigator */}
       <div className="user-self-tweet-reply-like-navigator">
         <button
