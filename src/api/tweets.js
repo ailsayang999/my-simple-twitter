@@ -35,7 +35,9 @@
 
 // get /api/tweets 取得所有貼文
 //前台allTweetsDummyData
-import otherAvatar from "assets/images/fakeUserOtherAvatar.png";
+import userSelfAvatar from "assets/images/fakeUserAvatar.png"
+import userOtherAvatar from "assets/images/fakeUserOtherAvatar.png";
+import userOtherInfoCover from "assets/images/fakeUserOtherCover.png";
 
 export const allTweetsDummyData = [
   {
@@ -44,7 +46,7 @@ export const allTweetsDummyData = [
       id: 21,
       account: "Ailsa",
       name: "ailsa",
-      avatar: otherAvatar,
+      avatar: userOtherAvatar,
     },
     description:
       "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Doloremque quisquam provident iure a cumque nulla error recusandae temporibus dol.",
@@ -59,7 +61,7 @@ export const allTweetsDummyData = [
       id: 21,
       account: "Ailsa",
       name: "ailsa",
-      avatar: otherAvatar,
+      avatar: userOtherAvatar,
     },
     description:
       "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Doloremque quisquam provident iure a cumque nulla error recusandae temporibus dol.",
@@ -74,7 +76,7 @@ export const allTweetsDummyData = [
       id: 21,
       account: "Ailsa",
       name: "ailsa",
-      avatar: otherAvatar,
+      avatar: userSelfAvatar,
     },
     description:
       "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Doloremque quisquam provident iure a cumque nulla error recusandae temporibus dol.",
@@ -89,7 +91,7 @@ export const allTweetsDummyData = [
       id: 21,
       account: "Ailsa",
       name: "ailsa",
-      avatar: otherAvatar,
+      avatar: userSelfAvatar,
     },
     description:
       "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Doloremque quisquam provident iure a cumque nulla error recusandae temporibus dol.",
@@ -104,7 +106,7 @@ export const allTweetsDummyData = [
       id: 21,
       account: "Ailsa",
       name: "ailsa",
-      avatar: otherAvatar,
+      avatar: userOtherAvatar,
     },
     description:
       "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Doloremque quisquam provident iure a cumque nulla error recusandae temporibus dol.",
@@ -119,7 +121,7 @@ export const allTweetsDummyData = [
       id: 21,
       account: "Ailsa",
       name: "ailsa",
-      avatar: otherAvatar,
+      avatar: userSelfAvatar,
     },
     description:
       "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Doloremque quisquam provident iure a cumque nulla error recusandae temporibus dol.",
@@ -134,7 +136,7 @@ export const allTweetsDummyData = [
       id: 21,
       account: "Ailsa",
       name: "ailsa",
-      avatar: otherAvatar,
+      avatar: userOtherAvatar,
     },
     description:
       "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Doloremque quisquam provident iure a cumque nulla error recusandae temporibus dol.",
@@ -149,7 +151,7 @@ export const allTweetsDummyData = [
       id: 21,
       account: "Ailsa",
       name: "ailsa",
-      avatar: otherAvatar,
+      avatar: userSelfAvatar,
     },
     description:
       "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Doloremque quisquam provident iure a cumque nulla error recusandae temporibus dol.",
@@ -214,7 +216,7 @@ export const replyItemsDummyData = [
     replyId: 31,
     comment: "It's so melting hot outside!!!!!",
     replierName: "Jennifer",
-    replierAvatar: otherAvatar,
+    replierAvatar: userOtherAvatar,
     replierAccount: "user1",
     tweetBelongerAccount: "Ailsa",
     createdAt: "12小時",
@@ -223,7 +225,7 @@ export const replyItemsDummyData = [
     replyId: 32,
     comment: "It's so melting hot outside!!!!!",
     replierName: "Jennifer",
-    replierAvatar: otherAvatar,
+    replierAvatar: userOtherAvatar,
     replierAccount: "user1",
     tweetBelongerAccount: "Ailsa",
     createdAt: "12小時",
@@ -232,7 +234,7 @@ export const replyItemsDummyData = [
     replyId: 33,
     comment: "It's so melting hot outside!!!!!",
     replierName: "Jennifer",
-    replierAvatar: otherAvatar,
+    replierAvatar: userOtherAvatar,
     replierAccount: "user1",
     tweetBelongerAccount: "Ailsa",
     createdAt: "12小時",
@@ -241,7 +243,7 @@ export const replyItemsDummyData = [
     replyId: 34,
     comment: "It's so melting hot outside!!!!!",
     replierName: "Jennifer",
-    replierAvatar: otherAvatar,
+    replierAvatar: userOtherAvatar,
     replierAccount: "user1",
     tweetBelongerAccount: "Ailsa",
     createdAt: "12小時",
@@ -250,7 +252,7 @@ export const replyItemsDummyData = [
     replyId: 35,
     comment: "It's so melting hot outside!!!!!",
     replierName: "Jennifer",
-    replierAvatar: otherAvatar,
+    replierAvatar: userOtherAvatar,
     replierAccount: "user1",
     tweetBelongerAccount: "Ailsa",
     createdAt: "12小時",
@@ -259,15 +261,24 @@ export const replyItemsDummyData = [
     replyId: 36,
     comment: "It's so melting hot outside!!!!!",
     replierName: "Jennifer",
-    replierAvatar: otherAvatar,
+    replierAvatar: userOtherAvatar,
     replierAccount: "user1",
     tweetBelongerAccount: "Ailsa",
     createdAt: "12小時",
   },
 ];
 
+// get api/users/:id 取得特定使用者資料
 
-
+export const getUserInformation = [
+  {
+    id: 1,
+    userName: "Peter",
+    tweetAmount: 45,
+    userAvatar: userOtherAvatar,
+    userCover: userOtherInfoCover,
+  },
+];
 // get /api/users/:id/tweets 查看特定使用者的推文 UserSelfPage tweet
 export const getUserSelfTweetsDummyData = [
   {
@@ -276,7 +287,7 @@ export const getUserSelfTweetsDummyData = [
       id: 21,
       account: "Ailsa",
       name: "ailsa",
-      avatar: otherAvatar,
+      avatar: userSelfAvatar,
     },
     description:
       "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Doloremque quisquam provident iure a cumque nulla error recusandae temporibus dol.",
@@ -291,7 +302,7 @@ export const getUserSelfTweetsDummyData = [
       id: 21,
       account: "Ailsa",
       name: "ailsa",
-      avatar: otherAvatar,
+      avatar: userSelfAvatar,
     },
     description:
       "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Doloremque quisquam provident iure a cumque nulla error recusandae temporibus dol.",
@@ -306,7 +317,7 @@ export const getUserSelfTweetsDummyData = [
       id: 21,
       account: "Ailsa",
       name: "ailsa",
-      avatar: otherAvatar,
+      avatar: userSelfAvatar,
     },
     description:
       "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Doloremque quisquam provident iure a cumque nulla error recusandae temporibus dol.",
@@ -321,7 +332,7 @@ export const getUserSelfTweetsDummyData = [
       id: 21,
       account: "Ailsa",
       name: "ailsa",
-      avatar: otherAvatar,
+      avatar: userSelfAvatar,
     },
     description:
       "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Doloremque quisquam provident iure a cumque nulla error recusandae temporibus dol.",
@@ -336,7 +347,7 @@ export const getUserSelfTweetsDummyData = [
       id: 21,
       account: "Ailsa",
       name: "ailsa",
-      avatar: otherAvatar,
+      avatar: userSelfAvatar,
     },
     description:
       "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Doloremque quisquam provident iure a cumque nulla error recusandae temporibus dol.",
@@ -351,7 +362,7 @@ export const getUserSelfTweetsDummyData = [
       id: 21,
       account: "Ailsa",
       name: "ailsa",
-      avatar: otherAvatar,
+      avatar: userSelfAvatar,
     },
     description:
       "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Doloremque quisquam provident iure a cumque nulla error recusandae temporibus dol.",
@@ -366,7 +377,7 @@ export const getUserSelfTweetsDummyData = [
       id: 21,
       account: "Ailsa",
       name: "ailsa",
-      avatar: otherAvatar,
+      avatar: userSelfAvatar,
     },
     description:
       "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Doloremque quisquam provident iure a cumque nulla error recusandae temporibus dol.",
@@ -381,7 +392,7 @@ export const getUserSelfTweetsDummyData = [
       id: 21,
       account: "Ailsa",
       name: "ailsa",
-      avatar: otherAvatar,
+      avatar: userSelfAvatar,
     },
     description:
       "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Doloremque quisquam provident iure a cumque nulla error recusandae temporibus dol.",
@@ -398,7 +409,7 @@ export const getUserSelfReplyItemsDummyData = [
     replyId: 31,
     comment: "It's so melting hot outside!!!!!",
     replierName: "Jennifer",
-    replierAvatar: otherAvatar,
+    replierAvatar: userSelfAvatar,
     replierAccount: "user1",
     tweetBelongerAccount: "Ailsa",
     createdAt: "12小時",
@@ -407,7 +418,7 @@ export const getUserSelfReplyItemsDummyData = [
     replyId: 32,
     comment: "It's so melting hot outside!!!!!",
     replierName: "Jennifer",
-    replierAvatar: otherAvatar,
+    replierAvatar: userSelfAvatar,
     replierAccount: "user1",
     tweetBelongerAccount: "Ailsa",
     createdAt: "12小時",
@@ -416,7 +427,7 @@ export const getUserSelfReplyItemsDummyData = [
     replyId: 33,
     comment: "It's so melting hot outside!!!!!",
     replierName: "Jennifer",
-    replierAvatar: otherAvatar,
+    replierAvatar: userSelfAvatar,
     replierAccount: "user1",
     tweetBelongerAccount: "Ailsa",
     createdAt: "12小時",
@@ -425,7 +436,7 @@ export const getUserSelfReplyItemsDummyData = [
     replyId: 34,
     comment: "It's so melting hot outside!!!!!",
     replierName: "Jennifer",
-    replierAvatar: otherAvatar,
+    replierAvatar: userSelfAvatar,
     replierAccount: "user1",
     tweetBelongerAccount: "Ailsa",
     createdAt: "12小時",
@@ -434,7 +445,7 @@ export const getUserSelfReplyItemsDummyData = [
     replyId: 35,
     comment: "It's so melting hot outside!!!!!",
     replierName: "Jennifer",
-    replierAvatar: otherAvatar,
+    replierAvatar: userSelfAvatar,
     replierAccount: "user1",
     tweetBelongerAccount: "Ailsa",
     createdAt: "12小時",
@@ -443,13 +454,14 @@ export const getUserSelfReplyItemsDummyData = [
     replyId: 36,
     comment: "It's so melting hot outside!!!!!",
     replierName: "Jennifer",
-    replierAvatar: otherAvatar,
+    replierAvatar: userSelfAvatar,
     replierAccount: "user1",
     tweetBelongerAccount: "Ailsa",
     createdAt: "12小時",
   },
 ];
 
+// get /api/users/:id/likes 查看特定使用者喜歡過的推文
 export const getUserSelfLikeItemsDummyData = [
   {
     id: 3,
@@ -457,7 +469,7 @@ export const getUserSelfLikeItemsDummyData = [
       id: 21,
       account: "Ailsa",
       name: "ailsa",
-      avatar: otherAvatar,
+      avatar: userOtherAvatar,
     },
     description:
       "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Doloremque quisquam provident iure a cumque nulla error recusandae temporibus dol.",
@@ -472,7 +484,7 @@ export const getUserSelfLikeItemsDummyData = [
       id: 21,
       account: "Ailsa",
       name: "ailsa",
-      avatar: otherAvatar,
+      avatar: userOtherAvatar,
     },
     description:
       "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Doloremque quisquam provident iure a cumque nulla error recusandae temporibus dol.",
@@ -487,7 +499,7 @@ export const getUserSelfLikeItemsDummyData = [
       id: 21,
       account: "Ailsa",
       name: "ailsa",
-      avatar: otherAvatar,
+      avatar: userOtherAvatar,
     },
     description:
       "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Doloremque quisquam provident iure a cumque nulla error recusandae temporibus dol.",
@@ -502,7 +514,7 @@ export const getUserSelfLikeItemsDummyData = [
       id: 21,
       account: "Ailsa",
       name: "ailsa",
-      avatar: otherAvatar,
+      avatar: userOtherAvatar,
     },
     description:
       "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Doloremque quisquam provident iure a cumque nulla error recusandae temporibus dol.",
@@ -517,7 +529,7 @@ export const getUserSelfLikeItemsDummyData = [
       id: 21,
       account: "Ailsa",
       name: "ailsa",
-      avatar: otherAvatar,
+      avatar: userOtherAvatar,
     },
     description:
       "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Doloremque quisquam provident iure a cumque nulla error recusandae temporibus dol.",
@@ -532,7 +544,7 @@ export const getUserSelfLikeItemsDummyData = [
       id: 21,
       account: "Ailsa",
       name: "ailsa",
-      avatar: otherAvatar,
+      avatar: userOtherAvatar,
     },
     description:
       "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Doloremque quisquam provident iure a cumque nulla error recusandae temporibus dol.",
@@ -547,7 +559,7 @@ export const getUserSelfLikeItemsDummyData = [
       id: 21,
       account: "Ailsa",
       name: "ailsa",
-      avatar: otherAvatar,
+      avatar: userOtherAvatar,
     },
     description:
       "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Doloremque quisquam provident iure a cumque nulla error recusandae temporibus dol.",
@@ -562,7 +574,7 @@ export const getUserSelfLikeItemsDummyData = [
       id: 21,
       account: "Ailsa",
       name: "ailsa",
-      avatar: otherAvatar,
+      avatar: userOtherAvatar,
     },
     description:
       "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Doloremque quisquam provident iure a cumque nulla error recusandae temporibus dol.",
@@ -573,5 +585,7 @@ export const getUserSelfLikeItemsDummyData = [
   },
 ];
 
+// get /api/users/:id/followers 查看特定使用者的粉絲
 
+// get /api/users/:id/followings 查看特定使用者追蹤的人
 
