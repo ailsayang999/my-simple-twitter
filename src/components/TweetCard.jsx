@@ -16,7 +16,7 @@ const TweetCard = () => {
             <p>．</p>
             <div className="timer">2 hours</div>
           </div>
-          <button className="deleteBtn"><FailIcon /></button>
+          <button className="deleteBtn"><FailIcon fill={"#696974"} /></button>
         </div>
         <div className="tweetContext">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Accusamus rerum aut velit nihil eligendi in. Impedit animi dolor corrupti illo sit saepe molestiae perspiciatis perferendis explicabo inventore! Recusandae, consectetur doloribus. Velit quidem ratione repellendus, odit nemo distinctio suscipit consequuntur doloremque eveniet sint mollitia exercitationem doloribus reiciendis alias, amet quaerat blanditiis!</div>
       </div>
