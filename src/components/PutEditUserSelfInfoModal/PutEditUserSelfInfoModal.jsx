@@ -23,7 +23,7 @@ const PutEditUserSelfInfoModal = ({
   return (
     <div className="put-edit-user-self-info-modal">
       <div className="overlay">
-        <modal className="edit-self-modal-content-wrapper">
+        <div className="edit-self-modal-content-wrapper">
           <div className="closed-icon-container">
             <ClosedIcon className="cross-icon" onClick={toggleEditModal} />
             <span className="closed-icon-text">編輯個人資料</span>
@@ -112,7 +112,7 @@ const PutEditUserSelfInfoModal = ({
               </div>
             </div>
           </div>
-        </modal>
+        </div>
       </div>
     </div>
   );

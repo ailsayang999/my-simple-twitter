@@ -17,7 +17,7 @@ const PostTweetModal = ({
     <div className="">
       <div className="post-tweet-modal">
         <div className="overlay">
-          <modal className="modal-content-wrapper">
+          <div className="modal-content-wrapper">
             <div className="closed-icon-container">
               <ClosedIcon className="cross-icon" onClick={togglePostModal} />
             </div>
@@ -66,7 +66,7 @@ const PostTweetModal = ({
                 </button>
               </div>
             </div>
-          </modal>
+          </div>
         </div>
       </div>
     </div>

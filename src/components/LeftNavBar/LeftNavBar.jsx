@@ -15,6 +15,7 @@ const LeftNavBar = () => {
   const location = useLocation();
   const [url, setUrl] = useState(null);
 
+  // 幫助我們偵測現在在哪的page，讓左側欄的字變橘色
   useEffect(() => {
     setUrl(location.pathname);
   }, [location, url]);

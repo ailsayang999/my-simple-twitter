@@ -17,7 +17,14 @@ import { useNavigate } from "react-router-dom";
 // } from "api/tweets";
 
 // allTweetsDummyData和 patchTweets
-import { allTweetsDummyData } from "api/tweets";
+import {
+  allTweetsDummyData,
+  getTweets,
+  tweetsDummy,
+  postTweetUnlike,
+  postTweetLike,
+} from "api/tweets";
+//製作假的authToken
 
 // 引入Modal元件
 import PostTweetModal from "components/PostTweetModal/PostTweetModal";
@@ -48,75 +55,76 @@ const MainPageInfo = () => {
 
   ////////////////////////////////////////////////////////////////////////////////////////////串接API getTweets ///////////////////////////
 
-  // //串接API: tweets畫面初始化，顯示過去tweets內所有資訊
-  // useEffect(() => {
-  //   const getTweetsAsync = async () => {
-  //     //因為getTweets是非同步的操作，有可能會失敗，所以我們要用try catch把它包起來
-  //     try {
-  //       const tweets = await getTweets(); //用await去取得所有後端tweets的項目
-  //     } catch (error) {
-  //       console.error(error);
-  //     }
-  //   };
-  //   //getTweetsAsync這個function定義完成之後，我們可以直接執行它
-  //   getTweetsAsync();
-  // }, []); //後面的dependency讓他是空的，因為只要在畫面一開始被渲染的時候才做操作
+  //   //串接API: tweets畫面初始化，顯示過去tweets內所有資訊
+  //   useEffect(() => {
+  //     const getTweetsAsync = async () => {
+  //       //因為getTweets是非同步的操作，有可能會失敗，所以我們要用try catch把它包起來
+  //       try {
+  //         const tweets = await getTweets(); //用await去取得所有後端tweets的項目
+  //       } catch (error) {
+  //         console.error(error);
+  //       }
+  //     };
+  //     //getTweetsAsync這個function定義完成之後，我們可以直接執行它
+  //     getTweetsAsync();
+  //   }, []); //後面的dependency讓他是空的，因為只要在畫面一開始被渲染的時候才做操作
+
   // const [tweets, setTweets] = useState(tweets);
 
   ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-  //當點擊like的時候，可以切換愛心顏色
-  const [isLikedActive] = useState(tweets.isLiked);
+  //切版測試用當點擊like的時候，可以切換愛心顏色
+  // const [isLikedActive] = useState(tweets.isLiked);
 
-  const handleToggleLike = (id) => {
-    setTweets((prevTweets) => {
-      return prevTweets.map((tweet) => {
-        if (tweet.id === id) {
-          return {
-            ...tweet,
-            isLike: !tweet.isLike,
-          };
-        }
-        return tweet; //其他tweet原封不動傳回去
-      });
-    });
-  };
+  // const handleToggleLike = (id) => {
+  //   setTweets((prevTweets) => {
+  //     return prevTweets.map((tweet) => {
+  //       if (tweet.id === id) {
+  //         return {
+  //           ...tweet,
+  //           isLike: !tweet.isLike,
+  //         };
+  //       }
+  //       return tweet; //其他tweet原封不動傳回去
+  //     });
+  //   });
+  // };
 
   ////////////////////////////////////////////////////////////////////////////////////////////串接API postTweetLike：處理某篇貼文isLike的boolean值 ///////////////////////////
 
-  // // 前端畫面處理isLikedActive的state做畫面渲染
-  // const [isLikedActive, setIsLikedActive] = useState(tweets.isLiked);
-  // // 喜歡功能
-  // const handleToggleLike = async (id) => {
-  //   console.log("此篇貼文的Like初始狀態: ", isLikedActive);
+  // 前端畫面處理isLikedActive的state做畫面渲染
+  const [isLikedActive, setIsLikedActive] = useState(tweets.isLiked);
+  // 喜歡功能
+  const handleToggleLike = async (id) => {
+    console.log("此篇貼文的Like初始狀態: ", isLikedActive);
 
-  //   if (isLikedActive === true) {
-  //     const res = await postTweetUnlike(id);
-  //     //若後端有把isLike改成false成功
-  //     if (res.data) {
-  //       if (res.data.message === "Unlike成功") {
-  //         //把前端畫面的isLikedActive改為false做畫面渲染
-  //         setIsLikedActive(false);
-  //         return;
-  //       }
-  //     } else {
-  //       return alert("Unlike未成功");
-  //     }
-  //   }
+    if (isLikedActive === true) {
+      const res = await postTweetUnlike(id);
+      //若後端有把isLike改成false成功
+      if (res.data) {
+        if (res.data.message === "Unlike成功") {
+          //把前端畫面的isLikedActive改為false做畫面渲染
+          setIsLikedActive(false);
+          return;
+        }
+      } else {
+        return alert("Unlike未成功");
+      }
+    }
 
-  //   if (isLikedActive === false) {
-  //     const res = await postTweetLike(id);
-  //     if (res.data) {
-  //       //若喜歡喜歡成功
-  //       if (res.data.status === "Like成功！") {
-  //         setIsLikedActive(true);
-  //         return;
-  //       } else {
-  //         return alert("Like成功！");
-  //       }
-  //     }
-  //   }
-  // };
+    if (isLikedActive === false) {
+      const res = await postTweetLike(id);
+      if (res.data) {
+        //若喜歡喜歡成功
+        if (res.data.status === "Like成功！") {
+          setIsLikedActive(true);
+          return;
+        } else {
+          return alert("Like成功！");
+        }
+      }
+    }
+  };
 
   ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -267,6 +275,27 @@ const MainPageInfo = () => {
     setReplyInputValue(value);
   };
 
+  ////////////////////////////////////////test API///////////////////////////////////////
+  const [tweetsTest, setTweetsTest] = useState([]);
+  const authTokenTest =
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiYWNjb3VudCI6InVzZXIxIiwicm9sZSI6InVzZXIiLCJpYXQiOjE2OTI5NzkyODQsImV4cCI6MTY5NTU3MTI4NH0.9YofGSbyMAwlrd8hNC6B_JIAy_-PXN323hYv_T-jxLk";
+  //先把authTokenTest塞進localStorage來做驗證
+  localStorage.setItem("authTokenTest", authTokenTest);
+
+  const getTweetsAsync = async () => {
+    //因為getTodos是非同步的操作，有可能會失敗，所以我們要用try catch把它包起來
+    try {
+      const tweetsTestBackend = await getTweets(); //用await去取得所有後端todos的項目
+      setTweetsTest(tweetsTestBackend); //把所有todo的property展開，並幫他加上isEdit這個property
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  //getTodosAsync這個function定義完成之後，我們可以直接執行它
+  getTweetsAsync();
+
+  ////////////////////////////////////////test API///////////////////////////////////////
+
   return (
     <div className="main-page-info">
       {/* 以下header可以重複使用 */}
@@ -275,7 +304,6 @@ const MainPageInfo = () => {
           <h4>{"首頁"}</h4>
         </header>
       </div>
-
       {/* Post Area */}
       <div className="post-area-wrapper">
         <div className="post-area-container">
@@ -292,6 +320,16 @@ const MainPageInfo = () => {
         </div>
       </div>
       {/* Render All Tweet Items With map */}
+      {/* test api */}
+      {tweetsTest.map(({ description }) => {
+        return (
+          <>
+            <div className="tweet-test">{description}</div>
+            <h4>AilsaAilsa!!!!</h4>
+          </>
+        );
+      })}
+
       {tweets.map(
         ({ id, description, author, createdAt, likeCount, replyCount }) => {
           return (
@@ -356,7 +394,6 @@ const MainPageInfo = () => {
           );
         }
       )}
-
       {/* Modal ：根據replyModal的布林值決定是否要跳出PostReplyModal component*/}
       {replyModal && (
         <PostReplyModal
@@ -365,7 +402,6 @@ const MainPageInfo = () => {
           // onAddTweetReply={handleAddTweetReply} 還沒做好
         />
       )}
-
       {/* Modal ：根據postModal的布林值決定是否要跳出PostTweetModal component*/}
       {postModal && (
         <PostTweetModal

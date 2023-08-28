@@ -1,44 +1,62 @@
-// import axios from "axios";
+// DummyData
+import userSelfAvatar from "assets/images/fakeUserAvatar.png";
+import userOtherAvatar from "assets/images/fakeUserOtherAvatar.png";
+import userOtherInfoCover from "assets/images/fakeUserOtherCover.png";
 
-// const baseUrl = "https://mighty-temple-45104-0d6672fb07d0.herokuapp.com/api";
 
-// const axiosInstance = axios.create({
-//   baseURL: baseUrl,
-// });
 
-// axiosInstance.interceptors.request.use(
-//   (config) => {
-//     const token = localStorage.getItem("authToken");
-//     if (token) {
-//       config.headers["Authorization"] = `Bearer ${token}`;
-//     }
-//     return config;
-//   },
-//   (error) => {
-//     console.error(error);
-//   }
-// );
+// 串切開始
+import axios from "axios";
+
+const baseUrl = "https://mighty-temple-45104-0d6672fb07d0.herokuapp.com/api";
+
+const axiosInstance = axios.create({
+  baseURL: baseUrl,
+});
+
+
+axiosInstance.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem("authTokenTest");
+    if (token) {
+      config.headers["Authorization"] = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => {
+    console.error(error);
+  }
+);
 
 ///////////////////////////////////////////////// getTweets /////////////////////////////////////////////////
 
 // 拿到所有的 tweets
-// export const getTweets = async () => {
-//   try {
-//     const res = await axiosInstance.get(`${baseUrl}/tweets`);
-//     return res.data.data;
-//   } catch (error) {
-//     console.error("[Get Tweets failed]: ", error);
-//   }
-// };
+export const getTweets = async () => {
+  try {
+    const res = await axiosInstance.get(`${baseUrl}/tweets`);
+    return res.data;
+  } catch (error) {
+    console.error("[Get Tweets failed]: ", error);
+  }
+};
 
 ///////////////////////////////////////////////// getTweets /////////////////////////////////////////////////
 
+export const tweetsDummy = [
+  {
+    id: 201,
+    description: "This is the dummy data from frontend.",
+    UserId: 1,
+    likeCount: 0,
+    replyCount: 0,
+    createdAt: "2023-08-24T08:26:59.000Z",
+    updatedAt: "2023-08-24T08:26:59.000Z",
+    userId: 1,
+  },
+];
+
 // get /api/tweets 取得所有貼文
 //前台allTweetsDummyData
-import userSelfAvatar from "assets/images/fakeUserAvatar.png"
-import userOtherAvatar from "assets/images/fakeUserOtherAvatar.png";
-import userOtherInfoCover from "assets/images/fakeUserOtherCover.png";
-
 export const allTweetsDummyData = [
   {
     id: 3,
@@ -185,27 +203,27 @@ export const allTweetsDummyData = [
 
 //////////////////////////////////////////////// postTweetLike ////////////////////////////////////////////////
 
-// //把後端某篇貼文Like改為true，新增喜歡
-// export const postTweetLike = async (id) => {
-//   try {
-//     const res = axiosInstance.post(`/tweets/${id}/like`);
-//     console.log(res);
-//     return res;
-//   } catch (error) {
-//     console.error("[Post like tweet failed]: ", error.response.data.message);
-//   }
-// };
+//把後端某篇貼文Like改為true，新增喜歡
+export const postTweetLike = async (id) => {
+  try {
+    const res = axiosInstance.post(`/tweets/${id}/like`);
+    console.log(res);
+    return res;
+  } catch (error) {
+    console.error("[Post like tweet failed]: ", error.response.data.message);
+  }
+};
 
 // //把後端某篇貼文Like改為false，取消喜歡
-// export const postTweetUnlike = async (id) => {
-//   try {
-//     const res = axiosInstance.post(`/tweets/${id}/unlike`);
-//     console.log(res);
-//     return res;
-//   } catch (error) {
-//     console.error("[Post unlike tweet failed]: ", error.response.data.message);
-//   }
-// };
+export const postTweetUnlike = async (id) => {
+  try {
+    const res = axiosInstance.post(`/tweets/${id}/unlike`);
+    console.log(res);
+    return res;
+  } catch (error) {
+    console.error("[Post unlike tweet failed]: ", error.response.data.message);
+  }
+};
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 
