@@ -16,121 +16,95 @@ import {
   postTweetLike,
 } from "api/tweets";
 
-//下面userAvatar之後要串後端
-import userAvatar from "assets/images/fakeUserAvatar.png";
-import { replyItemsDummyData } from "api/tweets";
 
 // 引入Modal元件
 import PostReplyModal from "components/PostReplyModal/PostReplyModal";
 
 // 元件切分
-const ReplyPost = ({ specificTweet, toggleReplyModal }) => {
-  const [specificTweetItem, setSpecificTweetItem] = useState(specificTweet);
-  
-  // 前端畫面處理isLikedActive的state做畫面渲染
-  // 喜歡功能
-  const handleToggleLike = async (id) => {
-    // 拿到這篇文章Like初始狀態
-    const specificToggleTweetLike = specificTweetItem.isLiked;
-    console.log("此篇貼文的Like初始狀態: ", specificToggleTweetLike);
-
-    if (specificToggleTweetLike === true) {
-      const res = await postTweetUnlike(id);
-      //若後端有把isLike改成false成功
-      if (res.data) {
-        if (res.data.status === "success") {
-          //把前端畫面的isLiked改為false做畫面渲染
-          setSpecificTweetItem({ ...specificTweetItem, isLike: false });
-          alert("Unlike成功");
-          return;
-        }
-      } else {
-        return alert("Unlike未成功");
-      }
-    }
-
-    if (specificToggleTweetLike === false) {
-      const res = await postTweetLike(id);
-      //若後端有把isLike改成true成功
-      if (res.data) {
-        //若喜歡喜歡成功
-        if (res.data.status === "success") {
-          //把前端畫面的isLiked改為true做畫面渲染
-          setSpecificTweetItem({ ...specificTweetItem, isLike: true });
-          alert("Like成功");
-          return;
-        } else {
-          return alert("Like未成功！");
-        }
-      }
-    }
-  };
-
+const ReplyPost = ({
+  specificTweet,
+  toggleReplyModal,
+  handleToggleLike,
+  setSpecificTweet,
+}) => {
   return (
     <>
-      <div className="reply-post">
-        <div className="tweet-area-wrapper">
-          <div className="tweet-area-container">
-            <div className="tweet-author-area">
-              <img
-                src={specificTweet.authorAvatar}
-                alt=""
-                className="author-avatar"
-              />
-              <div className="tweet-account-name-area">
-                <div className="tweet-author-name">
-                  {specificTweet.authorName}
+      {specificTweet.map(
+        ({
+          id,
+          authorAvatar,
+          authorName,
+          authorAccount,
+          description,
+          createdAt,
+          replyCount,
+          likeCount,
+          isLiked
+        }) => {
+          return (
+            <div className="reply-post" key={id}>
+              <div className="tweet-area-wrapper">
+                <div className="tweet-area-container">
+                  <div className="tweet-author-area">
+                    <img src={authorAvatar} alt="" className="author-avatar" />
+                    <div className="tweet-account-name-area">
+                      <div className="tweet-author-name">{authorName}</div>
+                      <div className="tweet-author-account">
+                        @{authorAccount}
+                      </div>
+                    </div>
+                  </div>
+                  <div className="tweet-text-area">{description}</div>
+                  <div className="tweet-time-area">
+                    <div className="tweet-time">{createdAt}</div>
+                  </div>
                 </div>
-                <div className="tweet-author-account">
-                  @{specificTweet.authorAaccount}
+              </div>
+              <div className="reply-like-area-wrapper">
+                <div className="reply-like-area">
+                  <div className="reply-count">
+                    <div className="reply-num">{replyCount}</div>
+                    <div className="reply-text">回覆</div>
+                  </div>
+                  <div className="like-count">
+                    <div className="like-num">{likeCount}</div>
+                    <div className="like-text">喜歡次數</div>
+                  </div>
+                </div>
+              </div>
+              <div className="like-count-icon-area-wrapper">
+                <div className="like-count-icon-area">
+                  <ReplyIcon
+                    className="tweet-reply-icon"
+                    onClick={toggleReplyModal}
+                  />
+                  <div
+                    className="tweet-like-icons"
+                    onClick={() => {
+                      handleToggleLike(
+                        specificTweet,
+                        setSpecificTweet
+                      );
+                    }}
+                  >
+                    <LikeIcon
+                      className={`tweet-like-icon ${
+                        !isLiked ? "like-gray" : ""
+                      }`}
+                    />
+                    <LikeActiveIcon
+                      className={`tweet-liked-icon ${
+                        isLiked ? "like-active" : ""
+                      }`}
+                    />
+                  </div>
+                  {/* <LikeIcon className="tweet-like-icon" /> */}
                 </div>
               </div>
             </div>
-            <div className="tweet-text-area">{specificTweet.description}</div>
-            <div className="tweet-time-area">
-              <div className="tweet-time">{specificTweet.createdAt}</div>
-            </div>
-          </div>
-        </div>
-        <div className="reply-like-area-wrapper">
-          <div className="reply-like-area">
-            <div className="reply-count">
-              <div className="reply-num">{specificTweet.replyCount}</div>
-              <div className="reply-text">回覆</div>
-            </div>
-            <div className="like-count">
-              <div className="like-num">{specificTweet.likeCount}</div>
-              <div className="like-text">喜歡次數</div>
-            </div>
-          </div>
-        </div>
-        <div className="like-count-icon-area-wrapper">
-          <div className="like-count-icon-area">
-            <ReplyIcon
-              className="tweet-reply-icon"
-              onClick={toggleReplyModal}
-            />
-            <div
-              className="tweet-like-icons"
-              onClick={() => {
-                handleToggleLike(specificTweet.id);
-              }}
-            >
-              <LikeIcon
-                className={`tweet-like-icon ${
-                  !specificTweet.isLiked ? "like-gray" : ""
-                }`}
-              />
-              <LikeActiveIcon
-                className={`tweet-liked-icon ${
-                  specificTweet.isLiked ? "like-active" : ""
-                }`}
-              />
-            </div>
-            {/* <LikeIcon className="tweet-like-icon" /> */}
-          </div>
-        </div>
-      </div>
+          );
+        }
+      )}
     </>
   );
 };
@@ -182,7 +156,7 @@ const ReplyPageInfo = () => {
       //因為getSpecificTweet是非同步的操作，有可能會失敗，所以我們要用try catch把它包起來
       try {
         const backendSpecificTweet = await getSpecificTweet(specificTweetIdNum); //用await去取得所有後端specificTweet
-        setSpecificTweet(backendSpecificTweet[0]);
+        setSpecificTweet(backendSpecificTweet);
       } catch (error) {
         console.error(error);
       }
@@ -205,9 +179,75 @@ const ReplyPageInfo = () => {
     getSpecificTweetReplyAsync();
   }, []); //後面的dependency讓他是空的，因為只要在畫面一開始被渲染的時候才做操作
 
-  console.log(specificTweet);
 
   //  console.log(specificTweetReplies);
+  // 前端畫面處理isLikedActive的state做畫面渲染
+  // 喜歡功能
+  // const [specificTweetItem, setSpecificTweetItem] = useState(specificTweet);
+
+  const handleToggleLike = async (specificTweet, setSpecificTweet) => {
+    // 拿到這篇文章Like初始狀態
+    // console.log("specificTweet:", specificTweet);
+    const specificToggleTweetLike = specificTweet[0].isLiked;
+    // console.log("此篇貼文的Like初始狀態: ", specificToggleTweetLike);
+    const specificToggleTweetLikeId = specificTweet[0].id;
+    // console.log(specificToggleTweetLikeId);
+
+    if (specificToggleTweetLike === true) {
+      const res = await postTweetUnlike(specificToggleTweetLikeId);
+      //若後端有把isLike改成false成功
+      if (res.data) {
+        if (res.data.status === "success") {
+          //把前端畫面的isLiked改為false做畫面渲染
+          setSpecificTweet(
+            specificTweet.map((specificTweet) => {
+              if (specificTweet.id === specificToggleTweetLikeId) {
+                return {
+                  ...specificTweet,
+                  isLiked: false,
+                };
+              } else {
+                return specificTweet;
+              }
+            })
+          );
+          alert("Unlike成功");
+          return;
+        }
+      } else {
+        return alert("Unlike未成功");
+      }
+    }
+
+    if (specificToggleTweetLike === false) {
+      const res = await postTweetLike(specificToggleTweetLikeId);
+      //若後端有把isLike改成true成功
+      if (res.data) {
+        //若喜歡喜歡成功
+        if (res.data.status === "success") {
+          //把前端畫面的isLiked改為true做畫面渲染
+          // setSpecificTweet({ ...specificTweet, isLike: true });
+           setSpecificTweet(
+             specificTweet.map((specificTweet) => {
+               if (specificTweet.id === specificToggleTweetLikeId) {
+                 return {
+                   ...specificTweet,
+                   isLiked: true,
+                 };
+               } else {
+                 return specificTweet;
+               }
+             })
+           );
+          alert("Like成功");
+          console.log(specificTweet);
+          return;
+        } else {
+          return alert("Like未成功！");
+        }
+      }
+    }
+  };
 
   ///////////////////////////////////////////////// handleTweetReply  /////////////////////////////////////////////////
   //監聽器：handleReplyTextAreaChange，當PostReplyModal的textarea發生改變時，更新ReplyInputValue的state
@@ -283,6 +323,8 @@ const ReplyPageInfo = () => {
       <ReplyPost
         toggleReplyModal={toggleReplyModal}
         specificTweet={specificTweet}
+        handleToggleLike={handleToggleLike}
+        setSpecificTweet={setSpecificTweet}
       />
 
       {specificTweetReplies.map(
