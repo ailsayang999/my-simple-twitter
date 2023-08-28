@@ -45,7 +45,7 @@ const AdminPage = () => {
   if (isAuthenticated && showNotiBoxSuccess) {
     const timeout = setTimeout(() => {
     setShowNotiBoxSuccess(false);
-    navigate('/admin_main')
+    // navigate('/admin_main')
     }, 1500);
 
     return () => clearTimeout(timeout);
