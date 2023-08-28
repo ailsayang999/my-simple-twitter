@@ -53,12 +53,14 @@ export const AuthAdminProvider = ({ children }) => {
           name: payload.name, // 取出使用者帳號
         },
         adminLogin: async (data) => {
+          console.log(`進入authAdminContext.jsx中await adminLogin!`)
           const { success, authToken } = await adminLogin({
             account: data.account,
             password: data.password,
           });
           const tempPayload = jwt_decode.decode(authToken);
           if (tempPayload) {
+            console.log(`tempPayload:${JSON.stringify(tempPayload)}`)
             setPayload(tempPayload);
             setIsAuthenticated(true);
             localStorage.setItem('authToken', authToken);
@@ -66,7 +68,7 @@ export const AuthAdminProvider = ({ children }) => {
             setPayload(null);
             setIsAuthenticated(false);
           }
-          return success;
+          return {success};
         },
         adminLogout: () => {
           localStorage.removeItem('authToken');
