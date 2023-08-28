@@ -35,6 +35,10 @@ const RegisterPage = () => {
     if (password.length === 0) {
       return;
     }
+    if (password !== checkPassword) {
+      console.log('密碼不相符!') //需要再製作errorMsg在InputSet中
+      return;
+    }
 
     const { status } = await register({
       name,
@@ -72,7 +76,7 @@ const RegisterPage = () => {
 
     return () => clearTimeout(timeout);
   }
-  }, [showNotiBoxFail, navigate]);
+  }, [showNotiBoxFail]);
 
   return (
     <div className="outerContainer">
