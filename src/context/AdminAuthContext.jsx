@@ -44,7 +44,6 @@ export const AuthAdminProvider = ({ children }) => {
     };
 
     checkTokenIsValid();
-    // 一旦 pathname 有改變，就需要重新驗證 token，因此需要使用 useEffect，而 dependency 參數需要設定為 pathname
   }, [pathname]);
 
   return (
@@ -56,12 +55,14 @@ export const AuthAdminProvider = ({ children }) => {
           name: payload.name, // 取出使用者帳號
         },
         adminLogin: async (data) => {
+          console.log(`進入authAdminContext.jsx中await adminLogin!`)
           const { success, authToken } = await adminLogin({
             account: data.account,
             password: data.password,
           });
           const tempPayload = jwt_decode.decode(authToken);
           if (tempPayload) {
+            console.log(`tempPayload:${JSON.stringify(tempPayload)}`)
             setPayload(tempPayload);
             setIsAuthenticated(true);
             localStorage.setItem('authToken', authToken);
@@ -69,7 +70,7 @@ export const AuthAdminProvider = ({ children }) => {
             setPayload(null);
             setIsAuthenticated(false);
           }
-          return success;
+          return {success};
         },
         adminLogout: () => {
           localStorage.removeItem('authToken');
