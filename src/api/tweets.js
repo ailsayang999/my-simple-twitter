@@ -28,12 +28,11 @@ axiosInstance.interceptors.request.use(
   }
 );
 
-///////////////////////////////////////////////// getTweets /////////////////////////////////////////////////
+///////////////////////////////////////////////// getUserInfo /////////////////////////////////////////////////
 // get /api/users/:id 取得特定使用者資料
 export const getUserInfo = async (id) => {
   try {
     const res = await axiosInstance.get(`${baseUrl}/users/${id}`);
-    console.log(res.data);
     return res.data;
   } catch (error) {
     console.error("[Get User Information failed]: ", error);
@@ -53,147 +52,8 @@ export const getTweets = async () => {
   }
 };
 
-///////////////////////////////////////////////// getTweets /////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////
 
-export const tweetsDummy = [
-  {
-    id: 201,
-    description: "This is the dummy data from frontend.",
-    UserId: 1,
-    likeCount: 0,
-    replyCount: 0,
-    createdAt: "2023-08-24T08:26:59.000Z",
-    updatedAt: "2023-08-24T08:26:59.000Z",
-    userId: 1,
-  },
-];
-
-// get /api/tweets 取得所有貼文
-//前台allTweetsDummyData
-export const allTweetsDummyData = [
-  {
-    id: 3,
-    author: {
-      id: 21,
-      account: "Ailsa",
-      name: "ailsa",
-      avatar: userOtherAvatar,
-    },
-    description:
-      "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Doloremque quisquam provident iure a cumque nulla error recusandae temporibus dol.",
-    likeCount: 6,
-    replyCount: 1,
-    isLiked: true,
-    createdAt: "2023-08-19T15:35:14.000Z",
-  },
-  {
-    id: 2,
-    author: {
-      id: 21,
-      account: "Ailsa",
-      name: "ailsa",
-      avatar: userOtherAvatar,
-    },
-    description:
-      "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Doloremque quisquam provident iure a cumque nulla error recusandae temporibus dol.",
-    likeCount: 6,
-    replyCount: 1,
-    isLiked: true,
-    createdAt: "2023-08-19T15:35:14.000Z",
-  },
-  {
-    id: 3,
-    author: {
-      id: 21,
-      account: "Ailsa",
-      name: "ailsa",
-      avatar: userSelfAvatar,
-    },
-    description:
-      "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Doloremque quisquam provident iure a cumque nulla error recusandae temporibus dol.",
-    likeCount: 6,
-    replyCount: 1,
-    isLiked: true,
-    createdAt: "2023-08-19T15:35:14.000Z",
-  },
-  {
-    id: 4,
-    author: {
-      id: 21,
-      account: "Ailsa",
-      name: "ailsa",
-      avatar: userSelfAvatar,
-    },
-    description:
-      "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Doloremque quisquam provident iure a cumque nulla error recusandae temporibus dol.",
-    likeCount: 6,
-    replyCount: 1,
-    isLiked: true,
-    createdAt: "2023-08-19T15:35:14.000Z",
-  },
-  {
-    id: 5,
-    author: {
-      id: 21,
-      account: "Ailsa",
-      name: "ailsa",
-      avatar: userOtherAvatar,
-    },
-    description:
-      "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Doloremque quisquam provident iure a cumque nulla error recusandae temporibus dol.",
-    likeCount: 6,
-    replyCount: 1,
-    isLiked: true,
-    createdAt: "2023-08-19T15:35:14.000Z",
-  },
-  {
-    id: 6,
-    author: {
-      id: 21,
-      account: "Ailsa",
-      name: "ailsa",
-      avatar: userSelfAvatar,
-    },
-    description:
-      "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Doloremque quisquam provident iure a cumque nulla error recusandae temporibus dol.",
-    likeCount: 6,
-    replyCount: 1,
-    isLiked: true,
-    createdAt: "2023-08-19T15:35:14.000Z",
-  },
-  {
-    id: 7,
-    author: {
-      id: 21,
-      account: "Ailsa",
-      name: "ailsa",
-      avatar: userOtherAvatar,
-    },
-    description:
-      "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Doloremque quisquam provident iure a cumque nulla error recusandae temporibus dol.",
-    likeCount: 6,
-    replyCount: 1,
-    isLiked: true,
-    createdAt: "2023-08-19T15:35:14.000Z",
-  },
-  {
-    id: 8,
-    author: {
-      id: 21,
-      account: "Ailsa",
-      name: "ailsa",
-      avatar: userSelfAvatar,
-    },
-    description:
-      "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Doloremque quisquam provident iure a cumque nulla error recusandae temporibus dol.",
-    likeCount: 6,
-    replyCount: 1,
-    isLiked: true,
-    createdAt: "2023-08-19T15:35:14.000Z",
-  },
-];
-
-/////////////////////////////////////////////////////////////////////////////////////////////////
 
 ///////////////////////////////////////////////// postTweet /////////////////////////////////////////////////
 
