@@ -40,17 +40,19 @@ export const login = async ({ account, password }) => {
       account,
       password,
     });
-    console.log('把login的data(account、password)轉換成authToken')
-    const { authToken } = data;
+    console.log(`解構賦值拿出data中的data，做JSON.stringify後的data:${data}, Json:${JSON.stringify(data)}`)
+    
+    const authToken = data.data.token
+    console.log(`取出data中的token值，改命名為authToken:${authToken}`)
 
     if (authToken) {
-      console.log('Add success: true into data!')
-      return { success: true, ...data };   
+      console.log('AuthToken get! Add "success": true , "authToken":authToken into data(最外層)!')
+      return { success: true, authToken:authToken, ...data };   
     }
-    console.log(`auth.js中的login通過authToken驗證 success 後拿到data資料: ${data}`)
+    console.log(`auth.js中的login通過authToken驗證 success 後拿到data做JSON.stringify後的data: ${JSON.stringify(data)}`)
     return data;
   } catch (error) {
-    console.error(`[AdminLogin Failed]:`, error);
+    console.error(`[Login Failed]:`, error);
   }
 };
 

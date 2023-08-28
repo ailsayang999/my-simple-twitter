@@ -76,24 +76,30 @@ export const AuthProvider = ({ children }) => {
             console.log(`註冊失敗at authContext.jsx`)
           }
           // return success; 沒有架設success:true
-          // 
           return {status};
         },
-        login: async (data) => {
-          const { success, authToken } = await login({
-            account: data.account,
-            password: data.password,
+        login: async (data1) => {
+          console.log(`進入AuthContext.jsx中傳入payload(account&password) await login
+          !`)
+          const { success, authToken, data } = await login({
+            account: data1.account,
+            password: data1.password,
           });
+          console.log(`解構賦值拿回success:${success} authToken:${authToken} 多拿一個data確認後端內容:${data}`)
           const tempPayload = jwt_decode(authToken);
+          console.log(`使用jwt_decode轉authToken回JSON格式:${authToken}`)
+
           if (tempPayload) {
             setPayload(tempPayload);
             setIsAuthenticated(true);
+            console.log(`設定isAuthenticated為true`)
             localStorage.setItem('authToken', authToken);
+            console.log(`將authToken存入localStorage`)
           } else {
             setPayload(null);
             setIsAuthenticated(false);
           }
-          return success;
+          return {success};
         },
         logout: () => {
           localStorage.removeItem('authToken');
