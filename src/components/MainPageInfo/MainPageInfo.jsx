@@ -4,36 +4,19 @@ import { ReactComponent as LikeIcon } from "assets/icons/likeIcon.svg";
 import { ReactComponent as LikeActiveIcon } from "assets/icons/likeIconActive.svg";
 import { useState, useContext, useEffect } from "react";
 import ModalContext from "context/ModalContext";
-import { useAuth } from "context/AuthContext"; //到AuthContext拿是否已驗證，以及拿currentMember的id
+import { useAuth } from "context/AuthContext"; //到AuthContext拿是否已驗證
 import { useNavigate } from "react-router-dom";
-
-// 之後串接用的function，之後下面那一行就可以刪掉
-// import {
-//   getTweets,
-//   createTweets,
-//   postTweetLike,
-//   postTweetUnlike,
-//   deleteTweets,
-//   postTweet,
-// } from "api/tweets";
-
-// allTweetsDummyData和 patchTweets
 import {
-  allTweetsDummyData,
   getTweets,
-  tweetsDummy,
+  getUserInfo,
   postTweetUnlike,
   postTweetLike,
-  getUserInfo,
 } from "api/tweets";
 //製作假的authToken
 
 // 引入Modal元件
 import PostTweetModal from "components/PostTweetModal/PostTweetModal";
 import PostReplyModal from "components/PostReplyModal/PostReplyModal";
-
-//下面之後要串後端
-import userAvatar from "assets/images/fakeUserAvatar.png";
 
 const MainPageInfo = () => {
   const navigate = useNavigate();
@@ -52,14 +35,10 @@ const MainPageInfo = () => {
   // 從Context中拿取toggleReplyModal的function
   const { replyModal, toggleReplyModal } = useContext(ModalContext);
 
-  //暫時先從假資料拿
-  // const [tweets, setTweets] = useState(allTweetsDummyData);
+  //先從AuthContext拿到驗證是否為true(isAuthenticated:true)
+  const { isAuthenticated } = useAuth();
 
-  //先從AuthContext拿到驗證是否為true(isAuthenticated:true)，和拿currentMember.id來確定當前使用者是誰
-  const { isAuthenticated, currentMember } = useAuth();
-
-
-  ////////////////////////////////////////////////////////////////////////////////////////////串接API getTweets getUserInfoAsync 做出使畫面渲染 ///////////////////////////
+  ////////////////////////////////////////////////////////////////////////////////////////////串接API getTweets 和  getUserInfo useEffect做初始畫面渲染 ///////////////////////////
   const [userInfo, setUserInfo] = useState([]);
   const [tweets, setTweets] = useState([]);
 
@@ -70,7 +49,7 @@ const MainPageInfo = () => {
       try {
         const localStorageUserInfoString = localStorage.getItem("userInfo"); //拿下來會是一比string的資料
         const userInfo = JSON.parse(localStorageUserInfoString); // 要把這個string變成object
-        const userInfoId = userInfo.id;//再從這個object那到登入者的id
+        const userInfoId = userInfo.id; //再從這個object那到登入者的id
         const backendUserInfo = await getUserInfo(userInfoId);
         setUserInfo(backendUserInfo);
       } catch (error) {
@@ -90,8 +69,9 @@ const MainPageInfo = () => {
     getUserInfoAsync();
     //getTweetsAsync這個function定義完成之後，我們可以直接執行它
     getTweetsAsync();
-  }, [currentMember]); //後面的dependency讓他是空的，因為只要在畫面一開始被渲染的時候才做操作
+  }, []); //後面的dependency讓他是空的，因為只要在畫面一開始被渲染的時候才做操作
 
+  /////////////////////////////////////////
 
   ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -115,18 +95,35 @@ const MainPageInfo = () => {
   ////////////////////////////////////////////////////////////////////////////////////////////串接API postTweetLike：處理某篇貼文isLike的boolean值 ///////////////////////////
 
   // 前端畫面處理isLikedActive的state做畫面渲染
-  const [isLikedActive, setIsLikedActive] = useState(tweets.isLiked);
   // 喜歡功能
   const handleToggleLike = async (id) => {
-    console.log("此篇貼文的Like初始狀態: ", isLikedActive);
+    console.log(tweets);
+    // 找出這篇文章
+    const specificToggleTweet = tweets.filter((tweet) => tweet.id === id);
+    console.log(specificToggleTweet);
+    // 拿到這篇文章Like初始狀態
+    const specificToggleTweetLike = specificToggleTweet[0].isLiked;
+    console.log("此篇貼文的Like初始狀態: ", specificToggleTweetLike);
 
-    if (isLikedActive === true) {
+    if (specificToggleTweetLike === true) {
       const res = await postTweetUnlike(id);
       //若後端有把isLike改成false成功
       if (res.data) {
-        if (res.data.message === "Unlike成功") {
-          //把前端畫面的isLikedActive改為false做畫面渲染
-          setIsLikedActive(false);
+        if (res.data.status === "success") {
+          //把前端畫面的isLiked改為false做畫面渲染
+          setTweets(
+            tweets.map((tweet) => {
+              if (tweet.id === id) {
+                return {
+                  ...tweet,
+                  isLiked: false,
+                };
+              } else {
+                return tweet;
+              }
+            })
+          );
+          alert("Unlike成功");
           return;
         }
       } else {
@@ -134,15 +131,29 @@ const MainPageInfo = () => {
       }
     }
 
-    if (isLikedActive === false) {
+    if (specificToggleTweetLike === false) {
       const res = await postTweetLike(id);
+      //若後端有把isLike改成true成功
       if (res.data) {
         //若喜歡喜歡成功
-        if (res.data.status === "Like成功！") {
-          setIsLikedActive(true);
+        if (res.data.status === "success") {
+          //把前端畫面的isLiked改為true做畫面渲染
+          setTweets(
+            tweets.map((tweet) => {
+              if (tweet.id === id) {
+                return {
+                  ...tweet,
+                  isLiked: true,
+                };
+              } else {
+                return tweet;
+              }
+            })
+          );
+          alert("Like成功");
           return;
         } else {
-          return alert("Like成功！");
+          return alert("Like未成功！");
         }
       }
     }
@@ -326,7 +337,7 @@ const MainPageInfo = () => {
           <h4>{"首頁"}</h4>
         </header>
       </div>
-      {/* Post Area */}
+      {/* Post Area: UserInfo Avatar */}
       <div className="post-area-wrapper">
         <div className="post-area-container">
           <div className="posting-area">
@@ -335,13 +346,6 @@ const MainPageInfo = () => {
               alt=""
               className="user-avatar"
             />
-            {/* <img
-              src={
-                "https://loremflickr.com/320/240/man/?random=27.23776379306355"
-              }
-              alt=""
-              className="user-avatar"
-            /> */}
             {/* 點擊Post區會改變postModal的布林值，post彈出 */}
             <span className="text-area" onClick={togglePostModal}>
               有什麼新鮮事
@@ -352,18 +356,8 @@ const MainPageInfo = () => {
           </div>
         </div>
       </div>
-      {/* Render All Tweet Items With map */}
-      {/* test api */}
-      {/* {tweetsTest.map(({ description }) => {
-        return (
-          <>
-            <div className="tweet-test">{description}</div>
-            <h4>AilsaAilsa!!!!</h4>
-          </>
-        );
-      })} */}
 
-      {/* 等Sean用好資料後開啟 */}
+      {/* 把後端傳來的tweets都渲染出來*/}
       {tweets.map(
         ({
           id,
@@ -438,8 +432,6 @@ const MainPageInfo = () => {
           );
         }
       )}
-
-      {/* 測試getTweetAPI */}
 
       {/* Modal ：根據replyModal的布林值決定是否要跳出PostReplyModal component*/}
       {replyModal && (
