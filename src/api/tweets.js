@@ -3,8 +3,6 @@ import userSelfAvatar from "assets/images/fakeUserAvatar.png";
 import userOtherAvatar from "assets/images/fakeUserOtherAvatar.png";
 import userOtherInfoCover from "assets/images/fakeUserOtherCover.png";
 
-
-
 // 串切開始
 import axios from "axios";
 
@@ -13,7 +11,6 @@ const baseUrl = "https://mighty-temple-45104-0d6672fb07d0.herokuapp.com/api";
 const axiosInstance = axios.create({
   baseURL: baseUrl,
 });
-
 
 axiosInstance.interceptors.request.use(
   (config) => {
@@ -39,9 +36,7 @@ export const getUserInfo = async (id) => {
   }
 };
 
-
 ///////////////////////////////////////////////// getTweets /////////////////////////////////////////////////
-
 // 拿到所有的 tweets
 export const getTweets = async () => {
   try {
@@ -52,11 +47,7 @@ export const getTweets = async () => {
   }
 };
 
-//////////////////////////////////////////////////////////////////////////////////////////////////
-
-
 ///////////////////////////////////////////////// postTweet /////////////////////////////////////////////////
-
 export const postTweet = async (description) => {
   // const { description } = payload;
 
@@ -68,10 +59,7 @@ export const postTweet = async (description) => {
   }
 };
 
-/////////////////////////////////////////////////////////////////////////////////////////////////
-
 //////////////////////////////////////////////// postTweetLike ////////////////////////////////////////////////
-
 //把後端某篇貼文Like改為true，新增喜歡
 export const postTweetLike = async (id) => {
   try {
@@ -82,7 +70,7 @@ export const postTweetLike = async (id) => {
     console.error("[Post like tweet failed]: ", error.response.data.message);
   }
 };
-
+//////////////////////////////////////////////// postTweetUnLike ////////////////////////////////////////////////
 // //把後端某篇貼文Like改為false，取消喜歡
 export const postTweetUnlike = async (id) => {
   try {
@@ -94,10 +82,44 @@ export const postTweetUnlike = async (id) => {
   }
 };
 
-//////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////// postTweetLike ////////////////////////////////////////////////
 
+//////////////////////////////////////////////// postTweetReply ////////////////////////////////////////////////
+// post /api/tweets/:tweet_id/replies 回覆某一則貼文
+export const postTweetReply = async (comment, tweetId) => {
+  try {
+    const res = await axiosInstance.post(
+      `${baseUrl}/tweets/${tweetId}/replies`,
+      comment
+    );
+    return res;
+  } catch (error) {
+    console.error("[Post Tweet Reply failed]: ", error);
+  }
+};
+//////////////////////////////////////////////// getSpecificTweet ////////////////////////////////////////////////
+// get /api/tweets/:id 取得某一則貼文的資料
+export const getSpecificTweet = async (specificTweetId) => {
+  try {
+    const res = await axiosInstance.get(`${baseUrl}/tweets/${specificTweetId}`);
+    return res.data;
+  } catch (error) {
+    console.error("[Get Specific Tweet failed]: ", error);
+  }
+};
 
+//////////////////////////////////////////////// getSpecificTweetReply ////////////////////////////////////////////////
 // get /api/tweets/:tweet_id/replies 取得某一則貼文的所有留言
+export const getSpecificTweetReply = async (specificTweetId) => {
+  try {
+    const res = await axiosInstance.get(
+      `${baseUrl}/tweets/${specificTweetId}/replies`
+    );
+    return res.data;
+  } catch (error) {
+    console.error("[Get Specific Tweet Reply failed]: ", error);
+  }
+};
 export const replyItemsDummyData = [
   {
     replyId: 31,

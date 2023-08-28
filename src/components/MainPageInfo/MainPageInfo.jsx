@@ -12,16 +12,17 @@ import {
   postTweetUnlike,
   postTweetLike,
   postTweet,
+  postTweetReply,
 } from "api/tweets";
-//製作假的authToken
+
 
 // 引入Modal元件
 import PostTweetModal from "components/PostTweetModal/PostTweetModal";
-import PostReplyModal from "components/PostReplyModal/PostReplyModal";
 
 const MainPageInfo = () => {
   const navigate = useNavigate();
-  const handleNavigateToReplyPage = () => {
+  const handleNavigateToReplyPage = (id) => {
+    localStorage.setItem("specific-tweetId", id);
     navigate("/reply");
   };
 
@@ -34,7 +35,7 @@ const MainPageInfo = () => {
   const { postModal, togglePostModal } = useContext(ModalContext);
 
   // 從Context中拿取toggleReplyModal的function
-  const { replyModal, toggleReplyModal } = useContext(ModalContext);
+  const { toggleReplyModal } = useContext(ModalContext);
 
   //先從AuthContext拿到驗證是否為true(isAuthenticated:true)
   const { isAuthenticated } = useAuth();
@@ -49,8 +50,8 @@ const MainPageInfo = () => {
     const getUserInfoAsync = async () => {
       try {
         const localStorageUserInfoString = localStorage.getItem("userInfo"); //拿下來會是一比string的資料
-        const userInfo = JSON.parse(localStorageUserInfoString); // 要把這個string變成object
-        const userInfoId = userInfo.id; //再從這個object那到登入者的id
+        const LocalStorageUserInfo = JSON.parse(localStorageUserInfoString); // 要把這個string變成object
+        const userInfoId = LocalStorageUserInfo.id; //再從這個object那到登入者的id
         const backendUserInfo = await getUserInfo(userInfoId);
         setUserInfo(backendUserInfo);
       } catch (error) {
@@ -70,7 +71,7 @@ const MainPageInfo = () => {
     getUserInfoAsync();
     //getTweetsAsync這個function定義完成之後，我們可以直接執行它
     getTweetsAsync();
-  }, []); //後面的dependency讓他是空的，因為只要在畫面一開始被渲染的時候才做操作
+  }, [userInfo]); //後面的dependency讓他是空的，因為只要在畫面一開始被渲染的時候才做操作
 
   //////////////////////////////////////////////////////////////串接API postTweetLike and postTweetUnlike：處理某篇貼文isLike的boolean值 ///////////////////////////
 
@@ -139,7 +140,7 @@ const MainPageInfo = () => {
     }
   };
 
-  ///////////////////////////////////////////////// handleAddTweet handleKeyPressAddTweet /////////////////////////////////////////////////
+  ///////////////////////////////////////////////// handleAddTweet  /////////////////////////////////////////////////
   // 監聽器：handleTweetTextAreaChange，當PostTweetModal的textarea發生改變時，更新inputValue的state
   const [inputValue, setInputValue] = useState("");
   const handleTweetTextAreaChange = (value) => {
@@ -199,14 +200,6 @@ const MainPageInfo = () => {
     }
   };
 
-  ///////////////////////////////////////////////// handleAddTweet handleKeyPressAddTweet /////////////////////////////////////////////////
-
-  //監聽器：handleChange，當PostTweetModal的textarea發生改變時，更新inputValue的state
-  const [ReplyInputValue, setReplyInputValue] = useState("");
-
-  const handleReplyTextAreaChange = (value) => {
-    setReplyInputValue(value);
-  };
 
   return (
     <div className="main-page-info">
@@ -269,7 +262,7 @@ const MainPageInfo = () => {
 
                     <div
                       className="post-content"
-                      onClick={handleNavigateToReplyPage}
+                      onClick={()=>{handleNavigateToReplyPage(id)}}
                     >
                       {description}
                     </div>
@@ -312,14 +305,6 @@ const MainPageInfo = () => {
         }
       )}
 
-      {/* Modal ：根據replyModal的布林值決定是否要跳出PostReplyModal component*/}
-      {replyModal && (
-        <PostReplyModal
-          ReplyInputValue={ReplyInputValue}
-          onReplyTextAreaChange={handleReplyTextAreaChange}
-          // onAddTweetReply={handleAddTweetReply} 還沒做好
-        />
-      )}
       {/* Modal ：根據postModal的布林值決定是否要跳出PostTweetModal component*/}
       {postModal && (
         <PostTweetModal
