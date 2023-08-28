@@ -6,6 +6,10 @@ import UserCard from 'components/UserCard';
 import { getUsers as fetchUsers } from '../api/admin';
 import { useAdminAuth } from 'context/AdminAuthContext';
 
+
+// 直接從後台拿authToken: "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiYWNjb3VudCI6InJvb3QiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE2OTMxOTgwNTIsImV4cCI6MTY5NTc5MDA1Mn0.90bUc1hJBG8fOhfoFE2Grqd51tzEAtBQ26tL3posSxs"
+
+
 const AdminUsersPage = () => {
   const [users, setUsers] = useState([]);
   const navigate = useNavigate();

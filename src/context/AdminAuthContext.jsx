@@ -2,14 +2,12 @@ import { createContext, useState, useEffect, useContext } from 'react';
 import { adminLogin } from '../api/admin';
 // import { checkPermission } from '../api/admin'; 有要驗證token嗎?
 
-// import * as jwt from 'jsonwebtoken';
 import jwt_decode from "jwt-decode"
 import { useLocation } from 'react-router-dom';
 
 const defaultAuthAdminContext = {
   isAuthenticated: false, // 使用者是否登入的判斷依據，預設為 false，若取得後端的有效憑證，則切換為 true
   currentMember: null, // 當前使用者相關資料，預設為 null，成功登入後就會有使用者資料
-  
   adminLogin: null,
   adminLogout: null,
 };
@@ -44,7 +42,6 @@ export const AuthAdminProvider = ({ children }) => {
     };
 
     checkTokenIsValid();
-    // 一旦 pathname 有改變，就需要重新驗證 token，因此需要使用 useEffect，而 dependency 參數需要設定為 pathname
   }, [pathname]);
 
   return (
