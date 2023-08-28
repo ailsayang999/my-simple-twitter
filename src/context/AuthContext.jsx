@@ -87,7 +87,7 @@ export const AuthProvider = ({ children }) => {
           });
           console.log(`解構賦值拿回success:${success} authToken:${authToken} 多拿一個data確認後端內容:${data}`)
           const tempPayload = jwt_decode(authToken);
-          console.log(`使用jwt_decode轉authToken回JSON格式:${authToken}`)
+          console.log(`使用jwt_decode轉authToken回JSON格式tempPayload:${JSON.stringify(tempPayload)}`)
 
           if (tempPayload) {
             setPayload(tempPayload);
