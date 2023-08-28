@@ -5,6 +5,7 @@ import { useContext } from "react";
 import ModalContext from "context/ModalContext";
 
 const PostTweetModal = ({
+  userInfo,
   inputValue,
   onTweetTextAreaChange,
   onAddTweet,
@@ -25,7 +26,7 @@ const PostTweetModal = ({
             <div className="modal-content">
               <div className="modal-avatar-text-container">
                 <div className="modal-user-avatar-wrapper">
-                  <img src={userAvatar} alt="" className="modal-user-avatar" />
+                  <img src={userInfo.avatar} alt="" className="modal-user-avatar" />
                 </div>
 
                 <div className="modal-post-area">

@@ -11,6 +11,7 @@ import {
   getUserInfo,
   postTweetUnlike,
   postTweetLike,
+  postTweet,
 } from "api/tweets";
 //製作假的authToken
 
@@ -71,28 +72,7 @@ const MainPageInfo = () => {
     getTweetsAsync();
   }, []); //後面的dependency讓他是空的，因為只要在畫面一開始被渲染的時候才做操作
 
-  /////////////////////////////////////////
-
-  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-  //切版測試用當點擊like的時候，可以切換愛心顏色
-  // const [isLikedActive] = useState(tweets.isLiked);
-
-  // const handleToggleLike = (id) => {
-  //   setTweets((prevTweets) => {
-  //     return prevTweets.map((tweet) => {
-  //       if (tweet.id === id) {
-  //         return {
-  //           ...tweet,
-  //           isLike: !tweet.isLike,
-  //         };
-  //       }
-  //       return tweet; //其他tweet原封不動傳回去
-  //     });
-  //   });
-  // };
-
-  ////////////////////////////////////////////////////////////////////////////////////////////串接API postTweetLike：處理某篇貼文isLike的boolean值 ///////////////////////////
+  //////////////////////////////////////////////////////////////串接API postTweetLike and postTweetUnlike：處理某篇貼文isLike的boolean值 ///////////////////////////
 
   // 前端畫面處理isLikedActive的state做畫面渲染
   // 喜歡功能
@@ -159,7 +139,7 @@ const MainPageInfo = () => {
     }
   };
 
-  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////   串接API postTweet: 發佈一則貼文 /////////////////////////////////////////////////////////////
 
   //監聽器：handleChange，當PostTweetModal的textarea發生改變時，更新inputValue的state
   const [inputValue, setInputValue] = useState("");
@@ -444,6 +424,7 @@ const MainPageInfo = () => {
       {/* Modal ：根據postModal的布林值決定是否要跳出PostTweetModal component*/}
       {postModal && (
         <PostTweetModal
+          userInfo={userInfo}
           inputValue={inputValue}
           onTweetTextAreaChange={handleTweetTextAreaChange}
           onAddTweet={handleAddTweet}
