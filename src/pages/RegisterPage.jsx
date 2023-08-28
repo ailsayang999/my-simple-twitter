@@ -4,9 +4,8 @@ import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Header from 'components/Header'
 import InputSet from 'components/InputSet'
-// import NotiBoxSuccess from 'components/NotiBoxSuccess' //請自行輸入notiText - 登入成功! 
-// import NotiBoxFail from 'components/NotiBoxFail' //請自行輸入notiText - 登入失敗! / 帳號不存在!
-// import { register } from '../api/auth'
+import NotiBoxSuccess from 'components/NotiBoxSuccess' //請自行輸入notiText - 註冊成功! 
+import NotiBoxFail from 'components/NotiBoxFail' //請自行輸入notiText - 註冊失敗! / 帳號不存在! / 重複註冊...
 import { useAuth } from 'context/AuthContext';
 
 const RegisterPage = () => {
@@ -15,9 +14,11 @@ const RegisterPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [checkPassword, setCheckPassword] = useState('');
+  const [showNotiBoxSuccess, setShowNotiBoxSuccess] = useState(false);
+  const [showNotiBoxFail, setShowNotiBoxFail] = useState(false);
 
   const navigate = useNavigate();
-  const { register, isAuthenticated } = useAuth();
+  const { register } = useAuth();
 
   
 
@@ -43,18 +44,40 @@ const RegisterPage = () => {
       checkPassword
     });
     if (status === "success") {
-      // localStorage.setItem('authToken', authToken);
-      console.log('登入成功!')
-      navigate('/login')
+      console.log('註冊成功!導向loginPage')
+      setShowNotiBoxSuccess(true)
       return;
     }
-    console.log('登入失敗!')
+    setShowNotiBoxFail(true)
+    console.log('註冊失敗!')
   };
 
+  //當showNotiBox值改變時，過1s後轉回false關閉shoNotiBox並導向loginPage，並使用clearTimeout清除定時器
+  useEffect(() => {
+    if (showNotiBoxSuccess) {
+      const timeout = setTimeout(() => {
+        setShowNotiBoxSuccess(false);
+        navigate('/login')
+      }, 1000);
+
+      return () => clearTimeout(timeout);
+    }
+  }, [showNotiBoxSuccess, navigate]);
+
+  useEffect(() => {
+  if (showNotiBoxFail) {
+    const timeout = setTimeout(() => {
+      setShowNotiBoxFail(false);
+    }, 1000);
+
+    return () => clearTimeout(timeout);
+  }
+  }, [showNotiBoxFail, navigate]);
 
   return (
     <div className="outerContainer">
-      <div className="notificationBox"></div>
+      {showNotiBoxSuccess && <NotiBoxSuccess notiText={"註冊成功!"} />}
+      {showNotiBoxFail && <NotiBoxFail notiText={"註冊失敗!"} />}
       <Header entryName={"建立你的帳號"}/>
        
       <InputSet 
