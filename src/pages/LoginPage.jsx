@@ -28,12 +28,10 @@ const LoginPage = () => {
       password,
     });
     if (success) {
-      console.log('登入成功!導向MainPage')
       setShowNotiBoxSuccess(true)
       return;
     }
     setShowNotiBoxFail(true)
-    console.log('登入失敗!')
   };
 
   //當showNotiBox值改變時，過1s後轉回false關閉shoNotiBox並導向loginPage，並使用clearTimeout清除定時器
@@ -41,9 +39,8 @@ const LoginPage = () => {
     if (isAuthenticated && showNotiBoxSuccess) {
       const timeout = setTimeout(() => {
       setShowNotiBoxSuccess(false);
-      navigate('/login')
-      }, 1000);
-      navigate('/main');
+      navigate('/main')
+      }, 1500);
 
       return () => clearTimeout(timeout);
     }
@@ -53,7 +50,7 @@ const LoginPage = () => {
   if (showNotiBoxFail) {
     const timeout = setTimeout(() => {
       setShowNotiBoxFail(false);
-    }, 1000);
+    }, 1500);
 
     return () => clearTimeout(timeout);
   }
