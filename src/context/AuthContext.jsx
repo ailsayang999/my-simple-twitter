@@ -24,9 +24,15 @@ export const AuthProvider = ({ children }) => {
   const { pathname } = useLocation();
 
   useEffect(() => {
+              console.log(`payload 发生变化: ${JSON.stringify(payload)}`);
+              // 在这里执行其他你想要进行的操作
+            }, [payload]);
+
+  useEffect(() => {
     const checkTokenIsValid = async () => {
       const authToken = localStorage.getItem('authToken');
       if (!authToken) {
+        console.log(`localStorage中沒有authToken清空paylaod!`)
         setIsAuthenticated(false);
         setPayload(null);
         return;
@@ -43,7 +49,6 @@ export const AuthProvider = ({ children }) => {
     };
 
     checkTokenIsValid();
-    // 一旦 pathname 有改變，就需要重新驗證 token，因此需要使用 useEffect，而 dependency 參數需要設定為 pathname
   }, [pathname]);
 
   return (
@@ -51,8 +56,8 @@ export const AuthProvider = ({ children }) => {
       value={{
         isAuthenticated,
         currentMember: payload && {
-          id: payload.sub, // 取出 sub 字串，可以做為使用者 id
-          name: payload.name, // 取出使用者帳號
+          id: payload.id, 
+          account: payload.account, 
         },
         register: async (data1) => {
           console.log(`進入AuthContext.jsx!`)
@@ -87,7 +92,7 @@ export const AuthProvider = ({ children }) => {
           });
           console.log(`解構賦值拿回success:${success} authToken:${authToken} 多拿一個data確認後端內容:${data}`)
           const tempPayload = jwt_decode(authToken);
-          console.log(`使用jwt_decode轉authToken回JSON格式:${authToken}`)
+          console.log(`使用jwt_decode轉tempPayload回JSON格式:${JSON.stringify(tempPayload)}`)
 
           if (tempPayload) {
             setPayload(tempPayload);
@@ -95,11 +100,15 @@ export const AuthProvider = ({ children }) => {
             console.log(`設定isAuthenticated為true`)
             localStorage.setItem('authToken', authToken);
             console.log(`將authToken存入localStorage`)
+
+            console.log(`login stage 中setPayload(tempPayload)完成後的payload=${JSON.stringify(payload)}`) //測試currentMember用
+
+            
           } else {
             setPayload(null);
             setIsAuthenticated(false);
           }
-          return {success};
+          return {success, payload};
         },
         logout: () => {
           localStorage.removeItem('authToken');

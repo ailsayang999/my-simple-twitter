@@ -13,7 +13,8 @@ const LoginPage = () => {
   const [showNotiBoxFail, setShowNotiBoxFail] = useState(false);
 
   const navigate = useNavigate();
-  const { login, isAuthenticated } = useAuth();
+  const { login, isAuthenticated, currentMember } = useAuth();
+
 
   const handleClick = async () => {
     if (account.length === 0) {
@@ -44,7 +45,7 @@ const LoginPage = () => {
 
       return () => clearTimeout(timeout);
     }
-  }, [navigate, isAuthenticated, showNotiBoxSuccess]);
+  }, [navigate, isAuthenticated, showNotiBoxSuccess, currentMember]);
 
   useEffect(() => {
   if (showNotiBoxFail) {
