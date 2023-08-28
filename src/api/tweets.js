@@ -17,7 +17,7 @@ const axiosInstance = axios.create({
 
 axiosInstance.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem("authTokenTest");
+    const token = localStorage.getItem("authToken");
     if (token) {
       config.headers["Authorization"] = `Bearer ${token}`;
     }
@@ -27,6 +27,19 @@ axiosInstance.interceptors.request.use(
     console.error(error);
   }
 );
+
+///////////////////////////////////////////////// getTweets /////////////////////////////////////////////////
+// get /api/users/:id 取得特定使用者資料
+export const getUserInfo = async (id) => {
+  try {
+    const res = await axiosInstance.get(`${baseUrl}/users/${id}`);
+    console.log(res.data);
+    return res.data;
+  } catch (error) {
+    console.error("[Get User Information failed]: ", error);
+  }
+};
+
 
 ///////////////////////////////////////////////// getTweets /////////////////////////////////////////////////
 

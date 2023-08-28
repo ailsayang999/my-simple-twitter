@@ -51,8 +51,8 @@ export const AuthProvider = ({ children }) => {
       value={{
         isAuthenticated,
         currentMember: payload && {
-          id: payload.sub, // 取出 sub 字串，可以做為使用者 id
-          name: payload.name, // 取出使用者帳號
+          id: payload.id, // 取出 sub 字串，可以做為使用者 id
+          name: payload.account, // 取出使用者帳號
         },
         register: async (data1) => {
           console.log(`進入AuthContext.jsx!`)
@@ -87,6 +87,9 @@ export const AuthProvider = ({ children }) => {
           });
           console.log(`解構賦值拿回success:${success} authToken:${authToken} 多拿一個data確認後端內容:${data}`)
           const tempPayload = jwt_decode(authToken);
+          console.log(
+            `使用jwt_decode轉tempPayload回JSON格式:${JSON.stringify(tempPayload)}`
+          );
           console.log(`使用jwt_decode轉authToken回JSON格式:${authToken}`)
 
           if (tempPayload) {
