@@ -57,18 +57,21 @@ const MainPageInfo = () => {
 
   //先從AuthContext拿到驗證是否為true(isAuthenticated:true)，和拿currentMember.id來確定當前使用者是誰
   const { isAuthenticated, currentMember } = useAuth();
-  console.log(currentMember);
 
 
   ////////////////////////////////////////////////////////////////////////////////////////////串接API getTweets getUserInfoAsync 做出使畫面渲染 ///////////////////////////
   const [userInfo, setUserInfo] = useState([]);
   const [tweets, setTweets] = useState([]);
+
   //串接API: tweets畫面初始化，顯示過去tweets內所有資訊
   useEffect(() => {
     //首先拿到當前登入的使用者資料
     const getUserInfoAsync = async () => {
       try {
-        const backendUserInfo = await getUserInfo(currentMember.id);
+        const localStorageUserInfoString = localStorage.getItem("userInfo"); //拿下來會是一比string的資料
+        const userInfo = JSON.parse(localStorageUserInfoString); // 要把這個string變成object
+        const userInfoId = userInfo.id;//再從這個object那到登入者的id
+        const backendUserInfo = await getUserInfo(userInfoId);
         setUserInfo(backendUserInfo);
       } catch (error) {
         console.error(error);

@@ -33,7 +33,6 @@ axiosInstance.interceptors.request.use(
 export const getUserInfo = async (id) => {
   try {
     const res = await axiosInstance.get(`${baseUrl}/users/${id}`);
-    console.log(res.data);
     return res.data;
   } catch (error) {
     console.error("[Get User Information failed]: ", error);
