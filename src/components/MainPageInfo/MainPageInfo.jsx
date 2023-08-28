@@ -331,11 +331,7 @@ const MainPageInfo = () => {
         <div className="post-area-container">
           <div className="posting-area">
             <img
-              src={
-                userInfo
-                  && userInfo.avatar
-  
-              }
+              src={userInfo && userInfo.avatar}
               alt=""
               className="user-avatar"
             />
