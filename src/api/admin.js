@@ -4,19 +4,21 @@ const baseUrl = 'https://mighty-temple-45104-0d6672fb07d0.herokuapp.com/api/admi
 
 
 export const adminLogin = async ({ account, password }) => {
-  console.log(`進到adminLogin拿資料,account:${account} password:${password}`)
   try {
+    console.log(`進到admin.js 傳入資料,account:${account} password:${password}`)
     const { data } = await axios.post(`${baseUrl}/login`, {
       account,
       password,
     });
-    console.log('把data轉換成authToken')
-    const { authToken } = data;
+
+    const authToken = data.data.token
+    console.log(`取出data中的token值，改命名為authToken:${authToken}`)
 
     if (authToken) {
-      return { success: true, ...data };
+      console.log('AuthToken get! Add "success": true, "authToken": authToken  into data(最外層)!')
+      return { success: true, authToken: authToken, ...data };
     }
-    console.log(`admin.js中的adminLogin通過驗證 success 後拿到data資料: ${data}`)
+    console.log(`auth.js中的login通過authToken驗證 success 後拿到data做JSON.stringify後的data: ${JSON.stringify(data)}`)
     return data;
   } catch (error) {
     console.error(`[AdminLogin Failed]:`, error);
