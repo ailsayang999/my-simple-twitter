@@ -39,7 +39,7 @@ const PostReplyModal = ({
     <div className="">
       <div className="reply-post-tweet-modal">
         <div className="reply-overlay">
-          <modal className="reply-modal-content-wrapper">
+          <div className="reply-modal-content-wrapper">
             <div className="reply-closed-icon-container">
               <ClosedIcon
                 className="reply-cross-icon"
@@ -130,7 +130,7 @@ const PostReplyModal = ({
                 </button>
               </div>
             </div>
-          </modal>
+          </div>
         </div>
       </div>
     </div>
