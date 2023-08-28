@@ -11,50 +11,61 @@ import NotiBoxFail from '../components/NotiBoxFail';
 const AdminPage = () => {
   const [account, setAccount] = useState('');
   const [password, setPassword] = useState('');
-  const [showNotiBox, setShowNotiBox] = useState(false);
-  const [loginSuccess, setLoginSuccess] = useState(true);
+  const [showNotiBoxSuccess, setShowNotiBoxSuccess] = useState(false);
+  const [showNotiBoxFail, setShowNotiBoxFail] = useState(false);
+
   const navigate = useNavigate();
 
   const { adminLogin, isAuthenticated} = useAdminAuth();
 
   const handleClick = async() => {
-    console.log("點擊登入")
+    console.log("點擊後台登入")
     if (account.length === 0) {
       return;
     }
     if (password.length === 0) {
       return;
     }
-    console.log("資料通過長度檢驗，進入await")
+    console.log(`傳入account:${account}, password:${password}資料至adminLogin拿資料`)
     const {success} = await adminLogin({
       account,
       password
     });
     if (success) {
-      // localStorage.setItem('authToken', authToken);
-      setShowNotiBox(true)
-      setLoginSuccess(true)
+      setShowNotiBoxSuccess(true)
       console.log('登入成功!')
+      return; 
     } else {
-      setShowNotiBox(true)
-      setLoginSuccess(false)
       console.log('登入失敗!')
+      setShowNotiBoxFail(true)
     }
   }
 
-  // const handleClick = () => {
-  //   setShowNotiBox(true);
-  //   setLoginSuccess(false)
-  // } 
   useEffect(() => {
-  if (isAuthenticated) {
-    navigate('/admin_main');
-  }
-  }, [navigate, isAuthenticated]);
+  if (isAuthenticated && showNotiBoxSuccess) {
+    const timeout = setTimeout(() => {
+    setShowNotiBoxSuccess(false);
+    navigate('/admin_main')
+    }, 1500);
 
+    return () => clearTimeout(timeout);
+  }
+  }, [navigate, isAuthenticated, showNotiBoxSuccess]);
+
+  useEffect(() => {
+  if (showNotiBoxFail) {
+    const timeout = setTimeout(() => {
+      setShowNotiBoxFail(false);
+    }, 1500);
+
+    return () => clearTimeout(timeout);
+  }
+  }, [showNotiBoxFail]);
+  
   return (
     <div className="outerContainer">
-      <div className={(showNotiBox)? "show" : "hide"}>{(loginSuccess)? <NotiBoxSuccess notiText={"登入成功!"}/> : <NotiBoxFail notiText={"登入失敗!"}/>}</div>
+      {showNotiBoxSuccess && <NotiBoxSuccess notiText={"後台登入成功!"} />}
+      {showNotiBoxFail && <NotiBoxFail notiText={"後台登入失敗!"} />}
       <Header entryName={"後台登入"}/>
       <InputSet 
         label={"帳號"} 
