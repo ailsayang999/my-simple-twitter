@@ -2,8 +2,9 @@ import "./mainPageInfo.scss";
 import { ReactComponent as ReplyIcon } from "assets/icons/replyIcon.svg";
 import { ReactComponent as LikeIcon } from "assets/icons/likeIcon.svg";
 import { ReactComponent as LikeActiveIcon } from "assets/icons/likeIconActive.svg";
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import ModalContext from "context/ModalContext";
+import { useAuth } from "context/AuthContext"; //到AuthContext拿是否已驗證，以及拿currentMember的id
 import { useNavigate } from "react-router-dom";
 
 // 之後串接用的function，之後下面那一行就可以刪掉
@@ -23,6 +24,7 @@ import {
   tweetsDummy,
   postTweetUnlike,
   postTweetLike,
+  getUserInfo,
 } from "api/tweets";
 //製作假的authToken
 
@@ -51,25 +53,42 @@ const MainPageInfo = () => {
   const { replyModal, toggleReplyModal } = useContext(ModalContext);
 
   //暫時先從假資料拿
-  const [tweets, setTweets] = useState(allTweetsDummyData);
+  // const [tweets, setTweets] = useState(allTweetsDummyData);
 
-  ////////////////////////////////////////////////////////////////////////////////////////////串接API getTweets ///////////////////////////
+  //先從AuthContext拿到驗證是否為true(isAuthenticated:true)，和拿currentMember.id來確定當前使用者是誰
+  const { isAuthenticated, currentMember } = useAuth();
+  console.log(currentMember);
 
-  //   //串接API: tweets畫面初始化，顯示過去tweets內所有資訊
-  //   useEffect(() => {
-  //     const getTweetsAsync = async () => {
-  //       //因為getTweets是非同步的操作，有可能會失敗，所以我們要用try catch把它包起來
-  //       try {
-  //         const tweets = await getTweets(); //用await去取得所有後端tweets的項目
-  //       } catch (error) {
-  //         console.error(error);
-  //       }
-  //     };
-  //     //getTweetsAsync這個function定義完成之後，我們可以直接執行它
-  //     getTweetsAsync();
-  //   }, []); //後面的dependency讓他是空的，因為只要在畫面一開始被渲染的時候才做操作
 
-  // const [tweets, setTweets] = useState(tweets);
+  ////////////////////////////////////////////////////////////////////////////////////////////串接API getTweets getUserInfoAsync 做出使畫面渲染 ///////////////////////////
+  const [userInfo, setUserInfo] = useState([]);
+  const [tweets, setTweets] = useState([]);
+  //串接API: tweets畫面初始化，顯示過去tweets內所有資訊
+  useEffect(() => {
+    //首先拿到當前登入的使用者資料
+    const getUserInfoAsync = async () => {
+      try {
+        const backendUserInfo = await getUserInfo(currentMember.id);
+        setUserInfo(backendUserInfo);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    const getTweetsAsync = async () => {
+      //因為getTweets是非同步的操作，有可能會失敗，所以我們要用try catch把它包起來
+      try {
+        const backendTweets = await getTweets(); //用await去取得所有後端tweets的項目
+        setTweets(backendTweets);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    //
+    getUserInfoAsync();
+    //getTweetsAsync這個function定義完成之後，我們可以直接執行它
+    getTweetsAsync();
+  }, [currentMember]); //後面的dependency讓他是空的，因為只要在畫面一開始被渲染的時候才做操作
+
 
   ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -276,23 +295,23 @@ const MainPageInfo = () => {
   };
 
   ////////////////////////////////////////test API///////////////////////////////////////
-  const [tweetsTest, setTweetsTest] = useState([]);
-  const authTokenTest =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiYWNjb3VudCI6InVzZXIxIiwicm9sZSI6InVzZXIiLCJpYXQiOjE2OTI5NzkyODQsImV4cCI6MTY5NTU3MTI4NH0.9YofGSbyMAwlrd8hNC6B_JIAy_-PXN323hYv_T-jxLk";
-  //先把authTokenTest塞進localStorage來做驗證
-  localStorage.setItem("authTokenTest", authTokenTest);
+  // const [tweetsTest, setTweetsTest] = useState([]);
+  // const authTokenTest =
+  //   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiYWNjb3VudCI6InVzZXIxIiwicm9sZSI6InVzZXIiLCJpYXQiOjE2OTI5NzkyODQsImV4cCI6MTY5NTU3MTI4NH0.9YofGSbyMAwlrd8hNC6B_JIAy_-PXN323hYv_T-jxLk";
+  // //先把authTokenTest塞進localStorage來做驗證
+  // localStorage.setItem("authTokenTest", authTokenTest);
 
-  const getTweetsAsync = async () => {
-    //因為getTodos是非同步的操作，有可能會失敗，所以我們要用try catch把它包起來
-    try {
-      const tweetsTestBackend = await getTweets(); //用await去取得所有後端todos的項目
-      setTweetsTest(tweetsTestBackend); //把所有todo的property展開，並幫他加上isEdit這個property
-    } catch (error) {
-      console.error(error);
-    }
-  };
-  //getTodosAsync這個function定義完成之後，我們可以直接執行它
-  getTweetsAsync();
+  // const getTweetsAsync = async () => {
+  //   //因為getTodos是非同步的操作，有可能會失敗，所以我們要用try catch把它包起來
+  //   try {
+  //     const tweetsTestBackend = await getTweets(); //用await去取得所有後端todos的項目
+  //     setTweetsTest(tweetsTestBackend); //把所有todo的property展開，並幫他加上isEdit這個property
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
+  // //getTodosAsync這個function定義完成之後，我們可以直接執行它
+  // getTweetsAsync();
 
   ////////////////////////////////////////test API///////////////////////////////////////
 
@@ -308,7 +327,22 @@ const MainPageInfo = () => {
       <div className="post-area-wrapper">
         <div className="post-area-container">
           <div className="posting-area">
-            <img src={userAvatar} alt="" className="user-avatar" />
+            <img
+              src={
+                userInfo
+                  && userInfo.avatar
+  
+              }
+              alt=""
+              className="user-avatar"
+            />
+            {/* <img
+              src={
+                "https://loremflickr.com/320/240/man/?random=27.23776379306355"
+              }
+              alt=""
+              className="user-avatar"
+            /> */}
             {/* 點擊Post區會改變postModal的布林值，post彈出 */}
             <span className="text-area" onClick={togglePostModal}>
               有什麼新鮮事
@@ -321,23 +355,34 @@ const MainPageInfo = () => {
       </div>
       {/* Render All Tweet Items With map */}
       {/* test api */}
-      {tweetsTest.map(({ description }) => {
+      {/* {tweetsTest.map(({ description }) => {
         return (
           <>
             <div className="tweet-test">{description}</div>
             <h4>AilsaAilsa!!!!</h4>
           </>
         );
-      })}
+      })} */}
 
+      {/* 等Sean用好資料後開啟 */}
       {tweets.map(
-        ({ id, description, author, createdAt, likeCount, replyCount }) => {
+        ({
+          id,
+          description,
+          authorAvatar,
+          authorName,
+          authorAccount,
+          createdAt,
+          likeCount,
+          replyCount,
+          isLiked,
+        }) => {
           return (
             <>
               <div className="post-item-container" key={id}>
                 <div className="post-item-wrapper">
                   <img
-                    src={author.avatar}
+                    src={authorAvatar}
                     alt=""
                     className="post-item-avatar"
                     onClick={handleNavigateToUserOtherPage}
@@ -345,8 +390,8 @@ const MainPageInfo = () => {
 
                   <div className="post-item-content">
                     <div className="user-post-info">
-                      <div className="name">{author.name}</div>
-                      <div className="account">@{author.account}</div>
+                      <div className="name">{authorName}</div>
+                      <div className="account">@{authorAccount}</div>
                       <div className="time">· {createdAt}</div>
                     </div>
 
@@ -374,12 +419,12 @@ const MainPageInfo = () => {
                         >
                           <LikeIcon
                             className={`like-icon ${
-                              !isLikedActive ? "like-gray" : ""
+                              !isLiked ? "like-gray" : ""
                             }`}
                           />
                           <LikeActiveIcon
                             className={`liked-icon ${
-                              isLikedActive ? "like-active" : ""
+                              isLiked ? "like-active" : ""
                             }`}
                           />
                         </div>
@@ -394,6 +439,9 @@ const MainPageInfo = () => {
           );
         }
       )}
+
+      {/* 測試getTweetAPI */}
+
       {/* Modal ：根據replyModal的布林值決定是否要跳出PostReplyModal component*/}
       {replyModal && (
         <PostReplyModal
