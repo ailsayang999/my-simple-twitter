@@ -57,14 +57,12 @@ export const getTweets = async () => {
 
 ///////////////////////////////////////////////// postTweet /////////////////////////////////////////////////
 
-export const postTweet = async (payload) => {
-  const { description } = payload;
+export const postTweet = async (description) => {
+  // const { description } = payload;
 
   try {
-    const res = await axiosInstance.post(`${baseUrl}/tweets`, {
-      description,
-    });
-    return res.data;
+    const res = await axiosInstance.post(`${baseUrl}/tweets`, description);
+    return res;
   } catch (error) {
     console.error("[Post Tweet failed]: ", error);
   }

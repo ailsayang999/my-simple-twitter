@@ -139,147 +139,67 @@ const MainPageInfo = () => {
     }
   };
 
-  //////////////////////////////////////////////////////////   串接API postTweet: 發佈一則貼文 /////////////////////////////////////////////////////////////
-
-  //監聽器：handleChange，當PostTweetModal的textarea發生改變時，更新inputValue的state
+  ///////////////////////////////////////////////// handleAddTweet handleKeyPressAddTweet /////////////////////////////////////////////////
+  // 監聽器：handleTweetTextAreaChange，當PostTweetModal的textarea發生改變時，更新inputValue的state
   const [inputValue, setInputValue] = useState("");
-
   const handleTweetTextAreaChange = (value) => {
     setInputValue(value);
   };
 
-  const handleAddTweet = () => {
+  //監聽器：handleAddTweet，當PostTweetModal的推文按鈕被按下時，做postTweet動作
+  const handleAddTweet = async (inputValue, userAvatar) => {
     if (inputValue.length > 140) {
       alert("字數不可以超過140字");
       return;
     }
-
-    setTweets((prevTweets) => {
-      return [
-        {
-          id: 2,
-          author: {
-            id: 2,
-            account: "Ailsa",
-            name: "ailsa",
-            avatar: tweets[0].author.avatar,
-          },
-          description: inputValue,
-          replyCount: 0,
-          likeCount: 0,
-          isLiked: false,
-          createdAt: "2023-08-24",
-        },
-        ...prevTweets,
-      ];
+    console.log(inputValue); //inputValue有輸入成功，handleAddTweet 點擊反應成功
+    console.log({
+      description: inputValue,
     });
-    // 把textarea裡面的訊息清掉
-    setInputValue("");
-    // 把PostModal關起來
-    togglePostModal();
+    //因為他也是非同步的操作，可能會有失敗的狀況，所以我也是用try catch把它包起來
+    try {
+      //會給後端儲存的資料有：description
+      //然後因為我們是用await方法的話，我們的handleAddTweet這個函式要改成async function
+      //我們在postTweet裡面給payload，也就是給我們想要新增的資訊，在api的tweets.js那裡就會去處理並return後端新增資料後的res.data，然後我們把這個res.data存到data裡面，再用setTweets來更新React裡面的tweets的state
+      const res = await postTweet({
+        description: inputValue,
+      });
+
+      //因為後端其實會實際幫我們generate實際的todo id，所以我們拿到data的時候，我們可以在setTweets的id那裡帶入後端幫我們產生的id，然後其他資料(如：author,description..)都可以直接從後端建立好並傳來的data拿值
+      // 前端畫面也更新：我們會帶上isLiked這個欄位，我們先給他false的值
+
+      if (res.data.status === "success") {
+        alert(res.data.message);
+        console.log(res.data.data.description);
+        setTweets((prevTweets) => {
+          return [
+            {
+              id: res.data.data.id,
+              authorAccount: userInfo.account,
+              description: res.data.data.description,
+              replyCount: 0,
+              likeCount: 0,
+              isLiked: false,
+              createdAt: res.data.data.createdAt,
+              authorAvatar: userAvatar,
+            },
+            ...prevTweets,
+          ];
+        });
+        togglePostModal();
+
+        // 把textarea裡面的訊息清掉
+        setInputValue("");
+        // 把PostModal關起來
+        togglePostModal();
+      }
+      return;
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   ///////////////////////////////////////////////// handleAddTweet handleKeyPressAddTweet /////////////////////////////////////////////////
-
-  // //監聽器：handleAddTweet，當PostTweetModal的推文按鈕被按下時，做postTweet動作
-  // const handleAddTweet = async (inputValue) => {
-  //   if (inputValue.length > 140) {
-  //     alert("字數不可以超過140字");
-  //     return;
-  //   }
-  //   //因為他也是非同步的操作，可能會有失敗的狀況，所以我也是用try catch把它包起來
-  //   try {
-  //     //會給後端儲存的資料有：description(我們輸入的資料是inputValue)、userId、createdAt
-  //     //然後因為我們是用await方法的話，我們的handleAddTweet這個函式要改成async function
-  //     //我們在postTweet裡面給payload，也就是給我們想要新增的資訊，在api的tweets.js那裡就會去處理並return後端新增資料後的res.data，然後我們把這個res.data存到data裡面，再用setTweets來更新React裡面的tweets的state
-  //     const data = await postTweet({
-  //       description: inputValue,
-  //       userId: 1,
-  //       createdAt: "2023-08-19T15:35:14.000Z",
-  //     });
-
-  //     //因為後端其實會實際幫我們generate實際的todo id，所以我們拿到data的時候，我們可以在setTweets的id那裡帶入後端幫我們產生的id，然後其他資料(如：author,description..)都可以直接從後端建立好並傳來的data拿值
-  //     // 前端畫面也更新：我們會帶上isLiked這個欄位，我們先給他false的值
-  //     setTweets((prevTweets) => {
-  //       return [
-  //         {
-  //           id: data.id,
-  //           author: {
-  //             id: data.author.id,
-  //             account: data.author.account,
-  //             name: data.author.name,
-  //             avatar: data.author.avatar,
-  //           },
-  //           description: data.description,
-  //           replyCount: data.replyCount,
-  //           likeCount: data.likeCount,
-  //           isLiked: false,
-  //           createdAt: data.createdAt,
-  //         },
-  //         ...prevTweets,
-  //       ];
-  //     });
-  //     togglePostModal();
-  //     alert("推文發送成功!! \n請回首頁看您新增的推文~");
-
-  //     // 把textarea裡面的訊息清掉
-  //     setInputValue("");
-  //     // 把PostModal關起來
-  //     togglePostModal();
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // };
-  // //監聽器：handleKeyPressAddTweet （跟handleAddTweet同理），當PostTweetModal的感測到keyboard enter
-  // const handleKeyPressAddTweet = async (inputValue) => {
-  //   if (inputValue.length > 140) {
-  //     alert("字數不可以超過140字");
-  //     return;
-  //   }
-
-  //   //因為他也是非同步的操作，可能會有失敗的狀況，所以我也是用try catch把它包起來
-  //   try {
-  //     //會給後端儲存的資料有：description(我們輸入的資料是inputValue)、userId、createdAt
-  //     //然後因為我們是用await方法的話，我們的handleAddTweet這個函式要改成async function
-  //     //我們在postTweet裡面給payload，也就是給我們想要新增的資訊，在api的tweets.js那裡就會去處理並return後端新增資料後的res.data，然後我們把這個res.data存到data裡面，再用setTweets來更新React裡面的tweets的state
-  //     const data = await postTweet({
-  //       description: inputValue,
-  //       userId: 1,
-  //       createdAt: "2023-08-19T15:35:14.000Z",
-  //     });
-
-  //     //因為後端其實會實際幫我們generate實際的todo id，所以我們拿到data的時候，我們可以在setTweets的id那裡帶入後端幫我們產生的id，然後其他資料(如：author,description..)都可以直接從後端建立好並傳來的data拿值
-  //     // 前端畫面也更新：我們會帶上isLiked這個欄位，我們先給他false的值
-  //     setTweets((prevTweets) => {
-  //       return [
-  //         ...prevTweets,
-  //         {
-  //           id: data.id,
-  //           author: {
-  //             id: data.author.id,
-  //             account: data.author.account,
-  //             name: data.author.name,
-  //             avatar: data.author.avatar,
-  //           },
-  //           description: data.description,
-  //           replyCount: data.replyCount,
-  //           likeCount: data.likeCount,
-  //           isLiked: false,
-  //           createdAt: data.createdAt,
-  //         },
-  //       ];
-  //     });
-
-  //     // 把textarea裡面的訊息清掉
-  //     setInputValue("");
-  //     // 把PostModal關起來
-  //     togglePostModal();
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // };
-
-  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
   //監聽器：handleChange，當PostTweetModal的textarea發生改變時，更新inputValue的state
   const [ReplyInputValue, setReplyInputValue] = useState("");
@@ -287,27 +207,6 @@ const MainPageInfo = () => {
   const handleReplyTextAreaChange = (value) => {
     setReplyInputValue(value);
   };
-
-  ////////////////////////////////////////test API///////////////////////////////////////
-  // const [tweetsTest, setTweetsTest] = useState([]);
-  // const authTokenTest =
-  //   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiYWNjb3VudCI6InVzZXIxIiwicm9sZSI6InVzZXIiLCJpYXQiOjE2OTI5NzkyODQsImV4cCI6MTY5NTU3MTI4NH0.9YofGSbyMAwlrd8hNC6B_JIAy_-PXN323hYv_T-jxLk";
-  // //先把authTokenTest塞進localStorage來做驗證
-  // localStorage.setItem("authTokenTest", authTokenTest);
-
-  // const getTweetsAsync = async () => {
-  //   //因為getTodos是非同步的操作，有可能會失敗，所以我們要用try catch把它包起來
-  //   try {
-  //     const tweetsTestBackend = await getTweets(); //用await去取得所有後端todos的項目
-  //     setTweetsTest(tweetsTestBackend); //把所有todo的property展開，並幫他加上isEdit這個property
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // };
-  // //getTodosAsync這個function定義完成之後，我們可以直接執行它
-  // getTweetsAsync();
-
-  ////////////////////////////////////////test API///////////////////////////////////////
 
   return (
     <div className="main-page-info">
@@ -428,6 +327,7 @@ const MainPageInfo = () => {
           inputValue={inputValue}
           onTweetTextAreaChange={handleTweetTextAreaChange}
           onAddTweet={handleAddTweet}
+          userAvatar={userInfo.avatar}
         />
       )}
     </div>
