@@ -62,7 +62,7 @@ const RegisterPage = () => {
       const timeout = setTimeout(() => {
         setShowNotiBoxSuccess(false);
         navigate('/login')
-      }, 1000);
+      }, 2000);
 
       return () => clearTimeout(timeout);
     }
@@ -72,7 +72,7 @@ const RegisterPage = () => {
   if (showNotiBoxFail) {
     const timeout = setTimeout(() => {
       setShowNotiBoxFail(false);
-    }, 1000);
+    }, 2000);
 
     return () => clearTimeout(timeout);
   }
