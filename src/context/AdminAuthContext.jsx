@@ -17,7 +17,7 @@ const defaultAuthAdminContext = {
 const AuthAdminContext = createContext(defaultAuthAdminContext);
 export const useAdminAuth = () => useContext(AuthAdminContext);
 
-export const AuthProvider = ({ children }) => {
+export const AuthAdminProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [payload, setPayload] = useState(null);
 

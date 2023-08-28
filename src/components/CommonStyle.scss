@@ -20,7 +20,8 @@
   width: 356px;
   height: 78px;
   margin: 0px auto 2px;
-  &:hover .inputContent {
+  //hover-light blue
+  &:hover .inputBottomLine {
       border-bottom: 2px solid #50B5FF;
     }
   .inputContent {
@@ -29,7 +30,6 @@
     align-items: flex-start;
     padding: 2px 16px;
     background-color: #F5F8FA;
-    border-bottom: 2px solid #657786;
     border-radius: 2px 2px 0 0;
 
     .inputLabel {
@@ -49,46 +49,37 @@
     }
 
     &::placeholder {
+      font-size: 16px;
+      font-weight: 400;
       color: #B5B5BE;
     }
-    .inputContent {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    padding: 2px 16px;
-    background-color: #F5F8FA;
+  }
+  //Default-dark gray
+  .inputBottomLine {
     border-bottom: 2px solid #657786;
-    border-radius: 2px 2px 0 0;
-      .inputLabel {
-        color: #696974;
-        font-size: 14px;
-        line-height: 22px;
-      }
-      .inputField {
-        color: #171725;
-        width: 100%;
-        font-size: 16px;
-        line-height: 26px;
-        outline: none;
-        border: none;
-        background: transparent;
-      }
-      &::placeholder {
-        color: #B5B5BE;
-      }
-    }                       
+  }
+  //Error-red
+  .inputBottomLineError {
+    border-bottom: 2px solid #FC5A5A;
+  }
+  //Disable-light gray
+  .inputBottomLineDisabled {
+    border-bottom: 2px solid #D5D5DC;
   }
   .inputNote {
     display: flex;
     height: 24px;
     font-size: 12px;
+
     .hide {
       display: none;
     }
+
     .errorMsg {
       color: #FC5A5A;
       margin-right: auto;
     }
+
     .inputCounter {
       margin-left: auto;
     }

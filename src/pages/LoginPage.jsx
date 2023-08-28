@@ -2,68 +2,73 @@ import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Header from 'components/Header'
 import InputSet from 'components/InputSet'
-import NotiBoxSuccess from 'components/NotiBoxSuccess' //請自行輸入notiText - 登入成功! 
-import NotiBoxFail from 'components/NotiBoxFail' //請自行輸入notiText - 登入失敗! / 帳號不存在!
+import NotiBoxSuccess from 'components/NotiBoxSuccess' //請自行輸入notiText - 註冊成功! 
+import NotiBoxFail from 'components/NotiBoxFail' //請自行輸入notiText - 註冊失敗! / 帳號不存在! / 重複註冊...
+import { useAuth } from 'context/AuthContext';
 
 const LoginPage = () => {
-  const [username, setUsername] = useState('');
+  const [account, setAccount] = useState('');
   const [password, setPassword] = useState('');
+  const [showNotiBoxSuccess, setShowNotiBoxSuccess] = useState(false);
+  const [showNotiBoxFail, setShowNotiBoxFail] = useState(false);
 
-  function handleClick() {
-    console.log('登入')
+  const navigate = useNavigate();
+  const { login, isAuthenticated } = useAuth();
+
+  const handleClick = async () => {
+    if (account.length === 0) {
+      return;
+    }
+    if (password.length === 0) {
+      return;
+    }
+    console.log('在loginPage呼叫login資訊，並傳入payload(account & password)')
+    const { success } = await login({
+      account,
+      password,
+    });
+    if (success) {
+      console.log('登入成功!導向MainPage')
+      setShowNotiBoxSuccess(true)
+      return;
+    }
+    setShowNotiBoxFail(true)
+    console.log('登入失敗!')
+  };
+
+  //當showNotiBox值改變時，過1s後轉回false關閉shoNotiBox並導向loginPage，並使用clearTimeout清除定時器
+  useEffect(() => {
+    if (isAuthenticated && showNotiBoxSuccess) {
+      const timeout = setTimeout(() => {
+      setShowNotiBoxSuccess(false);
+      navigate('/login')
+      }, 1000);
+      navigate('/main');
+
+      return () => clearTimeout(timeout);
+    }
+  }, [navigate, isAuthenticated, showNotiBoxSuccess]);
+
+  useEffect(() => {
+  if (showNotiBoxFail) {
+    const timeout = setTimeout(() => {
+      setShowNotiBoxFail(false);
+    }, 1000);
+
+    return () => clearTimeout(timeout);
   }
-  // const navigate = useNavigate();
-
-  // const { login, isAuthenticated } = useAuth(); // 取出需要的狀態與方法
-
-  // const handleClick = async () => {
-  //   if (username.length === 0) {
-  //     return;
-  //   }
-  //   if (password.length === 0) {
-  //     return;
-  //   }
-
-  //   const { success } = await login({
-  //     username,
-  //     password,
-  //   });
-  //   if (success) {
-  //     // localStorage.setItem('authToken', authToken);
-  //     Swal.fire({
-  //       title: '登入成功',
-  //       icon: 'success',
-  //       showConfirmButton: false,
-  //       time: 1000,
-  //       position: 'top',
-  //     });
-  //     // navigate('/todo');
-  //     return;
-  //   }
-  //   Swal.fire({
-  //     title: '登入失敗',
-  //     icon: 'error',
-  //     showConfirmButton: false,
-  //     time: 1000,
-  //     position: 'top',
-  //   });
-  // };
-
-  // useEffect(() => {
-  //   if (isAuthenticated) {
-  //     navigate('/todo');
-  //   }
-  // }, [navigate, isAuthenticated]);
+  }, [showNotiBoxFail]);
 
   return (
     <div className="outerContainer">
-      <div className="notificationBox"></div>
+      {showNotiBoxSuccess && <NotiBoxSuccess notiText={"登入成功!"} />}
+      {showNotiBoxFail && <NotiBoxFail notiText={"登入失敗!"} />}
       <Header entryName={"登入 Alphitter"}/>
       <InputSet 
         label={"帳號"} 
         placeholder={"請輸入帳號"} 
-        value={username}
-        onChange={(nameInputValue) => setUsername(nameInputValue)}
+        value={account}
+        onChange={(accountInputValue) => setAccount(accountInputValue)}
         // errorMsg={errorMsg}
         />  
       <InputSet 
