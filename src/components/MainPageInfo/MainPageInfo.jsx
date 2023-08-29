@@ -2,7 +2,7 @@ import "./mainPageInfo.scss";
 import { ReactComponent as ReplyIcon } from "assets/icons/replyIcon.svg";
 import { ReactComponent as LikeIcon } from "assets/icons/likeIcon.svg";
 import { ReactComponent as LikeActiveIcon } from "assets/icons/likeIconActive.svg";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import ModalContext from "context/ModalContext";
 import { useAuth } from "context/AuthContext"; //到AuthContext拿是否已驗證
 import { useNavigate } from "react-router-dom";
@@ -20,9 +20,6 @@ const MainPageInfo = () => {
   const navigate = useNavigate();
   // 從Context中拿取toggleReplyModal的function
   const {
-    userInfoId,
-    userInfo,
-    setUserInfo,
     tweets,
     setTweets,
     postModal,
@@ -58,13 +55,16 @@ const MainPageInfo = () => {
   };
 
   ////////////////////////////////////////////////////////////////////////////////////////////串接API getTweets 和  getUserInfo useEffect做初始畫面渲染 ///////////////////////////
- 
-  
+  const [userInfo, setUserInfo] = useState([]); //在每一頁的useEffect中會去向後端請求登入者的object資料
+
   //串接API: tweets畫面初始化，顯示過去tweets內所有資訊
   useEffect(() => {
     //首先拿到當前登入的使用者資料
     const getUserInfoAsync = async () => {
       try {
+        const localStorageUserInfoString = localStorage.getItem("userInfo"); //拿下來會是一比string的資料
+        const LocalStorageUserInfo = JSON.parse(localStorageUserInfoString); // 要把這個string變成object
+        const userInfoId = LocalStorageUserInfo.id; //再從這個object拿到登入者的id
         //向後端拿取登入者的object資料
         const backendUserInfo = await getUserInfo(userInfoId);
         //拿到登入者資料後存在userInfo裡面，userInfo會是一個object
@@ -86,7 +86,7 @@ const MainPageInfo = () => {
     getUserInfoAsync();
     //getTweetsAsync這個function定義完成之後，我們可以直接執行它
     getTweetsAsync();
-  }, [tweets,userInfo,userInfoId]); //後面的dependency是tweets和...，兩者改變就要讓愛心的數字可動態更新
+  }, [tweets, userInfo]); //後面的dependency是tweets和...，兩者改變就要讓愛心的數字可動態更新
 
   //////////////////////////////////////////////////////////////串接API postTweetLike and postTweetUnlike：處理某篇貼文isLike的boolean值 ///////////////////////////
 
@@ -154,7 +154,6 @@ const MainPageInfo = () => {
       }
     }
   };
-
 
   return (
     <div className="main-page-info">
