@@ -3,8 +3,6 @@ import userSelfAvatar from "assets/images/fakeUserAvatar.png";
 import userOtherAvatar from "assets/images/fakeUserOtherAvatar.png";
 import userOtherInfoCover from "assets/images/fakeUserOtherCover.png";
 
-
-
 // 串切開始
 import axios from "axios";
 
@@ -14,10 +12,9 @@ const axiosInstance = axios.create({
   baseURL: baseUrl,
 });
 
-
 axiosInstance.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem("authTokenTest");
+    const token = localStorage.getItem("authToken");
     if (token) {
       config.headers["Authorization"] = `Bearer ${token}`;
     }
@@ -28,8 +25,18 @@ axiosInstance.interceptors.request.use(
   }
 );
 
-///////////////////////////////////////////////// getTweets /////////////////////////////////////////////////
+///////////////////////////////////////////////// getUserInfo /////////////////////////////////////////////////
+// get /api/users/:id 取得特定使用者資料
+export const getUserInfo = async (id) => {
+  try {
+    const res = await axiosInstance.get(`${baseUrl}/users/${id}`);
+    return res.data;
+  } catch (error) {
+    console.error("[Get User Information failed]: ", error);
+  }
+};
 
+///////////////////////////////////////////////// getTweets /////////////////////////////////////////////////
 // 拿到所有的 tweets
 export const getTweets = async () => {
   try {
@@ -40,169 +47,19 @@ export const getTweets = async () => {
   }
 };
 
-///////////////////////////////////////////////// getTweets /////////////////////////////////////////////////
-
-export const tweetsDummy = [
-  {
-    id: 201,
-    description: "This is the dummy data from frontend.",
-    UserId: 1,
-    likeCount: 0,
-    replyCount: 0,
-    createdAt: "2023-08-24T08:26:59.000Z",
-    updatedAt: "2023-08-24T08:26:59.000Z",
-    userId: 1,
-  },
-];
-
-// get /api/tweets 取得所有貼文
-//前台allTweetsDummyData
-export const allTweetsDummyData = [
-  {
-    id: 3,
-    author: {
-      id: 21,
-      account: "Ailsa",
-      name: "ailsa",
-      avatar: userOtherAvatar,
-    },
-    description:
-      "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Doloremque quisquam provident iure a cumque nulla error recusandae temporibus dol.",
-    likeCount: 6,
-    replyCount: 1,
-    isLiked: true,
-    createdAt: "2023-08-19T15:35:14.000Z",
-  },
-  {
-    id: 2,
-    author: {
-      id: 21,
-      account: "Ailsa",
-      name: "ailsa",
-      avatar: userOtherAvatar,
-    },
-    description:
-      "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Doloremque quisquam provident iure a cumque nulla error recusandae temporibus dol.",
-    likeCount: 6,
-    replyCount: 1,
-    isLiked: true,
-    createdAt: "2023-08-19T15:35:14.000Z",
-  },
-  {
-    id: 3,
-    author: {
-      id: 21,
-      account: "Ailsa",
-      name: "ailsa",
-      avatar: userSelfAvatar,
-    },
-    description:
-      "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Doloremque quisquam provident iure a cumque nulla error recusandae temporibus dol.",
-    likeCount: 6,
-    replyCount: 1,
-    isLiked: true,
-    createdAt: "2023-08-19T15:35:14.000Z",
-  },
-  {
-    id: 4,
-    author: {
-      id: 21,
-      account: "Ailsa",
-      name: "ailsa",
-      avatar: userSelfAvatar,
-    },
-    description:
-      "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Doloremque quisquam provident iure a cumque nulla error recusandae temporibus dol.",
-    likeCount: 6,
-    replyCount: 1,
-    isLiked: true,
-    createdAt: "2023-08-19T15:35:14.000Z",
-  },
-  {
-    id: 5,
-    author: {
-      id: 21,
-      account: "Ailsa",
-      name: "ailsa",
-      avatar: userOtherAvatar,
-    },
-    description:
-      "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Doloremque quisquam provident iure a cumque nulla error recusandae temporibus dol.",
-    likeCount: 6,
-    replyCount: 1,
-    isLiked: true,
-    createdAt: "2023-08-19T15:35:14.000Z",
-  },
-  {
-    id: 6,
-    author: {
-      id: 21,
-      account: "Ailsa",
-      name: "ailsa",
-      avatar: userSelfAvatar,
-    },
-    description:
-      "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Doloremque quisquam provident iure a cumque nulla error recusandae temporibus dol.",
-    likeCount: 6,
-    replyCount: 1,
-    isLiked: true,
-    createdAt: "2023-08-19T15:35:14.000Z",
-  },
-  {
-    id: 7,
-    author: {
-      id: 21,
-      account: "Ailsa",
-      name: "ailsa",
-      avatar: userOtherAvatar,
-    },
-    description:
-      "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Doloremque quisquam provident iure a cumque nulla error recusandae temporibus dol.",
-    likeCount: 6,
-    replyCount: 1,
-    isLiked: true,
-    createdAt: "2023-08-19T15:35:14.000Z",
-  },
-  {
-    id: 8,
-    author: {
-      id: 21,
-      account: "Ailsa",
-      name: "ailsa",
-      avatar: userSelfAvatar,
-    },
-    description:
-      "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Doloremque quisquam provident iure a cumque nulla error recusandae temporibus dol.",
-    likeCount: 6,
-    replyCount: 1,
-    isLiked: true,
-    createdAt: "2023-08-19T15:35:14.000Z",
-  },
-];
-
-/////////////////////////////////////////////////////////////////////////////////////////////////
-
 ///////////////////////////////////////////////// postTweet /////////////////////////////////////////////////
+export const postTweet = async (description) => {
+  // const { description } = payload;
 
-// export const postTweet = async (payload) => {
-//   const { description, userId, createdAt } = payload;
-
-//   try {
-//     const res = await axiosInstance.post(`${baseUrl}/tweets`, {
-//       description,
-//       userId,
-//       createdAt,
-//     });
-//     return res.data;
-//   } catch (error) {
-//     console.error("[Post Tweet failed]: ", error);
-//   }
-// };
-
-/////////////////////////////////////////////////////////////////////////////////////////////////
+  try {
+    const res = await axiosInstance.post(`${baseUrl}/tweets`, description);
+    return res;
+  } catch (error) {
+    console.error("[Post Tweet failed]: ", error);
+  }
+};
 
 //////////////////////////////////////////////// postTweetLike ////////////////////////////////////////////////
-
 //把後端某篇貼文Like改為true，新增喜歡
 export const postTweetLike = async (id) => {
   try {
@@ -213,7 +70,7 @@ export const postTweetLike = async (id) => {
     console.error("[Post like tweet failed]: ", error.response.data.message);
   }
 };
-
+//////////////////////////////////////////////// postTweetUnLike ////////////////////////////////////////////////
 // //把後端某篇貼文Like改為false，取消喜歡
 export const postTweetUnlike = async (id) => {
   try {
@@ -225,69 +82,46 @@ export const postTweetUnlike = async (id) => {
   }
 };
 
-//////////////////////////////////////////////////////////////////////////////////////////////
 
+//////////////////////////////////////////////// postTweetReply ////////////////////////////////////////////////
+// post /api/tweets/:tweet_id/replies 回覆某一則貼文
+export const postTweetReply = async (comment, tweetId) => {
+  try {
+    const res = await axiosInstance.post(
+      `${baseUrl}/tweets/${tweetId}/replies`,
+      comment
+    );
+    return res;
+  } catch (error) {
+    console.error("[Post Tweet Reply failed]: ", error);
+  }
+};
+//////////////////////////////////////////////// getSpecificTweet ////////////////////////////////////////////////
+// get /api/tweets/:id 取得某一則貼文的資料
+export const getSpecificTweet = async (specificTweetId) => {
+  try {
+    const res = await axiosInstance.get(`${baseUrl}/tweets/${specificTweetId}`);
+    return res.data;
+  } catch (error) {
+    console.error("[Get Specific Tweet failed]: ", error);
+  }
+};
 
+//////////////////////////////////////////////// getSpecificTweetReply ////////////////////////////////////////////////
 // get /api/tweets/:tweet_id/replies 取得某一則貼文的所有留言
-export const replyItemsDummyData = [
-  {
-    replyId: 31,
-    comment: "It's so melting hot outside!!!!!",
-    replierName: "Jennifer",
-    replierAvatar: userOtherAvatar,
-    replierAccount: "user1",
-    tweetBelongerAccount: "Ailsa",
-    createdAt: "12小時",
-  },
-  {
-    replyId: 32,
-    comment: "It's so melting hot outside!!!!!",
-    replierName: "Jennifer",
-    replierAvatar: userOtherAvatar,
-    replierAccount: "user1",
-    tweetBelongerAccount: "Ailsa",
-    createdAt: "12小時",
-  },
-  {
-    replyId: 33,
-    comment: "It's so melting hot outside!!!!!",
-    replierName: "Jennifer",
-    replierAvatar: userOtherAvatar,
-    replierAccount: "user1",
-    tweetBelongerAccount: "Ailsa",
-    createdAt: "12小時",
-  },
-  {
-    replyId: 34,
-    comment: "It's so melting hot outside!!!!!",
-    replierName: "Jennifer",
-    replierAvatar: userOtherAvatar,
-    replierAccount: "user1",
-    tweetBelongerAccount: "Ailsa",
-    createdAt: "12小時",
-  },
-  {
-    replyId: 35,
-    comment: "It's so melting hot outside!!!!!",
-    replierName: "Jennifer",
-    replierAvatar: userOtherAvatar,
-    replierAccount: "user1",
-    tweetBelongerAccount: "Ailsa",
-    createdAt: "12小時",
-  },
-  {
-    replyId: 36,
-    comment: "It's so melting hot outside!!!!!",
-    replierName: "Jennifer",
-    replierAvatar: userOtherAvatar,
-    replierAccount: "user1",
-    tweetBelongerAccount: "Ailsa",
-    createdAt: "12小時",
-  },
-];
+export const getSpecificTweetReply = async (specificTweetId) => {
+  try {
+    const res = await axiosInstance.get(
+      `${baseUrl}/tweets/${specificTweetId}/replies`
+    );
+    return res.data;
+  } catch (error) {
+    console.error("[Get Specific Tweet Reply failed]: ", error);
+  }
+};
+
 
 // get api/users/:id 取得特定使用者資料
-
 export const getUserInformation = [
   {
     id: 1,
@@ -602,6 +436,8 @@ export const getUserSelfLikeItemsDummyData = [
     createdAt: "2023-08-19T15:35:14.000Z",
   },
 ];
+
+
 
 // get /api/users/:id/followers 查看特定使用者的粉絲
 export const followerDummyData = [
