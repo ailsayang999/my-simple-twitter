@@ -82,7 +82,6 @@ export const postTweetUnlike = async (id) => {
   }
 };
 
-//////////////////////////////////////////////// postTweetLike ////////////////////////////////////////////////
 
 //////////////////////////////////////////////// postTweetReply ////////////////////////////////////////////////
 // post /api/tweets/:tweet_id/replies 回覆某一則貼文
@@ -120,65 +119,9 @@ export const getSpecificTweetReply = async (specificTweetId) => {
     console.error("[Get Specific Tweet Reply failed]: ", error);
   }
 };
-export const replyItemsDummyData = [
-  {
-    replyId: 31,
-    comment: "It's so melting hot outside!!!!!",
-    replierName: "Jennifer",
-    replierAvatar: userOtherAvatar,
-    replierAccount: "user1",
-    tweetBelongerAccount: "Ailsa",
-    createdAt: "12小時",
-  },
-  {
-    replyId: 32,
-    comment: "It's so melting hot outside!!!!!",
-    replierName: "Jennifer",
-    replierAvatar: userOtherAvatar,
-    replierAccount: "user1",
-    tweetBelongerAccount: "Ailsa",
-    createdAt: "12小時",
-  },
-  {
-    replyId: 33,
-    comment: "It's so melting hot outside!!!!!",
-    replierName: "Jennifer",
-    replierAvatar: userOtherAvatar,
-    replierAccount: "user1",
-    tweetBelongerAccount: "Ailsa",
-    createdAt: "12小時",
-  },
-  {
-    replyId: 34,
-    comment: "It's so melting hot outside!!!!!",
-    replierName: "Jennifer",
-    replierAvatar: userOtherAvatar,
-    replierAccount: "user1",
-    tweetBelongerAccount: "Ailsa",
-    createdAt: "12小時",
-  },
-  {
-    replyId: 35,
-    comment: "It's so melting hot outside!!!!!",
-    replierName: "Jennifer",
-    replierAvatar: userOtherAvatar,
-    replierAccount: "user1",
-    tweetBelongerAccount: "Ailsa",
-    createdAt: "12小時",
-  },
-  {
-    replyId: 36,
-    comment: "It's so melting hot outside!!!!!",
-    replierName: "Jennifer",
-    replierAvatar: userOtherAvatar,
-    replierAccount: "user1",
-    tweetBelongerAccount: "Ailsa",
-    createdAt: "12小時",
-  },
-];
+
 
 // get api/users/:id 取得特定使用者資料
-
 export const getUserInformation = [
   {
     id: 1,
@@ -493,6 +436,8 @@ export const getUserSelfLikeItemsDummyData = [
     createdAt: "2023-08-19T15:35:14.000Z",
   },
 ];
+
+
 
 // get /api/users/:id/followers 查看特定使用者的粉絲
 export const followerDummyData = [

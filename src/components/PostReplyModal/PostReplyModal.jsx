@@ -1,70 +1,71 @@
 import "./postReplyModal.scss";
 import { ReactComponent as ClosedIcon } from "assets/icons/crossIcon.svg";
-import { useContext, useState } from "react";
+import { useContext, useEffect } from "react";
 import ModalContext from "context/ModalContext";
-
-//之後刪掉
-import otherAvatar from "assets/images/fakeUserOtherAvatar.png";
-import userAvatar from "assets/images/fakeUserAvatar.png";
+import { getSpecificTweet } from "api/tweets";
 
 const PostReplyModal = ({
   ReplyInputValue,
   onReplyTextAreaChange,
+  specificTweet,
   onAddTweetReply,
+  userAvatar,
 }) => {
   // 從Context中拿取togglePostModal的function
-  const { toggleReplyModal } = useContext(ModalContext);
+  const { toggleReplyModal, setSpecificTweet } = useContext(ModalContext);
 
-  const specificTweetDummyData = [
-    {
-      id: 1,
-      author: {
-        id: 21,
-        account: "ailsa",
-        name: "Ailsa",
-        avatar: otherAvatar,
-      },
-      description:
-        "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ducimus ex illo cupiditate. Nostrum fuga quos tempora ipsum libero repellendus soluta?",
-      likeCount: 6,
-      replyCount: 1,
-      isLiked: true,
-      createdAt: "3小時",
-    },
-  ];
-
-  const [specificTweet, setSpecificTweet] = useState(specificTweetDummyData);
+  useEffect(() => {
+    const getSpecificTweetAsync = async () => {
+      //因為getSpecificTweet是非同步的操作，有可能會失敗，所以我們要用try catch把它包起來
+      try {
+        // 先把mainPage的某個一個特定tweet的id拿出來
+        const specificTweetId = localStorage.getItem("specific-tweetId");
+        // console.log(typeof specificTweetId);
+        const specificTweetIdNum = Number(specificTweetId);
+        const backendSpecificTweet = await getSpecificTweet(specificTweetIdNum); //用await去取得所有後端specificTweet
+        setSpecificTweet(backendSpecificTweet);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    getSpecificTweetAsync();
+  }, []);
 
   return (
-    <div className="">
-      <div className="reply-post-tweet-modal">
-        <div className="reply-overlay">
-          <div className="reply-modal-content-wrapper">
-            <div className="reply-closed-icon-container">
-              <ClosedIcon
-                className="reply-cross-icon"
-                onClick={toggleReplyModal}
-              />
-            </div>
+    <div className="reply-post-tweet-modal">
+      <div className="reply-overlay">
+        <div className="reply-modal-content-wrapper">
+          <div className="reply-closed-icon-container">
+            <ClosedIcon
+              className="reply-cross-icon"
+              onClick={toggleReplyModal}
+            />
+          </div>
 
-            <div className="reply-modal-content">
-              {specificTweet.map(({ id, description, author, createdAt }) => {
+          <div className="reply-modal-content">
+            {specificTweet.map(
+              ({
+                id,
+                authorAvatar,
+                authorName,
+                authorAccount,
+                description,
+                createdAt,
+              }) => {
                 return (
                   <>
                     <div className="reply-modal-post-item-container" key={id}>
                       <div className="reply-modal-post-item-wrapper">
                         <img
-                          src={author.avatar}
+                          src={authorAvatar}
                           alt=""
                           className="reply-modal-post-item-avatar"
                         />
                         <div className="reply-modal-item-content">
                           <div className="reply-modal-user-post-info">
-                            <div className="reply-modal-name">
-                              {author.name}
-                            </div>
+                            <div className="reply-modal-name">{authorName}</div>
                             <div className="reply-modal-account">
-                              @{author.account}
+                              @{authorAccount}
                             </div>
                             <div className="reply-modal-time">
                               · {createdAt}
@@ -78,7 +79,7 @@ const PostReplyModal = ({
                           <div className="reply-modal-reply-to">
                             回覆給
                             <span className="reply-modal-reply-belonger">
-                              @{author.account}
+                              @{authorAccount}
                             </span>
                           </div>
                         </div>
@@ -86,49 +87,49 @@ const PostReplyModal = ({
                     </div>
                   </>
                 );
-              })}
+              }
+            )}
 
-              <div className="reply-modal-avatar-text-container">
-                <div className="reply-modal-user-avatar-wrapper">
-                  <img
-                    src={userAvatar}
-                    alt=""
-                    className="reply-modal-user-avatar"
+            <div className="reply-modal-avatar-text-container">
+              <div className="reply-modal-user-avatar-wrapper">
+                <img
+                  src={userAvatar}
+                  alt=""
+                  className="reply-modal-user-avatar"
+                />
+              </div>
+
+              <div className="reply-modal-post-area">
+                <span className="reply-modal-text-area">
+                  <textarea
+                    id="reply-tweet-textarea"
+                    type="text"
+                    className="reply-modal-textarea"
+                    placeholder="推你的回覆"
+                    value={ReplyInputValue || ""}
+                    onChange={(e) => onReplyTextAreaChange?.(e.target.value)}
                   />
-                </div>
+                </span>
+              </div>
+            </div>
 
-                <div className="reply-modal-post-area">
-                  <span className="reply-modal-text-area">
-                    <textarea
-                      id="reply-tweet-textarea"
-                      type="text"
-                      className="reply-modal-textarea"
-                      placeholder="推你的回覆"
-                      value={ReplyInputValue || ""}
-                      onChange={(e) => onReplyTextAreaChange?.(e.target.value)}
-                    />
-                  </span>
-                </div>
+            <div className="reply-textarea-notification-tweet-modal-container">
+              <div
+                className={
+                  ReplyInputValue.length === 0
+                    ? "textarea-notification__cannot-be-blank"
+                    : "reply-notification-display-none"
+                }
+              >
+                內容不可為空白
               </div>
 
-              <div className="reply-textarea-notification-tweet-modal-container">
-                <div
-                  className={
-                    ReplyInputValue.length === 0
-                      ? "textarea-notification__cannot-be-blank"
-                      : "reply-notification-display-none"
-                  }
-                >
-                  內容不可為空白
-                </div>
-
-                <button
-                  className="reply-tweet-modal-btn"
-                  onClick={() => onAddTweetReply(ReplyInputValue)}
-                >
-                  回覆
-                </button>
-              </div>
+              <button
+                className="reply-tweet-modal-btn"
+                onClick={() => onAddTweetReply(ReplyInputValue, specificTweet)}
+              >
+                回覆
+              </button>
             </div>
           </div>
         </div>

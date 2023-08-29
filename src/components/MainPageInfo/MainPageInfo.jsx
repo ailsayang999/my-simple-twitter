@@ -14,13 +14,40 @@ import {
   postTweet,
   postTweetReply,
 } from "api/tweets";
-
-
 // 引入Modal元件
 import PostTweetModal from "components/PostTweetModal/PostTweetModal";
+import PostReplyModal from "components/PostReplyModal/PostReplyModal";
 
 const MainPageInfo = () => {
   const navigate = useNavigate();
+  // 從Context中拿取togglePostModal的function
+  const { postModal, togglePostModal } = useContext(ModalContext);
+
+  // 從Context中拿取toggleReplyModal的function
+  const {
+    replyModal,
+    toggleReplyModal,
+    setReplyModal,
+    ReplyInputValue,
+    setReplyInputValue,
+    specificTweet,
+    setSpecificTweet,
+    specificTweetReplies,
+    setSpecificTweetReplies,
+    handleReplyTextAreaChange,
+    handleTweetReply,
+  } = useContext(ModalContext);
+
+  //先從AuthContext拿到驗證是否為true(isAuthenticated:true)
+  const { isAuthenticated } = useAuth();
+
+  // 如果今天mainPage的ReplyIcon被點擊的話，就要先把被點擊的specific-tweetId給存到localStorage，然後把Reply Modal給pop出來
+  const handleSpecificPostReplyIconClick = (id) => {
+    localStorage.setItem("specific-tweetId", id);
+    // navigate("/reply");
+    toggleReplyModal();
+  };
+  //如果是文章被點擊的話，不但要存specific-tweetId，還要navigate到replyPage
   const handleNavigateToReplyPage = (id) => {
     localStorage.setItem("specific-tweetId", id);
     navigate("/reply");
@@ -30,15 +57,6 @@ const MainPageInfo = () => {
   const handleNavigateToUserOtherPage = () => {
     navigate("/user/other");
   };
-
-  // 從Context中拿取togglePostModal的function
-  const { postModal, togglePostModal } = useContext(ModalContext);
-
-  // 從Context中拿取toggleReplyModal的function
-  const { toggleReplyModal } = useContext(ModalContext);
-
-  //先從AuthContext拿到驗證是否為true(isAuthenticated:true)
-  const { isAuthenticated } = useAuth();
 
   ////////////////////////////////////////////////////////////////////////////////////////////串接API getTweets 和  getUserInfo useEffect做初始畫面渲染 ///////////////////////////
   const [userInfo, setUserInfo] = useState([]);
@@ -71,7 +89,7 @@ const MainPageInfo = () => {
     getUserInfoAsync();
     //getTweetsAsync這個function定義完成之後，我們可以直接執行它
     getTweetsAsync();
-  }, [userInfo]); //後面的dependency讓他是空的，因為只要在畫面一開始被渲染的時候才做操作
+  }, [tweets]); //後面的dependency是tweets和...，兩者改變就要讓愛心的數字可動態更新
 
   //////////////////////////////////////////////////////////////串接API postTweetLike and postTweetUnlike：處理某篇貼文isLike的boolean值 ///////////////////////////
 
@@ -200,7 +218,6 @@ const MainPageInfo = () => {
     }
   };
 
-
   return (
     <div className="main-page-info">
       {/* 以下header可以重複使用 */}
@@ -262,7 +279,9 @@ const MainPageInfo = () => {
 
                     <div
                       className="post-content"
-                      onClick={()=>{handleNavigateToReplyPage(id)}}
+                      onClick={() => {
+                        handleNavigateToReplyPage(id);
+                      }}
                     >
                       {description}
                     </div>
@@ -271,7 +290,9 @@ const MainPageInfo = () => {
                       <div className="reply-container">
                         <ReplyIcon
                           className="reply-icon"
-                          onClick={toggleReplyModal}
+                          onClick={() => {
+                            handleSpecificPostReplyIconClick(id);
+                          }}
                         />
                         <div className="reply-number">{replyCount}</div>
                       </div>
@@ -313,6 +334,17 @@ const MainPageInfo = () => {
           onTweetTextAreaChange={handleTweetTextAreaChange}
           onAddTweet={handleAddTweet}
           userAvatar={userInfo.avatar}
+        />
+      )}
+
+      {/* Modal ：根據replyModal的布林值決定是否要跳出PostReplyModal component*/}
+      {replyModal && (
+        <PostReplyModal
+          ReplyInputValue={ReplyInputValue}
+          onReplyTextAreaChange={handleReplyTextAreaChange}
+          onAddTweetReply={handleTweetReply}
+          userAvatar={userInfo.avatar}
+          specificTweet={specificTweet}
         />
       )}
     </div>
