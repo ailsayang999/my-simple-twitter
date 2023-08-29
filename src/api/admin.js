@@ -3,29 +3,30 @@ import axios from 'axios';
 const baseUrl = 'https://mighty-temple-45104-0d6672fb07d0.herokuapp.com/api/admin';
 
 
+
 export const adminLogin = async ({ account, password }) => {
   try {
     console.log(`進到admin.js 傳入資料,account:${account} password:${password}`)
-    const { data } = await axios.post(`${baseUrl}/login`, {
+    const { data } = await axios.post(`${baseUrl}/signin`, {
       account,
       password,
     });
 
-    const authToken = data.data.token
-    console.log(`取出data中的token值，改命名為authToken:${authToken}`)
+    console.log(`data:${JSON.stringify(data)}`)
+    // const authToken = data.data.token
+    // console.log(`取出data中的token值，改命名為authToken:${authToken}`)
 
-    if (authToken) {
-      console.log('AuthToken get! Add "success": true, "authToken": authToken  into data(最外層)!')
-      return { success: true, authToken: authToken, ...data };
-    }
-    console.log(`auth.js中的login通過authToken驗證 success 後拿到data做JSON.stringify後的data: ${JSON.stringify(data)}`)
-    return data;
+    // if (authToken) {
+    //   console.log('AuthToken get! Add "success": true, "authToken": authToken  into data(最外層)!')
+    //   return { success: true, authToken: authToken, ...data };
+    // }
+    // console.log(`auth.js中的login通過authToken驗證 success 後拿到data做JSON.stringify後的data: ${JSON.stringify(data)}`)
+    // return data;
   } catch (error) {
     console.error(`[AdminLogin Failed]:`, error);
   }
 };
 
-//有要驗證token嗎?
 export const checkPermission = async (authToken) => {
   try {
     const response = await axios.get(`${baseUrl}/test-token`, {
@@ -44,9 +45,15 @@ const axiosInstance = axios.create({
   baseURL: baseUrl,
 });
 
+// 直接從後台拿authToken: "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiYWNjb3VudCI6InJvb3QiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE2OTI5NTgxMjQsImV4cCI6MTY5NTU1MDEyNH0.VJeixMkMSaXJioVrgDFfm-izWdDLwYxzq3aMicCC8v8"
+
+
+
 axiosInstance.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem('authToken');
+    // const token = localStorage.getItem('authToken');
+    const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiYWNjb3VudCI6InJvb3QiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE2OTI5NTgxMjQsImV4cCI6MTY5NTU1MDEyNH0.VJeixMkMSaXJioVrgDFfm-izWdDLwYxzq3aMicCC8v8"
+
     if (token) {
       config.headers['Authorization'] = `Bearer ${token}`;
     }
@@ -58,35 +65,42 @@ axiosInstance.interceptors.request.use(
 );
 
 
+
 export const getUsers = async () => {
   try {
+    console.log(`進入admin.js連到/users拿資料!`)    
     const res = await axiosInstance.get(`${baseUrl}/users`);
-    console.log(res.data)
-    console.log(res.data.data.id)
-    return res.data.data;
+    
+    console.log(`拿回資料res: ${JSON.stringify(res)}`)
+    console.log(`res.data:${JSON.stringify(res.data)}`)
+        return res.data;
   } catch (error) {
-    console.error(`[Get Users failed]:`, error);
+    console.error(`[Get AdminUsers failed]:`, error);
   }
 };
 
 export const getTweets = async () => {
   try {
+    console.log(`進入admin.js連到/tweets拿資料!`) 
     const res = await axiosInstance.get(`${baseUrl}/tweets`);
-    console.log(res.data)
-    console.log(res.data.id)
+
+    console.log(`拿回資料res: ${JSON.stringify(res)}`)
+    console.log(`res.data:${JSON.stringify(res.data)}`)
     return res.data;
   } catch (error) {
-    console.error(`[Get Tweets failed]:`, error);
+    console.error(`[Get AdminTweets failed]:`, error);
   }
 };
 
 export const deleteTweet = async (id) => {
   try {
+    console.log(`進入admin.js連到/tweets/:id刪除資料!`) 
     const res = await axiosInstance.del(`${baseUrl}/tweets/:${id}`);
-    console.log(res.data)
-    console.log(res.data.data.id)
+
+    console.log(`拿回資料res: ${JSON.stringify(res)}`)
+    console.log(`res.data:${JSON.stringify(res.data)}`)
     return res.data.data;
   } catch (error) {
-    console.error(`[Delete Tweet failed]:`, error);
+    console.error(`[Delete AdminTweetDelete failed]:`, error);
   }
 };
