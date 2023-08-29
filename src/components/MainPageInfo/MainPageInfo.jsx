@@ -2,7 +2,7 @@ import "./mainPageInfo.scss";
 import { ReactComponent as ReplyIcon } from "assets/icons/replyIcon.svg";
 import { ReactComponent as LikeIcon } from "assets/icons/likeIcon.svg";
 import { ReactComponent as LikeActiveIcon } from "assets/icons/likeIconActive.svg";
-import { useState, useContext, useEffect } from "react";
+import { useContext, useEffect } from "react";
 import ModalContext from "context/ModalContext";
 import { useAuth } from "context/AuthContext"; //到AuthContext拿是否已驗證
 import { useNavigate } from "react-router-dom";
@@ -11,8 +11,6 @@ import {
   getUserInfo,
   postTweetUnlike,
   postTweetLike,
-  postTweet,
-  postTweetReply,
 } from "api/tweets";
 // 引入Modal元件
 import PostTweetModal from "components/PostTweetModal/PostTweetModal";
@@ -20,20 +18,22 @@ import PostReplyModal from "components/PostReplyModal/PostReplyModal";
 
 const MainPageInfo = () => {
   const navigate = useNavigate();
-  // 從Context中拿取togglePostModal的function
-  const { postModal, togglePostModal } = useContext(ModalContext);
-
   // 從Context中拿取toggleReplyModal的function
   const {
+    userInfoId,
+    userInfo,
+    setUserInfo,
+    tweets,
+    setTweets,
+    postModal,
+    togglePostModal,
+    inputValue,
+    handleTweetTextAreaChange,
+    handleAddTweet,
     replyModal,
     toggleReplyModal,
-    setReplyModal,
     ReplyInputValue,
-    setReplyInputValue,
     specificTweet,
-    setSpecificTweet,
-    specificTweetReplies,
-    setSpecificTweetReplies,
     handleReplyTextAreaChange,
     handleTweetReply,
   } = useContext(ModalContext);
@@ -44,7 +44,6 @@ const MainPageInfo = () => {
   // 如果今天mainPage的ReplyIcon被點擊的話，就要先把被點擊的specific-tweetId給存到localStorage，然後把Reply Modal給pop出來
   const handleSpecificPostReplyIconClick = (id) => {
     localStorage.setItem("specific-tweetId", id);
-    // navigate("/reply");
     toggleReplyModal();
   };
   //如果是文章被點擊的話，不但要存specific-tweetId，還要navigate到replyPage
@@ -59,18 +58,16 @@ const MainPageInfo = () => {
   };
 
   ////////////////////////////////////////////////////////////////////////////////////////////串接API getTweets 和  getUserInfo useEffect做初始畫面渲染 ///////////////////////////
-  const [userInfo, setUserInfo] = useState([]);
-  const [tweets, setTweets] = useState([]);
-
+ 
+  
   //串接API: tweets畫面初始化，顯示過去tweets內所有資訊
   useEffect(() => {
     //首先拿到當前登入的使用者資料
     const getUserInfoAsync = async () => {
       try {
-        const localStorageUserInfoString = localStorage.getItem("userInfo"); //拿下來會是一比string的資料
-        const LocalStorageUserInfo = JSON.parse(localStorageUserInfoString); // 要把這個string變成object
-        const userInfoId = LocalStorageUserInfo.id; //再從這個object那到登入者的id
+        //向後端拿取登入者的object資料
         const backendUserInfo = await getUserInfo(userInfoId);
+        //拿到登入者資料後存在userInfo裡面，userInfo會是一個object
         setUserInfo(backendUserInfo);
       } catch (error) {
         console.error(error);
@@ -89,7 +86,7 @@ const MainPageInfo = () => {
     getUserInfoAsync();
     //getTweetsAsync這個function定義完成之後，我們可以直接執行它
     getTweetsAsync();
-  }, [tweets]); //後面的dependency是tweets和...，兩者改變就要讓愛心的數字可動態更新
+  }, [tweets,userInfo,userInfoId]); //後面的dependency是tweets和...，兩者改變就要讓愛心的數字可動態更新
 
   //////////////////////////////////////////////////////////////串接API postTweetLike and postTweetUnlike：處理某篇貼文isLike的boolean值 ///////////////////////////
 
@@ -158,65 +155,6 @@ const MainPageInfo = () => {
     }
   };
 
-  ///////////////////////////////////////////////// handleAddTweet  /////////////////////////////////////////////////
-  // 監聽器：handleTweetTextAreaChange，當PostTweetModal的textarea發生改變時，更新inputValue的state
-  const [inputValue, setInputValue] = useState("");
-  const handleTweetTextAreaChange = (value) => {
-    setInputValue(value);
-  };
-
-  //監聽器：handleAddTweet，當PostTweetModal的推文按鈕被按下時，做postTweet動作
-  const handleAddTweet = async (inputValue, userAvatar) => {
-    if (inputValue.length > 140) {
-      alert("字數不可以超過140字");
-      return;
-    }
-    console.log(inputValue); //inputValue有輸入成功，handleAddTweet 點擊反應成功
-    console.log({
-      description: inputValue,
-    });
-    //因為他也是非同步的操作，可能會有失敗的狀況，所以我也是用try catch把它包起來
-    try {
-      //會給後端儲存的資料有：description
-      //然後因為我們是用await方法的話，我們的handleAddTweet這個函式要改成async function
-      //我們在postTweet裡面給payload，也就是給我們想要新增的資訊，在api的tweets.js那裡就會去處理並return後端新增資料後的res.data，然後我們把這個res.data存到data裡面，再用setTweets來更新React裡面的tweets的state
-      const res = await postTweet({
-        description: inputValue,
-      });
-
-      //因為後端其實會實際幫我們generate實際的todo id，所以我們拿到data的時候，我們可以在setTweets的id那裡帶入後端幫我們產生的id，然後其他資料(如：author,description..)都可以直接從後端建立好並傳來的data拿值
-      // 前端畫面也更新：我們會帶上isLiked這個欄位，我們先給他false的值
-
-      if (res.data.status === "success") {
-        alert(res.data.message);
-        console.log(res.data.data.description);
-        setTweets((prevTweets) => {
-          return [
-            {
-              id: res.data.data.id,
-              authorAccount: userInfo.account,
-              description: res.data.data.description,
-              replyCount: 0,
-              likeCount: 0,
-              isLiked: false,
-              createdAt: res.data.data.createdAt,
-              authorAvatar: userAvatar,
-            },
-            ...prevTweets,
-          ];
-        });
-        togglePostModal();
-
-        // 把textarea裡面的訊息清掉
-        setInputValue("");
-        // 把PostModal關起來
-        togglePostModal();
-      }
-      return;
-    } catch (error) {
-      console.error(error);
-    }
-  };
 
   return (
     <div className="main-page-info">

@@ -1,9 +1,12 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import "./userSelfFollowPageInfo.scss";
 import { ReactComponent as BackArrowIcon } from "assets/icons/backArrowIcon.svg";
 import { useNavigate } from "react-router-dom";
 import { followerDummyData } from "api/tweets";
 import { followingDummyData } from "api/tweets";
+import ModalContext from "context/ModalContext";
+// 引入Modal元件
+import PostTweetModal from "components/PostTweetModal/PostTweetModal";
 
 const FollowerContent = ({ follower, handleFollowerBtnClick }) => {
   return (
@@ -70,13 +73,21 @@ const FollowingContent = ({ following, handleFollowingBtnClick }) => {
 };
 
 
-
 const UserSelfFellowPageInfo = () => {
   const navigate = useNavigate();
   //如果點按返回箭頭就navigate to /user/self
   const handleBackArrowClick = () => {
     navigate("/user/self");
   };
+
+  // 把要傳給PostTweetModal的props都引入進來
+  const {
+    userInfo,
+    postModal,
+    inputValue,
+    handleTweetTextAreaChange,
+    handleAddTweet,
+  } = useContext(ModalContext);
 
   /////////////////////////////////////// 畫面顯示決定區///////////////////////////////////////
 
@@ -115,11 +126,9 @@ const UserSelfFellowPageInfo = () => {
     );
   };
 
-   const handleFollowingBtnClick = (id) => {
-     setFollowing(following.filter((fol) => fol.id !== id));
-   };
-
-
+  const handleFollowingBtnClick = (id) => {
+    setFollowing(following.filter((fol) => fol.id !== id));
+  };
 
   return (
     <div className="user-self-follow-page-info">
@@ -137,7 +146,7 @@ const UserSelfFellowPageInfo = () => {
           </div>
         </div>
       </div>
-      
+
       {/* user-self-follower-following-like-navigator */}
       <div className="user-self-follow-follower-following-navigator">
         <button
@@ -176,6 +185,17 @@ const UserSelfFellowPageInfo = () => {
         <FollowingContent
           following={following}
           handleFollowingBtnClick={handleFollowingBtnClick}
+        />
+      )}
+
+      {/* Modal ：根據postModal的布林值決定是否要跳出PostTweetModal component*/}
+      {postModal && (
+        <PostTweetModal
+          userInfo={userInfo}
+          inputValue={inputValue}
+          onTweetTextAreaChange={handleTweetTextAreaChange}
+          onAddTweet={handleAddTweet}
+          userAvatar={userInfo.avatar}
         />
       )}
     </div>

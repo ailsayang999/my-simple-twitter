@@ -8,7 +8,6 @@ import { useAuth } from "context/AuthContext"; //到AuthContext拿是否已驗�
 import { useContext, useState, useEffect } from "react";
 import ModalContext from "context/ModalContext";
 import {
-  postTweetReply,
   getUserInfo,
   getSpecificTweet,
   getSpecificTweetReply,
@@ -17,6 +16,7 @@ import {
 } from "api/tweets";
 
 // 引入Modal元件
+import PostTweetModal from "components/PostTweetModal/PostTweetModal";
 import PostReplyModal from "components/PostReplyModal/PostReplyModal";
 
 const ReplyPageInfo = () => {
@@ -33,11 +33,13 @@ const ReplyPageInfo = () => {
 
   // 從Context中拿取toggleReplyModal的function
   const {
+    postModal,
+    inputValue,
+    handleTweetTextAreaChange,
+    handleAddTweet,
     replyModal,
     toggleReplyModal,
-    setReplyModal,
     ReplyInputValue,
-    setReplyInputValue,
     specificTweet,
     setSpecificTweet,
     specificTweetReplies,
@@ -49,7 +51,7 @@ const ReplyPageInfo = () => {
   //先從AuthContext拿到驗證是否為true(isAuthenticated:true)
   const { isAuthenticated } = useAuth();
 
-  //串接API: reply畫面初始化，顯示過去特定貼文內所有reply
+  //當前使用者的的id
   const [userInfo, setUserInfo] = useState([]);
 
   // 先拿到初始的資料
@@ -100,12 +102,7 @@ const ReplyPageInfo = () => {
     //getUserInfoAsync和getSpecificTweetAsync這些function定義完成之後，我們可以直接執行它
     getUserInfoAsync();
     getSpecificTweetReplyAsync();
-  }, [specificTweetReplies]); //後面的dependency是specificTweet和specificTweetReplies，兩者改變就要讓愛心的數字可動態更新
-
-  //  console.log(specificTweetReplies);
-  // 前端畫面處理isLikedActive的state做畫面渲染
-  // 喜歡功能
-  // const [specificTweetItem, setSpecificTweetItem] = useState(specificTweet);
+  }, [specificTweetReplies, userInfo]); //後面的dependency是specificTweet和specificTweetReplies，兩者改變就要讓愛心的數字可動態更新
 
   const handleToggleLike = async (specificTweet, setSpecificTweet) => {
     // 拿到這篇文章Like初始狀態
@@ -173,7 +170,7 @@ const ReplyPageInfo = () => {
 
   return (
     <div className="reply-page-info">
-      {/* Render specific Post */}
+      {/* Render specific Post 是從ModalContext那裡拿的 */}
       {specificTweet.map(
         ({
           id,
@@ -259,7 +256,7 @@ const ReplyPageInfo = () => {
           );
         }
       )}
-      {/* Render specific Post all replies */}
+      {/* Render specific Post all replies 是從ModalContext那裡拿的 */}
       {specificTweetReplies.map(
         ({
           replyId,
@@ -312,6 +309,17 @@ const ReplyPageInfo = () => {
           onAddTweetReply={handleTweetReply}
           userAvatar={userInfo.avatar}
           specificTweet={specificTweet}
+        />
+      )}
+
+      {/* Modal ：根據postModal的布林值決定是否要跳出PostTweetModal component*/}
+      {postModal && (
+        <PostTweetModal
+          userInfo={userInfo}
+          inputValue={inputValue}
+          onTweetTextAreaChange={handleTweetTextAreaChange}
+          onAddTweet={handleAddTweet}
+          userAvatar={userInfo.avatar}
         />
       )}
     </div>
