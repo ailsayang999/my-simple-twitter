@@ -1,5 +1,6 @@
 import { createContext, useState, useEffect, useContext } from "react";
-import { register, login, checkPermission } from "../api/auth";
+import { register, login } from "../api/auth";
+// import { register, login, checkPermission } from "../api/auth";
 
 import jwt_decode from "jwt-decode";
 import { useLocation } from "react-router-dom";
@@ -28,16 +29,18 @@ export const AuthProvider = ({ children }) => {
         setIsAuthenticated(false);
         setPayload(null);
         return;
-      }
-      const result = await checkPermission(authToken);
-      if (result) {
-        setIsAuthenticated(true);
-        const tempPayload = jwt_decode(authToken);
-        setPayload(tempPayload);
       } else {
-        setIsAuthenticated(false);
-        setPayload(null);
+        setIsAuthenticated(true);
       }
+      // const result = await checkPermission(authToken);
+      // if (result) {
+      //   setIsAuthenticated(true);
+      //   const tempPayload = jwt_decode(authToken);
+      //   setPayload(tempPayload);
+      // } else {
+      //   setIsAuthenticated(false);
+      //   setPayload(null);
+      // }
     };
 
     checkTokenIsValid();
