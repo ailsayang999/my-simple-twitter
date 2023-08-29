@@ -4,9 +4,12 @@ import { useNavigate } from "react-router-dom";
 import userOtherInfoCover from "assets/images/fakeUserOtherCover.png";
 import userOtherAvatar from "assets/images/fakeUserOtherAvatar.png";
 import { useContext, useState } from "react";
+import ModalContext from "context/ModalContext";
 import { ReactComponent as ReplyIcon } from "assets/icons/replyIcon.svg";
 import { ReactComponent as LikeIcon } from "assets/icons/likeIcon.svg";
 import { ReactComponent as LikeActiveIcon } from "assets/icons/likeIconActive.svg";
+// 引入Modal元件
+import PostTweetModal from "components/PostTweetModal/PostTweetModal";
 
 //這個之後刪掉
 import { getUserSelfTweetsDummyData } from "api/tweets";
@@ -169,6 +172,15 @@ const UserOtherPageInfo = () => {
     navigate("/main");
   };
 
+  // 把要傳給PostTweetModal的props都引入進來
+  const {
+    userInfo,
+    postModal,
+    inputValue,
+    handleTweetTextAreaChange,
+    handleAddTweet,
+  } = useContext(ModalContext);
+
   ////////////////////////////////// 更換顯示內容 相關資料處理  //////////////////////////////////
 
   // 監聽器：handleButtonClick，當navigator的button被點按時，會選擇渲染的資料，userSelfContent所存的文字會決定要渲染哪一個元件
@@ -251,7 +263,6 @@ const UserOtherPageInfo = () => {
 
         {/* 個人跟隨中和跟隨者 */}
         <div className="user-other-follow-following-container">
-          
           <button
             className="user-other-following"
             value="following"
@@ -315,6 +326,17 @@ const UserOtherPageInfo = () => {
       )}
       {userOtherContent === "user-other-like" && (
         <UserSelfLikeContent userSelfLike={userSelfLike} />
+      )}
+
+      {/* Modal ：根據postModal的布林值決定是否要跳出PostTweetModal component*/}
+      {postModal && (
+        <PostTweetModal
+          userInfo={userInfo}
+          inputValue={inputValue}
+          onTweetTextAreaChange={handleTweetTextAreaChange}
+          onAddTweet={handleAddTweet}
+          userAvatar={userInfo.avatar}
+        />
       )}
     </div>
   );

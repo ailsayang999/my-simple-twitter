@@ -15,6 +15,8 @@ import { getUserSelfTweetsDummyData } from "api/tweets";
 import { getUserSelfReplyItemsDummyData } from "api/tweets";
 import { getUserSelfLikeItemsDummyData } from "api/tweets";
 
+// 引入Modal元件
+import PostTweetModal from "components/PostTweetModal/PostTweetModal";
 import PutEditUserSelfInfoModal from "components/PutEditUserSelfInfoModal/PutEditUserSelfInfoModal";
 
 /////////////////////////////////////////// Change Content Components //////////////////////////////////
@@ -173,6 +175,14 @@ const UserSelfPageInfo = () => {
   const handleBackArrowClick = () => {
     navigate("/main");
   };
+  // 把要傳給PostTweetModal的props都引入進來
+  const {
+    userInfo,
+    postModal,
+    inputValue,
+    handleTweetTextAreaChange,
+    handleAddTweet,
+  } = useContext(ModalContext);
 
   // UserSelfPageInfo的監聽器：，當跟隨者或是跟隨中的button被點按時，會選擇UserSelfFollowPage要渲染的資料 (但是因為會被navigation搶先執行，所以先不用了)
   // const { handleFollowingClick, handleFollowerClick } = useContext(NavigationContext);
@@ -229,7 +239,7 @@ const UserSelfPageInfo = () => {
   return (
     <div className="user-self-page-info">
       {/* 以下header UserSelfPage, UserOtherPage UserSelfFollowPage, UserOtherFollowPage 可以重複使用 */}
-      
+
       <div className="header-container">
         <BackArrowIcon
           className="back-arrow-icon"
@@ -257,7 +267,7 @@ const UserSelfPageInfo = () => {
           <div className="user-self-avatar-container">
             <img src={userSelfAvatar} alt="" className="user-self-avatar" />
           </div>
-          
+
           <button
             className="user-self-avatar-edit-btn"
             onClick={toggleEditModal}
@@ -279,7 +289,6 @@ const UserSelfPageInfo = () => {
 
         {/* 個人跟隨中和跟隨者 */}
         <div className="user-self-follow-following-container">
-          
           <button
             className="user-self-following"
             value="following"
@@ -290,7 +299,7 @@ const UserSelfPageInfo = () => {
             {34} 個
           </button>
           <span className="following-text">跟隨中</span>
-          
+
           <button
             className="user-self-follower"
             value="follower"
@@ -344,7 +353,16 @@ const UserSelfPageInfo = () => {
       {userSelfContent === "user-self-like" && (
         <UserSelfLikeContent userSelfLike={userSelfLike} />
       )}
-
+      {/* Modal ：根據postModal的布林值決定是否要跳出PostTweetModal component*/}
+      {postModal && (
+        <PostTweetModal
+          userInfo={userInfo}
+          inputValue={inputValue}
+          onTweetTextAreaChange={handleTweetTextAreaChange}
+          onAddTweet={handleAddTweet}
+          userAvatar={userInfo.avatar}
+        />
+      )}
       {/* 決定編輯個人資料Modal跳出 */}
       {editModal && (
         <PutEditUserSelfInfoModal

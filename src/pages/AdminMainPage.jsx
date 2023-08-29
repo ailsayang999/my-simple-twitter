@@ -8,7 +8,7 @@ const AdminMainPage = () => {
       <LeftNavAdmin />
       <div className="rightContainer">
         <div className="title">推文清單</div>
-        <div className="tweetBoard">
+        <div className="mainTweetBoard">
           {/* 9 筆資料/頁 */}
           <TweetCard />
           <TweetCard />
