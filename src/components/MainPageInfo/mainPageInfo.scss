@@ -26,6 +26,7 @@
           width: 50px;
           height: 50px;
           border-radius: 50%;
+           object-fit:cover;
         }
         .text-area {
           color: var(--secondary);
@@ -65,6 +66,7 @@
         height: 50px;
         border-radius: 50%;
         cursor: pointer;
+         object-fit:cover;
       }
       .post-item-content {
         margin-left: 10px;
@@ -83,10 +85,13 @@
           }
         }
         .post-content {
+          width: 528px;
+          height: 78px;
            display: flex;
            align-items: center;
             min-height: 80px;
           cursor: pointer;
+          overflow: hidden;
         }
         .reply-like-container {
           display: flex;
