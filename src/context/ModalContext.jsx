@@ -4,11 +4,6 @@ import { postTweetReply, postTweet } from "api/tweets";
 const ModalContext = createContext("");
 
 function ModalContextProvider({ children }) {
-  const localStorageUserInfoString = localStorage.getItem("userInfo"); //拿下來會是一比string的資料
-  const LocalStorageUserInfo = JSON.parse(localStorageUserInfoString); // 要把這個string變成object
-  const userInfoId = LocalStorageUserInfo.id; //再從這個object拿到登入者的id
-  const [userInfo, setUserInfo] = useState([]);//在每一頁的useEffect中會去向後端請求登入者的object資料
-  
   ///////////////////////////////// For Post Modal////////////////////////////////
   // toggle PostModal: postModal的boolean判斷是否要跳出postTweetModal
   const [postModal, setPostModal] = useState(false);
@@ -51,7 +46,7 @@ function ModalContextProvider({ children }) {
           return [
             {
               id: res.data.data.id,
-              authorAccount: userInfo.account,
+              authorAccount: userAvatar,
               description: res.data.data.description,
               replyCount: 0,
               likeCount: 0,
@@ -151,9 +146,6 @@ function ModalContextProvider({ children }) {
   };
 
   const ModalContextValueToShare = {
-    userInfoId,
-    userInfo,
-    setUserInfo,
     tweets,
     setTweets,
     postModal,
