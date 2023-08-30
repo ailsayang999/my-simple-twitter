@@ -23,24 +23,43 @@ const RegisterPage = () => {
   
 
   const handleClick = async () => {
-    if (name.length === 0) {
+    if (account.length === 0) {
+      console.log('帳號為必填')
       return;
     }
-    if (account.length === 0) {
+    if (account.length > 20) {
+      console.log('帳號長度應小於20字')
+      return;
+    }
+    if (account.value === "root") {
+      console.log('此帳號不存在!')
+      return;
+    }
+    if (name.length > 50) {
+      console.log('名稱長度應小於50字')
       return;
     }
     if (email.length === 0) {
+      console.log('Email為必填')
       return;
     }
     if (password.length === 0) {
+      console.log('密碼為必填')
+      return;
+    }
+    if (password.length < 5 || password.length > 20) {
+      console.log('請設定5~20字英數字密碼!')
       return;
     }
     if (password !== checkPassword) {
-      console.log('密碼不相符!') //需要再製作errorMsg在InputSet中
+      console.log('密碼不相符，請重新確認!') //需要再製作errorMsg在InputSet中
       return;
     }
-
-    const { status } = await register({
+    if (name.length === 0) {
+      setName(account) ;
+     console.log('未設定名稱，預設使用 name = account!預設使用 name = account!')
+    }
+    const { status, message } = await register({
       name,
       account,
       email,
@@ -48,14 +67,17 @@ const RegisterPage = () => {
       checkPassword
     });
     if (status === "success") {
-      console.log('註冊成功!導向loginPage')
+      console.log(`註冊成功!${message}`)
       setShowNotiBoxSuccess(true)
       return;
+    } else if (status === "error") {
+      console.log(`出現錯誤${message}`)
+      setShowNotiBoxFail(true)
     }
-    setShowNotiBoxFail(true)
     console.log('註冊失敗!')
+    setShowNotiBoxFail(true)
   };
-
+      
   //當showNotiBox值改變時，過1s後轉回false關閉shoNotiBox並導向loginPage，並使用clearTimeout清除定時器
   useEffect(() => {
     if (showNotiBoxSuccess) {
@@ -85,15 +107,18 @@ const RegisterPage = () => {
       <Header entryName={"建立你的帳號"}/>
        
       <InputSet 
+        item={"前台帳號"}
         label={"帳號"} 
-        placeholder={"請輸入帳號"} 
+        placeholder={"請輸入20字以內帳號"} 
         value={account}
         onChange={(accountInputValue) => setAccount(accountInputValue)}
         // errorMsg={errorMsg}
+        maxLength ="20"
+        required
         /> 
       <InputSet 
         label={"名稱"} 
-        placeholder={"請輸入使用者名稱"} 
+        placeholder={"請輸入使用者名稱(50字以內)"} 
         value={name}
         onChange={(nameInputValue) => setName(nameInputValue)}
         // errorMsg={errorMsg}
@@ -105,20 +130,28 @@ const RegisterPage = () => {
         value={email}
         onChange={(emailInputValue) => setEmail(emailInputValue)}
         // errorMsg={errorMsg}
+        required
         />
       <InputSet 
+        type={"password"}
         label={"密碼"} 
-        placeholder={"請設定密碼"} 
+        placeholder={"請設定5~20字密碼"} 
         value={password}
+        pattern={"[0-9a-zA-Z]+"}
         onChange={(passwordInputValue) => setPassword(passwordInputValue)}
         // errorMsg={errorMsg}
+        maxLength ="20"
+        required
         />  
       <InputSet 
+        type={"password"}
         label={"密碼確認"} 
         placeholder={"請再次輸入密碼"} 
         value={checkPassword}
         onChange={(checkPasswordInputValue) => setCheckPassword(checkPasswordInputValue)}
         // errorMsg={errorMsg}
+        maxLength ="20"
+        required
         />   
       <div className="footer">
         <button className="mainButton" onClick={handleClick}>註冊</button>

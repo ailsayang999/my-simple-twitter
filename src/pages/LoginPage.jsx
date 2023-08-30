@@ -18,20 +18,24 @@ const LoginPage = () => {
 
   const handleClick = async () => {
     if (account.length === 0) {
+      console.log('帳號為必填')
       return;
     }
     if (password.length === 0) {
+      console.log('密碼為必填')
       return;
     }
     console.log('在loginPage呼叫login資訊，並傳入payload(account & password)')
-    const { success } = await login({
+    const { success, message } = await login({
       account,
       password,
     });
     if (success) {
+      console.log(`註冊成功!${message}`)
       setShowNotiBoxSuccess(true)
       return;
-    }
+    } 
+    console.log(`註冊失敗!${message}`)
     setShowNotiBoxFail(true)
   };
 
@@ -70,6 +74,7 @@ const LoginPage = () => {
         // errorMsg={errorMsg}
         />  
       <InputSet 
+        type={"password"}
         label={"密碼"} 
         placeholder={"請輸入密碼"} 
         value={password}
