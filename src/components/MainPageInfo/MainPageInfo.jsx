@@ -59,6 +59,7 @@ const MainPageInfo = () => {
 
   //串接API: tweets畫面初始化，顯示過去tweets內所有資訊
   useEffect(() => {
+    console.log("execute function in useEffect");
     //首先拿到當前登入的使用者資料
     const getUserInfoAsync = async () => {
       try {
@@ -86,7 +87,7 @@ const MainPageInfo = () => {
     getUserInfoAsync();
     //getTweetsAsync這個function定義完成之後，我們可以直接執行它
     getTweetsAsync();
-  }, [tweets, userInfo]); //後面的dependency是tweets和...，兩者改變就要讓愛心的數字可動態更新
+  }, []); //後面的dependency是tweets和...，兩者改變就要讓愛心的數字可動態更新   tweets, userInfo
 
   //////////////////////////////////////////////////////////////串接API postTweetLike and postTweetUnlike：處理某篇貼文isLike的boolean值 ///////////////////////////
 
@@ -113,6 +114,7 @@ const MainPageInfo = () => {
                 return {
                   ...tweet,
                   isLiked: false,
+                  likeCount:0,
                 };
               } else {
                 return tweet;
@@ -140,6 +142,7 @@ const MainPageInfo = () => {
                 return {
                   ...tweet,
                   isLiked: true,
+                  likeCount: 1,
                 };
               } else {
                 return tweet;

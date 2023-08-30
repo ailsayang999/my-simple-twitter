@@ -31,7 +31,6 @@
   }
 
   .user-self-info-area {
-    height: 378px;
     //以下在EditSelfInfoModal會用到
     .user-self-avatar-cover {
       position: relative;
@@ -41,6 +40,7 @@
         width: 639px;
         height: 200px;
         background-color: var(--bg-color);
+        overflow: hidden;
       }
       .user-self-avatar-container {
         position: absolute;
@@ -50,8 +50,11 @@
         height: 140px;
         border: 4px solid var(--bg-color);
         border-radius: 50%;
+        overflow: hidden;
         .user-self-avatar {
+          object-fit: cover;
           width: 100%;
+          height: 100%;
         }
       }
       .user-self-avatar-edit-btn {
@@ -95,7 +98,7 @@
         color: #171725;
         font-size: 14px;
         background-color: transparent;
-        border:none;
+        border: none;
       }
       .following-text,
       .follower-text {
@@ -151,6 +154,8 @@
       .post-item-avatar {
         width: 50px;
         height: 50px;
+        border-radius: 50%;
+        object-fit: cover;
       }
       .post-item-content {
         margin-left: 10px;
@@ -232,6 +237,8 @@
         // outline: 2px solid rgb(26, 71, 89);
         width: 50px;
         height: 50px;
+        border-radius: 50%;
+        object-fit: cover;
       }
       .reply-item-content {
         // outline: 2px solid rgb(26, 71, 89);
