@@ -56,6 +56,7 @@ const ReplyPageInfo = () => {
 
   // 先拿到初始的資料
   useEffect(() => {
+    console.log("Reply page execute useEffect")
     //首先拿到當前登入的使用者資料
     const getUserInfoAsync = async () => {
       try {
@@ -102,7 +103,7 @@ const ReplyPageInfo = () => {
     //getUserInfoAsync和getSpecificTweetAsync這些function定義完成之後，我們可以直接執行它
     getUserInfoAsync();
     getSpecificTweetReplyAsync();
-  }, [specificTweetReplies, userInfo]); //後面的dependency是specificTweet和specificTweetReplies，兩者改變就要讓愛心的數字可動態更新
+  }, []); //後面的dependency是specificTweet和specificTweetReplies，兩者改變就要讓愛心的數字可動態更新
 
   const handleToggleLike = async (specificTweet, setSpecificTweet) => {
     // 拿到這篇文章Like初始狀態
@@ -124,6 +125,7 @@ const ReplyPageInfo = () => {
                 return {
                   ...specificTweet,
                   isLiked: false,
+                  likeCount:0,
                 };
               } else {
                 return specificTweet;
@@ -152,6 +154,7 @@ const ReplyPageInfo = () => {
                 return {
                   ...specificTweet,
                   isLiked: true,
+                  likeCount: 1,
                 };
               } else {
                 return specificTweet;
