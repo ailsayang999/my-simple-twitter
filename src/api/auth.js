@@ -56,22 +56,22 @@ export const login = async ({ account, password }) => {
   }
 };
 
-//有要驗證token嗎?
-export const checkPermission = async (authToken) => {
-  try {
-    console.log(`進入auth.js的checkPermission中`)
-    const response = await axios.get(`${baseUrl}/users/signin`, {
-      headers: {
-        Authorization: 'Bearer ' + authToken,
-      },
-    });
-    console.log(`res.data: ${JSON.stringify(response.data)}`)
-    console.log(`res.data: ${JSON.stringify(response.data.success)}`)
-    return response.data.success;
-  } catch (error) {
-    console.error(`[Check Permission Failed]:`, error);
-  }
-};
+
+// export const checkPermission = async (authToken) => {
+//   try {
+//     console.log(`進入auth.js的checkPermission中`)
+//     const response = await axios.get(`${baseUrl}/users/signin`, {
+//       headers: {
+//         Authorization: 'Bearer ' + authToken,
+//       },
+//     });
+//     console.log(`res.data: ${JSON.stringify(response.data)}`)
+//     console.log(`res.data: ${JSON.stringify(response.data.success)}`)
+//     return response.data.success;
+//   } catch (error) {
+//     console.error(`[Check Permission Failed]:`, error);
+//   }
+// };
 
 
 const axiosInstance = axios.create({

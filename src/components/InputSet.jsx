@@ -2,7 +2,7 @@ import React from 'react'
 import './CommonStyle.scss'
 
 
-const InputSet = ({ type, label, value, placeholder, onChange }) => {
+const InputSet = ({ item, type, label, value, placeholder, maxLength, onChange }) => {
   let errorType = "";
   let errorMsg = "";
 
@@ -14,19 +14,13 @@ const InputSet = ({ type, label, value, placeholder, onChange }) => {
   } else if(label === "名稱" && (value.length > 50)) {
     errorType = "error";
     errorMsg = "字數超出上限!";
-  // } else if (label === "帳號"   ) {
-  //   errorType = "error";
-  //   errorMsg = "此帳號不存在!";
-  // } else if (label === "Email"  ) {
-  //   errorType = "error";
-  //   errorMsg = "此Email不存在!";
-  // } else if (label === "密碼"  ) {
-  //   errorType = "error";
-  //   errorMsg = "密碼錯誤!";
-  // } else if (label === "密碼" && label === "密碼確認") {
-  //   errorType = "error";
-  //   errorMsg = "密碼不相同!";
-  }
+  } else if (item === "前台帳號" && value === "root" ) {
+    errorType = "error";
+    errorMsg = "此帳號不存在!";
+  } else if (label === "密碼" && value.length !== 0 && ((value.length < 5) || (value.length > 20))) {
+    errorType = "error";
+    errorMsg = "密碼長度至少5字，但不超過20字!";
+  } 
 
 
   const BottomLine = ({errorType}) => {
@@ -42,15 +36,17 @@ const InputSet = ({ type, label, value, placeholder, onChange }) => {
 
   return (
     <div className="inputContainer">
-      <div className="inputContent">
+      <form className="inputContent">
         <label className="inputLabel">{label}</label>
         <input className="inputField"
+          item={item || label}
           type={type || 'text'}
           value={value || ''}
+          maxLength={maxLength || "50"}
           placeholder={placeholder || ''}
-          onChange={(e) => onChange?.(e.target.value) }
+          onChange={(e) => onChange?.(e.target.value.trim())}
         ></input>
-      </div>
+      </form>
       <BottomLine errorType={errorType||''}/>
       <div className="inputNote">
         <div className={errorMsg === undefined ? "hide" : "errorMsg"}>{errorMsg}</div>

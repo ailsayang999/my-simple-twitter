@@ -1,7 +1,7 @@
 import { createContext, useState, useEffect, useContext } from "react";
-import { register, login, checkPermission } from "../api/auth";
+import { register, login } from "../api/auth";
+// import { register, login, checkPermission } from "../api/auth";
 
-// import * as jwt from 'jsonwebtoken';
 import jwt_decode from "jwt-decode";
 import { useLocation } from "react-router-dom";
 
@@ -23,28 +23,24 @@ export const AuthProvider = ({ children }) => {
   const { pathname } = useLocation();
 
   useEffect(() => {
-              console.log(`payload 发生变化: ${JSON.stringify(payload)}`);
-              // 在这里执行其他你想要进行的操作
-            }, [payload]);
-
-  useEffect(() => {
     const checkTokenIsValid = async () => {
       const authToken = localStorage.getItem("authToken");
       if (!authToken) {
-        console.log(`localStorage中沒有authToken清空paylaod!`)
         setIsAuthenticated(false);
         setPayload(null);
         return;
-      }
-      const result = await checkPermission(authToken);
-      if (result) {
-        setIsAuthenticated(true);
-        const tempPayload = jwt_decode(authToken);
-        setPayload(tempPayload);
       } else {
-        setIsAuthenticated(false);
-        setPayload(null);
+        setIsAuthenticated(true);
       }
+      // const result = await checkPermission(authToken);
+      // if (result) {
+      //   setIsAuthenticated(true);
+      //   const tempPayload = jwt_decode(authToken);
+      //   setPayload(tempPayload);
+      // } else {
+      //   setIsAuthenticated(false);
+      //   setPayload(null);
+      // }
     };
 
     checkTokenIsValid();

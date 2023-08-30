@@ -28,7 +28,7 @@ export const AuthAdminProvider = ({ children }) => {
         setIsAuthenticated(false);
         setPayload(null);
         return;
-      }
+      } else {
       // 有要驗證token嗎?
       // const result = await checkPermission(authToken);
       // if (result) {
@@ -39,6 +39,8 @@ export const AuthAdminProvider = ({ children }) => {
       //   setIsAuthenticated(false);
       //   setPayload(null);
       // }
+      setIsAuthenticated(true)
+      }
     };
 
     checkTokenIsValid();
