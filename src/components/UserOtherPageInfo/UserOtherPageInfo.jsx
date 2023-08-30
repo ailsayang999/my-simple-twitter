@@ -25,7 +25,6 @@ const UserSelfTweetContent = ({ userSelfTweets }) => {
       {userSelfTweets.map(
         ({ id, description, author, createdAt, likeCount, replyCount }) => {
           return (
-            <>
               <div className="post-item-container" key={id}>
                 <div className="post-item-wrapper">
                   <img
@@ -59,7 +58,6 @@ const UserSelfTweetContent = ({ userSelfTweets }) => {
                   </div>
                 </div>
               </div>
-            </>
           );
         }
       )}

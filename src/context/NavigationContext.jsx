@@ -11,7 +11,6 @@ function NavigationContextProvider({ children }) {
     setShowFollowPageContent(followerValue);
     console.log(showFollowPageContent);
   };
-
   // 導向UserSelfFollowPageInfo畫面使用，根據followContent，followContent= following，但UserSelfFollowPage的navigate()會先執行，所以現在以下function只變成在UserSelfFollowPage執行
   const handleFollowingClick = (followingValue) => {
     setShowFollowPageContent(followingValue);
