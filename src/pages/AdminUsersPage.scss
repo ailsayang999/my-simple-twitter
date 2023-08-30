@@ -3,11 +3,11 @@
   justify-content: center;
   width: 1400px;
   height: 1200px;
-  .rightContainer {
+  .rightContainerAdminUser {
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 937px;
+    width: 960px;
     padding: 0 0 54px 0;
     margin-left: 25px;
     border-left: 1px solid #E6ECF0;
@@ -22,12 +22,11 @@
       color: #171725;
       border-bottom: 1px solid #E6ECF0;
     }
-
     .tweetBoard {
       display: flex;
       flex-wrap: wrap;
       padding: 19px 0 0 19px;
-      overflow: hidden;
+      overflow-y: scroll;
       .userCard {
         margin: 0 19px 19px 0;
       }

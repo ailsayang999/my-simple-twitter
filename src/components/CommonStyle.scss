@@ -106,9 +106,11 @@
     font-weight: bold;
     padding: 6px 0;
     margin: 16px 0;
-
     &:hover {
       cursor: pointer;
+    }
+    &:focus {
+      outline: none;
     }
   }
  .linkText-end{
@@ -320,18 +322,21 @@
       width: 50px;
       height: 50px;
       object-fit: cover;
+      border-radius: 50%;
     }
   }
   .rightSideBox{
     margin-left: 8px;
     display: flex;
     flex-direction: column;
+    width: 100%;
     .upper{
       position: relative;
       display: flex;
       justify-content: flex-start;
       align-items: center;
       height: 26px;
+      width: 100%;
       .userName{
         flex-shrink: 0;
         font-size: 16px;
@@ -357,6 +362,9 @@
         border: none;
         color: #696974;
         background-color: transparent;
+        &:hover{
+          cursor: pointer;
+        }
       }
     }
     .tweetContext{

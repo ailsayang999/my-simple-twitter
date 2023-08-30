@@ -10,6 +10,8 @@
     margin-left: 25px;
     border-left: 1px solid #E6ECF0;
     border-right: 1px solid #E6ECF0;
+    height: 1200px;
+    width: 960px;
     .title {
       display: flex;
       align-items: center;
@@ -20,7 +22,8 @@
       color: #171725;
     }
     .mainTweetBoard {
-      // width: 100%;
+      overflow-y: scroll;
+      overflow-x: hidden;
     }
   }
 }
