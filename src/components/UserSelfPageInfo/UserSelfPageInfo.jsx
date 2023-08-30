@@ -7,11 +7,6 @@ import { ReactComponent as ReplyIcon } from "assets/icons/replyIcon.svg";
 import { ReactComponent as LikeIcon } from "assets/icons/likeIcon.svg";
 import { ReactComponent as LikeActiveIcon } from "assets/icons/likeIconActive.svg";
 
-//這個之後刪掉
-import { getUserSelfTweetsDummyData } from "api/tweets";
-import { getUserSelfReplyItemsDummyData } from "api/tweets";
-import { getUserSelfLikeItemsDummyData } from "api/tweets";
-
 // 引入Modal元件
 import PostTweetModal from "components/PostTweetModal/PostTweetModal";
 import PutEditUserSelfInfoModal from "components/PutEditUserSelfInfoModal/PutEditUserSelfInfoModal";
