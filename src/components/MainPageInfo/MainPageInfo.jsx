@@ -11,6 +11,7 @@ import {
   getUserInfo,
   postTweetUnlike,
   postTweetLike,
+  getSpecificTweet,
 } from "api/tweets";
 // 引入Modal元件
 import PostTweetModal from "components/PostTweetModal/PostTweetModal";
@@ -31,6 +32,7 @@ const MainPageInfo = () => {
     toggleReplyModal,
     ReplyInputValue,
     specificTweet,
+    setSpecificTweet,
     handleReplyTextAreaChange,
     handleTweetReply,
   } = useContext(ModalContext);
@@ -39,18 +41,39 @@ const MainPageInfo = () => {
   const { isAuthenticated } = useAuth();
 
   // 如果今天mainPage的ReplyIcon被點擊的話，就要先把被點擊的specific-tweetId給存到localStorage，然後把Reply Modal給pop出來
-  const handleSpecificPostReplyIconClick = (id) => {
-    localStorage.setItem("specific-tweetId", id);
+  const handleSpecificPostReplyIconClick = (specificTweetId) => {
+    const getSpecificTweetAsync = async () => {
+      //因為getSpecificTweet是非同步的操作，有可能會失敗，所以我們要用try catch把它包起來
+      try {
+        const backendSpecificTweet = await getSpecificTweet(specificTweetId); //用await去取得所有後端specificTweet
+        console.log("specificTweetId", specificTweetId);
+        console.log("backendSpecificTweet", backendSpecificTweet);
+        console.log(
+          "Type of backendSpecificTweet: ",
+          typeof backendSpecificTweet
+        );
+        const specificTweetArray = [];
+        specificTweetArray.push(backendSpecificTweet);
+        console.log(specificTweetArray);
+        setSpecificTweet(specificTweetArray);
+        const specificTweetArrayString = JSON.stringify(specificTweetArray);
+        localStorage.setItem("specific-tweetArray", specificTweetArrayString);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    getSpecificTweetAsync();
     toggleReplyModal();
   };
   //如果是文章被點擊的話，不但要存specific-tweetId，還要navigate到replyPage
-  const handleNavigateToReplyPage = (id) => {
-    localStorage.setItem("specific-tweetId", id);
+  const handleNavigateToReplyPage = (specificTweetId) => {
+    localStorage.setItem("specific-tweetId", specificTweetId);
     navigate("/reply");
   };
 
   // 導向UserOtherPage
-  const handleNavigateToUserOtherPage = () => {
+  const handleNavigateToUserOtherPage = (userOtherId) => {
+    localStorage.setItem("userOtherId", userOtherId);
     navigate("/user/other");
   };
 
@@ -94,10 +117,9 @@ const MainPageInfo = () => {
   // 前端畫面處理isLikedActive的state做畫面渲染
   // 喜歡功能
   const handleToggleLike = async (id) => {
-    console.log(tweets);
     // 找出這篇文章
-    const specificToggleTweet = tweets.filter((tweet) => tweet.id === id);
-    console.log(specificToggleTweet);
+    const specificToggleTweet = tweets.filter((tweet) => tweet.TweetId === id);
+    console.log("specificToggleTweet",specificToggleTweet);
     // 拿到這篇文章Like初始狀態
     const specificToggleTweetLike = specificToggleTweet[0].isLiked;
     console.log("此篇貼文的Like初始狀態: ", specificToggleTweetLike);
@@ -110,11 +132,11 @@ const MainPageInfo = () => {
           //把前端畫面的isLiked改為false做畫面渲染
           setTweets(
             tweets.map((tweet) => {
-              if (tweet.id === id) {
+              if (tweet.TweetId === id) {
                 return {
                   ...tweet,
                   isLiked: false,
-                  likeCount:0,
+                  likeCount: 0,
                 };
               } else {
                 return tweet;
@@ -138,7 +160,7 @@ const MainPageInfo = () => {
           //把前端畫面的isLiked改為true做畫面渲染
           setTweets(
             tweets.map((tweet) => {
-              if (tweet.id === id) {
+              if (tweet.TweetId === id) {
                 return {
                   ...tweet,
                   isLiked: true,
@@ -189,7 +211,7 @@ const MainPageInfo = () => {
       {/* 把後端傳來的tweets都渲染出來*/}
       {tweets.map(
         ({
-          id,
+          TweetId,
           description,
           authorAvatar,
           authorName,
@@ -198,16 +220,19 @@ const MainPageInfo = () => {
           likeCount,
           replyCount,
           isLiked,
+          authorId,
         }) => {
           return (
             <>
-              <div className="post-item-container" key={id}>
+              <div className="post-item-container" key={TweetId}>
                 <div className="post-item-wrapper">
                   <img
                     src={authorAvatar}
                     alt=""
                     className="post-item-avatar"
-                    onClick={handleNavigateToUserOtherPage}
+                    onClick={() => {
+                      handleNavigateToUserOtherPage(authorId);
+                    }}
                   />
 
                   <div className="post-item-content">
@@ -220,7 +245,7 @@ const MainPageInfo = () => {
                     <div
                       className="post-content"
                       onClick={() => {
-                        handleNavigateToReplyPage(id);
+                        handleNavigateToReplyPage(TweetId);
                       }}
                     >
                       {description}
@@ -231,7 +256,7 @@ const MainPageInfo = () => {
                         <ReplyIcon
                           className="reply-icon"
                           onClick={() => {
-                            handleSpecificPostReplyIconClick(id);
+                            handleSpecificPostReplyIconClick(TweetId);
                           }}
                         />
                         <div className="reply-number">{replyCount}</div>
@@ -240,7 +265,7 @@ const MainPageInfo = () => {
                         <div
                           className="like-icons"
                           onClick={() => {
-                            handleToggleLike(id);
+                            handleToggleLike(TweetId);
                           }}
                         >
                           <LikeIcon
@@ -254,7 +279,6 @@ const MainPageInfo = () => {
                             }`}
                           />
                         </div>
-
                         <div className="like-number">{likeCount}</div>
                       </div>
                     </div>
@@ -284,6 +308,7 @@ const MainPageInfo = () => {
           onReplyTextAreaChange={handleReplyTextAreaChange}
           onAddTweetReply={handleTweetReply}
           userAvatar={userInfo.avatar}
+          userInfo={userInfo}
           specificTweet={specificTweet}
         />
       )}

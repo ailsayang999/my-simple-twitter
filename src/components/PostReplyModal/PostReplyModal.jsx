@@ -14,23 +14,27 @@ const PostReplyModal = ({
   // 從Context中拿取togglePostModal的function
   const { toggleReplyModal, setSpecificTweet } = useContext(ModalContext);
 
-  useEffect(() => {
-    const getSpecificTweetAsync = async () => {
-      //因為getSpecificTweet是非同步的操作，有可能會失敗，所以我們要用try catch把它包起來
-      try {
-        // 先把mainPage的某個一個特定tweet的id拿出來
-        const specificTweetId = localStorage.getItem("specific-tweetId");
-        // console.log(typeof specificTweetId);
-        const specificTweetIdNum = Number(specificTweetId);
-        const backendSpecificTweet = await getSpecificTweet(specificTweetIdNum); //用await去取得所有後端specificTweet
-        setSpecificTweet(backendSpecificTweet);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    getSpecificTweetAsync();
-  }, []);
+  // useEffect(() => {
+  //   const getSpecificTweetAsync = async () => {
+  //     //因為getSpecificTweet是非同步的操作，有可能會失敗，所以我們要用try catch把它包起來
+  //     try {
+  //       // 先把mainPage的某個一個特定tweet的id拿出來
+  //       const specificTweetId = localStorage.getItem("specific-tweetId");
+  //       // console.log(typeof specificTweetId);
+  //       const specificTweetIdNum = Number(specificTweetId);
+  //       const backendSpecificTweet = await getSpecificTweet(specificTweetIdNum); //用await去取得所有後端specificTweet
+        
+        
+  //       setSpecificTweet(backendSpecificTweet);
+  //     } catch (error) {
+  //       console.error(error);
+  //     }
+  //   };
+  //   getSpecificTweetAsync();
+  // }, []);
 
+  console.log("specificTweet::::",specificTweet);
+ 
   return (
     <div className="reply-post-tweet-modal">
       <div className="reply-overlay">
@@ -53,39 +57,35 @@ const PostReplyModal = ({
                 createdAt,
               }) => {
                 return (
-                  <>
-                    <div className="reply-modal-post-item-container" key={id}>
-                      <div className="reply-modal-post-item-wrapper">
-                        <img
-                          src={authorAvatar}
-                          alt=""
-                          className="reply-modal-post-item-avatar"
-                        />
-                        <div className="reply-modal-item-content">
-                          <div className="reply-modal-user-post-info">
-                            <div className="reply-modal-name">{authorName}</div>
-                            <div className="reply-modal-account">
-                              @{authorAccount}
-                            </div>
-                            <div className="reply-modal-time">
-                              · {createdAt}
-                            </div>
+                  <div className="reply-modal-post-item-container" key={id}>
+                    <div className="reply-modal-post-item-wrapper">
+                      <img
+                        src={authorAvatar}
+                        alt=""
+                        className="reply-modal-post-item-avatar"
+                      />
+                      <div className="reply-modal-item-content">
+                        <div className="reply-modal-user-post-info">
+                          <div className="reply-modal-name">{authorName}</div>
+                          <div className="reply-modal-account">
+                            @{authorAccount}
                           </div>
+                          <div className="reply-modal-time">· {createdAt}</div>
+                        </div>
 
-                          <div className="reply-modal-post-content">
-                            {description}
-                          </div>
+                        <div className="reply-modal-post-content">
+                          {description}
+                        </div>
 
-                          <div className="reply-modal-reply-to">
-                            回覆給
-                            <span className="reply-modal-reply-belonger">
-                              @{authorAccount}
-                            </span>
-                          </div>
+                        <div className="reply-modal-reply-to">
+                          回覆給
+                          <span className="reply-modal-reply-belonger">
+                            @{authorAccount}
+                          </span>
                         </div>
                       </div>
                     </div>
-                  </>
+                  </div>
                 );
               }
             )}

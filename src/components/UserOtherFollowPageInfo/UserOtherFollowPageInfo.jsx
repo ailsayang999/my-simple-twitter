@@ -3,34 +3,43 @@ import { ReactComponent as BackArrowIcon } from "assets/icons/backArrowIcon.svg"
 import { useNavigate } from "react-router-dom";
 import { followerDummyData } from "api/tweets";
 import { followingDummyData } from "api/tweets";
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import ModalContext from "context/ModalContext";
 // 引入Modal元件
 import PostTweetModal from "components/PostTweetModal/PostTweetModal";
+import {
+  getUserSelfFollower,
+  getUserSelfFollowing,
+  postFollowShip,
+  deleteFollowShip,
+} from "api/tweets";
 
 const FollowerContent = ({ follower, handleFollowerBtnClick }) => {
+  // backendUserSelfFollower裡面還有一層
   return (
     <>
-      {follower.map(({ id, name, avatar, isFollowed, intro }) => {
+      {follower.map(({ isFollowed, follower, followerId }) => {
         return (
-          <div className="follower-item-container" key={id}>
+          <div className="follower-item-container" key={followerId}>
             <div className="follower-content">
               <div className="follower-avatar-container">
-                <img src={avatar} alt="" className="follower-avatar" />
+                <img src={follower.avatar} alt="" className="follower-avatar" />
               </div>
 
               <div className="follower-name-follow-btn-intro">
                 <div className="follower-name-btn-container">
-                  <div className="follower-name">{name}</div>
+                  <div className="follower-name">{follower.name}</div>
 
                   <button
-                    className={`${isFollowed ? "following-btn" : "follow-btn"}`}
-                    onClick={() => handleFollowerBtnClick(id, isFollowed)}
+                    className={`${isFollowed ? "follow-btn" : "following-btn"}`}
+                    onClick={() =>
+                      handleFollowerBtnClick(followerId, isFollowed)
+                    }
                   >
                     {isFollowed ? "正在跟隨" : "跟隨"}
                   </button>
                 </div>
-                <div className="follower-intro">{intro}</div>
+                <div className="follower-intro">{follower.introduction}</div>
               </div>
             </div>
           </div>
@@ -43,28 +52,32 @@ const FollowerContent = ({ follower, handleFollowerBtnClick }) => {
 const FollowingContent = ({ following, handleFollowingBtnClick }) => {
   return (
     <>
-      {following.map(({ id, name, avatar, isFollowed, intro }) => {
+      {following.map(({ followingId, following, isFollowed }) => {
         return (
-          <div className="follower-item-container" key={id}>
+          <div className="follower-item-container" key={followingId}>
             <div className="follower-content">
               <div className="follower-avatar-container">
-                <img src={avatar} alt="" className="follower-avatar" />
+                <img
+                  src={following.avatar}
+                  alt=""
+                  className="follower-avatar"
+                />
               </div>
 
               <div className="follower-name-follow-btn-intro">
                 <div className="follower-name-btn-container">
-                  <div className="follower-name">{name}</div>
+                  <div className="follower-name">{following.name}</div>
 
                   <button
-                    className={`${isFollowed ? "following-btn" : "follow-btn"}`}
+                    className={`${isFollowed ? "follow-btn" : "following-btn"}`}
                     onClick={() => {
-                      handleFollowingBtnClick(id);
+                      handleFollowingBtnClick(followingId);
                     }}
                   >
                     {isFollowed ? "正在跟隨" : "跟隨"}
                   </button>
                 </div>
-                <div className="follower-intro">{intro}</div>
+                <div className="follower-intro">{following.introduction}</div>
               </div>
             </div>
           </div>
@@ -74,6 +87,7 @@ const FollowingContent = ({ following, handleFollowingBtnClick }) => {
   );
 };
 
+
 const UserOtherFollowPageInfo = () => {
   const navigate = useNavigate();
   const handleBackArrowClick = () => {
@@ -81,13 +95,8 @@ const UserOtherFollowPageInfo = () => {
     navigate("/user/other");
   };
   // 把要傳給PostTweetModal的props都引入進來
-  const {
-    userInfo,
-    postModal,
-    inputValue,
-    handleTweetTextAreaChange,
-    handleAddTweet,
-  } = useContext(ModalContext);
+  const { postModal, inputValue, handleTweetTextAreaChange, handleAddTweet } =
+    useContext(ModalContext);
 
   /////////////////////////////////////// 畫面顯示決定區///////////////////////////////////////
 
@@ -111,24 +120,107 @@ const UserOtherFollowPageInfo = () => {
 
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-  const [follower, setFollower] = useState(followerDummyData);
-  const [following, setFollowing] = useState(followingDummyData);
+  const handleFollowerBtnClick = async (followerId, isFollowed) => {
+    const followPayload = {
+      id: followerId,
+    };
+    console.log("followPayload", followPayload);
 
-  const handleFollowerBtnClick = (id, isFollowed) => {
-    setFollower(
-      follower.map((personObj) => {
-        if (personObj.id === id) {
-          return { ...personObj, isFollowed: !isFollowed };
-        } else {
-          return personObj;
+    // 想追蹤這個follower
+    if (isFollowed === false) {
+      const res = await postFollowShip(followPayload);
+      console.log("後端傳來postFollowShip的結果", res);
+      //如果有追蹤成功的話就：
+      if (res) {
+        if (res.data.status === "success") {
+          setFollower(
+            follower.map((personObj) => {
+              if (personObj.followerId === followerId) {
+                return { ...personObj, isFollowed: true };
+              } else {
+                return personObj;
+              }
+            })
+          );
+          alert("追蹤成功");
         }
-      })
-    );
+        if (res.data.status === "error") {
+          alert(res.data.message);
+          alert("你已追蹤過這個帳戶");
+        }
+      }
+    }
+    // 想取消追蹤這個follower
+    if (isFollowed === true) {
+      const res = await deleteFollowShip(followerId);
+      if (res) {
+        if (res.data.status === "success") {
+          setFollower(
+            follower.map((personObj) => {
+              if (personObj.followerId === followerId) {
+                return { ...personObj, isFollowed: false };
+              } else {
+                return personObj;
+              }
+            })
+          );
+          alert("取消追蹤成功");
+        }
+        if (res.data.status === "error") {
+          console.log("delete FollowShip 有發送成功");
+          alert(res.data.message);
+        }
+      }
+    }
   };
-
   const handleFollowingBtnClick = (id) => {
     setFollowing(following.filter((fol) => fol.id !== id));
   };
+  ///////////////////////////////////////////////////初始畫面渲染 /////////////////////////////////////////////////
+  const [userOtherInfo, setUserOtherInfo] = useState([]); //在每一頁的useEffect中會去向後端請求登入者的object資料
+  const [follower, setFollower] = useState([]);
+  const [following, setFollowing] = useState([]);
+  // 首先先去拿在UserOtherPage存到localStorage的localStorageUserObjectString
+  const localStorageUserOtherObjectString =
+    localStorage.getItem("userOtherInfo");
+  // 然後在把他變成object，讓header做渲染
+  const userOtherInfoObject = JSON.parse(localStorageUserOtherObjectString);
+
+  //給PostTweetModal用的
+  const localStorageUserObjectString = localStorage.getItem("userInfo");
+  const userInfoObject = JSON.parse(localStorageUserObjectString); //因為PostTweetModal裡面的推文者還是登入者本身，userInfoObject是登入者的userInfo
+
+  useEffect(() => {
+    console.log("execute User Other Follow Page function in useEffect");
+    //先把userOtherInfo更新
+    setUserOtherInfo(userOtherInfoObject);
+
+    const getUserSelfFollowerAsync = async () => {
+      try {
+        const backendUserSelfFollower = await getUserSelfFollower(
+          userOtherInfo.id
+        );
+        setFollower(backendUserSelfFollower);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    const getUserSelfFollowingAsync = async () => {
+      try {
+        const backendUserSelfFollowing = await getUserSelfFollowing(
+          userOtherInfo.id
+        );
+        //後端好了再打開，先用userInfo
+        setFollowing(backendUserSelfFollowing);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    getUserSelfFollowerAsync();
+    getUserSelfFollowingAsync();
+  }, []);
 
   return (
     <div className="user-other-follow-page-info">
@@ -140,9 +232,10 @@ const UserOtherFollowPageInfo = () => {
         />
 
         <div className="name-tweet-amount-container">
-          <h5 className="header-title-user-self-name">{"Peter"}</h5>
+          <h5 className="header-title-user-self-name">{userOtherInfo.name}</h5>
           <div className="tweet-amount">
-            90 <span className="tweet-amount-text">推文</span>
+            {userOtherInfo.tweetCount}
+            <span className="tweet-amount-text">推文</span>
           </div>
         </div>
       </div>
@@ -173,6 +266,7 @@ const UserOtherFollowPageInfo = () => {
         </button>
       </div>
 
+      {/* Render Follower */}
       {showFollowPageContent === "follower" && (
         <FollowerContent
           follower={follower}
@@ -180,7 +274,7 @@ const UserOtherFollowPageInfo = () => {
         />
       )}
 
-      {/* Render Follower */}
+      {/* Render Following */}
       {showFollowPageContent === "following" && (
         <FollowingContent
           following={following}
@@ -191,11 +285,11 @@ const UserOtherFollowPageInfo = () => {
       {/* Modal ：根據postModal的布林值決定是否要跳出PostTweetModal component*/}
       {postModal && (
         <PostTweetModal
-          userInfo={userInfo}
+          userInfo={userInfoObject}
           inputValue={inputValue}
           onTweetTextAreaChange={handleTweetTextAreaChange}
           onAddTweet={handleAddTweet}
-          userAvatar={userInfo.avatar}
+          userAvatar={userInfoObject.avatar}
         />
       )}
     </div>

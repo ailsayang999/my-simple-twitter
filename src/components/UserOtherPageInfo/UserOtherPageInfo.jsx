@@ -3,13 +3,19 @@ import { ReactComponent as BackArrowIcon } from "assets/icons/backArrowIcon.svg"
 import { useNavigate } from "react-router-dom";
 import userOtherInfoCover from "assets/images/fakeUserOtherCover.png";
 import userOtherAvatar from "assets/images/fakeUserOtherAvatar.png";
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import ModalContext from "context/ModalContext";
 import { ReactComponent as ReplyIcon } from "assets/icons/replyIcon.svg";
 import { ReactComponent as LikeIcon } from "assets/icons/likeIcon.svg";
 import { ReactComponent as LikeActiveIcon } from "assets/icons/likeIconActive.svg";
 // 引入Modal元件
 import PostTweetModal from "components/PostTweetModal/PostTweetModal";
+import {
+  getUserInfo,
+  getUserSelfTweets,
+  getUserSelfReply,
+  getUserSelfLike,
+} from "api/tweets";
 
 //這個之後刪掉
 import { getUserSelfTweetsDummyData } from "api/tweets";
@@ -23,41 +29,50 @@ const UserSelfTweetContent = ({ userSelfTweets }) => {
     <>
       {/* 所有user-self 推的文 */}
       {userSelfTweets.map(
-        ({ id, description, author, createdAt, likeCount, replyCount }) => {
+        ({
+          TweetId,
+          tweetBelongerName,
+          tweetBelongerAccount,
+          tweetBelongerAvatar,
+          description,
+          createdAt,
+          replyCount,
+          likeCount,
+        }) => {
           return (
-              <div className="post-item-container" key={id}>
-                <div className="post-item-wrapper">
-                  <img
-                    src={author.avatar}
-                    alt=""
-                    className="post-item-avatar"
-                  />
+            <div className="post-item-container" key={TweetId}>
+              <div className="post-item-wrapper">
+                <img
+                  src={tweetBelongerAvatar}
+                  alt=""
+                  className="post-item-avatar"
+                />
 
-                  <div className="post-item-content">
-                    <div className="user-post-info">
-                      <div className="name">{author.name}</div>
-                      <div className="account">@{author.account}</div>
-                      <div className="time">· {createdAt}</div>
+                <div className="post-item-content">
+                  <div className="user-post-info">
+                    <div className="name">{tweetBelongerName}</div>
+                    <div className="account">@{tweetBelongerAccount}</div>
+                    <div className="time">· {createdAt}</div>
+                  </div>
+
+                  <div className="post-content">{description}</div>
+
+                  <div className="reply-like-container">
+                    <div className="reply-container">
+                      <ReplyIcon className="reply-icon" />
+                      <div className="reply-number">{replyCount}</div>
                     </div>
-
-                    <div className="post-content">{description}</div>
-
-                    <div className="reply-like-container">
-                      <div className="reply-container">
-                        <ReplyIcon className="reply-icon" />
-                        <div className="reply-number">{replyCount}</div>
+                    <div className="like-container">
+                      <div className="like-icons">
+                        <LikeIcon className="like-icon" />
                       </div>
-                      <div className="like-container">
-                        <div className="like-icons">
-                          <LikeIcon className="like-icon" />
-                        </div>
 
-                        <div className="like-number">{likeCount}</div>
-                      </div>
+                      <div className="like-number">{likeCount}</div>
                     </div>
                   </div>
                 </div>
               </div>
+            </div>
           );
         }
       )}
@@ -119,25 +134,34 @@ const UserSelfLikeContent = ({ userSelfLike }) => {
   return (
     <>
       {userSelfLike.map(
-        ({ id, description, author, createdAt, likeCount, replyCount }) => {
+        ({
+          TweetId,
+          tweetContent,
+          tweetBelongerAvatar,
+          tweetBelongerName,
+          tweetBelongerAccount,
+          createdAt,
+          replyCount,
+          likeCount,
+        }) => {
           return (
             <>
-              <div className="post-item-container" key={id}>
+              <div className="post-item-container" key={TweetId}>
                 <div className="post-item-wrapper">
                   <img
-                    src={author.avatar}
+                    src={tweetBelongerAvatar}
                     alt=""
                     className="post-item-avatar"
                   />
 
                   <div className="post-item-content">
                     <div className="user-post-info">
-                      <div className="name">{author.name}</div>
-                      <div className="account">@{author.account}</div>
+                      <div className="name">{tweetBelongerName}</div>
+                      <div className="account">@{tweetBelongerAccount}</div>
                       <div className="time">· {createdAt}</div>
                     </div>
 
-                    <div className="post-content">{description}</div>
+                    <div className="post-content">{tweetContent}</div>
 
                     <div className="reply-like-container">
                       <div className="reply-container">
@@ -169,39 +193,72 @@ const UserOtherPageInfo = () => {
   const handleBackArrowClick = () => {
     navigate("/main");
   };
-
   // 把要傳給PostTweetModal的props都引入進來
-  const {
-    userInfo,
-    postModal,
-    inputValue,
-    handleTweetTextAreaChange,
-    handleAddTweet,
-  } = useContext(ModalContext);
-
-  ////////////////////////////////// 更換顯示內容 相關資料處理  //////////////////////////////////
-
-  // 監聽器：handleButtonClick，當navigator的button被點按時，會選擇渲染的資料，userSelfContent所存的文字會決定要渲染哪一個元件
-  const [userOtherContent, setUserOtherContent] = useState("user-other-tweet");
-  const handleChangeUserOtherContent = (contentValue) => {
-    setUserOtherContent(contentValue);
-    console.log(contentValue);
-  };
-
-  ////////////////////////////////// 所有暫時Render用DummyData  //////////////////////////////////
-  //之後刪掉：
+  const { postModal, inputValue, handleTweetTextAreaChange, handleAddTweet } =
+    useContext(ModalContext);
   //使用者所有推文
-  const [userSelfTweets, setUserSelfTweets] = useState(
-    getUserSelfTweetsDummyData
-  );
+  const [userSelfTweets, setUserSelfTweets] = useState([]);
   //使用者所有回覆
-  const [userSelfReply, setUserSelfReply] = useState(
-    getUserSelfReplyItemsDummyData
-  );
+  const [userSelfReply, setUserSelfReply] = useState([]);
   // 使用者所有喜歡
-  const [userSelfLike, setUserSelfLike] = useState(
-    getUserSelfLikeItemsDummyData
-  );
+  const [userSelfLike, setUserSelfLike] = useState([]);
+  //拿到userInfo的avatar和cover跟個人介紹資料
+  const [userInfo, setUserInfo] = useState([]); //在每一頁的useEffect中會去向後端請求登入者的object資料
+
+  const localStorageUserId = localStorage.getItem("userOtherId"); //拿下來會是一比string的資料
+ const localStorageUserIdNum = Number(localStorageUserId)
+ console.log(localStorageUserIdNum);
+
+  //  串接API: 畫面初始資料
+  useEffect(() => {
+    console.log("execute User Self Page function in useEffect");
+
+
+    //首先拿到當前登入的使用者資料
+    const getUserInfoAsync = async () => {
+      try {
+        //向後端拿取登入者的object資料
+        const backendUserInfo = await getUserInfo(localStorageUserIdNum);
+        //拿到登入者資料後存在userInfo裡面，backendUserInfo會是一個object
+        setUserInfo(backendUserInfo);
+        // 先存到localStorage給userOtherFollowPage用
+        const userOtherInfo = JSON.stringify(backendUserInfo);
+        localStorage.setItem("userOtherInfo", userOtherInfo);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    const getUserSelfTweetsAsync = async () => {
+      try {
+        const backendUserSelfTweets = await getUserSelfTweets(localStorageUserIdNum);
+        //後端好了再打開，先用userInfo
+        setUserSelfTweets(backendUserSelfTweets);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    const getUserSelfReplyAsync = async () => {
+      try {
+        const backendUserSelfReply = await getUserSelfReply(localStorageUserIdNum);
+        setUserSelfReply(backendUserSelfReply);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    const getUserSelfLikeAsync = async () => {
+      try {
+        const backendUserSelfLike = await getUserSelfLike(localStorageUserIdNum);
+        setUserSelfLike(backendUserSelfLike);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    getUserInfoAsync();
+    getUserSelfTweetsAsync();
+    getUserSelfReplyAsync();
+    getUserSelfLikeAsync();
+  }, []);
+
 
   // UserSelfPageInfo的監聽器：，當跟隨者或是跟隨中的button被點按時，會選擇UserSelfFollowPage要渲染的資料 (但是因為會被navigation搶先執行，所以先不用了)
   // const { handleFollowingClick, handleFollowerClick } = useContext(NavigationContext);
@@ -216,6 +273,14 @@ const UserOtherPageInfo = () => {
     navigate("/user/other/follow");
   };
 
+    ////////////////////////////////// 更換顯示內容 相關資料處理  //////////////////////////////////
+
+  // 監聽器：handleButtonClick，當navigator的button被點按時，會選擇渲染的資料，userSelfContent所存的文字會決定要渲染哪一個元件
+  const [userOtherContent, setUserOtherContent] = useState("user-other-tweet");
+  const handleChangeUserOtherContent = (contentValue) => {
+    setUserOtherContent(contentValue);
+    console.log(contentValue);
+  };
   return (
     <div className="user-other-page-info">
       {/* 以下渲染*/}
@@ -225,9 +290,9 @@ const UserOtherPageInfo = () => {
           onClick={handleBackArrowClick}
         />
         <div className="name-tweet-amount-container">
-          <h5 className="header-title-user-other-name">{"Peter"}</h5>
+          <h5 className="header-title-user-other-name">{userInfo.name}</h5>
           <div className="tweet-amount">
-            90 <span className="tweet-amount-text">推文</span>
+            {userInfo.tweetCount} <span className="tweet-amount-text">推文</span>
           </div>
         </div>
       </div>
@@ -238,25 +303,24 @@ const UserOtherPageInfo = () => {
         <div className="user-other-avatar-cover">
           <div className="user-other-cover-container">
             <img
-              src={userOtherInfoCover}
+              src={userInfo.cover}
               alt="userOtherCover"
               className="user-other-cover"
             />
           </div>
           <div className="user-other-avatar-container">
-            <img src={userOtherAvatar} alt="" className="user-other-avatar" />
+            <img src={userInfo.avatar} alt="" className="user-other-avatar" />
           </div>
         </div>
 
         {/* 個人姓名 */}
         <div className="user-other-name-account-container">
-          <h5 className="user-other-name">{"Peter Lu"}</h5>
-          <span className="user-other-account">@{"peter"}</span>
+          <h5 className="user-other-name">{userInfo.name}</h5>
+          <span className="user-other-account">@{userInfo.account}</span>
         </div>
         {/* 個人介紹 */}
         <div className="user-other-introduction">
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aspernatur,
-          nulla.
+          {userInfo.introduction}
         </div>
 
         {/* 個人跟隨中和跟隨者 */}
@@ -268,7 +332,7 @@ const UserOtherPageInfo = () => {
               handleNavigateToFollowingPage(e.target.value);
             }}
           >
-            {34} 個
+           {userInfo.followerCount} 個
           </button>
           <span className="following-text">跟隨中</span>
 
@@ -279,7 +343,7 @@ const UserOtherPageInfo = () => {
               handleNavigateToFollowerPage(e.target.value);
             }}
           >
-            {56} 個
+            {userInfo.followingCount} 個
           </button>
           <span className="follower-text">跟隨者</span>
         </div>

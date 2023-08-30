@@ -30,7 +30,7 @@ const FollowerContent = ({ follower, handleFollowerBtnClick }) => {
                   <div className="follower-name">{follower.name}</div>
 
                   <button
-                    className={`${isFollowed ? "following-btn" : "follow-btn"}`}
+                    className={`${isFollowed ? "follow-btn" : "following-btn"}`}
                     onClick={() =>
                       handleFollowerBtnClick(followerId, isFollowed)
                     }
@@ -68,7 +68,7 @@ const FollowingContent = ({ following, handleFollowingBtnClick }) => {
                   <div className="follower-name">{following.name}</div>
 
                   <button
-                    className={`${isFollowed ? "following-btn" : "follow-btn"}`}
+                    className={`${isFollowed ? "follow-btn" : "following-btn"}`}
                     onClick={() => {
                       handleFollowingBtnClick(followingId);
                     }}

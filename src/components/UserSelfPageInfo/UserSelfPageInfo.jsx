@@ -7,6 +7,11 @@ import { ReactComponent as ReplyIcon } from "assets/icons/replyIcon.svg";
 import { ReactComponent as LikeIcon } from "assets/icons/likeIcon.svg";
 import { ReactComponent as LikeActiveIcon } from "assets/icons/likeIconActive.svg";
 
+//這個之後刪掉
+import { getUserSelfTweetsDummyData } from "api/tweets";
+import { getUserSelfReplyItemsDummyData } from "api/tweets";
+import { getUserSelfLikeItemsDummyData } from "api/tweets";
+
 // 引入Modal元件
 import PostTweetModal from "components/PostTweetModal/PostTweetModal";
 import PutEditUserSelfInfoModal from "components/PutEditUserSelfInfoModal/PutEditUserSelfInfoModal";
@@ -135,8 +140,8 @@ const UserSelfLikeContent = ({ userSelfLike }) => {
           tweetBelongerName,
           tweetBelongerAccount,
           createdAt,
-          tweetReplyCount,
-          tweetLikeCount,
+          replyCount,
+          likeCount,
         }) => {
           return (
             <>
@@ -160,14 +165,14 @@ const UserSelfLikeContent = ({ userSelfLike }) => {
                     <div className="reply-like-container">
                       <div className="reply-container">
                         <ReplyIcon className="reply-icon" />
-                        <div className="reply-number">{tweetReplyCount}</div>
+                        <div className="reply-number">{replyCount}</div>
                       </div>
                       <div className="like-container">
                         <div className="like-icons">
                           <LikeActiveIcon className="liked-icon" fill="black" />
                         </div>
 
-                        <div className="like-number">{tweetLikeCount}</div>
+                        <div className="like-number">{likeCount}</div>
                       </div>
                     </div>
                   </div>
@@ -183,23 +188,21 @@ const UserSelfLikeContent = ({ userSelfLike }) => {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 const UserSelfPageInfo = () => {
+  const navigate = useNavigate();
+  // 返回主畫面使用
+  const handleBackArrowClick = () => {
+    navigate("/main");
+  };
   // 從Context中拿取toggleReplyModal的function
   const { postModal, inputValue, handleTweetTextAreaChange, handleAddTweet } =
     useContext(ModalContext);
-  ////////////////////////////////// 所有暫時Render用DummyData  //////////////////////////////////
-  //之後刪掉：
+
   //使用者所有推文
-  const [userSelfTweets, setUserSelfTweets] = useState(
-    getUserSelfTweetsDummyData
-  );
+  const [userSelfTweets, setUserSelfTweets] = useState([]);
   //使用者所有回覆
-  const [userSelfReply, setUserSelfReply] = useState(
-    getUserSelfReplyItemsDummyData
-  );
+  const [userSelfReply, setUserSelfReply] = useState([]);
   // 使用者所有喜歡
-  const [userSelfLike, setUserSelfLike] = useState(
-    getUserSelfLikeItemsDummyData
-  );
+  const [userSelfLike, setUserSelfLike] = useState([]);
 
   //拿到userInfo的avatar和cover跟個人介紹資料
   const [userInfo, setUserInfo] = useState([]); //在每一頁的useEffect中會去向後端請求登入者的object資料
@@ -263,12 +266,6 @@ const UserSelfPageInfo = () => {
     getUserSelfLikeAsync();
   }, []);
 
-  const navigate = useNavigate();
-  // 返回主畫面使用
-  const handleBackArrowClick = () => {
-    navigate("/main");
-  };
-
   // UserSelfPageInfo的監聽器：，當跟隨者或是跟隨中的button被點按時，會選擇UserSelfFollowPage要渲染的資料 (但是因為會被navigation搶先執行，所以先不用了)
   // const { handleFollowingClick, handleFollowerClick } = useContext(NavigationContext);
   const handleNavigateToFollowingPage = (followingValue) => {
@@ -318,12 +315,12 @@ const UserSelfPageInfo = () => {
         <div className="name-tweet-amount-container">
           <h5 className="header-title-user-self-name">{userInfo.name}</h5>
           <div className="tweet-amount">
-            {userInfo.tweetCount}{" "}
+            {userInfo.tweetCount}
             <span className="tweet-amount-text">推文</span>
           </div>
         </div>
       </div>
-      <div key={userInfo.id}>
+      <div>
         {/* user-self-info-area */}
         <div className="user-self-info-area">
           {/* 以下在EditSelfInfoModal會用到 */}

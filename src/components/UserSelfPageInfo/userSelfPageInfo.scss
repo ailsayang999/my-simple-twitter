@@ -176,7 +176,8 @@
         .post-content {
           display: flex;
           align-items: center;
-          min-height: 80px;
+          height: 80px;
+          overflow: hidden;
         }
         .reply-like-container {
           display: flex;
@@ -315,7 +316,8 @@
         .post-content {
           display: flex;
           align-items: center;
-          min-height: 80px;
+          height: 80px;
+          overflow: hidden;
         }
         .reply-like-container {
           display: flex;

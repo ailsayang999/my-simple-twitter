@@ -56,7 +56,7 @@ const ReplyPageInfo = () => {
 
   // 先拿到初始的資料
   useEffect(() => {
-    console.log("Reply page execute useEffect")
+    console.log("Reply page execute useEffect");
     //首先拿到當前登入的使用者資料
     const getUserInfoAsync = async () => {
       try {
@@ -78,7 +78,10 @@ const ReplyPageInfo = () => {
         // console.log(typeof specificTweetId);
         const specificTweetIdNum = Number(specificTweetId);
         const backendSpecificTweet = await getSpecificTweet(specificTweetIdNum); //用await去取得所有後端specificTweet
-        setSpecificTweet(backendSpecificTweet);
+         const specificTweetArray = [];
+         specificTweetArray.push(backendSpecificTweet);
+         console.log("specificTweetArray", specificTweetArray);
+        setSpecificTweet(specificTweetArray);
       } catch (error) {
         console.error(error);
       }
@@ -106,6 +109,7 @@ const ReplyPageInfo = () => {
   }, []); //後面的dependency是specificTweet和specificTweetReplies，兩者改變就要讓愛心的數字可動態更新
 
   const handleToggleLike = async (specificTweet, setSpecificTweet) => {
+    console.log(specificTweet);
     // 拿到這篇文章Like初始狀態
     // console.log("specificTweet:", specificTweet);
     const specificToggleTweetLike = specificTweet[0].isLiked;
@@ -174,6 +178,7 @@ const ReplyPageInfo = () => {
   return (
     <div className="reply-page-info">
       {/* Render specific Post 是從ModalContext那裡拿的 */}
+
       {specificTweet.map(
         ({
           id,
@@ -259,6 +264,7 @@ const ReplyPageInfo = () => {
           );
         }
       )}
+
       {/* Render specific Post all replies 是從ModalContext那裡拿的 */}
       {specificTweetReplies.map(
         ({

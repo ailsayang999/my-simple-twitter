@@ -66,7 +66,6 @@
     align-items: center;
     .follower-content {
       height: 126px;
-     
       margin-inline: 16px;
       display: flex;
       flex-shrink: 0;
@@ -74,9 +73,16 @@
         flex-shrink: 0;
         width: 50px;
         height: 50px;
+               .follower-avatar{
+          border-radius: 50%;
+          width:100%;
+          height:100%;
+          object-fit: cover;
+        }
       }
       .follower-name-follow-btn-intro {
            margin-left:7px;
+           width: 100%;
         .follower-name-btn-container {
        
           display: flex;
