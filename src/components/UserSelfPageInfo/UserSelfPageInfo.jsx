@@ -284,7 +284,6 @@ const UserSelfPageInfo = () => {
   const handleNavigateToFollowingPage = (followingValue) => {
     // handleFollowingClick(followingValue); //測試發現navigate這個大惡霸會搶先執行，handleFollowingClick會怎麼樣都執行不了，但不太懂為什麼navigate會搶先執行ＱＱ
     localStorage.setItem("pageShowFollowContent", followingValue); // 所以只好先把followingValue的資料存在localStorage
-    localStorage.setItem("followerDataFromBackEnd")
     navigate("/user/self/follow");
   };
   const handleNavigateToFollowerPage = (followerValue) => {
@@ -329,7 +328,8 @@ const UserSelfPageInfo = () => {
         <div className="name-tweet-amount-container">
           <h5 className="header-title-user-self-name">{userInfo.name}</h5>
           <div className="tweet-amount">
-            25 <span className="tweet-amount-text">推文</span>
+            {userInfo.tweetCount}{" "}
+            <span className="tweet-amount-text">推文</span>
           </div>
         </div>
       </div>

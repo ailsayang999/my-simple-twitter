@@ -49,8 +49,6 @@ export const getTweets = async () => {
 
 ///////////////////////////////////////////////// postTweet /////////////////////////////////////////////////
 export const postTweet = async (description) => {
-  // const { description } = payload;
-
   try {
     const res = await axiosInstance.post(`${baseUrl}/tweets`, description);
     return res;
@@ -331,7 +329,6 @@ export const getUserSelfLike = async (id) => {
     console.error("[Get User Self Like failed]: ", error);
   }
 };
-
 export const getUserSelfLikeItemsDummyData = [
   {
     id: 3,
@@ -455,8 +452,6 @@ export const getUserSelfLikeItemsDummyData = [
   },
 ];
 
-
-
 // get /api/users/:id/followers 查看特定使用者的粉絲
 export const getUserSelfFollower = async (id) => {
   try {
@@ -559,4 +554,29 @@ export const followingDummyData = [
     },
   },
 ];
+
+// post /api/followships 追蹤指定使用者
+export const postFollowShip = async (followPayload) => {
+  try {
+    const res = await axiosInstance.post(
+      `${baseUrl}/followships`,
+      followPayload
+    );
+    return res
+  } catch (error) {
+    console.error("[Post User Following failed]: ", error);
+  }
+};
+
+// delete /api/followships/:following_id 取消追蹤使用者
+export const deleteFollowShip = async (personNotToFollowId) => {
+  try {
+    const res = await axiosInstance.delete(
+      `${baseUrl}/followships/${personNotToFollowId}`
+    );
+    return res;
+  } catch (error) {
+    console.error("[Delete User Following failed]: ", error);
+  }
+};
 
