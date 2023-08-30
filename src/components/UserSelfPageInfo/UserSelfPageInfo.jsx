@@ -2,10 +2,7 @@ import "./userSelfPageInfo.scss";
 import { ReactComponent as BackArrowIcon } from "assets/icons/backArrowIcon.svg";
 import { useNavigate } from "react-router-dom";
 import ModalContext from "context/ModalContext";
-// import NavigationContext from "context/NavigationContext";
-import userSelfInfoCover from "assets/images/fakeUserCover.png";
-import userSelfAvatar from "assets/images/fakeUserAvatar.png";
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import { ReactComponent as ReplyIcon } from "assets/icons/replyIcon.svg";
 import { ReactComponent as LikeIcon } from "assets/icons/likeIcon.svg";
 import { ReactComponent as LikeActiveIcon } from "assets/icons/likeIconActive.svg";
@@ -19,6 +16,13 @@ import { getUserSelfLikeItemsDummyData } from "api/tweets";
 import PostTweetModal from "components/PostTweetModal/PostTweetModal";
 import PutEditUserSelfInfoModal from "components/PutEditUserSelfInfoModal/PutEditUserSelfInfoModal";
 
+import {
+  getUserInfo,
+  getUserSelfTweets,
+  getUserSelfReply,
+  getUserSelfLike,
+} from "api/tweets";
+
 /////////////////////////////////////////// Change Content Components //////////////////////////////////
 // 瀏覽使用者所有Tweet
 const UserSelfTweetContent = ({ userSelfTweets }) => {
@@ -26,21 +30,30 @@ const UserSelfTweetContent = ({ userSelfTweets }) => {
     <>
       {/* 所有user-self 推的文 */}
       {userSelfTweets.map(
-        ({ id, description, author, createdAt, likeCount, replyCount }) => {
+        ({
+          TweetId,
+          tweetBelongerName,
+          tweetBelongerAccount,
+          tweetBelongerAvatar,
+          description,
+          createdAt,
+          replyCount,
+          likeCount,
+        }) => {
           return (
             <>
-              <div className="post-item-container" key={id}>
+              <div className="post-item-container" key={TweetId}>
                 <div className="post-item-wrapper">
                   <img
-                    src={author.avatar}
+                    src={tweetBelongerAvatar}
                     alt=""
                     className="post-item-avatar"
                   />
 
                   <div className="post-item-content">
                     <div className="user-post-info">
-                      <div className="name">{author.name}</div>
-                      <div className="account">@{author.account}</div>
+                      <div className="name">{tweetBelongerName}</div>
+                      <div className="account">@{tweetBelongerAccount}</div>
                       <div className="time">· {createdAt}</div>
                     </div>
 
@@ -124,37 +137,46 @@ const UserSelfLikeContent = ({ userSelfLike }) => {
   return (
     <>
       {userSelfLike.map(
-        ({ id, description, author, createdAt, likeCount, replyCount }) => {
+        ({
+          TweetId,
+          tweetContent,
+          tweetBelongerAvatar,
+          tweetBelongerName,
+          tweetBelongerAccount,
+          createdAt,
+          tweetReplyCount,
+          tweetLikeCount,
+        }) => {
           return (
             <>
-              <div className="post-item-container" key={id}>
+              <div className="post-item-container" key={TweetId}>
                 <div className="post-item-wrapper">
                   <img
-                    src={author.avatar}
+                    src={tweetBelongerAvatar}
                     alt=""
                     className="post-item-avatar"
                   />
 
                   <div className="post-item-content">
                     <div className="user-post-info">
-                      <div className="name">{author.name}</div>
-                      <div className="account">@{author.account}</div>
+                      <div className="name">{tweetBelongerName}</div>
+                      <div className="account">@{tweetBelongerAccount}</div>
                       <div className="time">· {createdAt}</div>
                     </div>
 
-                    <div className="post-content">{description}</div>
+                    <div className="post-content">{tweetContent}</div>
 
                     <div className="reply-like-container">
                       <div className="reply-container">
                         <ReplyIcon className="reply-icon" />
-                        <div className="reply-number">{replyCount}</div>
+                        <div className="reply-number">{tweetReplyCount}</div>
                       </div>
                       <div className="like-container">
                         <div className="like-icons">
-                          <LikeActiveIcon className="liked-icon" />
+                          <LikeActiveIcon className="liked-icon" fill="black" />
                         </div>
 
-                        <div className="like-number">{likeCount}</div>
+                        <div className="like-number">{tweetLikeCount}</div>
                       </div>
                     </div>
                   </div>
@@ -170,25 +192,99 @@ const UserSelfLikeContent = ({ userSelfLike }) => {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 const UserSelfPageInfo = () => {
+  // 從Context中拿取toggleReplyModal的function
+  const { postModal, inputValue, handleTweetTextAreaChange, handleAddTweet } =
+    useContext(ModalContext);
+  ////////////////////////////////// 所有暫時Render用DummyData  //////////////////////////////////
+  //之後刪掉：
+  //使用者所有推文
+  const [userSelfTweets, setUserSelfTweets] = useState(
+    getUserSelfTweetsDummyData
+  );
+  //使用者所有回覆
+  const [userSelfReply, setUserSelfReply] = useState(
+    getUserSelfReplyItemsDummyData
+  );
+  // 使用者所有喜歡
+  const [userSelfLike, setUserSelfLike] = useState(
+    getUserSelfLikeItemsDummyData
+  );
+
+  //拿到userInfo的avatar和cover跟個人介紹資料
+  const [userInfo, setUserInfo] = useState([]); //在每一頁的useEffect中會去向後端請求登入者的object資料
+
+  //串接API: 畫面初始資料
+  useEffect(() => {
+    console.log("execute User Self Page function in useEffect");
+
+    //首先拿到當前登入的使用者資料
+    const getUserInfoAsync = async () => {
+      try {
+        const localStorageUserInfoString = localStorage.getItem("userInfo"); //拿下來會是一比string的資料
+        const LocalStorageUserInfo = JSON.parse(localStorageUserInfoString); // 要把這個string變成object
+        const userInfoId = LocalStorageUserInfo.id; //再從這個object拿到登入者的id
+        //向後端拿取登入者的object資料
+        const backendUserInfo = await getUserInfo(userInfoId);
+        //拿到登入者資料後存在userInfo裡面，backendUserInfo會是一個object
+        setUserInfo(backendUserInfo);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    const getUserSelfTweetsAsync = async () => {
+      try {
+        const localStorageUserInfoString = localStorage.getItem("userInfo"); //拿下來會是一比string的資料
+        const LocalStorageUserInfo = JSON.parse(localStorageUserInfoString); // 要把這個string變成object
+        const userInfoId = LocalStorageUserInfo.id; //再從這個object拿到登入者的id
+        const backendUserSelfTweets = await getUserSelfTweets(userInfoId);
+        //後端好了再打開，先用userInfo
+        setUserSelfTweets(backendUserSelfTweets);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    const getUserSelfReplyAsync = async () => {
+      try {
+        const localStorageUserInfoString = localStorage.getItem("userInfo"); //拿下來會是一比string的資料
+        const LocalStorageUserInfo = JSON.parse(localStorageUserInfoString); // 要把這個string變成object
+        const userInfoId = LocalStorageUserInfo.id; //再從這個object拿到登入者的id
+        const backendUserSelfReply = await getUserSelfReply(userInfoId);
+        console.log(userInfoId);
+        setUserSelfReply(backendUserSelfReply);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    const getUserSelfLikeAsync = async () => {
+      try {
+        const localStorageUserInfoString = localStorage.getItem("userInfo"); //拿下來會是一比string的資料
+        const LocalStorageUserInfo = JSON.parse(localStorageUserInfoString); // 要把這個string變成object
+        const userInfoId = LocalStorageUserInfo.id; //再從這個object拿到登入者的id
+        const backendUserSelfLike = await getUserSelfLike(userInfoId);
+        setUserSelfLike(backendUserSelfLike);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    getUserInfoAsync();
+    getUserSelfTweetsAsync();
+    getUserSelfReplyAsync();
+    getUserSelfLikeAsync()
+  }, []);
+
   const navigate = useNavigate();
   // 返回主畫面使用
   const handleBackArrowClick = () => {
     navigate("/main");
   };
-  // 把要傳給PostTweetModal的props都引入進來
-  const {
-    userInfo,
-    postModal,
-    inputValue,
-    handleTweetTextAreaChange,
-    handleAddTweet,
-  } = useContext(ModalContext);
 
   // UserSelfPageInfo的監聽器：，當跟隨者或是跟隨中的button被點按時，會選擇UserSelfFollowPage要渲染的資料 (但是因為會被navigation搶先執行，所以先不用了)
   // const { handleFollowingClick, handleFollowerClick } = useContext(NavigationContext);
   const handleNavigateToFollowingPage = (followingValue) => {
     // handleFollowingClick(followingValue); //測試發現navigate這個大惡霸會搶先執行，handleFollowingClick會怎麼樣都執行不了，但不太懂為什麼navigate會搶先執行ＱＱ
     localStorage.setItem("pageShowFollowContent", followingValue); // 所以只好先把followingValue的資料存在localStorage
+    localStorage.setItem("followerDataFromBackEnd")
     navigate("/user/self/follow");
   };
   const handleNavigateToFollowerPage = (followerValue) => {
@@ -221,21 +317,6 @@ const UserSelfPageInfo = () => {
     console.log(contentValue);
   };
 
-  ////////////////////////////////// 所有暫時Render用DummyData  //////////////////////////////////
-  //之後刪掉：
-  //使用者所有推文
-  const [userSelfTweets, setUserSelfTweets] = useState(
-    getUserSelfTweetsDummyData
-  );
-  //使用者所有回覆
-  const [userSelfReply, setUserSelfReply] = useState(
-    getUserSelfReplyItemsDummyData
-  );
-  // 使用者所有喜歡
-  const [userSelfLike, setUserSelfLike] = useState(
-    getUserSelfLikeItemsDummyData
-  );
-
   return (
     <div className="user-self-page-info">
       {/* 以下header UserSelfPage, UserOtherPage UserSelfFollowPage, UserOtherFollowPage 可以重複使用 */}
@@ -245,71 +326,69 @@ const UserSelfPageInfo = () => {
           className="back-arrow-icon"
           onClick={handleBackArrowClick}
         />
-
         <div className="name-tweet-amount-container">
-          <h5 className="header-title-user-self-name">{"Ailsa Yang"}</h5>
+          <h5 className="header-title-user-self-name">{userInfo.name}</h5>
           <div className="tweet-amount">
             25 <span className="tweet-amount-text">推文</span>
           </div>
         </div>
       </div>
-      {/* user-self-info-area */}
-      <div className="user-self-info-area">
-        {/* 以下在EditSelfInfoModal會用到 */}
-        <div className="user-self-avatar-cover">
-          <div className="user-self-cover-container">
-            <img
-              src={userSelfInfoCover}
-              alt="userSelfCover"
-              className="user-self-cover"
-            />
+      <div key={userInfo.id}>
+        {/* user-self-info-area */}
+        <div className="user-self-info-area">
+          {/* 以下在EditSelfInfoModal會用到 */}
+          <div className="user-self-avatar-cover">
+            <div className="user-self-cover-container">
+              <img
+                src={userInfo.cover}
+                alt="userSelfCover"
+                className="user-self-cover"
+              />
+            </div>
+            <div className="user-self-avatar-container">
+              <img src={userInfo.avatar} alt="" className="user-self-avatar" />
+            </div>
+
+            <button
+              className="user-self-avatar-edit-btn"
+              onClick={toggleEditModal}
+            >
+              編輯個人資料
+            </button>
           </div>
-          <div className="user-self-avatar-container">
-            <img src={userSelfAvatar} alt="" className="user-self-avatar" />
+
+          {/* 個人姓名 */}
+          <div className="user-self-name-account-container">
+            <h5 className="user-self-name">{userInfo.name}</h5>
+            <span className="user-self-account">@{userInfo.account}</span>
           </div>
+          {/* 個人介紹 */}
+          <div className="user-self-introduction">{userInfo.introduction}</div>
 
-          <button
-            className="user-self-avatar-edit-btn"
-            onClick={toggleEditModal}
-          >
-            編輯個人資料
-          </button>
-        </div>
+          {/* 個人跟隨中和跟隨者 */}
+          <div className="user-self-follow-following-container">
+            <button
+              className="user-self-following"
+              value="following"
+              onClick={(e) => {
+                handleNavigateToFollowingPage(e.target.value);
+              }}
+            >
+              {userInfo.followerCount} 個
+            </button>
+            <span className="following-text">跟隨中</span>
 
-        {/* 個人姓名 */}
-        <div className="user-self-name-account-container">
-          <h5 className="user-self-name">{"Ailsa Yang"}</h5>
-          <span className="user-self-account">@{"ailsa"}</span>
-        </div>
-        {/* 個人介紹 */}
-        <div className="user-self-introduction">
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aspernatur,
-          nulla.
-        </div>
-
-        {/* 個人跟隨中和跟隨者 */}
-        <div className="user-self-follow-following-container">
-          <button
-            className="user-self-following"
-            value="following"
-            onClick={(e) => {
-              handleNavigateToFollowingPage(e.target.value);
-            }}
-          >
-            {34} 個
-          </button>
-          <span className="following-text">跟隨中</span>
-
-          <button
-            className="user-self-follower"
-            value="follower"
-            onClick={(e) => {
-              handleNavigateToFollowerPage(e.target.value);
-            }}
-          >
-            {56} 個
-          </button>
-          <span className="follower-text">跟隨者</span>
+            <button
+              className="user-self-follower"
+              value="follower"
+              onClick={(e) => {
+                handleNavigateToFollowerPage(e.target.value);
+              }}
+            >
+              {userInfo.followingCount} 個
+            </button>
+            <span className="follower-text">跟隨者</span>
+          </div>
         </div>
       </div>
 

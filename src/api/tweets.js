@@ -120,18 +120,16 @@ export const getSpecificTweetReply = async (specificTweetId) => {
   }
 };
 
-
-// get api/users/:id 取得特定使用者資料
-export const getUserInformation = [
-  {
-    id: 1,
-    userName: "Peter",
-    tweetAmount: 45,
-    userAvatar: userOtherAvatar,
-    userCover: userOtherInfoCover,
-  },
-];
 // get /api/users/:id/tweets 查看特定使用者的推文 UserSelfPage tweet
+export const getUserSelfTweets = async (id) => {
+  try {
+    const res = await axiosInstance.get(`${baseUrl}/users/${id}/tweets`);
+    return res.data;
+  } catch (error) {
+    console.error("[Get User Tweet Reply failed]: ", error);
+  }
+};
+
 export const getUserSelfTweetsDummyData = [
   {
     id: 3,
@@ -256,6 +254,17 @@ export const getUserSelfTweetsDummyData = [
 ];
 
 // get /api/users/:id/replied_tweets 查看特定使用者回應過的推文 UserSelfPage reply
+export const getUserSelfReply = async (id) => {
+  try {
+    const res = await axiosInstance.get(
+      `${baseUrl}/users/${id}/replied_tweets`
+    );
+    return res.data;
+  } catch (error) {
+    console.error("[Get User Self Reply failed]: ", error);
+  }
+};
+
 export const getUserSelfReplyItemsDummyData = [
   {
     replyId: 31,
@@ -314,6 +323,15 @@ export const getUserSelfReplyItemsDummyData = [
 ];
 
 // get /api/users/:id/likes 查看特定使用者喜歡過的推文
+export const getUserSelfLike = async (id) => {
+  try {
+    const res = await axiosInstance.get(`${baseUrl}/users/${id}/likes`);
+    return res.data;
+  } catch (error) {
+    console.error("[Get User Self Like failed]: ", error);
+  }
+};
+
 export const getUserSelfLikeItemsDummyData = [
   {
     id: 3,
@@ -440,105 +458,105 @@ export const getUserSelfLikeItemsDummyData = [
 
 
 // get /api/users/:id/followers 查看特定使用者的粉絲
+export const getUserSelfFollower = async (id) => {
+  try {
+    const res = await axiosInstance.get(`${baseUrl}/users/${id}/followers`);
+    return res.data;
+  } catch (error) {
+    console.error("[Get User Follower failed]: ", error);
+  }
+};
 export const followerDummyData = [
   {
-    id: 1,
-    name: "Ailsa Yang",
-    avatar: userOtherAvatar,
-    isFollowed: true,
-    intro:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque, dolore repudiandae.Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque, dolore repudiandae",
+    followerId: 5,
+    followingId: 2,
+    createdAt: "2023-08-28T07:25:10.000Z",
+    updatedAt: "2023-08-28T07:25:10.000Z",
+    isFollowed: 0,
+    follower: {
+      id: 5,
+      name: "User4",
+      email: "user4@example.com",
+      account: "user4",
+      introduction:
+        "Asperiores fugiat ratione dolor aperiam. Nesciunt cupiditate omnis consequuntur mollitia. Vitae non rerum beatae aut odit illum consequatur repudiandae est. Rei",
+      avatar: "https://loremflickr.com/320/240/man/?random=23.513182113941646",
+      cover: "https://loremflickr.com/1440/480/city/?random=12.66073706759907",
+      role: "user",
+      createdAt: "2023-08-28T07:25:03.000Z",
+      updatedAt: "2023-08-28T07:25:03.000Z",
+    },
+  },
+];
+// get /api/users/:id/followings 查看特定使用者追蹤的人
+export const getUserSelfFollowing = async (id) => {
+  try {
+    const res = await axiosInstance.get(`${baseUrl}/users/${id}/followings`);
+    return res.data;
+  } catch (error) {
+    console.error("[Get User Following failed]: ", error);
+  }
+};
+export const followingDummyData = [
+  {
+    followerId: 15,
+    followingId: 3,
+    createdAt: "2023-08-28T07:25:10.000Z",
+    updatedAt: "2023-08-28T07:25:10.000Z",
+    isFollowed: 0,
+    following: {
+      id: 3,
+      name: "User2",
+      email: "user2@example.com",
+      account: "user2",
+      introduction:
+        "Sed quidem tempora a fuga ea porro. Ullam eum id distinctio nihil voluptas porro. Ad ea perspiciatis sunt voluptatem vitae.",
+      avatar: "https://loremflickr.com/320/240/man/?random=68.61517603334588",
+      cover: "https://loremflickr.com/1440/480/city/?random=30.23345850680026",
+      role: "user",
+      createdAt: "2023-08-28T07:25:02.000Z",
+      updatedAt: "2023-08-28T07:25:02.000Z",
+    },
   },
   {
-    id: 2,
-    name: "Peter Lu",
-    avatar: userOtherAvatar,
-    isFollowed: true,
-    intro:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque, dolore repudiandae.Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque, dolore repudiandae",
+    followerId: 15,
+    followingId: 21,
+    createdAt: "2023-08-28T07:25:10.000Z",
+    updatedAt: "2023-08-28T07:25:10.000Z",
+    isFollowed: 0,
+    following: {
+      id: 21,
+      name: "User20",
+      email: "user20@example.com",
+      account: "user20",
+      introduction:
+        "Quis iure expedita id natus quo. Sunt soluta esse veritatis doloribus voluptate. Perspiciatis explicabo et. Asperiores autem iusto molestias voluptate. Ipsa del",
+      avatar: "https://loremflickr.com/320/240/man/?random=66.64423864105137",
+      cover: "https://loremflickr.com/1440/480/city/?random=73.5544977995281",
+      role: "user",
+      createdAt: "2023-08-28T07:25:03.000Z",
+      updatedAt: "2023-08-28T07:25:03.000Z",
+    },
   },
   {
-    id: 3,
-    name: "Amy Johnson",
-    avatar: userOtherAvatar,
-    isFollowed: false,
-    intro:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque, dolore repudiandae.Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque, dolore repudiandae",
-  },
-  {
-    id: 4,
-    name: "Amy Johnson",
-    avatar: userOtherAvatar,
-    isFollowed: false,
-    intro:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque, dolore repudiandae.Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque, dolore repudiandae",
-  },
-  {
-    id: 5,
-    name: "Amy Johnson",
-    avatar: userOtherAvatar,
-    isFollowed: false,
-    intro:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque, dolore repudiandae.Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque, dolore repudiandae",
-  },
-  {
-    id: 6,
-    name: "Amy Johnson",
-    avatar: userOtherAvatar,
-    isFollowed: false,
-    intro:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque, dolore repudiandae.Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque, dolore repudiandae",
-  },
-  {
-    id: 7,
-    name: "Amy Johnson",
-    avatar: userOtherAvatar,
-    isFollowed: true,
-    intro:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque, dolore repudiandae.Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque, dolore repudiandae",
+    followerId: 15,
+    followingId: 7,
+    createdAt: "2023-08-28T07:25:10.000Z",
+    updatedAt: "2023-08-28T07:25:10.000Z",
+    isFollowed: 0,
+    following: {
+      id: 7,
+      name: "User6",
+      email: "user6@example.com",
+      account: "user6",
+      introduction:
+        "Pariatur impedit accusamus nam odit rerum est et. Porro assumenda debitis totam rerum ut blanditiis molestiae. Neque excepturi enim consequatur sed debitis aliq",
+      avatar: "https://loremflickr.com/320/240/man/?random=88.16168947945091",
+      cover: "https://loremflickr.com/1440/480/city/?random=30.76582458406991",
+      role: "user",
+      createdAt: "2023-08-28T07:25:03.000Z",
+      updatedAt: "2023-08-28T07:25:03.000Z",
+    },
   },
 ];
 
-// get /api/users/:id/followings 查看特定使用者追蹤的人
-export const followingDummyData = [
-  {
-    id: 1,
-    name: "Ailsa Yang",
-    avatar: userOtherAvatar,
-    isFollowed: true,
-    intro:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque, dolore repudiandae.Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque, dolore repudiandae",
-  },
-  {
-    id: 2,
-    name: "Peter Lu",
-    avatar: userOtherAvatar,
-    isFollowed: true,
-    intro:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque, dolore repudiandae.Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque, dolore repudiandae",
-  },
-  {
-    id: 3,
-    name: "Amy Johnson",
-    avatar: userOtherAvatar,
-    isFollowed: true,
-    intro:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque, dolore repudiandae.Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque, dolore repudiandae",
-  },
-  {
-    id: 4,
-    name: "Amy Johnson",
-    avatar: userOtherAvatar,
-    isFollowed: true,
-    intro:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque, dolore repudiandae.Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque, dolore repudiandae",
-  },
-  {
-    id: 5,
-    name: "Amy Johnson",
-    avatar: userOtherAvatar,
-    isFollowed: true,
-    intro:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque, dolore repudiandae.Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque, dolore repudiandae",
-  },
-];
