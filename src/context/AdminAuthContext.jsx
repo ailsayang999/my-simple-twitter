@@ -2,7 +2,7 @@ import { createContext, useState, useEffect, useContext } from 'react';
 import { adminLogin } from '../api/admin';
 // import { checkPermission } from '../api/admin'; 有要驗證token嗎?
 
-import jwt_decode from "jwt-decode"
+// import jwt_decode from "jwt-decode"
 import { useLocation } from 'react-router-dom';
 
 const defaultAuthAdminContext = {
@@ -39,7 +39,7 @@ export const AuthAdminProvider = ({ children }) => {
       //   setIsAuthenticated(false);
       //   setPayload(null);
       // }
-      setIsAuthenticated(true)
+      setIsAuthenticated(true);
       }
     };
 
@@ -50,27 +50,31 @@ export const AuthAdminProvider = ({ children }) => {
     <AuthAdminContext.Provider
       value={{
         isAuthenticated,
+        setIsAuthenticated,
         currentMember: payload && {
           id: payload.sub, // 取出 sub 字串，可以做為使用者 id
           name: payload.name, // 取出使用者帳號
         },
-        adminLogin: async (data) => {
+        adminLogin: async (data1) => {
           console.log(`進入authAdminContext.jsx中await adminLogin!`)
-          const { success, authToken } = await adminLogin({
-            account: data.account,
-            password: data.password,
+          const { data } = await adminLogin({
+            account: data1.account,
+            password: data1.password,
           });
-          const tempPayload = jwt_decode.decode(authToken);
-          if (tempPayload) {
-            console.log(`tempPayload:${JSON.stringify(tempPayload)}`)
-            setPayload(tempPayload);
+          // const tempPayload = jwt_decode.decode(authToken);
+          console.log(`await從admin.js拿回來的data:${JSON.stringify(data)}`)
+          if (data.token) {
+            console.log(`authToken:${JSON.stringify(data.token)}`)
+            // setPayload(tempPayload);
             setIsAuthenticated(true);
-            localStorage.setItem('authToken', authToken);
+            console.log(`在AdminAuthContext中指示存${data.token}於localStorage中`)
+            localStorage.setItem('ContextauthToken', data.token);
           } else {
+            console.log(`Failed message: ${data.message}`)
             setPayload(null);
             setIsAuthenticated(false);
           }
-          return {success};
+          return {data};
         },
         adminLogout: () => {
           localStorage.removeItem('authToken');
