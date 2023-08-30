@@ -74,6 +74,7 @@ const AdminPage = () => {
         onChange={(nameInputValue) => setAccount(nameInputValue)}
         />  
       <InputSet 
+        type={"password"}
         label={"密碼"} 
         placeholder={"請輸入密碼"} 
         value={password}
