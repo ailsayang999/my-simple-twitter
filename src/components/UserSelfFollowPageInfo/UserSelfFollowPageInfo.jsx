@@ -49,7 +49,6 @@ const FollowerContent = ({ follower, handleFollowerBtnClick }) => {
 };
 
 const FollowingContent = ({ following, handleFollowingBtnClick }) => {
-  console.log(following);
   return (
     <>
       {following.map(({ followingId, following , isFollowed}) => {
@@ -166,11 +165,11 @@ const UserSelfFellowPageInfo = () => {
               }
             })
           );
-          alert("追蹤成功");
+          alert("取消追蹤成功");
         }
         if (res.data.status === "error") {
           alert(res.data.message);
-          alert("你已追蹤過這個帳戶");
+          alert("你還沒追蹤這個帳戶");
         }
       }
     }
@@ -207,7 +206,6 @@ const UserSelfFellowPageInfo = () => {
         const LocalStorageUserInfo = JSON.parse(localStorageUserInfoString); // 要把這個string變成object
         const userInfoId = LocalStorageUserInfo.id; //再從這個object拿到登入者的id
         const backendUserSelfFollowing = await getUserSelfFollowing(userInfoId);
-        console.log("backendUserSelfFollower:", backendUserSelfFollowing);
         //後端好了再打開，先用userInfo
         setFollowing(backendUserSelfFollowing);
       } catch (error) {
@@ -234,8 +232,6 @@ const UserSelfFellowPageInfo = () => {
     getUserSelfFollowerAsync();
     getUserSelfFollowingAsync();
   }, []);
-
-  console.log("user self follow page userInfo", userInfo);
 
   return (
     <div className="user-self-follow-page-info">

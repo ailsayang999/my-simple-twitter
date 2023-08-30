@@ -41,41 +41,39 @@ const UserSelfTweetContent = ({ userSelfTweets }) => {
           likeCount,
         }) => {
           return (
-            <>
-              <div className="post-item-container" key={TweetId}>
-                <div className="post-item-wrapper">
-                  <img
-                    src={tweetBelongerAvatar}
-                    alt=""
-                    className="post-item-avatar"
-                  />
+            <div className="post-item-container" key={TweetId}>
+              <div className="post-item-wrapper">
+                <img
+                  src={tweetBelongerAvatar}
+                  alt=""
+                  className="post-item-avatar"
+                />
 
-                  <div className="post-item-content">
-                    <div className="user-post-info">
-                      <div className="name">{tweetBelongerName}</div>
-                      <div className="account">@{tweetBelongerAccount}</div>
-                      <div className="time">· {createdAt}</div>
+                <div className="post-item-content">
+                  <div className="user-post-info">
+                    <div className="name">{tweetBelongerName}</div>
+                    <div className="account">@{tweetBelongerAccount}</div>
+                    <div className="time">· {createdAt}</div>
+                  </div>
+
+                  <div className="post-content">{description}</div>
+
+                  <div className="reply-like-container">
+                    <div className="reply-container">
+                      <ReplyIcon className="reply-icon" />
+                      <div className="reply-number">{replyCount}</div>
                     </div>
-
-                    <div className="post-content">{description}</div>
-
-                    <div className="reply-like-container">
-                      <div className="reply-container">
-                        <ReplyIcon className="reply-icon" />
-                        <div className="reply-number">{replyCount}</div>
+                    <div className="like-container">
+                      <div className="like-icons">
+                        <LikeIcon className="like-icon" />
                       </div>
-                      <div className="like-container">
-                        <div className="like-icons">
-                          <LikeIcon className="like-icon" />
-                        </div>
 
-                        <div className="like-number">{likeCount}</div>
-                      </div>
+                      <div className="like-number">{likeCount}</div>
                     </div>
                   </div>
                 </div>
               </div>
-            </>
+            </div>
           );
         }
       )}
@@ -98,34 +96,32 @@ const UserSelfReplyContent = ({ userSelfReply }) => {
           createdAt,
         }) => {
           return (
-            <>
-              <div className="reply-item-container" key={replyId}>
-                <div className="reply-item-wrapper">
-                  <img
-                    src={replierAvatar}
-                    alt={replierAvatar}
-                    className="reply-item-avatar"
-                  />
+            <div className="reply-item-container" key={replyId}>
+              <div className="reply-item-wrapper">
+                <img
+                  src={replierAvatar}
+                  alt={replierAvatar}
+                  className="reply-item-avatar"
+                />
 
-                  <div className="reply-item-content">
-                    <div className="user-reply-info">
-                      <div className="replier-name">{replierName}</div>
-                      <div className="replier-account">@{replierAccount}</div>
-                      <div className="reply-time">· {createdAt}</div>
-                    </div>
-
-                    <div className="reply-to-tweet-belonger-account-container">
-                      回覆
-                      <span className="reply-to-tweet-belonger-account">
-                        @{tweetBelongerAccount}
-                      </span>
-                    </div>
-
-                    <div className="reply-content">{comment}</div>
+                <div className="reply-item-content">
+                  <div className="user-reply-info">
+                    <div className="replier-name">{replierName}</div>
+                    <div className="replier-account">@{replierAccount}</div>
+                    <div className="reply-time">· {createdAt}</div>
                   </div>
+
+                  <div className="reply-to-tweet-belonger-account-container">
+                    回覆
+                    <span className="reply-to-tweet-belonger-account">
+                      @{tweetBelongerAccount}
+                    </span>
+                  </div>
+
+                  <div className="reply-content">{comment}</div>
                 </div>
               </div>
-            </>
+            </div>
           );
         }
       )}
@@ -250,7 +246,6 @@ const UserSelfPageInfo = () => {
         const LocalStorageUserInfo = JSON.parse(localStorageUserInfoString); // 要把這個string變成object
         const userInfoId = LocalStorageUserInfo.id; //再從這個object拿到登入者的id
         const backendUserSelfReply = await getUserSelfReply(userInfoId);
-        console.log(userInfoId);
         setUserSelfReply(backendUserSelfReply);
       } catch (error) {
         console.error(error);
@@ -270,7 +265,7 @@ const UserSelfPageInfo = () => {
     getUserInfoAsync();
     getUserSelfTweetsAsync();
     getUserSelfReplyAsync();
-    getUserSelfLikeAsync()
+    getUserSelfLikeAsync();
   }, []);
 
   const navigate = useNavigate();
