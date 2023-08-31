@@ -66,7 +66,7 @@ const AdminPage = () => {
   }, [navigate, showNotiBoxFail]);
   
   return (
-    <div className="outerContainer">
+    <div className="adminOuterContainer">
       {showNotiBoxSuccess && <NotiBoxSuccess notiText={"後台登入成功!"} />}
       {showNotiBoxFail && <NotiBoxFail notiText={"後台登入失敗!"} />}
       <Header entryName={"後台登入"}/>

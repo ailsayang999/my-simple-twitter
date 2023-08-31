@@ -1,3 +1,4 @@
+import './LoginPage.scss';
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Header from 'components/Header'
@@ -62,7 +63,7 @@ const LoginPage = () => {
   }, [showNotiBoxFail]);
 
   return (
-    <div className="outerContainer">
+    <div className="loginOuterContainer">
       {showNotiBoxSuccess && <NotiBoxSuccess notiText={"登入成功!"} />}
       {showNotiBoxFail && <NotiBoxFail notiText={"登入失敗!"} />}
       <Header entryName={"登入 Alphitter"}/>

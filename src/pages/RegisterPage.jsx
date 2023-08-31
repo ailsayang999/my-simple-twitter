@@ -101,7 +101,7 @@ const RegisterPage = () => {
   }, [showNotiBoxFail]);
 
   return (
-    <div className="outerContainer">
+    <div className="registerOuterContainer">
       {showNotiBoxSuccess && <NotiBoxSuccess notiText={"註冊成功!"} />}
       {showNotiBoxFail && <NotiBoxFail notiText={"註冊失敗!"} />}
       <Header entryName={"建立你的帳號"}/>
