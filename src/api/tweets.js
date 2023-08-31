@@ -579,4 +579,14 @@ export const deleteFollowShip = async (personNotToFollowId) => {
     console.error("[Delete User Following failed]: ", error);
   }
 };
+ 
+// get /api/followships/top10 取得前10位熱門使用者
+export const getTop10 = async () => {
+  try {
+    const res = await axiosInstance.get(`${baseUrl}/followships/top10`);
+    return res.data;
+  } catch (error) {
+    console.error("[Get Top10 failed]: ", error);
+  }
+};
 

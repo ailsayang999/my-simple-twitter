@@ -30,7 +30,9 @@ const FollowerContent = ({ follower, handleFollowerBtnClick }) => {
                   <div className="follower-name">{follower.name}</div>
 
                   <button
-                    className={`${isFollowed ? "follow-btn" : "following-btn"}`}
+                    className={`${
+                      isFollowed ? "following-btn" : "follow-btn"
+                    }`}
                     onClick={() =>
                       handleFollowerBtnClick(followerId, isFollowed)
                     }
@@ -68,7 +70,7 @@ const FollowingContent = ({ following, handleFollowingBtnClick }) => {
                   <div className="follower-name">{following.name}</div>
 
                   <button
-                    className={`${isFollowed ? "follow-btn" : "following-btn"}`}
+                    className={`${isFollowed ? "following-btn" : "follow-btn"}`}
                     onClick={() => {
                       handleFollowingBtnClick(followingId);
                     }}
@@ -118,7 +120,7 @@ const UserSelfFellowPageInfo = () => {
     console.log(showFollowPageContent);
   };
 
-  /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////// 追蹤和取消追蹤功能 //////////////////////////////////////////////////
   const handleFollowerBtnClick = async (followerId, isFollowed) => {
     console.log("follower in handleFollowerClick", follower);
     console.log("follower id", followerId);
