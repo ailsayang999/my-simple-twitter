@@ -6,7 +6,7 @@ import MiddleContainer from "components/Containers/MiddleContainer";
 import RightContainer from "components/Containers/RightContainer";
 import LeftNavBar from "components/LeftNavBar/LeftNavBar";
 import MiddleInfo from "components/MiddleInfo/MiddleInfo";
-
+import SettingPageInfo from "components/SettingPageInfo/SettingPageInfo";
 
 const RightBlank = styled.div`
   width: 100%;
@@ -20,7 +20,9 @@ const SettingPage = () => {
         <LeftNavBar />
       </LeftContainer>
       <MiddleContainer>
-        <MiddleInfo>Change Something here</MiddleInfo>
+        <MiddleInfo>
+          <SettingPageInfo />
+        </MiddleInfo>
       </MiddleContainer>
       <RightContainer>
         <RightBlank />

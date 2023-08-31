@@ -1,6 +1,6 @@
 import { createContext, useState, useEffect, useContext } from "react";
 import { register, login } from "../api/auth";
-// import { register, login, checkPermission } from "../api/auth";
+import { setting } from "../api/setting";
 
 import jwt_decode from "jwt-decode";
 import { useLocation } from "react-router-dom";
@@ -69,10 +69,11 @@ export const AuthProvider = ({ children }) => {
             )}`
           );
           const tempPayload = JSON.stringify(data);
+          const authToken = data.token
           if (tempPayload) {
             setPayload(tempPayload);
             setIsAuthenticated(true);
-            localStorage.setItem("authToken", "成功註冊!");
+            localStorage.setItem("authToken", authToken);
             localStorage.setItem("userInfo", JSON.stringify(tempPayload));
             console.log('在localStorage存入authToken"成功註冊!"');
           } else {
@@ -80,35 +81,54 @@ export const AuthProvider = ({ children }) => {
             setIsAuthenticated(false);
             console.log(`註冊失敗at authContext.jsx`);
           }
-          // return success; 沒有架設success:true
           return { status };
         },
         login: async (data1) => {
           console.log(`進入AuthContext.jsx中傳入payload(account&password) await login
           !`);
-          const { success, authToken, data } = await login({
+          const {data} = await login({
             account: data1.account,
             password: data1.password,
           });
-          console.log(
-            `解構賦值拿回success:${success} authToken:${authToken} 多拿一個data確認後端內容:${data}`
-          );
-          const tempPayload = jwt_decode(authToken);
-
+          console.log(`return{data} 接收AuthContext的{data}: ${JSON.stringify(data)}`)
+          const tempPayload = jwt_decode(data.data.token);
+          console.log(`tempPayload: ${JSON.stringify(tempPayload)}`)
           if (tempPayload) {
             setPayload(tempPayload);
             setIsAuthenticated(true);
-            console.log(`設定isAuthenticated為true`);
-            localStorage.setItem("authToken", authToken);
+            localStorage.setItem("authToken", data.data.token);
             localStorage.setItem("userInfo", JSON.stringify(tempPayload));
-            console.log(`將authToken存入localStorage`);
           } else {
             setPayload(null);
             setIsAuthenticated(false);
           }
+          
+          return { data };
 
+        },
+        setUserInfo: async (data1) => {
+          const data = await setting({
+            id: data1.id,
+            name: data1.name,
+            account: data1.account,
+            email: data1.email,
+            password: data1.password,
+            checkPassword: data1.checkPassword,
+          });
+          const tempPayload = JSON.stringify(data.data);
+          if (tempPayload) {
+            setPayload(tempPayload);
+            setIsAuthenticated(true);
+            localStorage.setItem("userInfo", JSON.stringify(tempPayload));
+            console.log('在localStorage存入更新的userInfo');
+          } else {
+            setPayload(null);
+            setIsAuthenticated(false);
+            console.log(`失敗，未更新userInfo`);
+          }
+          const success = data.status
+          console.log(`AuthContext中的success${success}`)
           return { success };
-
         },
         logout: () => {
           localStorage.removeItem("authToken");
