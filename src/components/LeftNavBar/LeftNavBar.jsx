@@ -66,7 +66,6 @@ const LeftNavBar = () => {
             <span className="setting-text text">設定</span>
           </Link>
         </div>
-
         <button className="tweet-button" onClick={togglePostModal}>
           推文
         </button>
