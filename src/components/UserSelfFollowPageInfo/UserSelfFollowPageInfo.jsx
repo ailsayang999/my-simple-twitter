@@ -17,6 +17,7 @@ import {
 } from "api/tweets";
 
 const FollowerContent = ({ follower, handleFollowerBtnClick }) => {
+  console.log("render followerContent")
   // backendUserSelfFollower裡面還有一層
   return (
     <>

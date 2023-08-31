@@ -61,8 +61,8 @@ function FollowContextProvider({ children }) {
       isFollowed: true,
     },
   ];
-  const [follower, setFollower] = useState([]);
-  const [following, setFollowing] = useState([]);
+  const [follower, setFollower] = useState();
+  const [following, setFollowing] = useState();
   const [topUserArr, setTopUserArr] = useState(userTopDummyData);
 
   const handleFollowBtnClick = async (id, isFollowed) => {

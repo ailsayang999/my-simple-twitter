@@ -9,6 +9,8 @@ import { useAuth } from "context/AuthContext"; //到AuthContext拿是否已驗�
 import { ReactComponent as ReplyIcon } from "assets/icons/replyIcon.svg";
 import { ReactComponent as LikeIcon } from "assets/icons/likeIcon.svg";
 import { ReactComponent as LikeActiveIcon } from "assets/icons/likeIconActive.svg";
+import { ReactComponent as NotifyIconActiveIcon } from "assets/icons/notifyIconActive.svg";
+import {ReactComponent as MsgIcon } from "assets/icons/msgIcon.svg"
 // 引入Modal元件
 import PostTweetModal from "components/PostTweetModal/PostTweetModal";
 import {
@@ -300,7 +302,9 @@ const UserOtherPageInfo = () => {
           onClick={handleBackArrowClick}
         />
         <div className="name-tweet-amount-container">
-          <h5 className="header-title-user-other-name">{userOtherInfo?.name}</h5>
+          <h5 className="header-title-user-other-name">
+            {userOtherInfo?.name}
+          </h5>
           <div className="tweet-amount">
             {userOtherInfo?.tweetCount}
             <span className="tweet-amount-text">推文</span>
@@ -326,6 +330,19 @@ const UserOtherPageInfo = () => {
               className="user-other-avatar"
             />
           </div>
+          {/* <button className="user-other-avatar-edit-btn">正在跟隨</button> */}
+          <NotifyIconActiveIcon className="noti-icon" />
+          <MsgIcon className="msg-icon" />
+          <button
+            className={`${
+              userOtherInfo.isFollowed
+                ? "user-other-following-btn"
+                : "user-other-follow-btn"
+            }`}
+            // onClick={() => handleFollowerBtnClick(userOtherInfo.id, userOtherInfo.isFollowed)}
+          >
+            {userOtherInfo.isFollowed ? "正在跟隨" : "跟隨"}
+          </button>
         </div>
 
         {/* 個人姓名 */}
