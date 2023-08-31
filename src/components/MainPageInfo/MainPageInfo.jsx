@@ -2,8 +2,10 @@ import "./mainPageInfo.scss";
 import { ReactComponent as ReplyIcon } from "assets/icons/replyIcon.svg";
 import { ReactComponent as LikeIcon } from "assets/icons/likeIcon.svg";
 import { ReactComponent as LikeActiveIcon } from "assets/icons/likeIconActive.svg";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
 import ModalContext from "context/ModalContext";
+import UserInfoContext from "context/UserInfoContext";
+
 import { useAuth } from "context/AuthContext"; //到AuthContext拿是否已驗證
 import { useNavigate } from "react-router-dom";
 import {
@@ -40,6 +42,8 @@ const MainPageInfo = () => {
   //先從AuthContext拿到驗證是否為true(isAuthenticated:true)
   const { isAuthenticated } = useAuth();
 
+  //先從UserInfoContext拿到驗證是否為userInfo
+  const { userInfo, setUserInfo } = useContext(UserInfoContext);
   // 如果今天mainPage的ReplyIcon被點擊的話，就要先把被點擊的specific-tweetId給存到localStorage，然後把Reply Modal給pop出來
   const handleSpecificPostReplyIconClick = (specificTweetId) => {
     const getSpecificTweetAsync = async () => {
@@ -78,7 +82,7 @@ const MainPageInfo = () => {
   };
 
   ////////////////////////////////////////////////////////////////////////////////////////////串接API getTweets 和  getUserInfo useEffect做初始畫面渲染 ///////////////////////////
-  const [userInfo, setUserInfo] = useState([]); //在每一頁的useEffect中會去向後端請求登入者的object資料
+  // const [userInfo, setUserInfo] = useState([]); //在每一頁的useEffect中會去向後端請求登入者的object資料
 
   //串接API: tweets畫面初始化，顯示過去tweets內所有資訊
   useEffect(() => {
@@ -118,7 +122,7 @@ const MainPageInfo = () => {
   const handleToggleLike = async (id) => {
     // 找出這篇文章
     const specificToggleTweet = tweets.filter((tweet) => tweet.TweetId === id);
-    console.log("specificToggleTweet",specificToggleTweet);
+    console.log("specificToggleTweet", specificToggleTweet);
     // 拿到這篇文章Like初始狀態
     const specificToggleTweetLike = specificToggleTweet[0].isLiked;
     console.log("此篇貼文的Like初始狀態: ", specificToggleTweetLike);
@@ -135,7 +139,7 @@ const MainPageInfo = () => {
                 return {
                   ...tweet,
                   isLiked: false,
-                  likeCount: tweet.likeCount -1,
+                  likeCount: tweet.likeCount - 1,
                 };
               } else {
                 return tweet;
@@ -178,6 +182,8 @@ const MainPageInfo = () => {
       }
     }
   };
+
+  console.log("Main Page userInfo", userInfo);
 
   return (
     <div className="main-page-info">

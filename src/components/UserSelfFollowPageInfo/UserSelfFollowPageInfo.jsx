@@ -3,6 +3,8 @@ import "./userSelfFollowPageInfo.scss";
 import { ReactComponent as BackArrowIcon } from "assets/icons/backArrowIcon.svg";
 import { useNavigate } from "react-router-dom";
 import ModalContext from "context/ModalContext";
+import UserInfoContext from "context/UserInfoContext"
+import { useAuth } from "context/AuthContext"; //到AuthContext拿是否已驗證;
 import FollowContext from "context/FollowContext";
 // 引入Modal元件
 import PostTweetModal from "components/PostTweetModal/PostTweetModal";
@@ -88,6 +90,11 @@ const FollowingContent = ({ following, handleFollowingBtnClick }) => {
 };
 
 const UserSelfFellowPageInfo = () => {
+  //先從AuthContext拿到驗證是否為true(isAuthenticated:true)
+  const { isAuthenticated } = useAuth();
+
+  //先從UserInfoContext拿到驗證是否為userInfo
+  const { userInfo } = useContext(UserInfoContext);
   const navigate = useNavigate();
   //如果點按返回箭頭就navigate to /user/self
   const handleBackArrowClick = () => {
@@ -244,18 +251,13 @@ const UserSelfFellowPageInfo = () => {
   };
 
   ///////////////////////////////////////////////////初始畫面渲染 /////////////////////////////////////////////////
-  const [userInfo, setUserInfo] = useState([]); //在每一頁的useEffect中會去向後端請求登入者的object資料
 
   useEffect(() => {
     console.log("execute User Self Follow Page function in useEffect");
-    // 首先拿到當前登入的使用者的id先給getUserSelfFollowerAsync和getUserSelfFollowingAsync用，因為非同步的關係，不知道getUserInfoAsync回傳回來的user data會是何年何月..
-    const localStorageUserInfoString = localStorage.getItem("userInfo"); //拿下來會是一比string的資料
-    const LocalStorageUserInfo = JSON.parse(localStorageUserInfoString); // 要把這個string變成object
-    const userInfoId = LocalStorageUserInfo.id; //再從這個object拿到登入者的id
 
     const getUserSelfFollowerAsync = async () => {
       try {
-        const backendUserSelfFollower = await getUserSelfFollower(userInfoId);
+        const backendUserSelfFollower = await getUserSelfFollower(userInfo.id);
         setFollower(backendUserSelfFollower);
       } catch (error) {
         console.error(error);
@@ -264,38 +266,18 @@ const UserSelfFellowPageInfo = () => {
 
     const getUserSelfFollowingAsync = async () => {
       try {
-        const localStorageUserInfoString = localStorage.getItem("userInfo"); //拿下來會是一比string的資料
-        const LocalStorageUserInfo = JSON.parse(localStorageUserInfoString); // 要把這個string變成object
-        const userInfoId = LocalStorageUserInfo.id; //再從這個object拿到登入者的id
-        const backendUserSelfFollowing = await getUserSelfFollowing(userInfoId);
+        const backendUserSelfFollowing = await getUserSelfFollowing(userInfo.id);
         //後端好了再打開，先用userInfo
         setFollowing(backendUserSelfFollowing);
       } catch (error) {
         console.error(error);
       }
     };
-
-    //最後還是要拿登入的使用者資料，給header渲染userInfo.tweetCount和userInfo.name
-    const getUserInfoAsync = async () => {
-      try {
-        const localStorageUserInfoString = localStorage.getItem("userInfo"); //拿下來會是一比string的資料
-        const LocalStorageUserInfo = JSON.parse(localStorageUserInfoString); // 要把這個string變成object
-        const userInfoId = LocalStorageUserInfo.id; //再從這個object拿到登入者的id
-        //向後端拿取登入者的object資料
-        const backendUserInfo = await getUserInfo(userInfoId);
-        //拿到登入者資料後存在userInfo裡面，backendUserInfo會是一個object
-        setUserInfo(backendUserInfo);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    getUserInfoAsync();
     getUserSelfFollowerAsync();
     getUserSelfFollowingAsync();
   }, []);
 
-    console.log("follow page follower: ", follower);
+  console.log("follow page follower: ", follower);
 
   return (
     <div className="user-self-follow-page-info">

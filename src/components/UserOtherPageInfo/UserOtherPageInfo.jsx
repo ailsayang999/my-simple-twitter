@@ -5,6 +5,7 @@ import userOtherInfoCover from "assets/images/fakeUserOtherCover.png";
 import userOtherAvatar from "assets/images/fakeUserOtherAvatar.png";
 import { useContext, useState, useEffect } from "react";
 import ModalContext from "context/ModalContext";
+
 import { ReactComponent as ReplyIcon } from "assets/icons/replyIcon.svg";
 import { ReactComponent as LikeIcon } from "assets/icons/likeIcon.svg";
 import { ReactComponent as LikeActiveIcon } from "assets/icons/likeIconActive.svg";

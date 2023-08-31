@@ -1,5 +1,5 @@
 import { createContext, useState } from "react";
-import { postFollowShip, deleteFollowShip, getTop10 } from "api/tweets";
+import { postFollowShip, deleteFollowShip } from "api/tweets";
 
 const FollowContext = createContext("");
 

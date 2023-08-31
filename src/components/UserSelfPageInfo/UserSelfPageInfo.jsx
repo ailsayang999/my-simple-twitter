@@ -2,10 +2,12 @@ import "./userSelfPageInfo.scss";
 import { ReactComponent as BackArrowIcon } from "assets/icons/backArrowIcon.svg";
 import { useNavigate } from "react-router-dom";
 import ModalContext from "context/ModalContext";
+import UserInfoContext from "context/UserInfoContext";
 import { useContext, useState, useEffect } from "react";
 import { ReactComponent as ReplyIcon } from "assets/icons/replyIcon.svg";
 import { ReactComponent as LikeIcon } from "assets/icons/likeIcon.svg";
 import { ReactComponent as LikeActiveIcon } from "assets/icons/likeIconActive.svg";
+import { useAuth } from "context/AuthContext"; //到AuthContext拿是否已驗證
 
 //這個之後刪掉
 import { getUserSelfTweetsDummyData } from "api/tweets";
@@ -188,6 +190,12 @@ const UserSelfLikeContent = ({ userSelfLike }) => {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 const UserSelfPageInfo = () => {
+  //先從AuthContext拿到驗證是否為true(isAuthenticated:true)
+  const { isAuthenticated } = useAuth();
+
+  //先從UserInfoContext拿到驗證是否為userInfo
+  const { userInfo , setUserInfo} = useContext(UserInfoContext);
+  console.log("userSelf page userInfo", userInfo);
   const navigate = useNavigate();
   // 返回主畫面使用
   const handleBackArrowClick = () => {
@@ -220,8 +228,6 @@ const UserSelfPageInfo = () => {
   // 使用者所有喜歡
   const [userSelfLike, setUserSelfLike] = useState([]);
 
-  //拿到userInfo的avatar和cover跟個人介紹資料
-  const [userInfo, setUserInfo] = useState([]); //在每一頁的useEffect中會去向後端請求登入者的object資料
 
   //串接API: 畫面初始資料
   useEffect(() => {
@@ -230,17 +236,20 @@ const UserSelfPageInfo = () => {
     const LocalStorageUserInfo = JSON.parse(localStorageUserInfoString); // 要把這個string變成object
     const userInfoId = LocalStorageUserInfo.id; //再從這個object拿到登入者的id
 
+ const getUserInfoAsync = async () => {
+   try {
+     const localStorageUserInfoString = localStorage.getItem("userInfo"); //拿下來會是一比string的資料
+     const LocalStorageUserInfo = JSON.parse(localStorageUserInfoString); // 要把這個string變成object
+     const userInfoId = LocalStorageUserInfo.id; //再從這個object拿到登入者的id
+     //向後端拿取登入者的object資料
+     const backendUserInfo = await getUserInfo(userInfoId);
+     //拿到登入者資料後存在userInfo裡面，userInfo會是一個object
+     setUserInfo(backendUserInfo);
+   } catch (error) {
+     console.error(error);
+   }
+ };
     //首先拿到當前登入的使用者資料
-    const getUserInfoAsync = async () => {
-      try {
-        //向後端拿取登入者的object資料
-        const backendUserInfo = await getUserInfo(userInfoId);
-        //拿到登入者資料後存在userInfo裡面，backendUserInfo會是一個object
-        setUserInfo(backendUserInfo);
-      } catch (error) {
-        console.error(error);
-      }
-    };
     const getUserSelfTweetsAsync = async () => {
       try {
         const backendUserSelfTweets = await getUserSelfTweets(userInfoId);
@@ -262,19 +271,17 @@ const UserSelfPageInfo = () => {
     };
     const getUserSelfLikeAsync = async () => {
       try {
-        const localStorageUserInfoString = localStorage.getItem("userInfo"); //拿下來會是一比string的資料
-        const LocalStorageUserInfo = JSON.parse(localStorageUserInfoString); // 要把這個string變成object
-        const userInfoId = LocalStorageUserInfo.id; //再從這個object拿到登入者的id
         const backendUserSelfLike = await getUserSelfLike(userInfoId);
         setUserSelfLike(backendUserSelfLike);
+        console.log("backendUserSelfLike", backendUserSelfLike);
       } catch (error) {
         console.error(error);
       }
     };
-    getUserInfoAsync();
     getUserSelfTweetsAsync();
     getUserSelfReplyAsync();
     getUserSelfLikeAsync();
+    getUserInfoAsync()
   }, []);
 
   // UserSelfPageInfo的監聽器：，當跟隨者或是跟隨中的button被點按時，會選擇UserSelfFollowPage要渲染的資料 (但是因為會被navigation搶先執行，所以先不用了)

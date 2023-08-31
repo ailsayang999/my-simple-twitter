@@ -1,7 +1,7 @@
 import { createContext, useState } from "react";
 import { postTweetReply, postTweet, dummyTweets } from "api/tweets";
-
 const ModalContext = createContext("");
+
 
 function ModalContextProvider({ children }) {
   ///////////////////////////////// For Post Modal////////////////////////////////

@@ -5,6 +5,8 @@ import { followerDummyData } from "api/tweets";
 import { followingDummyData } from "api/tweets";
 import { useState, useContext, useEffect } from "react";
 import ModalContext from "context/ModalContext";
+import UserInfoContext from "context/UserInfoContext";
+import { useAuth } from "context/AuthContext"; //到AuthContext拿是否已驗證
 // 引入Modal元件
 import PostTweetModal from "components/PostTweetModal/PostTweetModal";
 import {
@@ -16,6 +18,7 @@ import {
 
 const FollowerContent = ({ follower, handleFollowerBtnClick }) => {
   // backendUserSelfFollower裡面還有一層
+
   return (
     <>
       {follower.map(({ isFollowed, follower, followerId }) => {
@@ -87,8 +90,13 @@ const FollowingContent = ({ following, handleFollowingBtnClick }) => {
   );
 };
 
-
 const UserOtherFollowPageInfo = () => {
+  //先從AuthContext拿到驗證是否為true(isAuthenticated:true)
+  const { isAuthenticated } = useAuth();
+
+  //先從UserInfoContext拿到驗證是否為userInfo
+  const { userInfo } = useContext(UserInfoContext);
+
   const navigate = useNavigate();
   const handleBackArrowClick = () => {
     //如果點按返回箭頭就navigate to /user/other
@@ -285,11 +293,11 @@ const UserOtherFollowPageInfo = () => {
       {/* Modal ：根據postModal的布林值決定是否要跳出PostTweetModal component*/}
       {postModal && (
         <PostTweetModal
-          userInfo={userInfoObject}
+          userInfo={userInfo}
           inputValue={inputValue}
           onTweetTextAreaChange={handleTweetTextAreaChange}
           onAddTweet={handleAddTweet}
-          userAvatar={userInfoObject.avatar}
+          userAvatar={userInfo.avatar}
         />
       )}
     </div>
