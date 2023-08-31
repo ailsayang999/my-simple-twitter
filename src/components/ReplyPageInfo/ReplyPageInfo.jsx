@@ -129,7 +129,7 @@ const ReplyPageInfo = () => {
                 return {
                   ...specificTweet,
                   isLiked: false,
-                  likeCount:0,
+                  likeCount: specificTweet.likeCount - 1,
                 };
               } else {
                 return specificTweet;
@@ -158,7 +158,7 @@ const ReplyPageInfo = () => {
                 return {
                   ...specificTweet,
                   isLiked: true,
-                  likeCount: 1,
+                  likeCount: specificTweet.likeCount + 1,
                 };
               } else {
                 return specificTweet;

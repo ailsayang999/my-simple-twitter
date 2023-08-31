@@ -110,10 +110,9 @@ const MainPageInfo = () => {
     getUserInfoAsync();
     //getTweetsAsync這個function定義完成之後，我們可以直接執行它
     getTweetsAsync();
-  }, []); //後面的dependency是tweets和...，兩者改變就要讓愛心的數字可動態更新   tweets, userInfo
+  }, [setTweets]); //後面的dependency是tweets和...，兩者改變就要讓愛心的數字可動態更新   tweets, userInfo
 
   //////////////////////////////////////////////////////////////串接API postTweetLike and postTweetUnlike：處理某篇貼文isLike的boolean值 ///////////////////////////
-
   // 前端畫面處理isLikedActive的state做畫面渲染
   // 喜歡功能
   const handleToggleLike = async (id) => {
@@ -136,7 +135,7 @@ const MainPageInfo = () => {
                 return {
                   ...tweet,
                   isLiked: false,
-                  likeCount: 0,
+                  likeCount: tweet.likeCount -1,
                 };
               } else {
                 return tweet;
@@ -164,7 +163,7 @@ const MainPageInfo = () => {
                 return {
                   ...tweet,
                   isLiked: true,
-                  likeCount: 1,
+                  likeCount: tweet.likeCount + 1,
                 };
               } else {
                 return tweet;

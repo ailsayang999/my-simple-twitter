@@ -12,7 +12,7 @@ const PostReplyModal = ({
   userAvatar,
 }) => {
   // 從Context中拿取togglePostModal的function
-  const { toggleReplyModal, setSpecificTweet } = useContext(ModalContext);
+  const { toggleReplyModal } = useContext(ModalContext);
 
   // useEffect(() => {
   //   const getSpecificTweetAsync = async () => {
@@ -126,7 +126,12 @@ const PostReplyModal = ({
 
               <button
                 className="reply-tweet-modal-btn"
-                onClick={() => onAddTweetReply(ReplyInputValue, specificTweet)}
+                onClick={() =>
+                  onAddTweetReply(
+                    ReplyInputValue,
+                    specificTweet,
+                  )
+                }
               >
                 回覆
               </button>

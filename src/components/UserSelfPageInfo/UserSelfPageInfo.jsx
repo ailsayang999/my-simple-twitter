@@ -29,7 +29,7 @@ const UserSelfTweetContent = ({ userSelfTweets }) => {
   return (
     <>
       {/* 所有user-self 推的文 */}
-      {userSelfTweets.map(
+      {userSelfTweets?.map(
         ({
           TweetId,
           tweetBelongerName,
@@ -83,9 +83,9 @@ const UserSelfTweetContent = ({ userSelfTweets }) => {
 // 瀏覽使用者所有的Reply
 const UserSelfReplyContent = ({ userSelfReply }) => {
   return (
-    <>
+    <div>
       {/* 所有user-self 的回覆 */}
-      {userSelfReply.map(
+      {userSelfReply?.map(
         ({
           replyId,
           comment,
@@ -125,14 +125,14 @@ const UserSelfReplyContent = ({ userSelfReply }) => {
           );
         }
       )}
-    </>
+    </div>
   );
 };
 // 瀏覽使用者所有的Like
 const UserSelfLikeContent = ({ userSelfLike }) => {
   return (
     <>
-      {userSelfLike.map(
+      {userSelfLike?.map(
         ({
           TweetId,
           tweetContent,
@@ -197,10 +197,26 @@ const UserSelfPageInfo = () => {
   const { postModal, inputValue, handleTweetTextAreaChange, handleAddTweet } =
     useContext(ModalContext);
 
+  const dummyUserSelfReply = [
+    {
+      replyId: 1580,
+      comment: "Hallo~",
+      replierId: 2,
+      replierName: "User1",
+      replierAvatar:
+        "https://loremflickr.com/320/240/man/?random=22.488061823126504",
+      replierAccount: "user1",
+      createdAt: "2023-08-31T07:14:05.000Z",
+      tweetId: 920,
+      tweetBelongerName: "User1",
+      tweetBelongerAccount: "user1",
+    },
+  ];
+
   //使用者所有推文
   const [userSelfTweets, setUserSelfTweets] = useState([]);
   //使用者所有回覆
-  const [userSelfReply, setUserSelfReply] = useState([]);
+  const [userSelfReply, setUserSelfReply] = useState([dummyUserSelfReply]);
   // 使用者所有喜歡
   const [userSelfLike, setUserSelfLike] = useState([]);
 
@@ -210,13 +226,13 @@ const UserSelfPageInfo = () => {
   //串接API: 畫面初始資料
   useEffect(() => {
     console.log("execute User Self Page function in useEffect");
+    const localStorageUserInfoString = localStorage.getItem("userInfo"); //拿下來會是一比string的資料
+    const LocalStorageUserInfo = JSON.parse(localStorageUserInfoString); // 要把這個string變成object
+    const userInfoId = LocalStorageUserInfo.id; //再從這個object拿到登入者的id
 
     //首先拿到當前登入的使用者資料
     const getUserInfoAsync = async () => {
       try {
-        const localStorageUserInfoString = localStorage.getItem("userInfo"); //拿下來會是一比string的資料
-        const LocalStorageUserInfo = JSON.parse(localStorageUserInfoString); // 要把這個string變成object
-        const userInfoId = LocalStorageUserInfo.id; //再從這個object拿到登入者的id
         //向後端拿取登入者的object資料
         const backendUserInfo = await getUserInfo(userInfoId);
         //拿到登入者資料後存在userInfo裡面，backendUserInfo會是一個object
@@ -227,9 +243,6 @@ const UserSelfPageInfo = () => {
     };
     const getUserSelfTweetsAsync = async () => {
       try {
-        const localStorageUserInfoString = localStorage.getItem("userInfo"); //拿下來會是一比string的資料
-        const LocalStorageUserInfo = JSON.parse(localStorageUserInfoString); // 要把這個string變成object
-        const userInfoId = LocalStorageUserInfo.id; //再從這個object拿到登入者的id
         const backendUserSelfTweets = await getUserSelfTweets(userInfoId);
         //後端好了再打開，先用userInfo
         setUserSelfTweets(backendUserSelfTweets);
@@ -240,11 +253,9 @@ const UserSelfPageInfo = () => {
 
     const getUserSelfReplyAsync = async () => {
       try {
-        const localStorageUserInfoString = localStorage.getItem("userInfo"); //拿下來會是一比string的資料
-        const LocalStorageUserInfo = JSON.parse(localStorageUserInfoString); // 要把這個string變成object
-        const userInfoId = LocalStorageUserInfo.id; //再從這個object拿到登入者的id
         const backendUserSelfReply = await getUserSelfReply(userInfoId);
         setUserSelfReply(backendUserSelfReply);
+        console.log("backendUserSelfReply", backendUserSelfReply);
       } catch (error) {
         console.error(error);
       }
@@ -412,9 +423,11 @@ const UserSelfPageInfo = () => {
       {userSelfContent === "user-self-tweet" && (
         <UserSelfTweetContent userSelfTweets={userSelfTweets} />
       )}
+
       {userSelfContent === "user-self-reply" && (
         <UserSelfReplyContent userSelfReply={userSelfReply} />
       )}
+
       {userSelfContent === "user-self-like" && (
         <UserSelfLikeContent userSelfLike={userSelfLike} />
       )}

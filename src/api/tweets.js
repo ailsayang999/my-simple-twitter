@@ -47,6 +47,22 @@ export const getTweets = async () => {
   }
 };
 
+export const dummyTweets = [
+  {
+    TweetId: 0,
+    authorId: 0,
+    authorAccount: "anna",
+    authorName: "Anna",
+    authorAvatar:
+      "https://loremflickr.com/320/240/man/?random=22.488061823126504",
+    description: "I am Anna",
+    likeCount: 0,
+    replyCount: 0,
+    isLiked: false,
+    createdAt: "2023-08-31T03:34:04.000Z",
+  },
+];
+
 ///////////////////////////////////////////////// postTweet /////////////////////////////////////////////////
 export const postTweet = async (description) => {
   try {
