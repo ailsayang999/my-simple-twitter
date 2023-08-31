@@ -94,7 +94,7 @@ const UserSelfFellowPageInfo = () => {
   const { isAuthenticated } = useAuth();
 
   //先從UserInfoContext拿到驗證是否為userInfo
-  const { userInfo } = useContext(UserInfoContext);
+  const { userInfo, setUserInfo } = useContext(UserInfoContext);
   const navigate = useNavigate();
   //如果點按返回箭頭就navigate to /user/self
   const handleBackArrowClick = () => {
@@ -251,13 +251,21 @@ const UserSelfFellowPageInfo = () => {
   };
 
   ///////////////////////////////////////////////////初始畫面渲染 /////////////////////////////////////////////////
+  // 首先先去拿在UserOtherPage存到localStorage的localStorageUserObjectString
+  const localStorageUserObjectString =
+    localStorage.getItem("userInfo");
+  // 然後在把他變成object，讓header做渲染
+  const userInfoObject = JSON.parse(localStorageUserObjectString);
 
   useEffect(() => {
     console.log("execute User Self Follow Page function in useEffect");
+    setUserInfo(userInfoObject);
 
     const getUserSelfFollowerAsync = async () => {
       try {
-        const backendUserSelfFollower = await getUserSelfFollower(userInfo.id);
+        const backendUserSelfFollower = await getUserSelfFollower(
+          userInfoObject.id
+        );
         setFollower(backendUserSelfFollower);
       } catch (error) {
         console.error(error);
@@ -266,7 +274,9 @@ const UserSelfFellowPageInfo = () => {
 
     const getUserSelfFollowingAsync = async () => {
       try {
-        const backendUserSelfFollowing = await getUserSelfFollowing(userInfo.id);
+        const backendUserSelfFollowing = await getUserSelfFollowing(
+          userInfoObject.id
+        );
         //後端好了再打開，先用userInfo
         setFollowing(backendUserSelfFollowing);
       } catch (error) {

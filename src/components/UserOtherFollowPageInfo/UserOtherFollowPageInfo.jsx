@@ -10,6 +10,7 @@ import { useAuth } from "context/AuthContext"; //到AuthContext拿是否已驗�
 // 引入Modal元件
 import PostTweetModal from "components/PostTweetModal/PostTweetModal";
 import {
+  getUserInfo,
   getUserSelfFollower,
   getUserSelfFollowing,
   postFollowShip,
@@ -21,7 +22,7 @@ const FollowerContent = ({ follower, handleFollowerBtnClick }) => {
 
   return (
     <>
-      {follower.map(({ isFollowed, follower, followerId }) => {
+      {follower?.map(({ isFollowed, follower, followerId }) => {
         return (
           <div className="follower-item-container" key={followerId}>
             <div className="follower-content">
@@ -34,7 +35,7 @@ const FollowerContent = ({ follower, handleFollowerBtnClick }) => {
                   <div className="follower-name">{follower.name}</div>
 
                   <button
-                    className={`${isFollowed ? "follow-btn" : "following-btn"}`}
+                    className={`${isFollowed ? "following-btn" : "follow-btn"}`}
                     onClick={() =>
                       handleFollowerBtnClick(followerId, isFollowed)
                     }
@@ -55,7 +56,7 @@ const FollowerContent = ({ follower, handleFollowerBtnClick }) => {
 const FollowingContent = ({ following, handleFollowingBtnClick }) => {
   return (
     <>
-      {following.map(({ followingId, following, isFollowed }) => {
+      {following?.map(({ followingId, following, isFollowed }) => {
         return (
           <div className="follower-item-container" key={followingId}>
             <div className="follower-content">
@@ -72,7 +73,7 @@ const FollowingContent = ({ following, handleFollowingBtnClick }) => {
                   <div className="follower-name">{following.name}</div>
 
                   <button
-                    className={`${isFollowed ? "follow-btn" : "following-btn"}`}
+                    className={`${isFollowed ? "following-btn" : "follow-btn"}`}
                     onClick={() => {
                       handleFollowingBtnClick(followingId);
                     }}
@@ -184,10 +185,14 @@ const UserOtherFollowPageInfo = () => {
   const handleFollowingBtnClick = (id) => {
     setFollowing(following.filter((fol) => fol.id !== id));
   };
+
+  
   ///////////////////////////////////////////////////初始畫面渲染 /////////////////////////////////////////////////
   const [userOtherInfo, setUserOtherInfo] = useState([]); //在每一頁的useEffect中會去向後端請求登入者的object資料
+
   const [follower, setFollower] = useState([]);
   const [following, setFollowing] = useState([]);
+
   // 首先先去拿在UserOtherPage存到localStorage的localStorageUserObjectString
   const localStorageUserOtherObjectString =
     localStorage.getItem("userOtherInfo");
@@ -204,11 +209,13 @@ const UserOtherFollowPageInfo = () => {
     setUserOtherInfo(userOtherInfoObject);
 
     const getUserSelfFollowerAsync = async () => {
+      //console.log("userOtherInfo id", userOtherInfo.id);
       try {
         const backendUserSelfFollower = await getUserSelfFollower(
-          userOtherInfo.id
+          userInfoObject.id
         );
         setFollower(backendUserSelfFollower);
+        console.log("backendUserSelfFollower: ", backendUserSelfFollower);
       } catch (error) {
         console.error(error);
       }
@@ -217,10 +224,11 @@ const UserOtherFollowPageInfo = () => {
     const getUserSelfFollowingAsync = async () => {
       try {
         const backendUserSelfFollowing = await getUserSelfFollowing(
-          userOtherInfo.id
+          userInfoObject.id
         );
         //後端好了再打開，先用userInfo
         setFollowing(backendUserSelfFollowing);
+        console.log("backendUserSelfFollowing: ", backendUserSelfFollowing);
       } catch (error) {
         console.error(error);
       }
@@ -240,9 +248,11 @@ const UserOtherFollowPageInfo = () => {
         />
 
         <div className="name-tweet-amount-container">
-          <h5 className="header-title-user-self-name">{userOtherInfo.name}</h5>
+          <h5 className="header-title-user-self-name">
+            {userOtherInfoObject.name}
+          </h5>
           <div className="tweet-amount">
-            {userOtherInfo.tweetCount}
+            {userOtherInfoObject.tweetCount}
             <span className="tweet-amount-text">推文</span>
           </div>
         </div>
@@ -293,11 +303,11 @@ const UserOtherFollowPageInfo = () => {
       {/* Modal ：根據postModal的布林值決定是否要跳出PostTweetModal component*/}
       {postModal && (
         <PostTweetModal
-          userInfo={userInfo}
+          userInfo={userInfoObject}
           inputValue={inputValue}
           onTweetTextAreaChange={handleTweetTextAreaChange}
           onAddTweet={handleAddTweet}
-          userAvatar={userInfo.avatar}
+          userAvatar={userInfoObject.avatar}
         />
       )}
     </div>
