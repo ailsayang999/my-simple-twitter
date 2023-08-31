@@ -3,7 +3,6 @@ import axios from 'axios';
 const baseUrl = 'https://mighty-temple-45104-0d6672fb07d0.herokuapp.com/api';
 
 export const register = async ({ name, account, email, password , checkPassword }) => {
-  console.log( `Go into register auth.js name:${name}, account:${account} email: ${email} password:${password} checkPassword:${checkPassword}`)
   try {
     console.log('Try to get data from api /users')
 
@@ -34,23 +33,19 @@ export const register = async ({ name, account, email, password , checkPassword 
 };
 
 export const login = async ({ account, password }) => {
-  console.log(`進到login拿資料,account:${account} password:${password}`)
   try {
-    const { data } = await axios.post(`${baseUrl}/users/signin`, {
+    const {data} = await axios.post(`${baseUrl}/users/signin`, {
       account,
       password,
     });
-    console.log(`解構賦值拿出data中的data，做JSON.stringify後的data:${data}, Json:${JSON.stringify(data)}`)
     
+    console.log(`解構附值後取出data:${JSON.stringify(data)}`)
     const authToken = data.data.token
-    console.log(`取出data中的token值，改命名為authToken:${authToken}`)
 
     if (authToken) {
-      console.log('AuthToken get! Add "success": true , "authToken":authToken into data(最外層)!')
-      return { success: true, authToken:authToken, ...data };   
+      return {data};   
     }
-    console.log(`auth.js中的login通過authToken驗證 success 後拿到data做JSON.stringify後的data: ${JSON.stringify(data)}`)
-    return data;
+    return {data};
   } catch (error) {
     console.error(`[Login Failed]:`, error);
   }
