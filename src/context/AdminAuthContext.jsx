@@ -61,14 +61,12 @@ export const AuthAdminProvider = ({ children }) => {
             account: data1.account,
             password: data1.password,
           });
-          // const tempPayload = jwt_decode.decode(authToken);
-          console.log(`await從admin.js拿回來的data:${JSON.stringify(data)}`)
-          if (data.token) {
-            console.log(`authToken:${JSON.stringify(data.token)}`)
-            // setPayload(tempPayload);
+          
+          if (data.status === "success") {
+            const authToken = data.data.token
+            console.log(`authToken:${JSON.stringify(authToken)}`)
             setIsAuthenticated(true);
-            console.log(`在AdminAuthContext中指示存${data.token}於localStorage中`)
-            localStorage.setItem('ContextauthToken', data.token);
+            localStorage.setItem('authToken', authToken);
           } else {
             console.log(`Failed message: ${data.message}`)
             setPayload(null);
