@@ -8,6 +8,7 @@ const PostTweetModal = ({
   onTweetTextAreaChange,
   onAddTweet,
   userAvatar,
+  userInfo,
 }) => {
   // 從Context中拿取togglePostModal的function
   const { togglePostModal } = useContext(ModalContext);
@@ -54,7 +55,7 @@ const PostTweetModal = ({
 
                 <button
                   className="tweet-modal-btn"
-                  onClick={() => onAddTweet(inputValue,userAvatar)}
+                  onClick={() => onAddTweet(inputValue, userInfo)}
                 >
                   推文
                 </button>

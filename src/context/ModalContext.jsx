@@ -21,7 +21,7 @@ function ModalContextProvider({ children }) {
   };
 
   //監聽器：handleAddTweet，當PostTweetModal的推文按鈕被按下時，做postTweet動作
-  const handleAddTweet = async (inputValue, userAvatar) => {
+  const handleAddTweet = async (inputValue, userInfo) => {
     if (inputValue.length > 140) {
       alert("字數不可以超過140字");
       return;
@@ -41,18 +41,17 @@ function ModalContextProvider({ children }) {
 
       if (res.data.status === "success") {
         alert(res.data.message);
-        console.log(res.data.data.description);
         setTweets((prevTweets) => {
           return [
             {
               id: res.data.data.id,
-              authorAccount: userAvatar,
+              authorAccount: userInfo.account,
               description: res.data.data.description,
               replyCount: 0,
               likeCount: 0,
               isLiked: false,
               createdAt: res.data.data.createdAt,
-              authorAvatar: userAvatar,
+              authorAvatar: userInfo.avatar,
             },
             ...prevTweets,
           ];
@@ -77,8 +76,23 @@ function ModalContextProvider({ children }) {
   };
 
   ////////////////////////////// handleTweetReply  ////////////////////////////////
+  const dummySpecificTweet = [
+    {
+      id: 905,
+      authorId: 2,
+      authorAccount: "user1",
+      authorName: "User1",
+      authorAvatar:
+        "https://loremflickr.com/320/240/man/?random=22.488061823126504",
+      description: "還我智慧老人！",
+      likeCount: 1,
+      replyCount: 6,
+      isLiked: true,
+      createdAt: "2023-08-28T10:09:15.000Z",
+    },
+  ];
   const [ReplyInputValue, setReplyInputValue] = useState("");
-  const [specificTweet, setSpecificTweet] = useState([]); //這些會replyPage的時候useEffect那裡被帶入資料
+  const [specificTweet, setSpecificTweet] = useState(dummySpecificTweet); //這些會replyPage的時候useEffect那裡被帶入資料
   const [specificTweetReplies, setSpecificTweetReplies] = useState([]); //這些會replyPage的時候useEffect那裡被帶入資料
   //監聽器：handleReplyTextAreaChange，當PostReplyModal的textarea發生改變時，更新ReplyInputValue的state
   const handleReplyTextAreaChange = (value) => {
@@ -117,10 +131,10 @@ function ModalContextProvider({ children }) {
             {
               replyId: res.data.replyData.id,
               comment: res.data.replyData.comment,
-              replierName: res.data.userName,
-              replierAvatar: res.data.userAvatar,
-              replierAccount: res.data.userAccount,
-              tweetBelongerAccount: res.data.authorAccount,
+              replierName: res.data.replyData.userName,
+              replierAvatar: res.data.replyData.userAvatar,
+              replierAccount: res.data.replyData.userAccount,
+              tweetBelongerAccount: res.data.replyData.authorAccount,
               createdAt: res.data.replyData.createdAt,
             },
             ...prevReplies,
