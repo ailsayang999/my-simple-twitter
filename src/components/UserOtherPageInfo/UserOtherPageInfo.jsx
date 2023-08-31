@@ -1,8 +1,6 @@
 import "./userOtherPageInfo.scss";
 import { ReactComponent as BackArrowIcon } from "assets/icons/backArrowIcon.svg";
 import { useNavigate } from "react-router-dom";
-import userOtherInfoCover from "assets/images/fakeUserOtherCover.png";
-import userOtherAvatar from "assets/images/fakeUserOtherAvatar.png";
 import { useContext, useState, useEffect } from "react";
 import ModalContext from "context/ModalContext";
 import UserInfoContext from "context/UserInfoContext";

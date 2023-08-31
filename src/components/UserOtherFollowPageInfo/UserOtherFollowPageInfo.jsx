@@ -1,16 +1,12 @@
 import "./userOtherFollowPageInfo.scss";
 import { ReactComponent as BackArrowIcon } from "assets/icons/backArrowIcon.svg";
 import { useNavigate } from "react-router-dom";
-import { followerDummyData } from "api/tweets";
-import { followingDummyData } from "api/tweets";
 import { useState, useContext, useEffect } from "react";
 import ModalContext from "context/ModalContext";
-import UserInfoContext from "context/UserInfoContext";
 import { useAuth } from "context/AuthContext"; //到AuthContext拿是否已驗證
 // 引入Modal元件
 import PostTweetModal from "components/PostTweetModal/PostTweetModal";
 import {
-  getUserInfo,
   getUserSelfFollower,
   getUserSelfFollowing,
   postFollowShip,
@@ -94,9 +90,6 @@ const FollowingContent = ({ following, handleFollowingBtnClick }) => {
 const UserOtherFollowPageInfo = () => {
   //先從AuthContext拿到驗證是否為true(isAuthenticated:true)
   const { isAuthenticated } = useAuth();
-
-  //先從UserInfoContext拿到驗證是否為userInfo
-  const { userInfo } = useContext(UserInfoContext);
 
   const navigate = useNavigate();
   const handleBackArrowClick = () => {
