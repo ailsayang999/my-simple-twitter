@@ -16,6 +16,7 @@ const RegisterPage = () => {
   const [checkPassword, setCheckPassword] = useState('');
   const [showNotiBoxSuccess, setShowNotiBoxSuccess] = useState(false);
   const [showNotiBoxFail, setShowNotiBoxFail] = useState(false);
+  const [errorMsg, setErrorMsg] = useState('');
 
   const navigate = useNavigate();
   const { register } = useAuth();
@@ -59,22 +60,20 @@ const RegisterPage = () => {
       setName(account) ;
      console.log('未設定名稱，預設使用 name = account!預設使用 name = account!')
     }
-    const { status, message } = await register({
+    const { data } = await register({
       name,
       account,
       email,
       password,
       checkPassword
     });
-    if (status === "success") {
-      console.log(`註冊成功!${message}`)
+    if (data.status === "success") {
+      console.log(`註冊成功!`)
       setShowNotiBoxSuccess(true)
       return;
-    } else if (status === "error") {
-      console.log(`出現錯誤${message}`)
-      setShowNotiBoxFail(true)
-    }
-    console.log('註冊失敗!')
+    } 
+    console.log(`註冊失敗!${data.message}`)
+    setErrorMsg(data.message)
     setShowNotiBoxFail(true)
   };
       
@@ -103,7 +102,7 @@ const RegisterPage = () => {
   return (
     <div className="registerOuterContainer">
       {showNotiBoxSuccess && <NotiBoxSuccess notiText={"註冊成功!"} />}
-      {showNotiBoxFail && <NotiBoxFail notiText={"註冊失敗!"} />}
+      {showNotiBoxFail && <NotiBoxFail notiText={errorMsg? errorMsg:"註冊失敗!"} />}
       <Header entryName={"建立你的帳號"}/>
        
       <InputSet 
