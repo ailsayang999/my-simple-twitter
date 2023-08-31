@@ -13,20 +13,13 @@ export const register = async ({ name, account, email, password , checkPassword 
       password,
       checkPassword
     });
-
     console.log(`使用Payload傳入資料後，拿到的data做JSON.stringify後的data:${JSON.stringify(data)}`)
-    const { status } = data;
 
-    console.log('Get into API We did it!!!!')
-    console.log(`status: ${status}`)
-    console.log(`解構賦值後獲得的data:${data} status:${status}`)
-
-    if (status ==="success") {
+    if (data.status ==="success") {
       console.log('Status : success!')
-       console.log(`${JSON.stringify({"success":true, ...data})}`);
-       return data;
+      return {data};
     }
-    return data;
+    return {data};
   } catch (error) {
     console.error(`[Register Failed]:`, error);
   }
