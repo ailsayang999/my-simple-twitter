@@ -1,5 +1,9 @@
 import { createContext, useState } from "react";
 import { postFollowShip, deleteFollowShip } from "api/tweets";
+import {
+  getUserSelfFollower,
+  getUserSelfFollowing,
+} from "api/tweets";
 
 const FollowContext = createContext("");
 
@@ -61,11 +65,39 @@ function FollowContextProvider({ children }) {
       isFollowed: true,
     },
   ];
-  const [follower, setFollower] = useState();
-  const [following, setFollowing] = useState();
+  const [follower, setFollower] = useState(dummyFollower);
+  const [following, setFollowing] = useState(dummyFollowing);
   const [topUserArr, setTopUserArr] = useState(userTopDummyData);
 
   const handleFollowBtnClick = async (id, isFollowed) => {
+    const localStorageUserObjectString = localStorage.getItem("userInfo");
+    // 然後在把他變成object，讓header做渲染
+    const userInfoObject = JSON.parse(localStorageUserObjectString);
+    const getUserSelfFollowerAsync = async () => {
+      try {
+        const backendUserSelfFollower = await getUserSelfFollower(
+          userInfoObject.id
+        );
+        setFollower(backendUserSelfFollower);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    const getUserSelfFollowingAsync = async () => {
+      try {
+        const backendUserSelfFollowing = await getUserSelfFollowing(
+          userInfoObject.id
+        );
+        //後端好了再打開，先用userInfo
+        setFollowing(backendUserSelfFollowing);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    getUserSelfFollowerAsync();
+    getUserSelfFollowingAsync();
+
     console.log("follow id", id);
     const followPayload = {
       id: id,
