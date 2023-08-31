@@ -19,7 +19,6 @@ const AdminMainPage = () => {
       try {
         const tweets = await getTweets();
         setTweets(tweets)
-        console.log(tweets)
       } catch (error) {
         console.error(error);
       }
