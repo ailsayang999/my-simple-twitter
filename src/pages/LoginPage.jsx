@@ -12,6 +12,7 @@ const LoginPage = () => {
   const [password, setPassword] = useState('');
   const [showNotiBoxSuccess, setShowNotiBoxSuccess] = useState(false);
   const [showNotiBoxFail, setShowNotiBoxFail] = useState(false);
+  const [errorMsg, setErrorMsg] = useState('');
 
   const navigate = useNavigate();
   const { login, isAuthenticated, currentMember } = useAuth();
@@ -26,21 +27,21 @@ const LoginPage = () => {
       console.log('密碼為必填')
       return;
     }
-    console.log('在loginPage呼叫login資訊，並傳入payload(account & password)')
-    const { success, message } = await login({
+
+    const {data} = await login({
       account,
       password,
     });
-    if (success) {
-      console.log(`註冊成功!${message}`)
+    if (data.status === "success") {
+      console.log(`註冊成功!`)
       setShowNotiBoxSuccess(true)
       return;
     } 
-    console.log(`註冊失敗!${message}`)
+    console.log(`註冊失敗!message: ${data.message}`)
+    setErrorMsg(data.message)
     setShowNotiBoxFail(true)
   };
 
-  //當showNotiBox值改變時，過1s後轉回false關閉shoNotiBox並導向loginPage，並使用clearTimeout清除定時器
   useEffect(() => {
     if (isAuthenticated && showNotiBoxSuccess) {
       const timeout = setTimeout(() => {
@@ -65,7 +66,7 @@ const LoginPage = () => {
   return (
     <div className="loginOuterContainer">
       {showNotiBoxSuccess && <NotiBoxSuccess notiText={"登入成功!"} />}
-      {showNotiBoxFail && <NotiBoxFail notiText={"登入失敗!"} />}
+      {showNotiBoxFail && <NotiBoxFail notiText={errorMsg? errorMsg:"登入失敗"} />}
       <Header entryName={"登入 Alphitter"}/>
       <InputSet 
         label={"帳號"} 
