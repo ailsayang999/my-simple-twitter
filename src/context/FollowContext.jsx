@@ -1,9 +1,6 @@
 import { createContext, useState } from "react";
 import { postFollowShip, deleteFollowShip } from "api/tweets";
-import {
-  getUserSelfFollower,
-  getUserSelfFollowing,
-} from "api/tweets";
+import { getUserSelfFollower, getUserSelfFollowing } from "api/tweets";
 
 const FollowContext = createContext("");
 
@@ -68,6 +65,8 @@ function FollowContextProvider({ children }) {
   const [follower, setFollower] = useState(dummyFollower);
   const [following, setFollowing] = useState(dummyFollowing);
   const [topUserArr, setTopUserArr] = useState(userTopDummyData);
+  const [userOtherFollower, setUserOtherFollower] = useState([]);
+  const [userOtherFollowing, setUserOtherFollowing] = useState([]);
 
   const handleFollowBtnClick = async (id, isFollowed) => {
     const localStorageUserObjectString = localStorage.getItem("userInfo");
@@ -139,7 +138,24 @@ function FollowContextProvider({ children }) {
               }
             })
           );
-
+          setUserOtherFollower(
+            userOtherFollower.map((personObj) => {
+              if (personObj.followerId === id) {
+                return { ...personObj, isFollowed: true };
+              } else {
+                return personObj;
+              }
+            })
+          );
+          setUserOtherFollowing(
+            userOtherFollowing.map((personObj) => {
+              if (personObj.followerId === id) {
+                return { ...personObj, isFollowed: true };
+              } else {
+                return personObj;
+              }
+            })
+          );
           //更新
           alert("追蹤成功");
         }
@@ -181,6 +197,25 @@ function FollowContextProvider({ children }) {
               }
             })
           );
+          setUserOtherFollower(
+            userOtherFollower.map((personObj) => {
+              if (personObj.followingId === id) {
+                return { ...personObj, isFollowed: false };
+              } else {
+                return personObj;
+              }
+            })
+          );
+           setUserOtherFollowing(
+             userOtherFollowing.map((personObj) => {
+               if (personObj.followingId === id) {
+                 return { ...personObj, isFollowed: false };
+               } else {
+                 return personObj;
+               }
+             })
+           );
+
           alert("取消追蹤成功");
         }
         if (res.data.status === "error") {
@@ -199,6 +234,10 @@ function FollowContextProvider({ children }) {
     handleFollowBtnClick,
     topUserArr,
     setTopUserArr,
+    userOtherFollower,
+    setUserOtherFollower,
+    userOtherFollowing,
+    setUserOtherFollowing,
   };
 
   return (

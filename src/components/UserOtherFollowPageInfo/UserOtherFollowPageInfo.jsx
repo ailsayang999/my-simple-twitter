@@ -91,11 +91,11 @@ const UserOtherFollowPageInfo = () => {
   const { isAuthenticated } = useAuth();
   // 把要傳給follow的state都引入進來
   const {
-    follower,
-    setFollower,
-    following,
-    setFollowing,
     handleFollowBtnClick,
+    userOtherFollower,
+    setUserOtherFollower,
+    userOtherFollowing,
+    setUserOtherFollowing,
   } = useContext(FollowContext);
 
   const navigate = useNavigate();
@@ -188,9 +188,6 @@ const UserOtherFollowPageInfo = () => {
 
   ///////////////////////////////////////////////////初始畫面渲染 /////////////////////////////////////////////////
   const [userOtherInfo, setUserOtherInfo] = useState([]); //在每一頁的useEffect中會去向後端請求登入者的object資料
-
-  const [userOtherFollower, setUserOtherFollower] = useState([]);
-  const [userOtherFollowing, setUserOtherFollowing] = useState([]);
 
   // 首先先去拿在UserOtherPage存到localStorage的localStorageUserObjectString
   const localStorageUserOtherObjectString =
