@@ -19,6 +19,10 @@ import {
 import PostTweetModal from "components/PostTweetModal/PostTweetModal";
 import PostReplyModal from "components/PostReplyModal/PostReplyModal";
 
+const ShowEmpty = ()=>{
+  return <div className="empty-main-page">尚無推文</div>;
+}
+
 const MainPageInfo = () => {
   const navigate = useNavigate();
   // 從Context中拿取toggleReplyModal的function
@@ -218,90 +222,91 @@ const MainPageInfo = () => {
         </div>
       </div>
 
+      {tweets.length === 0 && <ShowEmpty />}
       {/* 把後端傳來的tweets都渲染出來*/}
-      {tweets.map(
-        ({
-          TweetId,
-          description,
-          authorAvatar,
-          authorName,
-          authorAccount,
-          createdAt,
-          likeCount,
-          replyCount,
-          isLiked,
-          authorId,
-        }) => {
-          return (
-            <>
-              <div className="post-item-container" key={TweetId}>
-                <div className="post-item-wrapper">
-                  
-                  <div className="avatar-wrapper">
-                    <img
-                      src={authorAvatar}
-                      alt=""
-                      className="post-item-avatar"
-                      onClick={() => {
-                        handleNavigateToUserOtherPage(authorId);
-                      }}
-                    />
-                  </div>
-
-                  <div className="post-item-content">
-                    <div className="user-post-info">
-                      <div className="name">{authorName}</div>
-                      <div className="account">@{authorAccount}</div>
-                      <div className="time">· {createdAt}</div>
+      {tweets.length > 0 &&
+        tweets?.map(
+          ({
+            TweetId,
+            description,
+            authorAvatar,
+            authorName,
+            authorAccount,
+            createdAt,
+            likeCount,
+            replyCount,
+            isLiked,
+            authorId,
+          }) => {
+            return (
+              <>
+                <div className="post-item-container" key={TweetId}>
+                  <div className="post-item-wrapper">
+                    <div className="avatar-wrapper">
+                      <img
+                        src={authorAvatar}
+                        alt=""
+                        className="post-item-avatar"
+                        onClick={() => {
+                          handleNavigateToUserOtherPage(authorId);
+                        }}
+                      />
                     </div>
 
-                    <div
-                      className="post-content"
-                      onClick={() => {
-                        handleNavigateToReplyPage(TweetId);
-                      }}
-                    >
-                      {description}
-                    </div>
-
-                    <div className="reply-like-container">
-                      <div className="reply-container">
-                        <ReplyIcon
-                          className="reply-icon"
-                          onClick={() => {
-                            handleSpecificPostReplyIconClick(TweetId);
-                          }}
-                        />
-                        <div className="reply-number">{replyCount}</div>
+                    <div className="post-item-content">
+                      <div className="user-post-info">
+                        <div className="name">{authorName}</div>
+                        <div className="account">@{authorAccount}</div>
+                        <div className="time">· {createdAt}</div>
                       </div>
-                      <div className="like-container">
-                        <div
-                          className="like-icons"
-                          onClick={() => {
-                            handleToggleLike(TweetId);
-                          }}
-                        >
-                          <LikeIcon
-                            className={`like-icon ${
-                              !isLiked ? "like-gray" : ""
-                            }`}
+
+                      <div
+                        className="post-content"
+                        onClick={() => {
+                          handleNavigateToReplyPage(TweetId);
+                        }}
+                      >
+                        {description}
+                      </div>
+
+                      <div className="reply-like-container">
+                        <div className="reply-container">
+                          <ReplyIcon
+                            className="reply-icon"
+                            onClick={() => {
+                              handleSpecificPostReplyIconClick(TweetId);
+                            }}
                           />
-                          <LikeActiveIcon
-                            className={`liked-icon ${
-                              isLiked ? "like-active" : ""
-                            }`}
-                          />
+                          <div className="reply-number">{replyCount}</div>
                         </div>
-                        <div className="like-number">{likeCount}</div>
+                        <div className="like-container">
+                          <div
+                            className="like-icons"
+                            onClick={() => {
+                              handleToggleLike(TweetId);
+                            }}
+                          >
+                            <LikeIcon
+                              className={`like-icon ${
+                                !isLiked ? "like-gray" : ""
+                              }`}
+                            />
+                            <LikeActiveIcon
+                              className={`liked-icon ${
+                                isLiked ? "like-active" : ""
+                              }`}
+                            />
+                          </div>
+                          <div className="like-number">{likeCount}</div>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            </>
-          );
-        }
-      )}
+              </>
+            );
+          }
+        )}
 
       {/* Modal ：根據postModal的布林值決定是否要跳出PostTweetModal component*/}
       {postModal && (

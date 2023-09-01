@@ -16,38 +16,53 @@ import {
   deleteFollowShip,
 } from "api/tweets";
 
+const ShowEmptyFollower = () => {
+  return <div className="empty-user-self-follow-page">尚無追蹤者</div>;
+};
+const ShowEmptyFollowing = () => {
+  return <div className="empty-user-self-follow-page">尚無正在追蹤</div>;
+};
+
 const FollowerContent = ({ follower, handleFollowerBtnClick }) => {
   console.log("render followerContent")
   // backendUserSelfFollower裡面還有一層
   return (
     <>
-      {follower?.map(({ isFollowed, follower, followerId }) => {
-        return (
-          <div className="follower-item-container" key={followerId}>
-            <div className="follower-content">
-              <div className="follower-avatar-container">
-                <img src={follower.avatar} alt="" className="follower-avatar" />
-              </div>
-
-              <div className="follower-name-follow-btn-intro">
-                <div className="follower-name-btn-container">
-                  <div className="follower-name">{follower.name}</div>
-
-                  <button
-                    className={`${isFollowed ? "following-btn" : "follow-btn"}`}
-                    onClick={() =>
-                      handleFollowerBtnClick(followerId, isFollowed)
-                    }
-                  >
-                    {isFollowed ? "正在跟隨" : "跟隨"}
-                  </button>
+      {follower.length === 0 && <ShowEmptyFollower />}
+      {follower.length > 0 &&
+        follower?.map(({ isFollowed, follower, followerId }) => {
+          return (
+            <div className="follower-item-container" key={followerId}>
+              <div className="follower-content">
+                <div className="follower-avatar-container">
+                  <img
+                    src={follower.avatar}
+                    alt=""
+                    className="follower-avatar"
+                  />
                 </div>
-                <div className="follower-intro">{follower.introduction}</div>
+
+                <div className="follower-name-follow-btn-intro">
+                  <div className="follower-name-btn-container">
+                    <div className="follower-name">{follower.name}</div>
+
+                    <button
+                      className={`${
+                        isFollowed ? "following-btn" : "follow-btn"
+                      }`}
+                      onClick={() =>
+                        handleFollowerBtnClick(followerId, isFollowed)
+                      }
+                    >
+                      {isFollowed ? "正在跟隨" : "跟隨"}
+                    </button>
+                  </div>
+                  <div className="follower-intro">{follower.introduction}</div>
+                </div>
               </div>
             </div>
-          </div>
-        );
-      })}
+          );
+        })}
     </>
   );
 };
@@ -55,37 +70,41 @@ const FollowerContent = ({ follower, handleFollowerBtnClick }) => {
 const FollowingContent = ({ following, handleFollowingBtnClick }) => {
   return (
     <>
-      {following?.map(({ followingId, following, isFollowed }) => {
-        return (
-          <div className="follower-item-container" key={followingId}>
-            <div className="follower-content">
-              <div className="follower-avatar-container">
-                <img
-                  src={following.avatar}
-                  alt=""
-                  className="follower-avatar"
-                />
-              </div>
-
-              <div className="follower-name-follow-btn-intro">
-                <div className="follower-name-btn-container">
-                  <div className="follower-name">{following.name}</div>
-
-                  <button
-                    className={`${isFollowed ? "following-btn" : "follow-btn"}`}
-                    onClick={() => {
-                      handleFollowingBtnClick(followingId, isFollowed);
-                    }}
-                  >
-                    {isFollowed ? "正在跟隨" : "跟隨"}
-                  </button>
+      {following.length === 0 && <ShowEmptyFollowing />}
+      {following.length > 0 &&
+        following?.map(({ followingId, following, isFollowed }) => {
+          return (
+            <div className="follower-item-container" key={followingId}>
+              <div className="follower-content">
+                <div className="follower-avatar-container">
+                  <img
+                    src={following.avatar}
+                    alt=""
+                    className="follower-avatar"
+                  />
                 </div>
-                <div className="follower-intro">{following.introduction}</div>
+
+                <div className="follower-name-follow-btn-intro">
+                  <div className="follower-name-btn-container">
+                    <div className="follower-name">{following.name}</div>
+
+                    <button
+                      className={`${
+                        isFollowed ? "following-btn" : "follow-btn"
+                      }`}
+                      onClick={() => {
+                        handleFollowingBtnClick(followingId, isFollowed);
+                      }}
+                    >
+                      {isFollowed ? "正在跟隨" : "跟隨"}
+                    </button>
+                  </div>
+                  <div className="follower-intro">{following.introduction}</div>
+                </div>
               </div>
             </div>
-          </div>
-        );
-      })}
+          );
+        })}
     </>
   );
 };

@@ -47,7 +47,7 @@ const PostReplyModal = ({
           </div>
 
           <div className="reply-modal-content">
-            {specificTweet.map(
+            {specificTweet?.map(
               ({
                 id,
                 authorAvatar,

@@ -25,7 +25,7 @@ function ModalContextProvider({ children }) {
   const [editModal, setEditModal] = useState(false);
 
   // handleAddTweet
-  const [tweets, setTweets] = useState(dummyTweets);
+  const [tweets, setTweets] = useState("");
   const [specificTweet, setSpecificTweet] = useState(dummySpecificTweet); //這些會replyPage的時候useEffect那裡被帶入資料
   const [specificTweetReplies, setSpecificTweetReplies] = useState([]); //這些會replyPage的時候useEffect那裡被帶入資料
 

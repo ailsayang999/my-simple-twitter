@@ -20,13 +20,21 @@ import {
   getUserSelfLike,
 } from "api/tweets";
 
+const ShowEmptyPostReply = () => {
+  return <div className="empty-user-self-page">尚無推文與回覆</div>;
+};
+const ShowEmptyLike = () => {
+  return <div className="empty-user-self-page">尚無喜歡的內容</div>;
+};
+
 /////////////////////////////////////////// Change Content Components //////////////////////////////////
 // 瀏覽使用者所有Tweet
 const UserSelfTweetContent = ({ userSelfTweets }) => {
   return (
     <>
       {/* 所有user-self 推的文 */}
-      {userSelfTweets?.map(
+      {userSelfTweets.length === 0 && <ShowEmptyPostReply />}
+      {userSelfTweets.length > 0 && userSelfTweets?.map(
         ({
           TweetId,
           tweetBelongerName,
@@ -82,46 +90,49 @@ const UserSelfReplyContent = ({ userSelfReply }) => {
   return (
     <div>
       {/* 所有user-self 的回覆 */}
-      {userSelfReply?.map(
-        ({
-          replyId,
-          comment,
-          replierName,
-          replierAvatar,
-          replierAccount,
-          tweetBelongerAccount,
-          createdAt,
-        }) => {
-          return (
-            <div className="reply-item-container" key={replyId}>
-              <div className="reply-item-wrapper">
-                <img
-                  src={replierAvatar}
-                  alt={replierAvatar}
-                  className="reply-item-avatar"
-                />
+      {userSelfReply.length === 0 && <ShowEmptyPostReply/>}
+      {userSelfReply.length > 0 &&
+        userSelfReply?.map(
+          ({
+            replyId,
+            comment,
+            replierName,
+            replierAvatar,
+            replierAccount,
+            tweetBelongerAccount,
+            createdAt,
+          }) => {
+            return (
+              <div className="reply-item-container" key={replyId}>
+                <div className="reply-item-wrapper">
+                  <img
+                    src={replierAvatar}
+                    alt={replierAvatar}
+                    className="reply-item-avatar"
+                  />
 
-                <div className="reply-item-content">
-                  <div className="user-reply-info">
-                    <div className="replier-name">{replierName}</div>
-                    <div className="replier-account">@{replierAccount}</div>
-                    <div className="reply-time">· {createdAt}</div>
+                  <div className="reply-item-content">
+                    <div className="user-reply-info">
+                      <div className="replier-name">{replierName}</div>
+                      <div className="replier-account">@{replierAccount}</div>
+                      <div className="reply-time">· {createdAt}</div>
+                    </div>
+
+                    <div className="reply-to-tweet-belonger-account-container">
+                      回覆
+                      <span className="reply-to-tweet-belonger-account">
+                        @{tweetBelongerAccount}
+                      </span>
+                    </div>
+
+                    <div className="reply-content">{comment}</div>
                   </div>
-
-                  <div className="reply-to-tweet-belonger-account-container">
-                    回覆
-                    <span className="reply-to-tweet-belonger-account">
-                      @{tweetBelongerAccount}
-                    </span>
-                  </div>
-
-                  <div className="reply-content">{comment}</div>
                 </div>
               </div>
-            </div>
-          );
-        }
-      )}
+            );
+          }
+        )}
+     
     </div>
   );
 };
@@ -129,56 +140,61 @@ const UserSelfReplyContent = ({ userSelfReply }) => {
 const UserSelfLikeContent = ({ userSelfLike }) => {
   return (
     <>
-      {userSelfLike?.map(
-        ({
-          TweetId,
-          tweetContent,
-          tweetBelongerAvatar,
-          tweetBelongerName,
-          tweetBelongerAccount,
-          createdAt,
-          replyCount,
-          likeCount,
-        }) => {
-          return (
-            <>
-              <div className="post-item-container" key={TweetId}>
-                <div className="post-item-wrapper">
-                  <img
-                    src={tweetBelongerAvatar}
-                    alt=""
-                    className="post-item-avatar"
-                  />
+      {userSelfLike.length === 0 && <ShowEmptyLike />}
+      {userSelfLike.length > 0 &&
+        userSelfLike?.map(
+          ({
+            TweetId,
+            tweetContent,
+            tweetBelongerAvatar,
+            tweetBelongerName,
+            tweetBelongerAccount,
+            createdAt,
+            replyCount,
+            likeCount,
+          }) => {
+            return (
+              <>
+                <div className="post-item-container" key={TweetId}>
+                  <div className="post-item-wrapper">
+                    <img
+                      src={tweetBelongerAvatar}
+                      alt=""
+                      className="post-item-avatar"
+                    />
 
-                  <div className="post-item-content">
-                    <div className="user-post-info">
-                      <div className="name">{tweetBelongerName}</div>
-                      <div className="account">@{tweetBelongerAccount}</div>
-                      <div className="time">· {createdAt}</div>
-                    </div>
-
-                    <div className="post-content">{tweetContent}</div>
-
-                    <div className="reply-like-container">
-                      <div className="reply-container">
-                        <ReplyIcon className="reply-icon" />
-                        <div className="reply-number">{replyCount}</div>
+                    <div className="post-item-content">
+                      <div className="user-post-info">
+                        <div className="name">{tweetBelongerName}</div>
+                        <div className="account">@{tweetBelongerAccount}</div>
+                        <div className="time">· {createdAt}</div>
                       </div>
-                      <div className="like-container">
-                        <div className="like-icons">
-                          <LikeActiveIcon className="liked-icon" fill="black" />
-                        </div>
 
-                        <div className="like-number">{likeCount}</div>
+                      <div className="post-content">{tweetContent}</div>
+
+                      <div className="reply-like-container">
+                        <div className="reply-container">
+                          <ReplyIcon className="reply-icon" />
+                          <div className="reply-number">{replyCount}</div>
+                        </div>
+                        <div className="like-container">
+                          <div className="like-icons">
+                            <LikeActiveIcon
+                              className="liked-icon"
+                              fill="black"
+                            />
+                          </div>
+
+                          <div className="like-number">{likeCount}</div>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            </>
-          );
-        }
-      )}
+              </>
+            );
+          }
+        )}
     </>
   );
 };
@@ -199,22 +215,6 @@ const UserSelfPageInfo = () => {
   // 從Context中拿取toggleReplyModal的function
   const { postModal, inputValue, handleTweetTextAreaChange, handleAddTweet } =
     useContext(ModalContext);
-
-  const dummyUserSelfReply = [
-    {
-      replyId: 1580,
-      comment: "Hallo~",
-      replierId: 2,
-      replierName: "User1",
-      replierAvatar:
-        "https://loremflickr.com/320/240/man/?random=22.488061823126504",
-      replierAccount: "user1",
-      createdAt: "2023-08-31T07:14:05.000Z",
-      tweetId: 920,
-      tweetBelongerName: "User1",
-      tweetBelongerAccount: "user1",
-    },
-  ];
 
   //使用者所有推文
   const [userSelfTweets, setUserSelfTweets] = useState([]);
