@@ -42,12 +42,12 @@ const PostReplyModal = ({
           <div className="reply-closed-icon-container">
             <ClosedIcon
               className="reply-cross-icon"
-              onClick={toggleReplyModal}
+              onClick={()=>{toggleReplyModal();}}
             />
           </div>
 
           <div className="reply-modal-content">
-            {specificTweet.map(
+            {specificTweet?.map(
               ({
                 id,
                 authorAvatar,
@@ -108,30 +108,33 @@ const PostReplyModal = ({
                     placeholder="推你的回覆"
                     value={ReplyInputValue || ""}
                     onChange={(e) => onReplyTextAreaChange?.(e.target.value)}
+                    maxLength={140}
                   />
                 </span>
               </div>
             </div>
 
             <div className="reply-textarea-notification-tweet-modal-container">
-              <div
-                className={
-                  ReplyInputValue.length === 0
-                    ? "textarea-notification__cannot-be-blank"
-                    : "reply-notification-display-none"
-                }
-              >
-                內容不可為空白
-              </div>
+              {ReplyInputValue.length === 0 && (
+                <div
+                  className={ "textarea-notification__cannot-be-blank"}
+                >
+                  內容不可為空白
+                </div>
+              )}
 
+              {ReplyInputValue.length >= 140 && (
+                <div
+                  className={
+                  "textarea-notification__cannot-be-over-140"
+                  }
+                >
+                  文字上限140字
+                </div>
+              )}
               <button
                 className="reply-tweet-modal-btn"
-                onClick={() =>
-                  onAddTweetReply(
-                    ReplyInputValue,
-                    specificTweet,
-                  )
-                }
+                onClick={() => onAddTweetReply(ReplyInputValue, specificTweet)}
               >
                 回覆
               </button>

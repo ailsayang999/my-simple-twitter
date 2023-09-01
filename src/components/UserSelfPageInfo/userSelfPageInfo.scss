@@ -143,6 +143,10 @@
       color: var(--brand);
     }
   }
+  .empty-user-self-page {
+    width: 200px;
+    margin: 50px;
+  }
   // 所有user-self 推的文
   .post-item-container {
     border-bottom: 1px solid var(--border);
@@ -274,6 +278,7 @@
           color: var(--secondary);
           .reply-to-tweet-belonger-account {
             margin-left: 5px;
+            color: var(--brand);
           }
         }
         .reply-content {

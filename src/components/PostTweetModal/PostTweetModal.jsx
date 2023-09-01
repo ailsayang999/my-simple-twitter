@@ -37,21 +37,24 @@ const PostTweetModal = ({
                       placeholder="有什麼新鮮事"
                       value={inputValue || ""}
                       onChange={(e) => onTweetTextAreaChange?.(e.target.value)}
+                      maxLength={140}
                     />
                   </span>
                 </div>
               </div>
 
               <div className="textarea-notification-tweet-modal-container">
-                <div
-                  className={
-                    inputValue.length > 140
-                      ? "textarea-notification__more-than-140"
-                      : "notification-display-none"
-                  }
-                >
-                  字數不可以超過140字
-                </div>
+                {inputValue.length === 0 && (
+                  <div className={"textarea-notification__cannot-be-blank"}>
+                    內容不可為空白
+                  </div>
+                )}
+
+                {inputValue.length >= 140 && (
+                  <div className={"textarea-notification__cannot-be-over-140"}>
+                    字數不可以超過140字
+                  </div>
+                )}
 
                 <button
                   className="tweet-modal-btn"

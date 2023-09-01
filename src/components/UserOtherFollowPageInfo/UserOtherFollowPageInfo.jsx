@@ -10,40 +10,55 @@ import PostTweetModal from "components/PostTweetModal/PostTweetModal";
 import {
   getUserSelfFollower,
   getUserSelfFollowing,
-  postFollowShip,
-  deleteFollowShip,
 } from "api/tweets";
+
+const ShowEmptyFollower = () => {
+  return <div className="empty-user-other-follow-page">尚無追蹤者</div>;
+};
+const ShowEmptyFollowing = () => {
+  return <div className="empty-user-other-follow-page">尚無正在追蹤</div>;
+};
 
 const FollowerContent = ({ userOtherFollower, handleFollowBtnClick }) => {
   // backendUserSelfFollower裡面還有一層
 
   return (
     <>
-      {userOtherFollower?.map(({ isFollowed, follower, followerId }) => {
-        return (
-          <div className="follower-item-container" key={followerId}>
-            <div className="follower-content">
-              <div className="follower-avatar-container">
-                <img src={follower.avatar} alt="" className="follower-avatar" />
-              </div>
-
-              <div className="follower-name-follow-btn-intro">
-                <div className="follower-name-btn-container">
-                  <div className="follower-name">{follower.name}</div>
-
-                  <button
-                    className={`${isFollowed ? "following-btn" : "follow-btn"}`}
-                    onClick={() => handleFollowBtnClick(followerId, isFollowed)}
-                  >
-                    {isFollowed ? "正在跟隨" : "跟隨"}
-                  </button>
+      {userOtherFollower.length === 0 && <ShowEmptyFollower />}
+      {userOtherFollower.length > 0 &&
+        userOtherFollower?.map(({ isFollowed, follower, followerId }) => {
+          return (
+            <div className="follower-item-container" key={followerId}>
+              <div className="follower-content">
+                <div className="follower-avatar-container">
+                  <img
+                    src={follower.avatar}
+                    alt=""
+                    className="follower-avatar"
+                  />
                 </div>
-                <div className="follower-intro">{follower.introduction}</div>
+
+                <div className="follower-name-follow-btn-intro">
+                  <div className="follower-name-btn-container">
+                    <div className="follower-name">{follower.name}</div>
+
+                    <button
+                      className={`${
+                        isFollowed ? "following-btn" : "follow-btn"
+                      }`}
+                      onClick={() =>
+                        handleFollowBtnClick(followerId, isFollowed)
+                      }
+                    >
+                      {isFollowed ? "正在跟隨" : "跟隨"}
+                    </button>
+                  </div>
+                  <div className="follower-intro">{follower.introduction}</div>
+                </div>
               </div>
             </div>
-          </div>
-        );
-      })}
+          );
+        })}
     </>
   );
 };
@@ -51,37 +66,41 @@ const FollowerContent = ({ userOtherFollower, handleFollowBtnClick }) => {
 const FollowingContent = ({ userOtherFollowing, handleFollowBtnClick }) => {
   return (
     <>
-      {userOtherFollowing?.map(({ followingId, following, isFollowed }) => {
-        return (
-          <div className="follower-item-container" key={followingId}>
-            <div className="follower-content">
-              <div className="follower-avatar-container">
-                <img
-                  src={following.avatar}
-                  alt=""
-                  className="follower-avatar"
-                />
-              </div>
-
-              <div className="follower-name-follow-btn-intro">
-                <div className="follower-name-btn-container">
-                  <div className="follower-name">{following.name}</div>
-
-                  <button
-                    className={`${isFollowed ? "following-btn" : "follow-btn"}`}
-                    onClick={() => {
-                      handleFollowBtnClick(followingId,isFollowed);
-                    }}
-                  >
-                    {isFollowed ? "正在跟隨" : "跟隨"}
-                  </button>
+      {userOtherFollowing.length === 0 && <ShowEmptyFollowing />}
+      {userOtherFollowing.length > 0 &&
+        userOtherFollowing?.map(({ followingId, following, isFollowed }) => {
+          return (
+            <div className="follower-item-container" key={followingId}>
+              <div className="follower-content">
+                <div className="follower-avatar-container">
+                  <img
+                    src={following.avatar}
+                    alt=""
+                    className="follower-avatar"
+                  />
                 </div>
-                <div className="follower-intro">{following.introduction}</div>
+
+                <div className="follower-name-follow-btn-intro">
+                  <div className="follower-name-btn-container">
+                    <div className="follower-name">{following.name}</div>
+
+                    <button
+                      className={`${
+                        isFollowed ? "following-btn" : "follow-btn"
+                      }`}
+                      onClick={() => {
+                        handleFollowBtnClick(followingId, isFollowed);
+                      }}
+                    >
+                      {isFollowed ? "正在跟隨" : "跟隨"}
+                    </button>
+                  </div>
+                  <div className="follower-intro">{following.introduction}</div>
+                </div>
               </div>
             </div>
-          </div>
-        );
-      })}
+          );
+        })}
     </>
   );
 };
@@ -189,12 +208,10 @@ const UserOtherFollowPageInfo = () => {
   ///////////////////////////////////////////////////初始畫面渲染 /////////////////////////////////////////////////
   const [userOtherInfo, setUserOtherInfo] = useState([]); //在每一頁的useEffect中會去向後端請求登入者的object資料
 
-  // 首先先去拿在UserOtherPage存到localStorage的localStorageUserObjectString
+  // 首先先去拿在UserOtherPage存到localStorage的 userOtherInfoObject，給useEffect裡的非同步使用
   const localStorageUserOtherObjectString =
     localStorage.getItem("userOtherInfo");
-  // 然後在把他變成object，讓header做渲染
-  const userOtherInfoObject = JSON.parse(localStorageUserOtherObjectString);
-  console.log("userOtherInfoObject",userOtherInfoObject)
+  const userOtherInfoObject = JSON.parse(localStorageUserOtherObjectString); // 然後在把他變成object，讓header做渲染
 
   //給PostTweetModal用的
   const localStorageUserObjectString = localStorage.getItem("userInfo");

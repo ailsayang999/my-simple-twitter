@@ -59,6 +59,10 @@
           color: var(--brand);
           border: 1px solid var(--brand);
           cursor: pointer;
+          &:hover {
+            background-color: var(--brand);
+            color: white;
+          }
         }
         .following-btn {
           width: 96px;
@@ -69,6 +73,11 @@
           color: var(--white);
           border: 0px;
           cursor: pointer;
+          &:hover {
+            background-color: white;
+            border: 1px solid var(--brand);
+            color: var(--brand);
+          }
         }
       }
     }

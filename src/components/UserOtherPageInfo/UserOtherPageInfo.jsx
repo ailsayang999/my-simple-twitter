@@ -10,7 +10,7 @@ import { ReactComponent as ReplyIcon } from "assets/icons/replyIcon.svg";
 import { ReactComponent as LikeIcon } from "assets/icons/likeIcon.svg";
 import { ReactComponent as LikeActiveIcon } from "assets/icons/likeIconActive.svg";
 import { ReactComponent as NotifyIconActiveIcon } from "assets/icons/notifyIconActive.svg";
-import {ReactComponent as MsgIcon } from "assets/icons/msgIcon.svg"
+import { ReactComponent as MsgIcon } from "assets/icons/msgIcon.svg";
 // 引入Modal元件
 import PostTweetModal from "components/PostTweetModal/PostTweetModal";
 import {
@@ -20,130 +20,33 @@ import {
   getUserSelfLike,
 } from "api/tweets";
 
+const ShowEmptyPostReply = () => {
+  return <div className="empty-user-other-page">尚無推文與回覆</div>;
+};
+const ShowEmptyLike = () => {
+  return <div className="empty-user-other-page">尚無喜歡的內容</div>;
+};
+
 /////////////////////////////////////////// Change Content Components //////////////////////////////////
 // 瀏覽使用者所有Tweet
 const UserSelfTweetContent = ({ userSelfTweets }) => {
   return (
     <>
       {/* 所有user-self 推的文 */}
-      {userSelfTweets?.map(
-        ({
-          TweetId,
-          tweetBelongerName,
-          tweetBelongerAccount,
-          tweetBelongerAvatar,
-          description,
-          createdAt,
-          replyCount,
-          likeCount,
-        }) => {
-          return (
-            <div className="post-item-container" key={TweetId}>
-              <div className="post-item-wrapper">
-                <img
-                  src={tweetBelongerAvatar}
-                  alt=""
-                  className="post-item-avatar"
-                />
-
-                <div className="post-item-content">
-                  <div className="user-post-info">
-                    <div className="name">{tweetBelongerName}</div>
-                    <div className="account">@{tweetBelongerAccount}</div>
-                    <div className="time">· {createdAt}</div>
-                  </div>
-
-                  <div className="post-content">{description}</div>
-
-                  <div className="reply-like-container">
-                    <div className="reply-container">
-                      <ReplyIcon className="reply-icon" />
-                      <div className="reply-number">{replyCount}</div>
-                    </div>
-                    <div className="like-container">
-                      <div className="like-icons">
-                        <LikeIcon className="like-icon" />
-                      </div>
-
-                      <div className="like-number">{likeCount}</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          );
-        }
-      )}
-    </>
-  );
-};
-// 瀏覽使用者所有的Reply
-const UserSelfReplyContent = ({ userSelfReply }) => {
-  return (
-    <>
-      {/* 所有user-self 的回覆 */}
-      {userSelfReply?.map(
-        ({
-          replyId,
-          comment,
-          replierName,
-          replierAvatar,
-          replierAccount,
-          tweetBelongerAccount,
-          createdAt,
-        }) => {
-          return (
-            <>
-              <div className="reply-item-container" key={replyId}>
-                <div className="reply-item-wrapper">
-                  <img
-                    src={replierAvatar}
-                    alt={replierAvatar}
-                    className="reply-item-avatar"
-                  />
-
-                  <div className="reply-item-content">
-                    <div className="user-reply-info">
-                      <div className="replier-name">{replierName}</div>
-                      <div className="replier-account">@{replierAccount}</div>
-                      <div className="reply-time">· {createdAt}</div>
-                    </div>
-
-                    <div className="reply-to-tweet-belonger-account-container">
-                      回覆
-                      <span className="reply-to-tweet-belonger-account">
-                        @{tweetBelongerAccount}
-                      </span>
-                    </div>
-
-                    <div className="reply-content">{comment}</div>
-                  </div>
-                </div>
-              </div>
-            </>
-          );
-        }
-      )}
-    </>
-  );
-};
-// 瀏覽使用者所有的Like
-const UserSelfLikeContent = ({ userSelfLike }) => {
-  return (
-    <>
-      {userSelfLike?.map(
-        ({
-          TweetId,
-          tweetContent,
-          tweetBelongerAvatar,
-          tweetBelongerName,
-          tweetBelongerAccount,
-          createdAt,
-          replyCount,
-          likeCount,
-        }) => {
-          return (
-            <>
+      {userSelfTweets.length === 0 && <ShowEmptyPostReply />}
+      {userSelfTweets.length > 0 &&
+        userSelfTweets?.map(
+          ({
+            TweetId,
+            tweetBelongerName,
+            tweetBelongerAccount,
+            tweetBelongerAvatar,
+            description,
+            createdAt,
+            replyCount,
+            likeCount,
+          }) => {
+            return (
               <div className="post-item-container" key={TweetId}>
                 <div className="post-item-wrapper">
                   <img
@@ -159,7 +62,7 @@ const UserSelfLikeContent = ({ userSelfLike }) => {
                       <div className="time">· {createdAt}</div>
                     </div>
 
-                    <div className="post-content">{tweetContent}</div>
+                    <div className="post-content">{description}</div>
 
                     <div className="reply-like-container">
                       <div className="reply-container">
@@ -168,7 +71,7 @@ const UserSelfLikeContent = ({ userSelfLike }) => {
                       </div>
                       <div className="like-container">
                         <div className="like-icons">
-                          <LikeActiveIcon className="liked-icon" />
+                          <LikeIcon className="like-icon" />
                         </div>
 
                         <div className="like-number">{likeCount}</div>
@@ -177,10 +80,120 @@ const UserSelfLikeContent = ({ userSelfLike }) => {
                   </div>
                 </div>
               </div>
-            </>
-          );
-        }
-      )}
+            );
+          }
+        )}
+    </>
+  );
+};
+// 瀏覽使用者所有的Reply
+const UserSelfReplyContent = ({ userSelfReply }) => {
+  return (
+    <>
+      {/* 所有user-self 的回覆 */}
+      {userSelfReply.length === 0 && <ShowEmptyPostReply />}
+      {userSelfReply.length > 0 &&
+        userSelfReply?.map(
+          ({
+            replyId,
+            comment,
+            replierName,
+            replierAvatar,
+            replierAccount,
+            tweetBelongerAccount,
+            createdAt,
+          }) => {
+            return (
+              <>
+                <div className="reply-item-container" key={replyId}>
+                  <div className="reply-item-wrapper">
+                    <img
+                      src={replierAvatar}
+                      alt={replierAvatar}
+                      className="reply-item-avatar"
+                    />
+
+                    <div className="reply-item-content">
+                      <div className="user-reply-info">
+                        <div className="replier-name">{replierName}</div>
+                        <div className="replier-account">@{replierAccount}</div>
+                        <div className="reply-time">· {createdAt}</div>
+                      </div>
+
+                      <div className="reply-to-tweet-belonger-account-container">
+                        回覆
+                        <span className="reply-to-tweet-belonger-account">
+                          @{tweetBelongerAccount}
+                        </span>
+                      </div>
+
+                      <div className="reply-content">{comment}</div>
+                    </div>
+                  </div>
+                </div>
+              </>
+            );
+          }
+        )}
+    </>
+  );
+};
+// 瀏覽使用者所有的Like
+const UserSelfLikeContent = ({ userSelfLike }) => {
+  return (
+    <>
+      {userSelfLike.length === 0 && <ShowEmptyLike />}
+      {userSelfLike.length > 0 &&
+        userSelfLike?.map(
+          ({
+            TweetId,
+            tweetContent,
+            tweetBelongerAvatar,
+            tweetBelongerName,
+            tweetBelongerAccount,
+            createdAt,
+            replyCount,
+            likeCount,
+          }) => {
+            return (
+              <>
+                <div className="post-item-container" key={TweetId}>
+                  <div className="post-item-wrapper">
+                    <img
+                      src={tweetBelongerAvatar}
+                      alt=""
+                      className="post-item-avatar"
+                    />
+
+                    <div className="post-item-content">
+                      <div className="user-post-info">
+                        <div className="name">{tweetBelongerName}</div>
+                        <div className="account">@{tweetBelongerAccount}</div>
+                        <div className="time">· {createdAt}</div>
+                      </div>
+
+                      <div className="post-content">{tweetContent}</div>
+
+                      <div className="reply-like-container">
+                        <div className="reply-container">
+                          <ReplyIcon className="reply-icon" />
+                          <div className="reply-number">{replyCount}</div>
+                        </div>
+                        <div className="like-container">
+                          <div className="like-icons">
+                            <LikeActiveIcon className="liked-icon" />
+                          </div>
+
+                          <div className="like-number">{likeCount}</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </>
+            );
+          }
+        )}
     </>
   );
 };
@@ -209,6 +222,14 @@ const UserOtherPageInfo = () => {
   //拿到userInfo的avatar和cover跟個人介紹資料
   const [userOtherInfo, setUserOtherInfo] = useState([]); //在每一頁的useEffect中會去向後端請求登入者的object資料
 
+  // 先拿userInfoObject給PostTweetModal
+  const localStorageUserObjectString = localStorage.getItem(
+    "UserInfoObjectString"
+  );
+  const userInfoObject = JSON.parse(localStorageUserObjectString);
+  console.log("userInfoObject", userInfoObject);
+
+  // 因為還沒拿到userOtherInfoObject，所以先用localStorageUserOtherIdNum給useEffect裡的非同步
   const localStorageUserOtherId = localStorage.getItem("userOtherId"); //拿下來會是一比string的資料
   const localStorageUserOtherIdNum = Number(localStorageUserOtherId);
   console.log("localStorageUserOtherIdNum: ", localStorageUserOtherIdNum);
@@ -425,11 +446,11 @@ const UserOtherPageInfo = () => {
       {/* Modal ：根據postModal的布林值決定是否要跳出PostTweetModal component*/}
       {postModal && (
         <PostTweetModal
-          userInfo={userInfo}
+          userInfo={userInfoObject}
           inputValue={inputValue}
           onTweetTextAreaChange={handleTweetTextAreaChange}
           onAddTweet={handleAddTweet}
-          userAvatar={userInfo.avatar}
+          userAvatar={userInfoObject.avatar}
         />
       )}
     </div>

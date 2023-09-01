@@ -115,14 +115,14 @@
       .noti-icon {
         position: absolute;
         top: 216px;
-        right:130px;
-         width: 40px;
+        right: 130px;
+        width: 40px;
         height: 40px;
       }
       .msg-icon {
         position: absolute;
         top: 216px;
-        right:180px;
+        right: 180px;
         width: 40px;
         height: 40px;
       }
@@ -191,6 +191,10 @@
       border-bottom: 2px solid var(--brand);
       color: var(--brand);
     }
+  }
+  .empty-user-other-page {
+    width: 200px;
+    margin: 50px;
   }
 
   // 所有user-self 推的文
@@ -324,6 +328,7 @@
           color: var(--secondary);
           .reply-to-tweet-belonger-account {
             margin-left: 5px;
+            color: var(--brand);
           }
         }
         .reply-content {
