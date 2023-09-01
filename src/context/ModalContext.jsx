@@ -1,7 +1,7 @@
 import { createContext, useState } from "react";
-import { postTweetReply, postTweet } from "api/tweets";
-
+import { postTweetReply, postTweet, dummyTweets } from "api/tweets";
 const ModalContext = createContext("");
+
 
 function ModalContextProvider({ children }) {
   ///////////////////////////////// For Post Modal////////////////////////////////
@@ -12,7 +12,7 @@ function ModalContextProvider({ children }) {
   };
 
   /////////////////////////////handleAddTweet  /////////////////
-  const [tweets, setTweets] = useState([]);
+  const [tweets, setTweets] = useState(dummyTweets);
 
   // 監聽器：handleTweetTextAreaChange，當PostTweetModal的textarea發生改變時，更新inputValue的state
   const [inputValue, setInputValue] = useState("");
@@ -78,15 +78,15 @@ function ModalContextProvider({ children }) {
   ////////////////////////////// handleTweetReply  ////////////////////////////////
   const dummySpecificTweet = [
     {
-      id: 905,
-      authorId: 2,
+      id: 0,
+      authorId: 0,
       authorAccount: "user1",
       authorName: "User1",
       authorAvatar:
         "https://loremflickr.com/320/240/man/?random=22.488061823126504",
-      description: "還我智慧老人！",
-      likeCount: 1,
-      replyCount: 6,
+      description: "",
+      likeCount: 0,
+      replyCount: 0,
       isLiked: true,
       createdAt: "2023-08-28T10:09:15.000Z",
     },
@@ -140,12 +140,38 @@ function ModalContextProvider({ children }) {
             ...prevReplies,
           ];
         });
-        toggleReplyModal();
 
         // 把textarea裡面的訊息清掉
         setReplyInputValue("");
         // 把PostModal關起來
         toggleReplyModal();
+        // 把前端main Page畫面replyCount更新
+        const newTweetReplyNumArr = tweets.map((tweet) => {
+          if (tweet.TweetId === specificTweet[0].id) {
+            return {
+              ...tweet,
+              replyCount: tweet.replyCount + 1,
+            };
+          } else {
+            return tweet;
+          }
+        });
+        setTweets(newTweetReplyNumArr);
+        // 把前端reply Page畫面replyCount更新
+        const newSpecificTweetReplyNumArr = specificTweet.map(
+          (specificTweetObject) => {
+            if (specificTweetObject.id === specificTweet[0].id) {
+              return {
+                ...specificTweetObject,
+                replyCount: specificTweetObject.replyCount + 1,
+              };
+            } else {
+              return specificTweetObject;
+            }
+          }
+        );
+        setSpecificTweet(newSpecificTweetReplyNumArr);
+        console.log(newSpecificTweetReplyNumArr);
       }
       return;
     } catch (error) {
