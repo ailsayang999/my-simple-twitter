@@ -34,6 +34,11 @@ function ModalContextProvider({ children }) {
   // handleReplyTextAreaChange
   const [ReplyInputValue, setReplyInputValue] = useState("");
 
+  //監聽器：handleChange，當PutEditUserSelfInfoModal的edit-name-input發生改變時，更新editNameInput的state
+  const [editNameInputValue, setEditNameInputValue] = useState("");
+  //監聽器：handleChange，當PutEditUserSelfInfoModal的edit-intro-input發生改變時，更新editIntroInput的state
+  const [editIntroInputValue, setEditIntroInputValue] = useState("");
+
   // handleTweetTextAreaChange，當PostTweetModal的textarea發生改變時，更新inputValue的state
   const handleTweetTextAreaChange = (value) => {
     setInputValue(value);
@@ -41,6 +46,15 @@ function ModalContextProvider({ children }) {
   //監聽器：handleReplyTextAreaChange，當PostReplyModal的textarea發生改變時，更新ReplyInputValue的state
   const handleReplyTextAreaChange = (value) => {
     setReplyInputValue(value);
+  };
+
+  //監聽器：handleChange，當PutEditUserSelfInfoModal的edit-name-input發生改變時，更新editNameInput的state
+  const handleEditNameInputChange = (value) => {
+    setEditNameInputValue(value);
+  };
+  //監聽器：handleChange，當PutEditUserSelfInfoModal的edit-intro-input發生改變時，更新editIntroInput的state
+  const handleEditIntroInputChange = (value) => {
+    setEditIntroInputValue(value);
   };
 
   //監聽器：handleAddTweet，當PostTweetModal的推文按鈕被按下時，做postTweet動作
@@ -82,7 +96,6 @@ function ModalContextProvider({ children }) {
         // 把PostModal關起來
         togglePostModal();
         navigate("/main");
-
       }
       return;
     } catch (error) {
@@ -184,16 +197,12 @@ function ModalContextProvider({ children }) {
     setInputValue(""); // 把input內容清空
   };
 
-
-
-
-
-
   ///////////////////////////////////////For Edit Modal////////////////////////////////////
   const toggleEditModal = () => {
     setEditModal(!editModal);
+    setEditNameInputValue("")
+    setEditIntroInputValue("");
   };
-
 
   const ModalContextValueToShare = {
     tweets,
@@ -219,6 +228,12 @@ function ModalContextProvider({ children }) {
     editModal,
     setEditModal,
     toggleEditModal,
+    editNameInputValue,
+    setEditNameInputValue,
+    editIntroInputValue,
+    setEditIntroInputValue,
+    handleEditNameInputChange,
+    handleEditIntroInputChange,
   };
 
   return (

@@ -86,6 +86,7 @@
               background-color: var(--bg-color);
               .put-edit-modal-user-self-cover {
                 width: 100%;
+                height: 100%;
                 object-fit: cover;
                 filter: brightness(70%);
               }
@@ -112,8 +113,10 @@
               height: 140px;
               border: 4px solid var(--bg-color);
               border-radius: 50%;
+              overflow: hidden;
               .put-edit-modal-user-self-avatar {
                 width: 100%;
+                height: 100%;
                 object-fit: cover;
                 filter: brightness(50%);
               }
@@ -198,6 +201,12 @@
             height: 20px;
             font-size: 12px;
             font-weight: 500;
+            .edit__cannot-be-blank {
+              color: var(--brand);
+            }
+            .edit__cannot-be-over-limit {
+              color: var(--brand);
+            }
             .edit-user-self-errorMsg {
               display: inline-block;
               color: #fc5a5a;
@@ -284,6 +293,12 @@
             height: 20px;
             font-size: 12px;
             font-weight: 500;
+            .edit__cannot-be-blank {
+              color: var(--brand);
+            }
+            .edit__cannot-be-over-limit {
+              color: var(--brand);
+            }
             .edit-intro-errorMsg {
               display: inline-block;
               color: #fc5a5a;
