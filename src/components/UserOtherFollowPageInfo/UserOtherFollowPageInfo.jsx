@@ -219,6 +219,11 @@ const UserOtherFollowPageInfo = () => {
 
   useEffect(() => {
     console.log("execute User Other Follow Page function in useEffect");
+    //  驗證沒有成功的話
+    if (!isAuthenticated) {
+      // 頁面跳轉到login頁面
+      navigate("/login");
+    }
     //先把userOtherInfo更新
     setUserOtherInfo(userOtherInfoObject);
 

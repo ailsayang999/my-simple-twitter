@@ -58,6 +58,12 @@ const ReplyPageInfo = () => {
   // 先拿到初始的資料
   useEffect(() => {
     console.log("Reply page execute useEffect");
+    //  驗證沒有成功的話
+    if (!isAuthenticated) {
+      // 頁面跳轉到login頁面
+      navigate("/login");
+    }
+
     //拿到被點擊的貼文資料
     const getSpecificTweetAsync = async () => {
       //因為getSpecificTweet是非同步的操作，有可能會失敗，所以我們要用try catch把它包起來

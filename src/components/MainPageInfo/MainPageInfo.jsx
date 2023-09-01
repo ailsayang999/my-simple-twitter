@@ -91,6 +91,11 @@ const MainPageInfo = () => {
   //串接API: tweets畫面初始化，顯示過去tweets內所有資訊
   useEffect(() => {
     console.log("execute function in useEffect");
+    //  驗證沒有成功的話
+    if (!isAuthenticated) {
+      // 頁面跳轉到login頁面
+      navigate("/login");
+    }
     //首先拿到當前登入的使用者資料
     const getUserInfoAsync = async () => {
       try {

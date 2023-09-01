@@ -277,6 +277,11 @@ console.log("userInfoObject", userInfoObject);
 
   useEffect(() => {
     console.log("execute User Self Follow Page function in useEffect");
+    //  驗證沒有成功的話
+    if (!isAuthenticated) {
+      // 頁面跳轉到login頁面
+      navigate("/login");
+    }
     setUserInfo(userInfoObject);
 
     const getUserSelfFollowerAsync = async () => {
