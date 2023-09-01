@@ -1,20 +1,36 @@
-import { useState, useEffect, useContext } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import Header from "components/Header";
-import InputSet from "components/InputSet";
-import NotiBoxSuccess from "components/NotiBoxSuccess"; //請自行輸入notiText - 註冊成功!
-import NotiBoxFail from "components/NotiBoxFail"; //請自行輸入notiText - 註冊失敗! / 帳號不存在! / 重複註冊...
-import { useAuth } from "context/AuthContext";
-// import { useUserInfo } from "context/UserInfoContext";
-import { getUserInfo } from "api/tweets";
-import UserInfoContext from "context/UserInfoContext";
+///////////////////////feature/settingPage
+import './LoginPage.scss';
+import { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import Header from 'components/Header'
+import InputSet from 'components/InputSet'
+import NotiBoxSuccess from 'components/NotiBoxSuccess' //請自行輸入notiText - 註冊成功! 
+import NotiBoxFail from 'components/NotiBoxFail' //請自行輸入notiText - 註冊失敗! / 帳號不存在! / 重複註冊...
+import { useAuth } from 'context/AuthContext';
+///////////////////////feature/settingPage
+/////////////////////// main
+// import { useState, useEffect, useContext } from "react";
+// import { Link, useNavigate } from "react-router-dom";
+// import Header from "components/Header";
+// import InputSet from "components/InputSet";
+// import NotiBoxSuccess from "components/NotiBoxSuccess"; //請自行輸入notiText - 註冊成功!
+// import NotiBoxFail from "components/NotiBoxFail"; //請自行輸入notiText - 註冊失敗! / 帳號不存在! / 重複註冊...
+// import { useAuth } from "context/AuthContext";
+// import { getUserInfo } from "api/tweets";
+// import UserInfoContext from "context/UserInfoContext";
+///////////////////////main
 
 const LoginPage = () => {
   const [account, setAccount] = useState("");
   const [password, setPassword] = useState("");
   const [showNotiBoxSuccess, setShowNotiBoxSuccess] = useState(false);
   const [showNotiBoxFail, setShowNotiBoxFail] = useState(false);
-  const { setUserInfo } = useContext(UserInfoContext);
+  ///////////////////////feature/settingPage
+  const [errorMsg, setErrorMsg] = useState('');
+  ///////////////////////feature/settingPage
+  ///////////////////////main
+//   const { setUserInfo } = useContext(UserInfoContext);
+  ///////////////////////main
 
   const navigate = useNavigate();
   const { login, isAuthenticated, currentMember } = useAuth();
@@ -29,32 +45,47 @@ const LoginPage = () => {
       console.log("密碼為必填");
       return;
     }
-    console.log("在loginPage呼叫login資訊，並傳入payload(account & password)");
-    const { success, message } = await login({
+    ///////////////////////feature/settingPage
+    const {data} = await login({
       account,
       password,
     });
-    if (success) {
-      console.log(`註冊成功!${message}`);
-      setShowNotiBoxSuccess(true);
-      ////////處理userInfo//////
-      const localStorageUserInfoString = localStorage.getItem("userInfo"); //拿下來會是一比string的資料
-      //先把user的所有object值存到userInfo這個state
-      const LocalStorageUserInfo = JSON.parse(localStorageUserInfoString); // 要把這個string變成object
-      const userInfoId = LocalStorageUserInfo.id; //再從這個object拿到登入者的id
-      console.log("userInfoId", userInfoId);
-      const backendUserInfo = await getUserInfo(userInfoId);
-      console.log("backendUserInfo", backendUserInfo);
-      //在login的瞬間就更新userInfo state，之後在UserInfoContext都可以拿到userInfo的值
-      setUserInfo(backendUserInfo);
-
+    if (data.status === "success") {
+      console.log(`註冊成功!`)
+      setShowNotiBoxSuccess(true)
       return;
-    }
-    console.log(`註冊失敗!${message}`);
-    setShowNotiBoxFail(true);
+    } 
+    console.log(`註冊失敗!message: ${data.message}`)
+    setErrorMsg(data.message)
+    setShowNotiBoxFail(true)
+    ///////////////////////feature/settingPage
+    ///////////////////////main
+//     console.log("在loginPage呼叫login資訊，並傳入payload(account & password)");
+//     const { success, message } = await login({
+//       account,
+//       password,
+//     });
+//     if (success) {
+//       console.log(`註冊成功!${message}`);
+//       setShowNotiBoxSuccess(true);
+//       ////////處理userInfo//////
+//       const localStorageUserInfoString = localStorage.getItem("userInfo"); //拿下來會是一比string的資料
+//       //先把user的所有object值存到userInfo這個state
+//       const LocalStorageUserInfo = JSON.parse(localStorageUserInfoString); // 要把這個string變成object
+//       const userInfoId = LocalStorageUserInfo.id; //再從這個object拿到登入者的id
+//       console.log("userInfoId", userInfoId);
+//       const backendUserInfo = await getUserInfo(userInfoId);
+//       console.log("backendUserInfo", backendUserInfo);
+//       //在login的瞬間就更新userInfo state，之後在UserInfoContext都可以拿到userInfo的值
+//       setUserInfo(backendUserInfo);
+
+//       return;
+//     }
+//     console.log(`註冊失敗!${message}`);
+//     setShowNotiBoxFail(true); 
+    ///////////////////////main
   };
 
-  //當showNotiBox值改變時，過1s後轉回false關閉shoNotiBox並導向loginPage，並使用clearTimeout清除定時器
   useEffect(() => {
     if (isAuthenticated && showNotiBoxSuccess) {
       const timeout = setTimeout(() => {
@@ -77,13 +108,22 @@ const LoginPage = () => {
   }, [showNotiBoxFail]);
 
   return (
-    <div className="outerContainer">
+    <div className="loginOuterContainer">
       {showNotiBoxSuccess && <NotiBoxSuccess notiText={"登入成功!"} />}
-      {showNotiBoxFail && <NotiBoxFail notiText={"登入失敗!"} />}
-      <Header entryName={"登入 Alphitter"} />
-      <InputSet
-        label={"帳號"}
-        placeholder={"請輸入帳號"}
+       ///////////////////////feature/settingPage
+      {showNotiBoxFail && <NotiBoxFail notiText={errorMsg? errorMsg:"登入失敗"} />}
+      <Header entryName={"登入 Alphitter"}/>
+      <InputSet 
+        label={"帳號"} 
+        placeholder={"請輸入帳號"} 
+       ///////////////////////feature/settingPage
+       ///////////////////////main
+//       {showNotiBoxFail && <NotiBoxFail notiText={"登入失敗!"} />}
+//       <Header entryName={"登入 Alphitter"} />
+//       <InputSet
+//         label={"帳號"}
+//         placeholder={"請輸入帳號"}
+        ///////////////////////main
         value={account}
         onChange={(accountInputValue) => setAccount(accountInputValue)}
         // errorMsg={errorMsg}

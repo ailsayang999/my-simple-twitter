@@ -7,8 +7,8 @@ const TweetCard = ({authorId, tweetId, avatar, name, account, description, time}
 
   const handleClick = async (tweetId) => {
     try {
-      const delTweet = await deleteTweet(tweetId);
-      console.log(`${delTweet}`)
+      const data = await deleteTweet(tweetId);
+      console.log(`${data.message}`)
     } catch (error) {
       console.error(error);
     }

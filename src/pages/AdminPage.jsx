@@ -66,7 +66,7 @@ const AdminPage = () => {
   }, [navigate, showNotiBoxFail]);
   
   return (
-    <div className="outerContainer">
+    <div className="adminOuterContainer">
       {showNotiBoxSuccess && <NotiBoxSuccess notiText={"後台登入成功!"} />}
       {showNotiBoxFail && <NotiBoxFail notiText={"後台登入失敗!"} />}
       <Header entryName={"後台登入"}/>
@@ -102,8 +102,3 @@ const AdminPage = () => {
 
 export default AdminPage
 
-
-// 管理者可從專門的後台登入頁面進入網站後台
-
-// 管理者帳號不可登入前台，詳見【角色權限】單元說明
-// 若使用管理帳號登入前台，或使用一般使用者帳號登入後台，等同於「帳號不存在」

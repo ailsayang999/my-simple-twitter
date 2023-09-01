@@ -5,25 +5,16 @@ const baseUrl = 'https://mighty-temple-45104-0d6672fb07d0.herokuapp.com/api/admi
 
 export const adminLogin = async ({ account, password }) => {
   try {
-    console.log(`進到admin.js 傳入資料,account:${account} password:${password}`)
     const {data}  = await axios.post(`${baseUrl}/signin`, {
       account,
       password,
     });
 
-
-    console.log(`登入後台從後端signin拿回來的data:${JSON.stringify(data)}`)
-    console.log(`登入後台從後端signin拿回來的authToken:${data.data.token}`)
-    const authToken = data.data.token
-
-    if (authToken) {
-      localStorage.setItem('authToken', authToken);
-      console.log('將authToken存入localStorage Add "success": true, "authToken": authToken  into data(最外層)!')
-     
-      return { "authToken": authToken, ...data };
+    if (data.status === "success") {
+      return { data };
     } else {
       console.log("AuthToken missed! Find one!")
-      return data;
+      return {data};
     }
   } catch (error) {
     console.error(`[AdminLogin Failed]:`, error);
@@ -86,9 +77,9 @@ export const getTweets = async () => {
   }
 };
 
-export const deleteTweet = async (id) => {
+export const deleteTweet = async (tweetId) => {
   try {
-    const res = await axiosInstance.del(`${baseUrl}/tweets/:${id}`);
+    const res = await axiosInstance.delete(`${baseUrl}/tweets/${tweetId}`);
     return res.data;
   } catch (error) {
     console.error(`[Delete Tweet failed]:`, error);
