@@ -105,7 +105,7 @@ export const AuthProvider = ({ children }) => {
             password: data1.password,
             checkPassword: data1.checkPassword,
           });
-
+          console.log(`data.status:${data.status}`)
           if (data.status === "success") {
             const tempPayload = JSON.stringify(data.data);
             setPayload(tempPayload);

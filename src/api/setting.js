@@ -21,7 +21,14 @@ axiosInstance.interceptors.request.use(
 
 export const setting = async ({ id, name, account, email, password , checkPassword }) => {
   try {
-    const res = await axiosInstance.put(`${baseUrl}/users/${id}`);
+    const res = await axiosInstance.put(`${baseUrl}/users/${id}`,{
+      id: id,
+      name: name,
+      account: account,
+      email: email,
+      password: password,
+      checkPassword: checkPassword
+    });
     return res.data;
   } catch (error) {
     console.error("[Get User Information failed]: ", error);

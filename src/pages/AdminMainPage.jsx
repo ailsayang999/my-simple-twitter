@@ -18,6 +18,10 @@ const AdminMainPage = () => {
     const getTweetsAsync = async () => {
       try {
         const tweets = await getTweets();
+        //tweets先依createAt排序(越舊index越小)，兩個時間直接相減出現NaN
+        // tweets.sort(function(a, b){
+        //   return b.createdAt - a.createdAt
+        // })
         setTweets(tweets)
       } catch (error) {
         console.error(error);
