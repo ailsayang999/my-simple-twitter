@@ -1,8 +1,5 @@
 import { createContext, useState, useEffect, useContext } from 'react';
 import { adminLogin } from '../api/admin';
-// import { checkPermission } from '../api/admin'; 有要驗證token嗎?
-
-// import jwt_decode from "jwt-decode"
 import { useLocation } from 'react-router-dom';
 
 const defaultAuthAdminContext = {
@@ -29,16 +26,6 @@ export const AuthAdminProvider = ({ children }) => {
         setPayload(null);
         return;
       } else {
-      // 有要驗證token嗎?
-      // const result = await checkPermission(authToken);
-      // if (result) {
-      //   setIsAuthenticated(true);
-      //   const tempPayload = jwt.decode(authToken);
-      //   setPayload(tempPayload);
-      // } else {
-      //   setIsAuthenticated(false);
-      //   setPayload(null);
-      // }
       setIsAuthenticated(true);
       }
     };
@@ -56,23 +43,24 @@ export const AuthAdminProvider = ({ children }) => {
           name: payload.name, // 取出使用者帳號
         },
         adminLogin: async (data1) => {
-          console.log(`進入authAdminContext.jsx中await adminLogin!`)
-          const { data } = await adminLogin({
-            account: data1.account,
-            password: data1.password,
-          });
-          
-          if (data.status === "success") {
-            const authToken = data.data.token
-            console.log(`authToken:${JSON.stringify(authToken)}`)
-            setIsAuthenticated(true);
-            localStorage.setItem('authToken', authToken);
-          } else {
-            console.log(`Failed message: ${data.message}`)
-            setPayload(null);
-            setIsAuthenticated(false);
+          try {
+            const {data} = await adminLogin({
+              account: data1.account,
+              password: data1.password,
+            });
+            if (data.status === "success") {
+              const authToken = data.data.token
+              setIsAuthenticated(true);
+              localStorage.setItem('authToken', authToken);
+            } else {
+              setPayload(null);
+              setIsAuthenticated(false);
+            }
+            return {data};
           }
-          return {data};
+          catch(data){
+            return Promise.reject(data)
+          }
         },
         adminLogout: () => {
           localStorage.removeItem('authToken');
@@ -85,3 +73,5 @@ export const AuthAdminProvider = ({ children }) => {
     </AuthAdminContext.Provider>
   );
 };
+
+ 

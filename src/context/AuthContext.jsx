@@ -76,7 +76,7 @@ export const AuthProvider = ({ children }) => {
         },
         login: async (data1) => {
           console.log(`進入AuthContext.jsx中傳入payload(account&password) await login
-          !`);
+          !`); 
           const {data} = await login({
             account: data1.account,
             password: data1.password,
