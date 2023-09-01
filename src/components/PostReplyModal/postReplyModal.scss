@@ -67,7 +67,7 @@
             }
 
             .reply-modal-item-content {
-              height:133px;
+              height: 133px;
               margin-left: 10px;
               display: flex;
               flex-direction: column;
@@ -156,10 +156,13 @@
           display: flex;
           justify-content: flex-end;
 
-          .reply-notification-display-none {
-            display: none;
-          }
           .textarea-notification__cannot-be-blank {
+            display: block;
+            align-self: center;
+            font-weight: 500;
+            color: var(--brand);
+          }
+          .textarea-notification__cannot-be-over-140 {
             display: block;
             align-self: center;
             font-weight: 500;

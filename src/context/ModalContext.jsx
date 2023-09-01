@@ -1,23 +1,46 @@
 import { createContext, useState } from "react";
 import { postTweetReply, postTweet, dummyTweets } from "api/tweets";
+import { useNavigate } from "react-router-dom";
 const ModalContext = createContext("");
 
-
 function ModalContextProvider({ children }) {
-  ///////////////////////////////// For Post Modal////////////////////////////////
-  // toggle PostModal: postModal的boolean判斷是否要跳出postTweetModal
-  const [postModal, setPostModal] = useState(false);
-  const togglePostModal = () => {
-    setPostModal(!postModal);
-  };
+  const navigate = useNavigate();
+  const dummySpecificTweet = [
+    {
+      id: 0,
+      authorId: 0,
+      authorAccount: "user1",
+      authorName: "User1",
+      authorAvatar:
+        "https://loremflickr.com/320/240/man/?random=22.488061823126504",
+      description: "",
+      likeCount: 0,
+      replyCount: 0,
+      isLiked: true,
+      createdAt: "2023-08-28T10:09:15.000Z",
+    },
+  ];
+  const [postModal, setPostModal] = useState(false); // toggle PostModal: postModal的boolean判斷是否要跳出postTweetModal
+  const [replyModal, setReplyModal] = useState(false);
+  const [editModal, setEditModal] = useState(false);
 
-  /////////////////////////////handleAddTweet  /////////////////
+  // handleAddTweet
   const [tweets, setTweets] = useState(dummyTweets);
+  const [specificTweet, setSpecificTweet] = useState(dummySpecificTweet); //這些會replyPage的時候useEffect那裡被帶入資料
+  const [specificTweetReplies, setSpecificTweetReplies] = useState([]); //這些會replyPage的時候useEffect那裡被帶入資料
 
-  // 監聽器：handleTweetTextAreaChange，當PostTweetModal的textarea發生改變時，更新inputValue的state
+  // handleTweetTextAreaChange
   const [inputValue, setInputValue] = useState("");
+  // handleReplyTextAreaChange
+  const [ReplyInputValue, setReplyInputValue] = useState("");
+
+  // handleTweetTextAreaChange，當PostTweetModal的textarea發生改變時，更新inputValue的state
   const handleTweetTextAreaChange = (value) => {
     setInputValue(value);
+  };
+  //監聽器：handleReplyTextAreaChange，當PostReplyModal的textarea發生改變時，更新ReplyInputValue的state
+  const handleReplyTextAreaChange = (value) => {
+    setReplyInputValue(value);
   };
 
   //監聽器：handleAddTweet，當PostTweetModal的推文按鈕被按下時，做postTweet動作
@@ -56,54 +79,27 @@ function ModalContextProvider({ children }) {
             ...prevTweets,
           ];
         });
-        togglePostModal();
-
-        // 把textarea裡面的訊息清掉
-        setInputValue("");
         // 把PostModal關起來
         togglePostModal();
+        navigate("/main");
+
       }
       return;
     } catch (error) {
       console.error(error);
     }
   };
-
-  ///////////////////////////////////////For Reply Modal////////////////////////////////////
-  const [replyModal, setReplyModal] = useState(false);
-  const toggleReplyModal = () => {
-    setReplyModal(!replyModal);
-  };
-
-  ////////////////////////////// handleTweetReply  ////////////////////////////////
-  const dummySpecificTweet = [
-    {
-      id: 0,
-      authorId: 0,
-      authorAccount: "user1",
-      authorName: "User1",
-      authorAvatar:
-        "https://loremflickr.com/320/240/man/?random=22.488061823126504",
-      description: "",
-      likeCount: 0,
-      replyCount: 0,
-      isLiked: true,
-      createdAt: "2023-08-28T10:09:15.000Z",
-    },
-  ];
-  const [ReplyInputValue, setReplyInputValue] = useState("");
-  const [specificTweet, setSpecificTweet] = useState(dummySpecificTweet); //這些會replyPage的時候useEffect那裡被帶入資料
-  const [specificTweetReplies, setSpecificTweetReplies] = useState([]); //這些會replyPage的時候useEffect那裡被帶入資料
-  //監聽器：handleReplyTextAreaChange，當PostReplyModal的textarea發生改變時，更新ReplyInputValue的state
-  const handleReplyTextAreaChange = (value) => {
-    setReplyInputValue(value);
-  };
   //監聽器：handleTweetReply，當PostReplyModal的推文按鈕被按下時，做postTweetReply動作
   const handleTweetReply = async (ReplyInputValue, specificTweet) => {
-    if (ReplyInputValue.length <= 0) {
+    if (ReplyInputValue.length === 0) {
       alert("內容不可為空白");
       return;
     }
+    if (ReplyInputValue.length > 140) {
+      alert("文字上限140字");
+      return;
+    }
+
     console.log(ReplyInputValue); //ReplyInputValue有輸入成功，handleTweetReply 點擊反應成功
     //因為他也是非同步的操作，可能會有失敗的狀況，所以我也是用try catch把它包起來
     const specificTweetIdForBackendParam = specificTweet[0].id;
@@ -141,10 +137,9 @@ function ModalContextProvider({ children }) {
           ];
         });
 
-        // 把textarea裡面的訊息清掉
-        setReplyInputValue("");
         // 把PostModal關起來
         toggleReplyModal();
+
         // 把前端main Page畫面replyCount更新
         const newTweetReplyNumArr = tweets.map((tweet) => {
           if (tweet.TweetId === specificTweet[0].id) {
@@ -179,11 +174,26 @@ function ModalContextProvider({ children }) {
     }
   };
 
+  ///////////////////////////////////////  切換關起與跳出動作 並Toggle的時候就把內容清空 ////////////////////////////
+  const toggleReplyModal = () => {
+    setReplyModal(!replyModal);
+    setReplyInputValue(""); // 把input內容清空
+  };
+  const togglePostModal = () => {
+    setPostModal(!postModal);
+    setInputValue(""); // 把input內容清空
+  };
+
+
+
+
+
+
   ///////////////////////////////////////For Edit Modal////////////////////////////////////
-  const [editModal, setEditModal] = useState(false);
   const toggleEditModal = () => {
     setEditModal(!editModal);
   };
+
 
   const ModalContextValueToShare = {
     tweets,

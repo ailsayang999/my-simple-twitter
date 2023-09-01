@@ -14,7 +14,7 @@ const SettingPageInfo = () => {
   const [showNotiBoxSuccess, setShowNotiBoxSuccess] = useState(false);
   const [showNotiBoxFail, setShowNotiBoxFail] = useState(false);
 
-   const { setUserInfo } = useAuth();
+  const { setUserInfo } = useAuth();
 
   const handleClick = async () => {
     if (account.length === 0) {

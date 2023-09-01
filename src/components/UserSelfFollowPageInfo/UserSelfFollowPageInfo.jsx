@@ -252,11 +252,11 @@ const UserSelfFellowPageInfo = () => {
   };
 
   ///////////////////////////////////////////////////初始畫面渲染 /////////////////////////////////////////////////
-  // 首先先去拿在UserOtherPage存到localStorage的localStorageUserObjectString
-  const localStorageUserObjectString =
-    localStorage.getItem("userInfo");
-  // 然後在把他變成object，讓header做渲染
-  const userInfoObject = JSON.parse(localStorageUserObjectString);
+const localStorageUserObjectString = localStorage.getItem(
+  "UserInfoObjectString"
+);
+const userInfoObject = JSON.parse(localStorageUserObjectString);
+console.log("userInfoObject", userInfoObject);
 
   useEffect(() => {
     console.log("execute User Self Follow Page function in useEffect");
@@ -300,9 +300,9 @@ const UserSelfFellowPageInfo = () => {
         />
 
         <div className="name-tweet-amount-container">
-          <h5 className="header-title-user-self-name">{userInfo.name}</h5>
+          <h5 className="header-title-user-self-name">{userInfoObject.name}</h5>
           <div className="tweet-amount">
-            {userInfo.tweetCount}
+            {userInfoObject.tweetCount}
             <span className="tweet-amount-text">推文</span>
           </div>
         </div>
@@ -352,11 +352,11 @@ const UserSelfFellowPageInfo = () => {
       {/* Modal ：根據postModal的布林值決定是否要跳出PostTweetModal component*/}
       {postModal && (
         <PostTweetModal
-          userInfo={userInfo}
+          userInfo={userInfoObject}
           inputValue={inputValue}
           onTweetTextAreaChange={handleTweetTextAreaChange}
           onAddTweet={handleAddTweet}
-          userAvatar={userInfo.avatar}
+          userAvatar={userInfoObject.avatar}
         />
       )}
     </div>

@@ -5,7 +5,6 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 
 //import Context
-import { ModalContextProvider } from "context/ModalContext";
 import { NavigationContextProvider } from "context/NavigationContext";
 import { FollowContextProvider } from "context/FollowContext";
 
@@ -13,11 +12,9 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <NavigationContextProvider>
-      <ModalContextProvider>
         <FollowContextProvider>
           <App />
         </FollowContextProvider>
-      </ModalContextProvider>
     </NavigationContextProvider>
   </React.StrictMode>
 );

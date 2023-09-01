@@ -72,30 +72,31 @@ function FollowContextProvider({ children }) {
     const localStorageUserObjectString = localStorage.getItem("userInfo");
     // 然後在把他變成object，讓header做渲染
     const userInfoObject = JSON.parse(localStorageUserObjectString);
-    const getUserSelfFollowerAsync = async () => {
-      try {
-        const backendUserSelfFollower = await getUserSelfFollower(
-          userInfoObject.id
-        );
-        setFollower(backendUserSelfFollower);
-      } catch (error) {
-        console.error(error);
-      }
-    };
 
-    const getUserSelfFollowingAsync = async () => {
-      try {
-        const backendUserSelfFollowing = await getUserSelfFollowing(
-          userInfoObject.id
-        );
-        //後端好了再打開，先用userInfo
-        setFollowing(backendUserSelfFollowing);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    getUserSelfFollowerAsync();
-    getUserSelfFollowingAsync();
+    // const getUserSelfFollowerAsync = async () => {
+    //   try {
+    //     const backendUserSelfFollower = await getUserSelfFollower(
+    //       userInfoObject.id
+    //     );
+    //     setFollower(backendUserSelfFollower);
+    //   } catch (error) {
+    //     console.error(error);
+    //   }
+    // };
+
+    // const getUserSelfFollowingAsync = async () => {
+    //   try {
+    //     const backendUserSelfFollowing = await getUserSelfFollowing(
+    //       userInfoObject.id
+    //     );
+    //     //後端好了再打開，先用userInfo
+    //     setFollowing(backendUserSelfFollowing);
+    //   } catch (error) {
+    //     console.error(error);
+    //   }
+    // };
+    // getUserSelfFollowerAsync();
+    // getUserSelfFollowingAsync();
 
     console.log("follow id", id);
     const followPayload = {
@@ -107,7 +108,6 @@ function FollowContextProvider({ children }) {
     // 想追蹤某個user
     if (isFollowed === false) {
       const res = await postFollowShip(followPayload);
-      console.log("後端傳來postFollowShip的結果", res.data.status);
       //如果有追蹤成功的話就：
       if (res) {
         if (res.data.status === "success") {
@@ -199,7 +199,7 @@ function FollowContextProvider({ children }) {
           );
           setUserOtherFollower(
             userOtherFollower.map((personObj) => {
-              if (personObj.followingId === id) {
+              if (personObj.followerId === id) {
                 return { ...personObj, isFollowed: false };
               } else {
                 return personObj;

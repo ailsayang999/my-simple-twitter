@@ -1,6 +1,6 @@
 ///////////////////////feature/settingPage
 import './LoginPage.scss';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from "react";
 import { Link, useNavigate } from 'react-router-dom';
 import Header from 'components/Header'
 import InputSet from 'components/InputSet'
@@ -16,8 +16,8 @@ import { useAuth } from 'context/AuthContext';
 // import NotiBoxSuccess from "components/NotiBoxSuccess"; //請自行輸入notiText - 註冊成功!
 // import NotiBoxFail from "components/NotiBoxFail"; //請自行輸入notiText - 註冊失敗! / 帳號不存在! / 重複註冊...
 // import { useAuth } from "context/AuthContext";
-// import { getUserInfo } from "api/tweets";
-// import UserInfoContext from "context/UserInfoContext";
+import { getUserInfo } from "api/tweets";
+import UserInfoContext from "context/UserInfoContext";
 ///////////////////////main
 
 const LoginPage = () => {
@@ -29,7 +29,7 @@ const LoginPage = () => {
   const [errorMsg, setErrorMsg] = useState('');
   ///////////////////////feature/settingPage
   ///////////////////////main
-//   const { setUserInfo } = useContext(UserInfoContext);
+  const { setUserInfo } = useContext(UserInfoContext);
   ///////////////////////main
 
   const navigate = useNavigate();
@@ -68,16 +68,16 @@ const LoginPage = () => {
 //     if (success) {
 //       console.log(`註冊成功!${message}`);
 //       setShowNotiBoxSuccess(true);
-//       ////////處理userInfo//////
-//       const localStorageUserInfoString = localStorage.getItem("userInfo"); //拿下來會是一比string的資料
-//       //先把user的所有object值存到userInfo這個state
-//       const LocalStorageUserInfo = JSON.parse(localStorageUserInfoString); // 要把這個string變成object
-//       const userInfoId = LocalStorageUserInfo.id; //再從這個object拿到登入者的id
-//       console.log("userInfoId", userInfoId);
-//       const backendUserInfo = await getUserInfo(userInfoId);
-//       console.log("backendUserInfo", backendUserInfo);
-//       //在login的瞬間就更新userInfo state，之後在UserInfoContext都可以拿到userInfo的值
-//       setUserInfo(backendUserInfo);
+      ////////處理userInfo//////
+      const localStorageUserInfoString = localStorage.getItem("userInfo"); //拿下來會是一比string的資料
+      //先把user的所有object值存到userInfo這個state
+      const LocalStorageUserInfo = JSON.parse(localStorageUserInfoString); // 要把這個string變成object
+      const userInfoId = LocalStorageUserInfo.id; //再從這個object拿到登入者的id
+      console.log("userInfoId", userInfoId);
+      const backendUserInfo = await getUserInfo(userInfoId);
+      console.log("backendUserInfo", backendUserInfo);
+      //在login的瞬間就更新userInfo state，之後在UserInfoContext都可以拿到userInfo的值
+      setUserInfo(backendUserInfo);
 
 //       return;
 //     }

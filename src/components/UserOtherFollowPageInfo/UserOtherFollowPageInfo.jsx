@@ -10,8 +10,6 @@ import PostTweetModal from "components/PostTweetModal/PostTweetModal";
 import {
   getUserSelfFollower,
   getUserSelfFollowing,
-  postFollowShip,
-  deleteFollowShip,
 } from "api/tweets";
 
 const FollowerContent = ({ userOtherFollower, handleFollowBtnClick }) => {
@@ -189,12 +187,10 @@ const UserOtherFollowPageInfo = () => {
   ///////////////////////////////////////////////////初始畫面渲染 /////////////////////////////////////////////////
   const [userOtherInfo, setUserOtherInfo] = useState([]); //在每一頁的useEffect中會去向後端請求登入者的object資料
 
-  // 首先先去拿在UserOtherPage存到localStorage的localStorageUserObjectString
+  // 首先先去拿在UserOtherPage存到localStorage的 userOtherInfoObject，給useEffect裡的非同步使用
   const localStorageUserOtherObjectString =
     localStorage.getItem("userOtherInfo");
-  // 然後在把他變成object，讓header做渲染
-  const userOtherInfoObject = JSON.parse(localStorageUserOtherObjectString);
-  console.log("userOtherInfoObject",userOtherInfoObject)
+  const userOtherInfoObject = JSON.parse(localStorageUserOtherObjectString); // 然後在把他變成object，讓header做渲染
 
   //給PostTweetModal用的
   const localStorageUserObjectString = localStorage.getItem("userInfo");

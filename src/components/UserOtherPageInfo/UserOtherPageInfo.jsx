@@ -10,7 +10,7 @@ import { ReactComponent as ReplyIcon } from "assets/icons/replyIcon.svg";
 import { ReactComponent as LikeIcon } from "assets/icons/likeIcon.svg";
 import { ReactComponent as LikeActiveIcon } from "assets/icons/likeIconActive.svg";
 import { ReactComponent as NotifyIconActiveIcon } from "assets/icons/notifyIconActive.svg";
-import {ReactComponent as MsgIcon } from "assets/icons/msgIcon.svg"
+import { ReactComponent as MsgIcon } from "assets/icons/msgIcon.svg";
 // 引入Modal元件
 import PostTweetModal from "components/PostTweetModal/PostTweetModal";
 import {
@@ -209,6 +209,14 @@ const UserOtherPageInfo = () => {
   //拿到userInfo的avatar和cover跟個人介紹資料
   const [userOtherInfo, setUserOtherInfo] = useState([]); //在每一頁的useEffect中會去向後端請求登入者的object資料
 
+  // 先拿userInfoObject給PostTweetModal
+  const localStorageUserObjectString = localStorage.getItem(
+    "UserInfoObjectString"
+  );
+  const userInfoObject = JSON.parse(localStorageUserObjectString);
+  console.log("userInfoObject", userInfoObject);
+
+  // 因為還沒拿到userOtherInfoObject，所以先用localStorageUserOtherIdNum給useEffect裡的非同步
   const localStorageUserOtherId = localStorage.getItem("userOtherId"); //拿下來會是一比string的資料
   const localStorageUserOtherIdNum = Number(localStorageUserOtherId);
   console.log("localStorageUserOtherIdNum: ", localStorageUserOtherIdNum);
@@ -425,11 +433,11 @@ const UserOtherPageInfo = () => {
       {/* Modal ：根據postModal的布林值決定是否要跳出PostTweetModal component*/}
       {postModal && (
         <PostTweetModal
-          userInfo={userInfo}
+          userInfo={userInfoObject}
           inputValue={inputValue}
           onTweetTextAreaChange={handleTweetTextAreaChange}
           onAddTweet={handleAddTweet}
-          userAvatar={userInfo.avatar}
+          userAvatar={userInfoObject.avatar}
         />
       )}
     </div>

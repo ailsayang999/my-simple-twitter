@@ -95,8 +95,13 @@ const MainPageInfo = () => {
         const userInfoId = LocalStorageUserInfo.id; //再從這個object拿到登入者的id
         //向後端拿取登入者的object資料
         const backendUserInfo = await getUserInfo(userInfoId);
-        //拿到登入者資料後存在userInfo裡面，userInfo會是一個object
+        //拿到登入者資料後存在userInfo裡面，userInfo會是一個object, 給right banner用
         setUserInfo(backendUserInfo);
+        // 把使用者的資訊就先全部向後端拿過來，然後存在localStorage，各頁都可以拿
+        localStorage.setItem(
+          "UserInfoObjectString",
+          JSON.stringify(backendUserInfo)
+        );
       } catch (error) {
         console.error(error);
       }
@@ -231,14 +236,17 @@ const MainPageInfo = () => {
             <>
               <div className="post-item-container" key={TweetId}>
                 <div className="post-item-wrapper">
-                  <img
-                    src={authorAvatar}
-                    alt=""
-                    className="post-item-avatar"
-                    onClick={() => {
-                      handleNavigateToUserOtherPage(authorId);
-                    }}
-                  />
+                  
+                  <div className="avatar-wrapper">
+                    <img
+                      src={authorAvatar}
+                      alt=""
+                      className="post-item-avatar"
+                      onClick={() => {
+                        handleNavigateToUserOtherPage(authorId);
+                      }}
+                    />
+                  </div>
 
                   <div className="post-item-content">
                     <div className="user-post-info">

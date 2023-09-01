@@ -91,15 +91,19 @@
           display: flex;
           justify-content: flex-end;
 
-          .notification-display-none {
-            display: none;
-          }
-          .textarea-notification__more-than-140 {
+          .textarea-notification__cannot-be-blank {
             display: block;
             align-self: center;
             font-weight: 500;
             color: var(--brand);
           }
+          .textarea-notification__cannot-be-over-140 {
+            display: block;
+            align-self: center;
+            font-weight: 500;
+            color: var(--brand);
+          }
+
           .tweet-modal-btn {
             margin-left: 20px;
             width: 64px;

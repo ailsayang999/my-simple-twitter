@@ -222,30 +222,21 @@ const UserSelfPageInfo = () => {
   const [userSelfReply, setUserSelfReply] = useState([]);
   // 使用者所有喜歡
   const [userSelfLike, setUserSelfLike] = useState([]);
-  console.log("execute User Self Page function in useEffect");
-  const localStorageUserInfoString = localStorage.getItem("userInfo"); //拿下來會是一比string的資料
-  const LocalStorageUserInfo = JSON.parse(localStorageUserInfoString); // 要把這個string變成object
-  const userInfoId = LocalStorageUserInfo.id; //再從這個object拿到登入者的id
+
+
+   const localStorageUserObjectString = localStorage.getItem(
+     "UserInfoObjectString"
+   );
+   const userInfoObject = JSON.parse(localStorageUserObjectString);
+   console.log("userInfoObject", userInfoObject);
 
   //串接API: 畫面初始資料
   useEffect(() => {
-    const getUserInfoAsync = async () => {
-      try {
-        const localStorageUserInfoString = localStorage.getItem("userInfo"); //拿下來會是一比string的資料
-        const LocalStorageUserInfo = JSON.parse(localStorageUserInfoString); // 要把這個string變成object
-        const userInfoId = LocalStorageUserInfo.id; //再從這個object拿到登入者的id
-        //向後端拿取登入者的object資料
-        const backendUserInfo = await getUserInfo(userInfoId);
-        //拿到登入者資料後存在userInfo裡面，userInfo會是一個object
-        setUserInfo(backendUserInfo);
-      } catch (error) {
-        console.error(error);
-      }
-    };
+    console.log("execute User Self Page function in useEffect");
     //首先拿到當前登入的使用者資料
     const getUserSelfTweetsAsync = async () => {
       try {
-        const backendUserSelfTweets = await getUserSelfTweets(userInfoId);
+        const backendUserSelfTweets = await getUserSelfTweets(userInfoObject.id);
         //後端好了再打開，先用userInfo
         setUserSelfTweets(backendUserSelfTweets);
       } catch (error) {
@@ -255,7 +246,7 @@ const UserSelfPageInfo = () => {
 
     const getUserSelfReplyAsync = async () => {
       try {
-        const backendUserSelfReply = await getUserSelfReply(userInfoId);
+        const backendUserSelfReply = await getUserSelfReply(userInfoObject.id);
         setUserSelfReply(backendUserSelfReply);
         console.log("backendUserSelfReply", backendUserSelfReply);
       } catch (error) {
@@ -264,7 +255,7 @@ const UserSelfPageInfo = () => {
     };
     const getUserSelfLikeAsync = async () => {
       try {
-        const backendUserSelfLike = await getUserSelfLike(userInfoId);
+        const backendUserSelfLike = await getUserSelfLike(userInfoObject.id);
         setUserSelfLike(backendUserSelfLike);
         console.log("backendUserSelfLike", backendUserSelfLike);
       } catch (error) {
@@ -274,7 +265,7 @@ const UserSelfPageInfo = () => {
     getUserSelfTweetsAsync();
     getUserSelfReplyAsync();
     getUserSelfLikeAsync();
-    getUserInfoAsync();
+    // getUserInfoAsync();
   }, []);
 
   // UserSelfPageInfo的監聽器：，當跟隨者或是跟隨中的button被點按時，會選擇UserSelfFollowPage要渲染的資料 (但是因為會被navigation搶先執行，所以先不用了)
@@ -324,9 +315,9 @@ const UserSelfPageInfo = () => {
           onClick={handleBackArrowClick}
         />
         <div className="name-tweet-amount-container">
-          <h5 className="header-title-user-self-name">{userInfo.name}</h5>
+          <h5 className="header-title-user-self-name">{userInfoObject.name}</h5>
           <div className="tweet-amount">
-            {userInfo.tweetCount}
+            {userInfoObject.tweetCount}
             <span className="tweet-amount-text">推文</span>
           </div>
         </div>
@@ -338,13 +329,17 @@ const UserSelfPageInfo = () => {
           <div className="user-self-avatar-cover">
             <div className="user-self-cover-container">
               <img
-                src={userInfo.cover}
+                src={userInfoObject.cover}
                 alt="userSelfCover"
                 className="user-self-cover"
               />
             </div>
             <div className="user-self-avatar-container">
-              <img src={userInfo.avatar} alt="" className="user-self-avatar" />
+              <img
+                src={userInfoObject.avatar}
+                alt=""
+                className="user-self-avatar"
+              />
             </div>
 
             <button
@@ -357,11 +352,13 @@ const UserSelfPageInfo = () => {
 
           {/* 個人姓名 */}
           <div className="user-self-name-account-container">
-            <h5 className="user-self-name">{userInfo.name}</h5>
-            <span className="user-self-account">@{userInfo.account}</span>
+            <h5 className="user-self-name">{userInfoObject.name}</h5>
+            <span className="user-self-account">@{userInfoObject.account}</span>
           </div>
           {/* 個人介紹 */}
-          <div className="user-self-introduction">{userInfo.introduction}</div>
+          <div className="user-self-introduction">
+            {userInfoObject.introduction}
+          </div>
 
           {/* 個人跟隨中和跟隨者 */}
           <div className="user-self-follow-following-container">
@@ -372,7 +369,7 @@ const UserSelfPageInfo = () => {
                 handleNavigateToFollowingPage(e.target.value);
               }}
             >
-              {userInfo.followerCount} 個
+              {userInfoObject.followerCount} 個
             </button>
             <span className="following-text">跟隨中</span>
 
@@ -383,7 +380,7 @@ const UserSelfPageInfo = () => {
                 handleNavigateToFollowerPage(e.target.value);
               }}
             >
-              {userInfo.followingCount} 個
+              {userInfoObject.followingCount} 個
             </button>
             <span className="follower-text">跟隨者</span>
           </div>
@@ -434,11 +431,11 @@ const UserSelfPageInfo = () => {
       {/* Modal ：根據postModal的布林值決定是否要跳出PostTweetModal component*/}
       {postModal && (
         <PostTweetModal
-          userInfo={userInfo}
+          userInfo={userInfoObject}
           inputValue={inputValue}
           onTweetTextAreaChange={handleTweetTextAreaChange}
           onAddTweet={handleAddTweet}
-          userAvatar={userInfo.avatar}
+          userAvatar={userInfoObject.avatar}
         />
       )}
       {/* 決定編輯個人資料Modal跳出 */}
