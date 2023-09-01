@@ -110,20 +110,11 @@ const LoginPage = () => {
   return (
     <div className="loginOuterContainer">
       {showNotiBoxSuccess && <NotiBoxSuccess notiText={"登入成功!"} />}
-       ///////////////////////feature/settingPage
       {showNotiBoxFail && <NotiBoxFail notiText={errorMsg? errorMsg:"登入失敗"} />}
       <Header entryName={"登入 Alphitter"}/>
       <InputSet 
         label={"帳號"} 
         placeholder={"請輸入帳號"} 
-       ///////////////////////feature/settingPage
-       ///////////////////////main
-//       {showNotiBoxFail && <NotiBoxFail notiText={"登入失敗!"} />}
-//       <Header entryName={"登入 Alphitter"} />
-//       <InputSet
-//         label={"帳號"}
-//         placeholder={"請輸入帳號"}
-        ///////////////////////main
         value={account}
         onChange={(accountInputValue) => setAccount(accountInputValue)}
         // errorMsg={errorMsg}

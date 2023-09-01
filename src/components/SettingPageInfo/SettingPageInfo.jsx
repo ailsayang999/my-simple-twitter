@@ -1,4 +1,4 @@
-import "./SettingPageInfo.scss";
+import "./settingPageInfo.scss";
 import { useState, useEffect } from 'react';
 import InputSet from 'components/InputSet'
 import NotiBoxSuccess from 'components/NotiBoxSuccess' //請自行輸入notiText - 註冊成功! 

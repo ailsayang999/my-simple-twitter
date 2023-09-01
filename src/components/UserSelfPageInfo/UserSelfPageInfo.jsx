@@ -189,7 +189,7 @@ const UserSelfPageInfo = () => {
   const { isAuthenticated } = useAuth();
 
   //先從UserInfoContext拿到驗證是否為userInfo
-  const { userInfo , setUserInfo} = useContext(UserInfoContext);
+  const { userInfo, setUserInfo } = useContext(UserInfoContext);
   console.log("userSelf page userInfo", userInfo);
   const navigate = useNavigate();
   // 返回主畫面使用
@@ -219,31 +219,29 @@ const UserSelfPageInfo = () => {
   //使用者所有推文
   const [userSelfTweets, setUserSelfTweets] = useState([]);
   //使用者所有回覆
-  const [userSelfReply, setUserSelfReply] = useState([dummyUserSelfReply]);
+  const [userSelfReply, setUserSelfReply] = useState([]);
   // 使用者所有喜歡
   const [userSelfLike, setUserSelfLike] = useState([]);
-
+  console.log("execute User Self Page function in useEffect");
+  const localStorageUserInfoString = localStorage.getItem("userInfo"); //拿下來會是一比string的資料
+  const LocalStorageUserInfo = JSON.parse(localStorageUserInfoString); // 要把這個string變成object
+  const userInfoId = LocalStorageUserInfo.id; //再從這個object拿到登入者的id
 
   //串接API: 畫面初始資料
   useEffect(() => {
-    console.log("execute User Self Page function in useEffect");
-    const localStorageUserInfoString = localStorage.getItem("userInfo"); //拿下來會是一比string的資料
-    const LocalStorageUserInfo = JSON.parse(localStorageUserInfoString); // 要把這個string變成object
-    const userInfoId = LocalStorageUserInfo.id; //再從這個object拿到登入者的id
-
- const getUserInfoAsync = async () => {
-   try {
-     const localStorageUserInfoString = localStorage.getItem("userInfo"); //拿下來會是一比string的資料
-     const LocalStorageUserInfo = JSON.parse(localStorageUserInfoString); // 要把這個string變成object
-     const userInfoId = LocalStorageUserInfo.id; //再從這個object拿到登入者的id
-     //向後端拿取登入者的object資料
-     const backendUserInfo = await getUserInfo(userInfoId);
-     //拿到登入者資料後存在userInfo裡面，userInfo會是一個object
-     setUserInfo(backendUserInfo);
-   } catch (error) {
-     console.error(error);
-   }
- };
+    const getUserInfoAsync = async () => {
+      try {
+        const localStorageUserInfoString = localStorage.getItem("userInfo"); //拿下來會是一比string的資料
+        const LocalStorageUserInfo = JSON.parse(localStorageUserInfoString); // 要把這個string變成object
+        const userInfoId = LocalStorageUserInfo.id; //再從這個object拿到登入者的id
+        //向後端拿取登入者的object資料
+        const backendUserInfo = await getUserInfo(userInfoId);
+        //拿到登入者資料後存在userInfo裡面，userInfo會是一個object
+        setUserInfo(backendUserInfo);
+      } catch (error) {
+        console.error(error);
+      }
+    };
     //首先拿到當前登入的使用者資料
     const getUserSelfTweetsAsync = async () => {
       try {
@@ -276,7 +274,7 @@ const UserSelfPageInfo = () => {
     getUserSelfTweetsAsync();
     getUserSelfReplyAsync();
     getUserSelfLikeAsync();
-    getUserInfoAsync()
+    getUserInfoAsync();
   }, []);
 
   // UserSelfPageInfo的監聽器：，當跟隨者或是跟隨中的button被點按時，會選擇UserSelfFollowPage要渲染的資料 (但是因為會被navigation搶先執行，所以先不用了)

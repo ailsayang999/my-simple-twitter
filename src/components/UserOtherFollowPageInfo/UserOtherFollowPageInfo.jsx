@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useState, useContext, useEffect } from "react";
 import ModalContext from "context/ModalContext";
 import { useAuth } from "context/AuthContext"; //到AuthContext拿是否已驗證
+import FollowContext from "context/FollowContext";
 // 引入Modal元件
 import PostTweetModal from "components/PostTweetModal/PostTweetModal";
 import {
@@ -13,12 +14,12 @@ import {
   deleteFollowShip,
 } from "api/tweets";
 
-const FollowerContent = ({ follower, handleFollowerBtnClick }) => {
+const FollowerContent = ({ userOtherFollower, handleFollowBtnClick }) => {
   // backendUserSelfFollower裡面還有一層
 
   return (
     <>
-      {follower?.map(({ isFollowed, follower, followerId }) => {
+      {userOtherFollower?.map(({ isFollowed, follower, followerId }) => {
         return (
           <div className="follower-item-container" key={followerId}>
             <div className="follower-content">
@@ -32,9 +33,7 @@ const FollowerContent = ({ follower, handleFollowerBtnClick }) => {
 
                   <button
                     className={`${isFollowed ? "following-btn" : "follow-btn"}`}
-                    onClick={() =>
-                      handleFollowerBtnClick(followerId, isFollowed)
-                    }
+                    onClick={() => handleFollowBtnClick(followerId, isFollowed)}
                   >
                     {isFollowed ? "正在跟隨" : "跟隨"}
                   </button>
@@ -49,10 +48,10 @@ const FollowerContent = ({ follower, handleFollowerBtnClick }) => {
   );
 };
 
-const FollowingContent = ({ following, handleFollowingBtnClick }) => {
+const FollowingContent = ({ userOtherFollowing, handleFollowBtnClick }) => {
   return (
     <>
-      {following?.map(({ followingId, following, isFollowed }) => {
+      {userOtherFollowing?.map(({ followingId, following, isFollowed }) => {
         return (
           <div className="follower-item-container" key={followingId}>
             <div className="follower-content">
@@ -71,7 +70,7 @@ const FollowingContent = ({ following, handleFollowingBtnClick }) => {
                   <button
                     className={`${isFollowed ? "following-btn" : "follow-btn"}`}
                     onClick={() => {
-                      handleFollowingBtnClick(followingId);
+                      handleFollowBtnClick(followingId,isFollowed);
                     }}
                   >
                     {isFollowed ? "正在跟隨" : "跟隨"}
@@ -90,6 +89,14 @@ const FollowingContent = ({ following, handleFollowingBtnClick }) => {
 const UserOtherFollowPageInfo = () => {
   //先從AuthContext拿到驗證是否為true(isAuthenticated:true)
   const { isAuthenticated } = useAuth();
+  // 把要傳給follow的state都引入進來
+  const {
+    follower,
+    setFollower,
+    following,
+    setFollowing,
+    handleFollowBtnClick,
+  } = useContext(FollowContext);
 
   const navigate = useNavigate();
   const handleBackArrowClick = () => {
@@ -122,75 +129,75 @@ const UserOtherFollowPageInfo = () => {
 
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-  const handleFollowerBtnClick = async (followerId, isFollowed) => {
-    const followPayload = {
-      id: followerId,
-    };
-    console.log("followPayload", followPayload);
+  // const handleFollowerBtnClick = async (followerId, isFollowed) => {
+  //   const followPayload = {
+  //     id: followerId,
+  //   };
+  //   console.log("followPayload", followPayload);
 
-    // 想追蹤這個follower
-    if (isFollowed === false) {
-      const res = await postFollowShip(followPayload);
-      console.log("後端傳來postFollowShip的結果", res);
-      //如果有追蹤成功的話就：
-      if (res) {
-        if (res.data.status === "success") {
-          setFollower(
-            follower.map((personObj) => {
-              if (personObj.followerId === followerId) {
-                return { ...personObj, isFollowed: true };
-              } else {
-                return personObj;
-              }
-            })
-          );
-          alert("追蹤成功");
-        }
-        if (res.data.status === "error") {
-          alert(res.data.message);
-          alert("你已追蹤過這個帳戶");
-        }
-      }
-    }
-    // 想取消追蹤這個follower
-    if (isFollowed === true) {
-      const res = await deleteFollowShip(followerId);
-      if (res) {
-        if (res.data.status === "success") {
-          setFollower(
-            follower.map((personObj) => {
-              if (personObj.followerId === followerId) {
-                return { ...personObj, isFollowed: false };
-              } else {
-                return personObj;
-              }
-            })
-          );
-          alert("取消追蹤成功");
-        }
-        if (res.data.status === "error") {
-          console.log("delete FollowShip 有發送成功");
-          alert(res.data.message);
-        }
-      }
-    }
-  };
-  const handleFollowingBtnClick = (id) => {
-    setFollowing(following.filter((fol) => fol.id !== id));
-  };
+  //   // 想追蹤這個follower
+  //   if (isFollowed === false) {
+  //     const res = await postFollowShip(followPayload);
+  //     console.log("後端傳來postFollowShip的結果", res);
+  //     //如果有追蹤成功的話就：
+  //     if (res) {
+  //       if (res.data.status === "success") {
+  //         setFollower(
+  //           follower.map((personObj) => {
+  //             if (personObj.followerId === followerId) {
+  //               return { ...personObj, isFollowed: true };
+  //             } else {
+  //               return personObj;
+  //             }
+  //           })
+  //         );
+  //         alert("追蹤成功");
+  //       }
+  //       if (res.data.status === "error") {
+  //         alert(res.data.message);
+  //         alert("你已追蹤過這個帳戶");
+  //       }
+  //     }
+  //   }
+  //   // 想取消追蹤這個follower
+  //   if (isFollowed === true) {
+  //     const res = await deleteFollowShip(followerId);
+  //     if (res) {
+  //       if (res.data.status === "success") {
+  //         setFollower(
+  //           follower.map((personObj) => {
+  //             if (personObj.followerId === followerId) {
+  //               return { ...personObj, isFollowed: false };
+  //             } else {
+  //               return personObj;
+  //             }
+  //           })
+  //         );
+  //         alert("取消追蹤成功");
+  //       }
+  //       if (res.data.status === "error") {
+  //         console.log("delete FollowShip 有發送成功");
+  //         alert(res.data.message);
+  //       }
+  //     }
+  //   }
+  // };
+  // const handleFollowingBtnClick = (id) => {
+  //   setFollowing(following.filter((fol) => fol.id !== id));
+  // };
 
-  
   ///////////////////////////////////////////////////初始畫面渲染 /////////////////////////////////////////////////
   const [userOtherInfo, setUserOtherInfo] = useState([]); //在每一頁的useEffect中會去向後端請求登入者的object資料
 
-  const [follower, setFollower] = useState([]);
-  const [following, setFollowing] = useState([]);
+  const [userOtherFollower, setUserOtherFollower] = useState([]);
+  const [userOtherFollowing, setUserOtherFollowing] = useState([]);
 
   // 首先先去拿在UserOtherPage存到localStorage的localStorageUserObjectString
   const localStorageUserOtherObjectString =
     localStorage.getItem("userOtherInfo");
   // 然後在把他變成object，讓header做渲染
   const userOtherInfoObject = JSON.parse(localStorageUserOtherObjectString);
+  console.log("userOtherInfoObject",userOtherInfoObject)
 
   //給PostTweetModal用的
   const localStorageUserObjectString = localStorage.getItem("userInfo");
@@ -204,11 +211,11 @@ const UserOtherFollowPageInfo = () => {
     const getUserSelfFollowerAsync = async () => {
       //console.log("userOtherInfo id", userOtherInfo.id);
       try {
-        const backendUserSelfFollower = await getUserSelfFollower(
-          userInfoObject.id
+        const backendUserOtherFollower = await getUserSelfFollower(
+          userOtherInfoObject.id
         );
-        setFollower(backendUserSelfFollower);
-        console.log("backendUserSelfFollower: ", backendUserSelfFollower);
+        setUserOtherFollower(backendUserOtherFollower);
+        console.log("backendUserOtherFollower: ", backendUserOtherFollower);
       } catch (error) {
         console.error(error);
       }
@@ -216,12 +223,12 @@ const UserOtherFollowPageInfo = () => {
 
     const getUserSelfFollowingAsync = async () => {
       try {
-        const backendUserSelfFollowing = await getUserSelfFollowing(
-          userInfoObject.id
+        const backendUserOtherFollowing = await getUserSelfFollowing(
+          userOtherInfoObject.id
         );
         //後端好了再打開，先用userInfo
-        setFollowing(backendUserSelfFollowing);
-        console.log("backendUserSelfFollowing: ", backendUserSelfFollowing);
+        setUserOtherFollowing(backendUserOtherFollowing);
+        console.log("backendUserSelfFollowing: ", backendUserOtherFollowing);
       } catch (error) {
         console.error(error);
       }
@@ -280,16 +287,16 @@ const UserOtherFollowPageInfo = () => {
       {/* Render Follower */}
       {showFollowPageContent === "follower" && (
         <FollowerContent
-          follower={follower}
-          handleFollowerBtnClick={handleFollowerBtnClick}
+          userOtherFollower={userOtherFollower}
+          handleFollowBtnClick={handleFollowBtnClick}
         />
       )}
 
       {/* Render Following */}
       {showFollowPageContent === "following" && (
         <FollowingContent
-          following={following}
-          handleFollowingBtnClick={handleFollowingBtnClick}
+          userOtherFollowing={userOtherFollowing}
+          handleFollowBtnClick={handleFollowBtnClick}
         />
       )}
 
