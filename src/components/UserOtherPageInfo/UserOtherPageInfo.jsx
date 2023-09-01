@@ -1,13 +1,16 @@
 import "./userOtherPageInfo.scss";
 import { ReactComponent as BackArrowIcon } from "assets/icons/backArrowIcon.svg";
 import { useNavigate } from "react-router-dom";
-import userOtherInfoCover from "assets/images/fakeUserOtherCover.png";
-import userOtherAvatar from "assets/images/fakeUserOtherAvatar.png";
 import { useContext, useState, useEffect } from "react";
 import ModalContext from "context/ModalContext";
+import UserInfoContext from "context/UserInfoContext";
+import { useAuth } from "context/AuthContext"; //到AuthContext拿是否已驗證
+
 import { ReactComponent as ReplyIcon } from "assets/icons/replyIcon.svg";
 import { ReactComponent as LikeIcon } from "assets/icons/likeIcon.svg";
 import { ReactComponent as LikeActiveIcon } from "assets/icons/likeIconActive.svg";
+import { ReactComponent as NotifyIconActiveIcon } from "assets/icons/notifyIconActive.svg";
+import {ReactComponent as MsgIcon } from "assets/icons/msgIcon.svg"
 // 引入Modal元件
 import PostTweetModal from "components/PostTweetModal/PostTweetModal";
 import {
@@ -17,18 +20,13 @@ import {
   getUserSelfLike,
 } from "api/tweets";
 
-//這個之後刪掉
-import { getUserSelfTweetsDummyData } from "api/tweets";
-import { getUserSelfReplyItemsDummyData } from "api/tweets";
-import { getUserSelfLikeItemsDummyData } from "api/tweets";
-
 /////////////////////////////////////////// Change Content Components //////////////////////////////////
 // 瀏覽使用者所有Tweet
 const UserSelfTweetContent = ({ userSelfTweets }) => {
   return (
     <>
       {/* 所有user-self 推的文 */}
-      {userSelfTweets.map(
+      {userSelfTweets?.map(
         ({
           TweetId,
           tweetBelongerName,
@@ -84,7 +82,7 @@ const UserSelfReplyContent = ({ userSelfReply }) => {
   return (
     <>
       {/* 所有user-self 的回覆 */}
-      {userSelfReply.map(
+      {userSelfReply?.map(
         ({
           replyId,
           comment,
@@ -133,7 +131,7 @@ const UserSelfReplyContent = ({ userSelfReply }) => {
 const UserSelfLikeContent = ({ userSelfLike }) => {
   return (
     <>
-      {userSelfLike.map(
+      {userSelfLike?.map(
         ({
           TweetId,
           tweetContent,
@@ -189,6 +187,12 @@ const UserSelfLikeContent = ({ userSelfLike }) => {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 const UserOtherPageInfo = () => {
+  //先從AuthContext拿到驗證是否為true(isAuthenticated:true)
+  const { isAuthenticated } = useAuth();
+
+  //先從UserInfoContext拿到驗證是否為userInfo
+  const { userInfo, setUserInfo } = useContext(UserInfoContext);
+
   const navigate = useNavigate();
   const handleBackArrowClick = () => {
     navigate("/main");
@@ -203,26 +207,27 @@ const UserOtherPageInfo = () => {
   // 使用者所有喜歡
   const [userSelfLike, setUserSelfLike] = useState([]);
   //拿到userInfo的avatar和cover跟個人介紹資料
-  const [userInfo, setUserInfo] = useState([]); //在每一頁的useEffect中會去向後端請求登入者的object資料
+  const [userOtherInfo, setUserOtherInfo] = useState([]); //在每一頁的useEffect中會去向後端請求登入者的object資料
 
-  const localStorageUserId = localStorage.getItem("userOtherId"); //拿下來會是一比string的資料
- const localStorageUserIdNum = Number(localStorageUserId)
- console.log(localStorageUserIdNum);
+  const localStorageUserOtherId = localStorage.getItem("userOtherId"); //拿下來會是一比string的資料
+  const localStorageUserOtherIdNum = Number(localStorageUserOtherId);
+  console.log("localStorageUserOtherIdNum: ", localStorageUserOtherIdNum);
 
   //  串接API: 畫面初始資料
   useEffect(() => {
     console.log("execute User Self Page function in useEffect");
 
-
     //首先拿到當前登入的使用者資料
-    const getUserInfoAsync = async () => {
+    const getUserOtherInfoAsync = async () => {
       try {
         //向後端拿取登入者的object資料
-        const backendUserInfo = await getUserInfo(localStorageUserIdNum);
+        const backendUserOtherInfo = await getUserInfo(
+          localStorageUserOtherIdNum
+        );
         //拿到登入者資料後存在userInfo裡面，backendUserInfo會是一個object
-        setUserInfo(backendUserInfo);
+        setUserOtherInfo(backendUserOtherInfo);
         // 先存到localStorage給userOtherFollowPage用
-        const userOtherInfo = JSON.stringify(backendUserInfo);
+        const userOtherInfo = JSON.stringify(backendUserOtherInfo);
         localStorage.setItem("userOtherInfo", userOtherInfo);
       } catch (error) {
         console.error(error);
@@ -230,7 +235,9 @@ const UserOtherPageInfo = () => {
     };
     const getUserSelfTweetsAsync = async () => {
       try {
-        const backendUserSelfTweets = await getUserSelfTweets(localStorageUserIdNum);
+        const backendUserSelfTweets = await getUserSelfTweets(
+          localStorageUserOtherIdNum
+        );
         //後端好了再打開，先用userInfo
         setUserSelfTweets(backendUserSelfTweets);
       } catch (error) {
@@ -239,7 +246,9 @@ const UserOtherPageInfo = () => {
     };
     const getUserSelfReplyAsync = async () => {
       try {
-        const backendUserSelfReply = await getUserSelfReply(localStorageUserIdNum);
+        const backendUserSelfReply = await getUserSelfReply(
+          localStorageUserOtherIdNum
+        );
         setUserSelfReply(backendUserSelfReply);
       } catch (error) {
         console.error(error);
@@ -247,18 +256,19 @@ const UserOtherPageInfo = () => {
     };
     const getUserSelfLikeAsync = async () => {
       try {
-        const backendUserSelfLike = await getUserSelfLike(localStorageUserIdNum);
+        const backendUserSelfLike = await getUserSelfLike(
+          localStorageUserOtherIdNum
+        );
         setUserSelfLike(backendUserSelfLike);
       } catch (error) {
         console.error(error);
       }
     };
-    getUserInfoAsync();
+    getUserOtherInfoAsync();
     getUserSelfTweetsAsync();
     getUserSelfReplyAsync();
     getUserSelfLikeAsync();
   }, []);
-
 
   // UserSelfPageInfo的監聽器：，當跟隨者或是跟隨中的button被點按時，會選擇UserSelfFollowPage要渲染的資料 (但是因為會被navigation搶先執行，所以先不用了)
   // const { handleFollowingClick, handleFollowerClick } = useContext(NavigationContext);
@@ -273,7 +283,7 @@ const UserOtherPageInfo = () => {
     navigate("/user/other/follow");
   };
 
-    ////////////////////////////////// 更換顯示內容 相關資料處理  //////////////////////////////////
+  ////////////////////////////////// 更換顯示內容 相關資料處理  //////////////////////////////////
 
   // 監聽器：handleButtonClick，當navigator的button被點按時，會選擇渲染的資料，userSelfContent所存的文字會決定要渲染哪一個元件
   const [userOtherContent, setUserOtherContent] = useState("user-other-tweet");
@@ -281,6 +291,8 @@ const UserOtherPageInfo = () => {
     setUserOtherContent(contentValue);
     console.log(contentValue);
   };
+
+  console.log("User other page userInfo: ", userOtherInfo);
   return (
     <div className="user-other-page-info">
       {/* 以下渲染*/}
@@ -290,9 +302,12 @@ const UserOtherPageInfo = () => {
           onClick={handleBackArrowClick}
         />
         <div className="name-tweet-amount-container">
-          <h5 className="header-title-user-other-name">{userInfo.name}</h5>
+          <h5 className="header-title-user-other-name">
+            {userOtherInfo?.name}
+          </h5>
           <div className="tweet-amount">
-            {userInfo.tweetCount} <span className="tweet-amount-text">推文</span>
+            {userOtherInfo?.tweetCount}
+            <span className="tweet-amount-text">推文</span>
           </div>
         </div>
       </div>
@@ -303,24 +318,41 @@ const UserOtherPageInfo = () => {
         <div className="user-other-avatar-cover">
           <div className="user-other-cover-container">
             <img
-              src={userInfo.cover}
+              src={userOtherInfo?.cover}
               alt="userOtherCover"
               className="user-other-cover"
             />
           </div>
           <div className="user-other-avatar-container">
-            <img src={userInfo.avatar} alt="" className="user-other-avatar" />
+            <img
+              src={userOtherInfo?.avatar}
+              alt=""
+              className="user-other-avatar"
+            />
           </div>
+          {/* <button className="user-other-avatar-edit-btn">正在跟隨</button> */}
+          <NotifyIconActiveIcon className="noti-icon" />
+          <MsgIcon className="msg-icon" />
+          <button
+            className={`${
+              userOtherInfo.isFollowed
+                ? "user-other-following-btn"
+                : "user-other-follow-btn"
+            }`}
+            // onClick={() => handleFollowerBtnClick(userOtherInfo.id, userOtherInfo.isFollowed)}
+          >
+            {userOtherInfo.isFollowed ? "正在跟隨" : "跟隨"}
+          </button>
         </div>
 
         {/* 個人姓名 */}
         <div className="user-other-name-account-container">
-          <h5 className="user-other-name">{userInfo.name}</h5>
-          <span className="user-other-account">@{userInfo.account}</span>
+          <h5 className="user-other-name">{userOtherInfo?.name}</h5>
+          <span className="user-other-account">@{userOtherInfo?.account}</span>
         </div>
         {/* 個人介紹 */}
         <div className="user-other-introduction">
-          {userInfo.introduction}
+          {userOtherInfo?.introduction}
         </div>
 
         {/* 個人跟隨中和跟隨者 */}
@@ -332,7 +364,7 @@ const UserOtherPageInfo = () => {
               handleNavigateToFollowingPage(e.target.value);
             }}
           >
-           {userInfo.followerCount} 個
+            {userOtherInfo?.followerCount} 個
           </button>
           <span className="following-text">跟隨中</span>
 
@@ -343,7 +375,7 @@ const UserOtherPageInfo = () => {
               handleNavigateToFollowerPage(e.target.value);
             }}
           >
-            {userInfo.followingCount} 個
+            {userOtherInfo?.followingCount} 個
           </button>
           <span className="follower-text">跟隨者</span>
         </div>

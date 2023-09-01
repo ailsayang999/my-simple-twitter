@@ -3,6 +3,9 @@ import "./userSelfFollowPageInfo.scss";
 import { ReactComponent as BackArrowIcon } from "assets/icons/backArrowIcon.svg";
 import { useNavigate } from "react-router-dom";
 import ModalContext from "context/ModalContext";
+import UserInfoContext from "context/UserInfoContext"
+import { useAuth } from "context/AuthContext"; //到AuthContext拿是否已驗證;
+import FollowContext from "context/FollowContext";
 // 引入Modal元件
 import PostTweetModal from "components/PostTweetModal/PostTweetModal";
 import {
@@ -14,10 +17,11 @@ import {
 } from "api/tweets";
 
 const FollowerContent = ({ follower, handleFollowerBtnClick }) => {
+  console.log("render followerContent")
   // backendUserSelfFollower裡面還有一層
   return (
     <>
-      {follower.map(({ isFollowed, follower, followerId }) => {
+      {follower?.map(({ isFollowed, follower, followerId }) => {
         return (
           <div className="follower-item-container" key={followerId}>
             <div className="follower-content">
@@ -30,9 +34,7 @@ const FollowerContent = ({ follower, handleFollowerBtnClick }) => {
                   <div className="follower-name">{follower.name}</div>
 
                   <button
-                    className={`${
-                      isFollowed ? "following-btn" : "follow-btn"
-                    }`}
+                    className={`${isFollowed ? "following-btn" : "follow-btn"}`}
                     onClick={() =>
                       handleFollowerBtnClick(followerId, isFollowed)
                     }
@@ -53,7 +55,7 @@ const FollowerContent = ({ follower, handleFollowerBtnClick }) => {
 const FollowingContent = ({ following, handleFollowingBtnClick }) => {
   return (
     <>
-      {following.map(({ followingId, following , isFollowed}) => {
+      {following?.map(({ followingId, following, isFollowed }) => {
         return (
           <div className="follower-item-container" key={followingId}>
             <div className="follower-content">
@@ -72,7 +74,7 @@ const FollowingContent = ({ following, handleFollowingBtnClick }) => {
                   <button
                     className={`${isFollowed ? "following-btn" : "follow-btn"}`}
                     onClick={() => {
-                      handleFollowingBtnClick(followingId);
+                      handleFollowingBtnClick(followingId, isFollowed);
                     }}
                   >
                     {isFollowed ? "正在跟隨" : "跟隨"}
@@ -89,11 +91,26 @@ const FollowingContent = ({ following, handleFollowingBtnClick }) => {
 };
 
 const UserSelfFellowPageInfo = () => {
+  //先從AuthContext拿到驗證是否為true(isAuthenticated:true)
+  const { isAuthenticated } = useAuth();
+
+  //先從UserInfoContext拿到驗證是否為userInfo
+  const { userInfo, setUserInfo } = useContext(UserInfoContext);
   const navigate = useNavigate();
   //如果點按返回箭頭就navigate to /user/self
   const handleBackArrowClick = () => {
     navigate("/user/self");
   };
+  // 把要傳給follow的state都引入進來
+  const {
+    follower,
+    setFollower,
+    following,
+    setFollowing,
+    topUserArr,
+    setTopUserArr,
+    handleFollowBtnClick,
+  } = useContext(FollowContext);
 
   // 把要傳給PostTweetModal的props都引入進來
   const { postModal, inputValue, handleTweetTextAreaChange, handleAddTweet } =
@@ -121,6 +138,7 @@ const UserSelfFellowPageInfo = () => {
   };
 
   ////////////////////////////////////////////////// 追蹤和取消追蹤功能 //////////////////////////////////////////////////
+
   const handleFollowerBtnClick = async (followerId, isFollowed) => {
     console.log("follower in handleFollowerClick", follower);
     console.log("follower id", followerId);
@@ -132,7 +150,7 @@ const UserSelfFellowPageInfo = () => {
     // 想追蹤這個follower
     if (isFollowed === false) {
       const res = await postFollowShip(followPayload);
-      console.log("後端傳來postFollowShip的結果", res);
+      console.log("後端傳來postFollowShip的結果", res.data.status);
       //如果有追蹤成功的話就：
       if (res) {
         if (res.data.status === "success") {
@@ -177,25 +195,78 @@ const UserSelfFellowPageInfo = () => {
     }
   };
 
-  const handleFollowingBtnClick = (id) => {
-    setFollowing(following.filter((fol) => fol.id !== id));
+  const handleFollowingBtnClick = async (followingId, isFollowed) => {
+    console.log("following id", followingId);
+    const followPayload = {
+      id: followingId,
+    };
+    console.log("followPayload", followPayload);
+    console.log("isFollow", isFollowed);
+
+    // 想追蹤某個top ten user
+    if (isFollowed === false) {
+      const res = await postFollowShip(followPayload);
+      console.log("後端傳來postFollowShip的結果", res);
+      //如果有追蹤成功的話就：
+      if (res) {
+        if (res.data.status === "success") {
+          setFollowing(
+            following.map((personObj) => {
+              if (personObj.followingId === followingId) {
+                return { ...personObj, isFollowed: true };
+              } else {
+                return personObj;
+              }
+            })
+          );
+          alert("追蹤成功");
+        }
+        if (res.data.status === "error") {
+          alert(res.data.message);
+          alert("你已追蹤過這個帳戶");
+        }
+      }
+    }
+    // 想取消追蹤這個top ten user
+    if (isFollowed === true) {
+      const res = await deleteFollowShip(followingId);
+      if (res) {
+        if (res.data.status === "success") {
+          setFollowing(
+            following.map((personObj) => {
+              if (personObj.followingId === followingId) {
+                return { ...personObj, isFollowed: false };
+              } else {
+                return personObj;
+              }
+            })
+          );
+          alert("取消追蹤成功");
+        }
+        if (res.data.status === "error") {
+          alert(res.data.message);
+          alert("你還沒追蹤這個帳戶");
+        }
+      }
+    }
   };
 
   ///////////////////////////////////////////////////初始畫面渲染 /////////////////////////////////////////////////
-  const [userInfo, setUserInfo] = useState([]); //在每一頁的useEffect中會去向後端請求登入者的object資料
-  const [follower, setFollower] = useState([]);
-  const [following, setFollowing] = useState([]);
+  // 首先先去拿在UserOtherPage存到localStorage的localStorageUserObjectString
+  const localStorageUserObjectString =
+    localStorage.getItem("userInfo");
+  // 然後在把他變成object，讓header做渲染
+  const userInfoObject = JSON.parse(localStorageUserObjectString);
 
   useEffect(() => {
     console.log("execute User Self Follow Page function in useEffect");
-    // 首先拿到當前登入的使用者的id先給getUserSelfFollowerAsync和getUserSelfFollowingAsync用，因為非同步的關係，不知道getUserInfoAsync回傳回來的user data會是何年何月..
-    const localStorageUserInfoString = localStorage.getItem("userInfo"); //拿下來會是一比string的資料
-    const LocalStorageUserInfo = JSON.parse(localStorageUserInfoString); // 要把這個string變成object
-    const userInfoId = LocalStorageUserInfo.id; //再從這個object拿到登入者的id
+    setUserInfo(userInfoObject);
 
     const getUserSelfFollowerAsync = async () => {
       try {
-        const backendUserSelfFollower = await getUserSelfFollower(userInfoId);
+        const backendUserSelfFollower = await getUserSelfFollower(
+          userInfoObject.id
+        );
         setFollower(backendUserSelfFollower);
       } catch (error) {
         console.error(error);
@@ -204,36 +275,20 @@ const UserSelfFellowPageInfo = () => {
 
     const getUserSelfFollowingAsync = async () => {
       try {
-        const localStorageUserInfoString = localStorage.getItem("userInfo"); //拿下來會是一比string的資料
-        const LocalStorageUserInfo = JSON.parse(localStorageUserInfoString); // 要把這個string變成object
-        const userInfoId = LocalStorageUserInfo.id; //再從這個object拿到登入者的id
-        const backendUserSelfFollowing = await getUserSelfFollowing(userInfoId);
+        const backendUserSelfFollowing = await getUserSelfFollowing(
+          userInfoObject.id
+        );
         //後端好了再打開，先用userInfo
         setFollowing(backendUserSelfFollowing);
       } catch (error) {
         console.error(error);
       }
     };
-
-    //最後還是要拿登入的使用者資料，給header渲染userInfo.tweetCount和userInfo.name
-    const getUserInfoAsync = async () => {
-      try {
-        const localStorageUserInfoString = localStorage.getItem("userInfo"); //拿下來會是一比string的資料
-        const LocalStorageUserInfo = JSON.parse(localStorageUserInfoString); // 要把這個string變成object
-        const userInfoId = LocalStorageUserInfo.id; //再從這個object拿到登入者的id
-        //向後端拿取登入者的object資料
-        const backendUserInfo = await getUserInfo(userInfoId);
-        //拿到登入者資料後存在userInfo裡面，backendUserInfo會是一個object
-        setUserInfo(backendUserInfo);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    getUserInfoAsync();
     getUserSelfFollowerAsync();
     getUserSelfFollowingAsync();
   }, []);
+
+  console.log("follow page follower: ", follower);
 
   return (
     <div className="user-self-follow-page-info">

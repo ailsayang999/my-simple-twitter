@@ -42,6 +42,9 @@
         height: 200px;
         background-color: var(--bg-color);
         overflow: hidden;
+        .user-other-cover {
+          width: 100%;
+        }
       }
       .user-self-avatar-container {
         position: absolute;
@@ -276,8 +279,10 @@
         .reply-content {
           word-wrap: break-word;
           font-size: 16px;
-          line-height: 26px;
           font-weight: 400;
+          overflow: hidden;
+          height: 78px;
+          margin-bottom: 10px;
         }
       }
     }
@@ -319,6 +324,7 @@
           align-items: center;
           height: 80px;
           overflow: hidden;
+          margin-top: 10px;
         }
         .reply-like-container {
           display: flex;

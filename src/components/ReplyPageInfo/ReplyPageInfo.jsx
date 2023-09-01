@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "context/AuthContext"; //到AuthContext拿是否已驗證
 import { useContext, useState, useEffect } from "react";
 import ModalContext from "context/ModalContext";
+import UserInfoContext from "context/UserInfoContext";
 import {
   getUserInfo,
   getSpecificTweet,
@@ -51,24 +52,12 @@ const ReplyPageInfo = () => {
   //先從AuthContext拿到驗證是否為true(isAuthenticated:true)
   const { isAuthenticated } = useAuth();
 
-  //當前使用者的的id
-  const [userInfo, setUserInfo] = useState([]);
+  //先從UserInfoContext拿到驗證是否為userInfo
+  const { userInfo } = useContext(UserInfoContext);
 
   // 先拿到初始的資料
   useEffect(() => {
     console.log("Reply page execute useEffect");
-    //首先拿到當前登入的使用者資料
-    const getUserInfoAsync = async () => {
-      try {
-        const localStorageUserInfoString = localStorage.getItem("userInfo"); //拿下來會是一比string的資料
-        const LocalStorageUserInfo = JSON.parse(localStorageUserInfoString); // 要把這個string變成object
-        const userInfoId = LocalStorageUserInfo.id; //再從這個object那到登入者的id
-        const backendUserInfo = await getUserInfo(userInfoId);
-        setUserInfo(backendUserInfo);
-      } catch (error) {
-        console.error(error);
-      }
-    };
     //拿到被點擊的貼文資料
     const getSpecificTweetAsync = async () => {
       //因為getSpecificTweet是非同步的操作，有可能會失敗，所以我們要用try catch把它包起來
@@ -78,9 +67,9 @@ const ReplyPageInfo = () => {
         // console.log(typeof specificTweetId);
         const specificTweetIdNum = Number(specificTweetId);
         const backendSpecificTweet = await getSpecificTweet(specificTweetIdNum); //用await去取得所有後端specificTweet
-         const specificTweetArray = [];
-         specificTweetArray.push(backendSpecificTweet);
-         console.log("specificTweetArray", specificTweetArray);
+        const specificTweetArray = [];
+        specificTweetArray.push(backendSpecificTweet);
+        console.log("specificTweetArray", specificTweetArray);
         setSpecificTweet(specificTweetArray);
       } catch (error) {
         console.error(error);
@@ -103,8 +92,6 @@ const ReplyPageInfo = () => {
     };
 
     getSpecificTweetAsync();
-    //getUserInfoAsync和getSpecificTweetAsync這些function定義完成之後，我們可以直接執行它
-    getUserInfoAsync();
     getSpecificTweetReplyAsync();
   }, []); //後面的dependency是specificTweet和specificTweetReplies，兩者改變就要讓愛心的數字可動態更新
 
@@ -129,7 +116,7 @@ const ReplyPageInfo = () => {
                 return {
                   ...specificTweet,
                   isLiked: false,
-                  likeCount:0,
+                  likeCount: specificTweet.likeCount - 1,
                 };
               } else {
                 return specificTweet;
@@ -158,7 +145,7 @@ const ReplyPageInfo = () => {
                 return {
                   ...specificTweet,
                   isLiked: true,
-                  likeCount: 1,
+                  likeCount: specificTweet.likeCount + 1,
                 };
               } else {
                 return specificTweet;
