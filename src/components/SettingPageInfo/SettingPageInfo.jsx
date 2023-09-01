@@ -17,6 +17,8 @@ const SettingPageInfo = () => {
    const { setUserInfo } = useAuth();
 
   const handleClick = async () => {
+    const userId = localStorage.getItem('userInfo')
+    console.log(`userId: ${JSON.parse(userId).id}`)
     if (account.length === 0) {
       console.log('帳號為必填')
       return;
@@ -53,10 +55,9 @@ const SettingPageInfo = () => {
       setName(account) ;
      console.log('未設定名稱，預設使用 name = account!預設使用 name = account!')
     }
+    //可能需要useEffect來確保作業完成後資料匯入
     const success  = await setUserInfo({
-    // "account": "lynnlynnlynn",
-    // "password": "12345678",
-      id:23,
+      id:userId,
       name,
       account,
       email,
