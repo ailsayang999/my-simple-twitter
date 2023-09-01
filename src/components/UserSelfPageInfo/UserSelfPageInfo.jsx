@@ -213,8 +213,18 @@ const UserSelfPageInfo = () => {
     navigate("/main");
   };
   // 從Context中拿取toggleReplyModal的function
-  const { postModal, inputValue, handleTweetTextAreaChange, handleAddTweet } =
-    useContext(ModalContext);
+  const {
+    postModal,
+    inputValue,
+    handleTweetTextAreaChange,
+    handleAddTweet,
+    editNameInputValue,
+    editIntroInputValue,
+    handleEditNameInputChange,
+    handleEditIntroInputChange,
+    editModal,
+    toggleEditModal,
+  } = useContext(ModalContext);
 
   //使用者所有推文
   const [userSelfTweets, setUserSelfTweets] = useState([]);
@@ -286,21 +296,6 @@ const UserSelfPageInfo = () => {
     // handleFollowerClick(followerValue); //測試發現navigate這個大惡霸會搶先執行，handleFollowingClick會怎麼樣都執行不了，但不太懂為什麼navigate會搶先執行ＱＱ
     localStorage.setItem("pageShowFollowContent", followerValue); // 所以只好先把followerValue的資料存在localStorage，到UserSelfFollowPage的時候再拿
     navigate("/user/self/follow");
-  };
-
-  ////////////////////////////////// Modal 相關資料處理  //////////////////////////////////
-  // 從Context中拿取toggleReplyModal的function
-  const { editModal, toggleEditModal } = useContext(ModalContext);
-
-  //監聽器：handleChange，當PutEditUserSelfInfoModal的edit-name-input發生改變時，更新editNameInput的state
-  const [editNameInputValue, setEditNameInputValue] = useState("");
-  const handleEditNameInputChange = (value) => {
-    setEditNameInputValue(value);
-  };
-  //監聽器：handleChange，當PutEditUserSelfInfoModal的edit-intro-input發生改變時，更新editIntroInput的state
-  const [editIntroInputValue, setEditIntroInputValue] = useState("");
-  const handleEditIntroInputChange = (value) => {
-    setEditIntroInputValue(value);
   };
 
   ////////////////////////////////// 更換顯示內容 相關資料處理  //////////////////////////////////
@@ -452,6 +447,7 @@ const UserSelfPageInfo = () => {
           onEditNameInputChange={handleEditNameInputChange}
           editIntroInputValue={editIntroInputValue}
           onEditIntroInputChange={handleEditIntroInputChange}
+          userInfoObject={userInfoObject}
         />
       )}
     </div>

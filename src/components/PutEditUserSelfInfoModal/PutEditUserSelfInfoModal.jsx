@@ -7,19 +7,19 @@ import { ReactComponent as EditPictureIcon } from "assets/icons/ImgEditIcon.svg"
 import { ReactComponent as CloseEditIcon } from "assets/icons/ImgCloseIcon.svg";
 
 // 下面這個之後會拿掉
-import userSelfInfoCover from "assets/images/fakeUserCover.png";
-import userSelfAvatar from "assets/images/fakeUserAvatar.png";
 
 const PutEditUserSelfInfoModal = ({
   editNameInputValue,
   onEditNameInputChange,
   editIntroInputValue,
   onEditIntroInputChange,
+  userInfoObject,
   onAddTweet,
   onKeyKeyPressAddTweet,
 }) => {
   // 從Context中拿取toggleEditModal的function
   const { toggleEditModal } = useContext(ModalContext);
+
   return (
     <div className="put-edit-user-self-info-modal">
       <div className="overlay">
@@ -35,21 +35,21 @@ const PutEditUserSelfInfoModal = ({
               <div className="put-edit-modal-user-self-avatar-cover">
                 <div className="put-edit-modal-user-self-cover-container">
                   <img
-                    src={userSelfInfoCover}
+                    src={userInfoObject.cover}
                     alt="userSelfCover"
                     className="put-edit-modal-user-self-cover"
                   />
                   <EditPictureIcon className="edit-cover" />
-                  <CloseEditIcon className="edit-cover-close" fill="white"/>
+                  <CloseEditIcon className="edit-cover-close" fill="white" />
                 </div>
 
                 <div className="put-edit-modal-user-self-avatar-container">
                   <img
-                    src={userSelfAvatar}
+                    src={userInfoObject.avatar}
                     alt=""
                     className="put-edit-modal-user-self-avatar"
                   />
-                  <EditPictureIcon className="edit-avatar"/>
+                  <EditPictureIcon className="edit-avatar" />
                 </div>
               </div>
             </div>
@@ -65,18 +65,28 @@ const PutEditUserSelfInfoModal = ({
                   value={editNameInputValue || ""}
                   placeholder={""}
                   onChange={(e) => onEditNameInputChange?.(e.target.value)}
+                  maxLength={50}
                 ></input>
               </div>
               <div className="edit-user-self-inputNote">
-                <div
+                {editNameInputValue.length === 0 && (
+                  <div className={"edit__cannot-be-blank"}>內容不可為空白</div>
+                )}
+                {editNameInputValue.length >= 50 && (
+                  <div className={"edit__cannot-be-over-limit"}>
+                    字數不可以超過50字
+                  </div>
+                )}
+                {/* <div
                   className={
-                    editNameInputValue.length > 50
+                    editNameInputValue.length >= 50
                       ? "edit-user-self-errorMsg"
                       : "edit-user-self-hide"
                   }
                 >
                   "字數超出上限"
-                </div>
+                </div> */}
+
                 <div className={"edit-user-self-inputCounter"}>
                   {editNameInputValue ? `${editNameInputValue.length}/50` : ""}
                 </div>
@@ -92,9 +102,18 @@ const PutEditUserSelfInfoModal = ({
                   value={editIntroInputValue || ""}
                   placeholder={""}
                   onChange={(e) => onEditIntroInputChange?.(e.target.value)}
+                  maxLength={160}
                 ></textarea>
               </div>
               <div className="edit-intro-inputNote">
+                {editIntroInputValue.length === 0 && (
+                  <div className={"edit__cannot-be-blank"}>內容不可為空白</div>
+                )}
+                {editIntroInputValue.length >= 160 && (
+                  <div className={"edit__cannot-be-over-limit"}>
+                    字數不可以超過160字
+                  </div>
+                )}
                 <div
                   className={
                     editIntroInputValue.length > 160
