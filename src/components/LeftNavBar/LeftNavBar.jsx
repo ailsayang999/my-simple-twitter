@@ -1,5 +1,6 @@
 import { Link, useLocation } from "react-router-dom";
 import { useState, useEffect, useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import "./leftNavBar.scss";
 import acLogo from "assets/icons/acLogo.svg";
 import { ReactComponent as HomeIcon } from "assets/icons/homeIcon.svg";
@@ -11,9 +12,18 @@ import ModalContext from "context/ModalContext";
 const LeftNavBar = () => {
   // 從Context中拿取togglePostModal的function
   const { togglePostModal } = useContext(ModalContext);
-  
+
   const location = useLocation();
   const [url, setUrl] = useState(null);
+
+  const navigate = useNavigate();
+
+  //登入的話是localStorage會儲存token，那登出的話是localStorage裡的token要做移除
+  const handleLogoutBtnClick = () => {
+    localStorage.removeItem("authToken");
+    //登出之後頁面跳轉到login頁面
+    navigate("/login");
+  };
 
   // 幫助我們偵測現在在哪的page，讓左側欄的字變橘色
   useEffect(() => {
@@ -73,7 +83,7 @@ const LeftNavBar = () => {
 
       <div className="log-out-item">
         <Link to="/login">
-          <div className="log-out-button">
+          <div className="log-out-button" onClick={handleLogoutBtnClick}>
             <LogOutIcon className="icon" />
             <span className="log-out-text text">登出</span>
           </div>

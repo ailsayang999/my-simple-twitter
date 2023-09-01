@@ -233,10 +233,17 @@ const UserSelfPageInfo = () => {
   //串接API: 畫面初始資料
   useEffect(() => {
     console.log("execute User Self Page function in useEffect");
+    //  驗證沒有成功的話
+    if (!isAuthenticated) {
+      // 頁面跳轉到login頁面
+      navigate("/login");
+    }
     //首先拿到當前登入的使用者資料
     const getUserSelfTweetsAsync = async () => {
       try {
-        const backendUserSelfTweets = await getUserSelfTweets(userInfoObject.id);
+        const backendUserSelfTweets = await getUserSelfTweets(
+          userInfoObject.id
+        );
         //後端好了再打開，先用userInfo
         setUserSelfTweets(backendUserSelfTweets);
       } catch (error) {
