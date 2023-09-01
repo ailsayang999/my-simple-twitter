@@ -23,8 +23,8 @@ const ShowEmptyFollowing = () => {
   return <div className="empty-user-self-follow-page">尚無正在追蹤</div>;
 };
 
-const FollowerContent = ({ follower, handleFollowerBtnClick }) => {
-  console.log("render followerContent")
+const FollowerContent = ({ follower, handleFollowBtnClick }) => {
+  console.log("render followerContent");
   // backendUserSelfFollower裡面還有一層
   return (
     <>
@@ -51,7 +51,7 @@ const FollowerContent = ({ follower, handleFollowerBtnClick }) => {
                         isFollowed ? "following-btn" : "follow-btn"
                       }`}
                       onClick={() =>
-                        handleFollowerBtnClick(followerId, isFollowed)
+                        handleFollowBtnClick(followerId, isFollowed)
                       }
                     >
                       {isFollowed ? "正在跟隨" : "跟隨"}
@@ -67,7 +67,7 @@ const FollowerContent = ({ follower, handleFollowerBtnClick }) => {
   );
 };
 
-const FollowingContent = ({ following, handleFollowingBtnClick }) => {
+const FollowingContent = ({ following, handleFollowBtnClick }) => {
   return (
     <>
       {following.length === 0 && <ShowEmptyFollowing />}
@@ -93,7 +93,7 @@ const FollowingContent = ({ following, handleFollowingBtnClick }) => {
                         isFollowed ? "following-btn" : "follow-btn"
                       }`}
                       onClick={() => {
-                        handleFollowingBtnClick(followingId, isFollowed);
+                        handleFollowBtnClick(followingId, isFollowed);
                       }}
                     >
                       {isFollowed ? "正在跟隨" : "跟隨"}
@@ -126,8 +126,6 @@ const UserSelfFellowPageInfo = () => {
     setFollower,
     following,
     setFollowing,
-    topUserArr,
-    setTopUserArr,
     handleFollowBtnClick,
   } = useContext(FollowContext);
 
@@ -356,7 +354,7 @@ console.log("userInfoObject", userInfoObject);
       {showFollowPageContent === "follower" && (
         <FollowerContent
           follower={follower}
-          handleFollowerBtnClick={handleFollowerBtnClick}
+          handleFollowBtnClick={handleFollowBtnClick}
         />
       )}
 
@@ -364,7 +362,7 @@ console.log("userInfoObject", userInfoObject);
       {showFollowPageContent === "following" && (
         <FollowingContent
           following={following}
-          handleFollowingBtnClick={handleFollowingBtnClick}
+          handleFollowBtnClick={handleFollowBtnClick}
         />
       )}
 
