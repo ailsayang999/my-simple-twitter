@@ -129,7 +129,7 @@ function FollowContextProvider({ children }) {
           );
           setUserOtherFollowing(
             userOtherFollowing.map((personObj) => {
-              if (personObj.followerId === id) {
+              if (personObj.followingId === id) {
                 return { ...personObj, isFollowed: true };
               } else {
                 return personObj;
