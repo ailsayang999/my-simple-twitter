@@ -32,15 +32,6 @@ export const AuthProvider = ({ children }) => {
       } else {
         setIsAuthenticated(true);
       }
-      // const result = await checkPermission(authToken);
-      // if (result) {
-      //   setIsAuthenticated(true);
-      //   const tempPayload = jwt_decode(authToken);
-      //   setPayload(tempPayload);
-      // } else {
-      //   setIsAuthenticated(false);
-      //   setPayload(null);
-      // }
     };
 
     checkTokenIsValid();
@@ -55,69 +46,79 @@ export const AuthProvider = ({ children }) => {
           account: payload.account, 
         },
         register: async (data1) => {
-          const { data } = await register({
+          try {
+            const {data}  = await register({
             name: data1.name,
             account: data1.account,
             email: data1.email,
             password: data1.password,
             checkPassword: data1.checkPassword,
-          });
-
-          const tempPayload = JSON.stringify(data.data);
-          if (tempPayload) {
-            setPayload(tempPayload);
-            setIsAuthenticated(true);
-            localStorage.setItem("userInfo", JSON.stringify(tempPayload));
-          } else {
-            setPayload(null);
-            setIsAuthenticated(false);
-          }
-          return { data };
-        },
-        login: async (data1) => {
-          console.log(`進入AuthContext.jsx中傳入payload(account&password) await login
-          !`);
-          const {data} = await login({
-            account: data1.account,
-            password: data1.password,
-          });
-          if (data.status === "success") {
-            const tempPayload = jwt_decode(data.data.token);
-            console.log(`tempPayload: ${JSON.stringify(tempPayload)}`)
-            setPayload(tempPayload);
-            setIsAuthenticated(true);
-            localStorage.setItem("authToken", data.data.token);
-            localStorage.setItem("userInfo", JSON.stringify(tempPayload));
-          } else {
-            setPayload(null);
-            setIsAuthenticated(false);
+            });
+            
+            if (data.status === "success") {
+              const tempPayload = JSON.stringify(data.data);
+              setPayload(tempPayload);
+              setIsAuthenticated(true);
+              localStorage.setItem("userInfo", JSON.stringify(tempPayload));
+            } else {
+              setPayload(null);
+              setIsAuthenticated(false);
+            }
+            return {data};
+          } catch(errorMsg) {
+            return Promise.reject(errorMsg)
           }
           
-          return { data };
-
+        },
+        login: async (data1) => {
+          try {
+            const {data} = await login({
+            account: data1.account,
+            password: data1.password,
+            });
+            if (data.status === "success") {
+              const tempPayload = jwt_decode(data.data.token);
+              console.log(`tempPayload: ${JSON.stringify(tempPayload)}`)
+              setPayload(tempPayload);
+              setIsAuthenticated(true);
+              localStorage.setItem("authToken", data.data.token);
+              localStorage.setItem("userInfo", JSON.stringify(tempPayload));
+            } else {
+              setPayload(null);
+              setIsAuthenticated(false);
+            }
+            return {data};
+          } catch(errorMsg) {
+            return Promise.reject(errorMsg)
+          }
         },
         setUserInfo: async (data1) => {
-          const data = await setting({
+          try {
+            const data = await setting({
             id: data1.id,
             name: data1.name,
             account: data1.account,
             email: data1.email,
             password: data1.password,
             checkPassword: data1.checkPassword,
-          });
-          console.log(`data.status:${data.status}`)
-          if (data.status === "success") {
-            const tempPayload = JSON.stringify(data.data);
-            setPayload(tempPayload);
-            setIsAuthenticated(true);
-            localStorage.setItem("userInfo", JSON.stringify(tempPayload));
-            console.log('在localStorage存入更新的userInfo');
-          } else {
-            setPayload(null);
-            setIsAuthenticated(false);
-            console.log(`失敗，未更新userInfo`);
+            });
+            console.log(`data.status:${data.status}`)
+            if (data.status === "success") {
+              const tempPayload = JSON.stringify(data.data);
+              setPayload(tempPayload);
+              setIsAuthenticated(true);
+              localStorage.setItem("userInfo", JSON.stringify(tempPayload));
+              console.log('在localStorage存入更新的userInfo');
+            } else {
+              setPayload(null);
+              setIsAuthenticated(false);
+              console.log(`失敗，未更新userInfo`);
+            }
+            return data;
+          } catch(errorMsg) {
+            return Promise.reject(errorMsg)
           }
-          return { data };
+          
         },
         logout: () => {
           localStorage.removeItem("authToken");

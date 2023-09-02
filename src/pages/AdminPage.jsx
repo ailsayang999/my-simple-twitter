@@ -13,35 +13,41 @@ const AdminPage = () => {
   const [password, setPassword] = useState('');
   const [showNotiBoxSuccess, setShowNotiBoxSuccess] = useState(false);
   const [showNotiBoxFail, setShowNotiBoxFail] = useState(false);
+  const [errorMsg, setErrorMsg] = useState('');
 
   const navigate = useNavigate();
 
   const { adminLogin, isAuthenticated} = useAdminAuth();
 
   const handleClick = async() => {
-    console.log("點擊後台登入")
     if (account.length === 0) {
-      console.log('帳號為必填!')
+      setShowNotiBoxFail(true)
+      setErrorMsg('帳號為必填!')
       return;
     }
     if (password.length === 0) {
-      console.log('密碼為必填!')
+      setShowNotiBoxFail(true)
+      setErrorMsg('密碼為必填!')
       return;
     }
-    console.log(`傳入account:${account}, password:${password}資料至adminLogin拿資料`)
-    const {data} = await adminLogin({
-      account,
-      password
-    });
-    console.log(`在adminPage列印data:${JSON.stringify(data)}`)
-    if (data) {
-      setShowNotiBoxSuccess(true)
-      console.log('後台登入成功!')
-      return; 
-    } else {
-      console.log(`後台登入失敗!status:${JSON.stringify(data).status} msg:${data.message}`)
+    try {
+      const {data} = await adminLogin({
+        account,
+        password
+      });
+      if (data) {
+        setShowNotiBoxSuccess(true)
+        return; 
+      } else {
+        setShowNotiBoxFail(true)
+        return
+      }
+    } catch(data) {
+      const errorMsg = data.response.data.message
       setShowNotiBoxFail(true)
+      setErrorMsg(errorMsg)
     }
+    
   }
 
   useEffect(() => {
@@ -49,7 +55,7 @@ const AdminPage = () => {
     const timeout = setTimeout(() => {
     setShowNotiBoxSuccess(false);
     navigate('/admin_main')
-    }, 1500);
+    }, 1000);
 
     return () => clearTimeout(timeout);
   }
@@ -59,16 +65,17 @@ const AdminPage = () => {
   if (showNotiBoxFail) {
     const timeout = setTimeout(() => {
       setShowNotiBoxFail(false);
-    }, 1500);
+      setErrorMsg('');
+    }, 1000);
     navigate('/admin')
     return () => clearTimeout(timeout);
   }
-  }, [navigate, showNotiBoxFail]);
+  }, [navigate, errorMsg, showNotiBoxFail]);
   
   return (
     <div className="adminOuterContainer">
       {showNotiBoxSuccess && <NotiBoxSuccess notiText={"後台登入成功!"} />}
-      {showNotiBoxFail && <NotiBoxFail notiText={"後台登入失敗!"} />}
+      {showNotiBoxFail && <NotiBoxFail notiText={errorMsg} />}
       <Header entryName={"後台登入"}/>
       <InputSet 
         item={"後台帳號"}

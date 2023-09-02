@@ -5,44 +5,23 @@ const baseUrl = 'https://mighty-temple-45104-0d6672fb07d0.herokuapp.com/api/admi
 
 export const adminLogin = async ({ account, password }) => {
   try {
-    const {data}  = await axios.post(`${baseUrl}/signin`, {
+    const data  = await axios.post(`${baseUrl}/signin`, {
       account,
       password,
     });
-
     if (data.status === "success") {
-      return { data };
+      return data;
     } else {
-      console.log("AuthToken missed! Find one!")
-      return {data};
+      return data;
     }
-  } catch (error) {
-    console.error(`[AdminLogin Failed]:`, error);
+  } catch (data) {
+    return Promise.reject(data)
   }
 };
-
-
-//先不使用checkPermission  (沒有另外做一支test-token的api)
-// export const checkPermission = async (authToken) => {
-//   try {
-//     const response = await axios.get(`${baseUrl}/test-token`, {
-//       headers: {
-//         Authorization: 'Bearer ' + authToken,
-//       },
-//     });
-//     return response.data.success;
-//   } catch (error) {
-//     console.error(`[Check Permission Failed]:`, error);
-//   }
-// };
-
-
 
 const axiosInstance = axios.create({
   baseURL: baseUrl,
 });
-
-
 
 axiosInstance.interceptors.request.use(
   (config) => {
