@@ -35,54 +35,55 @@ const UserSelfTweetContent = ({ userSelfTweets }) => {
     <>
       {/* 所有user-self 推的文 */}
       {userSelfTweets.length === 0 && <ShowEmptyPostReply />}
-      {userSelfTweets.length > 0 && userSelfTweets?.map(
-        ({
-          TweetId,
-          tweetBelongerName,
-          tweetBelongerAccount,
-          tweetBelongerAvatar,
-          description,
-          createdAt,
-          replyCount,
-          likeCount,
-        }) => {
-          return (
-            <div className="post-item-container" key={TweetId}>
-              <div className="post-item-wrapper">
-                <img
-                  src={tweetBelongerAvatar}
-                  alt=""
-                  className="post-item-avatar"
-                />
+      {userSelfTweets.length > 0 &&
+        userSelfTweets?.map(
+          ({
+            TweetId,
+            tweetBelongerName,
+            tweetBelongerAccount,
+            tweetBelongerAvatar,
+            description,
+            createdAt,
+            replyCount,
+            likeCount,
+          }) => {
+            return (
+              <div className="post-item-container" key={TweetId}>
+                <div className="post-item-wrapper">
+                  <img
+                    src={tweetBelongerAvatar}
+                    alt=""
+                    className="post-item-avatar"
+                  />
 
-                <div className="post-item-content">
-                  <div className="user-post-info">
-                    <div className="name">{tweetBelongerName}</div>
-                    <div className="account">@{tweetBelongerAccount}</div>
-                    <div className="time">· {createdAt}</div>
-                  </div>
-
-                  <div className="post-content">{description}</div>
-
-                  <div className="reply-like-container">
-                    <div className="reply-container">
-                      <ReplyIcon className="reply-icon" />
-                      <div className="reply-number">{replyCount}</div>
+                  <div className="post-item-content">
+                    <div className="user-post-info">
+                      <div className="name">{tweetBelongerName}</div>
+                      <div className="account">@{tweetBelongerAccount}</div>
+                      <div className="time">· {createdAt}</div>
                     </div>
-                    <div className="like-container">
-                      <div className="like-icons">
-                        <LikeIcon className="like-icon" />
-                      </div>
 
-                      <div className="like-number">{likeCount}</div>
+                    <div className="post-content">{description}</div>
+
+                    <div className="reply-like-container">
+                      <div className="reply-container">
+                        <ReplyIcon className="reply-icon" />
+                        <div className="reply-number">{replyCount}</div>
+                      </div>
+                      <div className="like-container">
+                        <div className="like-icons">
+                          <LikeIcon className="like-icon" />
+                        </div>
+
+                        <div className="like-number">{likeCount}</div>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
-          );
-        }
-      )}
+            );
+          }
+        )}
     </>
   );
 };
@@ -91,7 +92,7 @@ const UserSelfReplyContent = ({ userSelfReply }) => {
   return (
     <div>
       {/* 所有user-self 的回覆 */}
-      {userSelfReply.length === 0 && <ShowEmptyPostReply/>}
+      {userSelfReply.length === 0 && <ShowEmptyPostReply />}
       {userSelfReply.length > 0 &&
         userSelfReply?.map(
           ({
@@ -133,7 +134,6 @@ const UserSelfReplyContent = ({ userSelfReply }) => {
             );
           }
         )}
-     
     </div>
   );
 };
@@ -234,11 +234,10 @@ const UserSelfPageInfo = () => {
   // 使用者所有喜歡
   const [userSelfLike, setUserSelfLike] = useState([]);
 
-
-   const localStorageUserObjectString = localStorage.getItem(
-     "UserInfoObjectString"
-   );
-   const userInfoObject = JSON.parse(localStorageUserObjectString);
+  const localStorageUserObjectString = localStorage.getItem(
+    "UserInfoObjectString"
+  );
+  const userInfoObject = JSON.parse(localStorageUserObjectString);
 
   //串接API: 畫面初始資料
   useEffect(() => {
@@ -249,6 +248,7 @@ const UserSelfPageInfo = () => {
     //   navigate("/login");
     // }
     //首先拿到當前登入的使用者資料
+    setUserInfo(userInfoObject);
     const getUserSelfTweetsAsync = async () => {
       try {
         const backendUserSelfTweets = await getUserSelfTweets(
@@ -265,7 +265,6 @@ const UserSelfPageInfo = () => {
       try {
         const backendUserSelfReply = await getUserSelfReply(userInfoObject.id);
         setUserSelfReply(backendUserSelfReply);
-        console.log("backendUserSelfReply", backendUserSelfReply);
       } catch (error) {
         console.error(error);
       }
@@ -317,9 +316,13 @@ const UserSelfPageInfo = () => {
           onClick={handleBackArrowClick}
         />
         <div className="name-tweet-amount-container">
-          <h5 className="header-title-user-self-name">{userInfoObject.name}</h5>
+          <h5 className="header-title-user-self-name">
+            {userInfo.name ? userInfo.name : userInfoObject.name}
+          </h5>
           <div className="tweet-amount">
-            {userInfoObject.tweetCount}
+            {userInfo.tweetCount
+              ? userInfo.tweetCount
+              : userInfoObject.tweetCount}
             <span className="tweet-amount-text">推文</span>
           </div>
         </div>
@@ -331,14 +334,14 @@ const UserSelfPageInfo = () => {
           <div className="user-self-avatar-cover">
             <div className="user-self-cover-container">
               <img
-                src={userInfoObject.cover}
+                src={userInfo.cover ? userInfo.cover : userInfoObject.cover}
                 alt="userSelfCover"
                 className="user-self-cover"
               />
             </div>
             <div className="user-self-avatar-container">
               <img
-                src={userInfoObject.avatar}
+                src={userInfo.avatar ? userInfo.avatar : userInfoObject.avatar}
                 alt=""
                 className="user-self-avatar"
               />
@@ -354,12 +357,18 @@ const UserSelfPageInfo = () => {
 
           {/* 個人姓名 */}
           <div className="user-self-name-account-container">
-            <h5 className="user-self-name">{userInfoObject.name}</h5>
-            <span className="user-self-account">@{userInfoObject.account}</span>
+            <h5 className="user-self-name">
+              {userInfo.name ? userInfo.name : userInfoObject.name}
+            </h5>
+            <span className="user-self-account">
+              @{userInfo.account ? userInfo.account : userInfoObject.account}
+            </span>
           </div>
           {/* 個人介紹 */}
           <div className="user-self-introduction">
-            {userInfoObject.introduction}
+            {userInfo.introduction
+              ? userInfo.introduction
+              : userInfoObject.introduction}
           </div>
 
           {/* 個人跟隨中和跟隨者 */}
@@ -371,7 +380,10 @@ const UserSelfPageInfo = () => {
                 handleNavigateToFollowingPage(e.target.value);
               }}
             >
-              {userInfoObject.followerCount} 個
+              {userInfo.followerCount
+                ? userInfo.followerCount
+                : userInfoObject.followerCount}{" "}
+              個
             </button>
             <span className="following-text">跟隨中</span>
 
@@ -382,7 +394,10 @@ const UserSelfPageInfo = () => {
                 handleNavigateToFollowerPage(e.target.value);
               }}
             >
-              {userInfoObject.followingCount} 個
+              {userInfo.followingCount
+                ? userInfo.followingCount
+                : userInfoObject.followingCount}{" "}
+              個
             </button>
             <span className="follower-text">跟隨者</span>
           </div>
@@ -433,7 +448,8 @@ const UserSelfPageInfo = () => {
       {/* Modal ：根據postModal的布林值決定是否要跳出PostTweetModal component*/}
       {postModal && (
         <PostTweetModal
-          userInfo={userInfoObject}
+          userInfo={userInfo}
+          userInfoObject={userInfoObject}
           inputValue={inputValue}
           onTweetTextAreaChange={handleTweetTextAreaChange}
           onAddTweet={handleAddTweet}
@@ -443,12 +459,20 @@ const UserSelfPageInfo = () => {
       {/* 決定編輯個人資料Modal跳出 */}
       {editModal && (
         <PutEditUserSelfInfoModal
+          userInfo={userInfo}
+          setUserInfo={setUserInfo}
           editNameInputValue={editNameInputValue}
           onEditNameInputChange={handleEditNameInputChange}
           editIntroInputValue={editIntroInputValue}
           onEditIntroInputChange={handleEditIntroInputChange}
           userInfoObject={userInfoObject}
           putEditSelfInfo={putEditSelfInfo}
+          setUserSelfTweets={setUserSelfTweets}
+          setUserSelfReply={setUserSelfReply}
+          setUserSelfLike={setUserSelfLike}
+          getUserSelfTweets={getUserSelfTweets}
+          getUserSelfReply={getUserSelfReply}
+          getUserSelfLike={getUserSelfLike}
         />
       )}
     </div>
