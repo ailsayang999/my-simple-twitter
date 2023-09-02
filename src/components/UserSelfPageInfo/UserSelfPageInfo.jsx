@@ -18,6 +18,7 @@ import {
   getUserSelfTweets,
   getUserSelfReply,
   getUserSelfLike,
+  putEditSelfInfo,
 } from "api/tweets";
 
 const ShowEmptyPostReply = () => {
@@ -244,10 +245,10 @@ const UserSelfPageInfo = () => {
   useEffect(() => {
     console.log("execute User Self Page function in useEffect");
     //  驗證沒有成功的話
-    if (!isAuthenticated) {
-      // 頁面跳轉到login頁面
-      navigate("/login");
-    }
+    // if (!isAuthenticated) {
+    //   // 頁面跳轉到login頁面
+    //   navigate("/login");
+    // }
     //首先拿到當前登入的使用者資料
     const getUserSelfTweetsAsync = async () => {
       try {
@@ -448,6 +449,7 @@ const UserSelfPageInfo = () => {
           editIntroInputValue={editIntroInputValue}
           onEditIntroInputChange={handleEditIntroInputChange}
           userInfoObject={userInfoObject}
+          putEditSelfInfo={putEditSelfInfo}
         />
       )}
     </div>

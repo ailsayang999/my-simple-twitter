@@ -606,3 +606,26 @@ export const getTop10 = async () => {
   }
 };
 
+
+
+// put /api/users/:id 修改特定使用者資料
+export const putEditSelfInfo = async (id, formData) => {
+  try {
+    const res = await axiosInstance.put(`${baseUrl}/users/${id}`, formData);
+    return res;
+  } catch (error) {
+    console.error("[Put User Info Edit failed]: ", error);
+  }
+};
+
+axios.defaults.headers.put["Content-Type"] = "multipart/form-data";
+
+
+// export const putEditSelfInfo = async (id, formData) => {
+//   try {
+//     const res = await axios.put(`${baseUrl}/users/${id}`, formData);
+//     return res;
+//   } catch (error) {
+//     console.error("[Put User Info Edit failed]: ", error);
+//   }
+// };
