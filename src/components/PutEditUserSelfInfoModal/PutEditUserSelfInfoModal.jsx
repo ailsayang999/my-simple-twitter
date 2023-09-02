@@ -5,6 +5,7 @@ import { useContext, useState, useEffect } from "react";
 import ModalContext from "context/ModalContext";
 import { ReactComponent as EditPictureIcon } from "assets/icons/ImgEditIcon.svg";
 import { ReactComponent as CloseEditIcon } from "assets/icons/ImgCloseIcon.svg";
+import { getUserInfo } from "api/tweets";
 
 // 下面這個之後會拿掉
 
@@ -19,15 +20,11 @@ const PutEditUserSelfInfoModal = ({
   // 從Context中拿取toggleEditModal的function
   const { toggleEditModal } = useContext(ModalContext);
 
-  const [editFormValue, setEditFormValue] = useState({
-    avatar:
-      "https://images.unsplash.com/photo-1586788224331-947f68671cf1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2787&q=80",
-    cover: "https://picsum.photos/id/237/700/400",
-    name: "ailsa",
-    introduction: "",
-    email: "ailsa@gmail.com",
-    password: "ailsa",
-  });
+  const [editFormValue, setEditFormValue] = useState(userInfoObject);
+  const [previewAvatar, setPreviewAvatar] = useState(null);
+  const [previewCover, setPreviewCover] = useState(null);
+
+  console.log("當前的userInfoObject：", userInfoObject);
 
   // const [nameInputValue, setNameInputValue] = useState("");
   // const [intro, setIntro] = useState("");
@@ -42,18 +39,33 @@ const PutEditUserSelfInfoModal = ({
   //   console.log("useEffect set")
   // }, []);
 
+  //點擊上傳圖片按鈕
+  const handleUserAvatarInputFile = (event) => {
+    setPreviewAvatar(URL.createObjectURL(event.target.files[0]));
+    setEditFormValue({
+      ...editFormValue,
+      avatar: event.target.files[0],
+    });
+  };
+  const handleUserCoverInputFile = (event) => {
+    setPreviewCover(URL.createObjectURL(event.target.files[0]));
+    setEditFormValue({
+      ...editFormValue,
+      cover: event.target.files[0],
+    });
+  };
+
   const handleEditFormSubmit = async (e) => {
     e.preventDefault();
     console.log("給後端的payload:", editFormValue);
 
-    // if (
-    //   editFormValue.name.trim().length === 0 ||
-    //   editFormValue.introduction.trim().length === 0
-    // )
-    //   return;
-    // // 若自我介紹或是名字長度超過限制，則返回
-    // if (editFormValue.name.length > 50 || editFormValue.introduction > 160)
-    //   return;
+    if (
+      editFormValue.name.trim().length === 0 ||
+      editFormValue.introduction.trim().length === 0
+    )
+      return;
+    if (editFormValue.name.length > 50 || editFormValue.introduction > 160)
+      return;
 
     // API的資訊傳遞(需轉換成 Form-data)
     const formData = new FormData();
@@ -63,6 +75,8 @@ const PutEditUserSelfInfoModal = ({
     }
     formData.set("name", editFormValue.name);
     formData.set("introduction", editFormValue.introduction);
+    formData.set("avatar", editFormValue.avatar);
+    formData.set("cover", editFormValue.cover);
     // formData.set("avatar", userAvatar);
     // formData.set("banner", banner);
     for (const pair of formData.entries()) {
@@ -71,20 +85,24 @@ const PutEditUserSelfInfoModal = ({
 
     const res = await putEditSelfInfo(userInfoObject.id, formData);
     if (res.data.message === "Successfully update user.") {
-      // localStorage.setItem("userInfoObject", res.data);
       alert(res.data.message);
       console.log("編輯成功, 編輯回傳內容為：", res.data);
-      // setEditFormValue({
-      //   ...editFormValue,
-      //   name: res.data.name,
-      //   introduction: res.data.introduction,
-      // });
-
+      //下次form會顯示上次更新後的name和account
+      setEditFormValue({
+        ...editFormValue,
+        name: res.data.data.name,
+        introduction: res.data.data.introduction,
+      });
+      // 把後端傳回來的更新資料放進localStorage
+      const userInfoObjectNew = await getUserInfo(res.data.data.id);
+      localStorage.setItem(
+        "UserInfoObjectString",
+        JSON.stringify(userInfoObjectNew)
+      );
       return;
     } else {
       return alert("編輯未成功, 後端回傳內容為：", res);
     }
-
   };
 
   return (
@@ -110,8 +128,15 @@ const PutEditUserSelfInfoModal = ({
               <div className="put-edit-modal-user-self-info-area">
                 <div className="put-edit-modal-user-self-avatar-cover">
                   <div className="put-edit-modal-user-self-cover-container">
+                    <input
+                      className="user-cover-input"
+                      type="file"
+                      onChange={(e) => {
+                        handleUserCoverInputFile(e);
+                      }}
+                    ></input>
                     <img
-                      src={editFormValue.cover}
+                      src={previewCover? previewCover: editFormValue.cover}
                       alt="userSelfCover"
                       className="put-edit-modal-user-self-cover"
                     />
@@ -121,10 +146,17 @@ const PutEditUserSelfInfoModal = ({
 
                   <div className="put-edit-modal-user-self-avatar-container">
                     <img
-                      src={editFormValue.avatar}
+                      src={previewAvatar ? previewAvatar : editFormValue.avatar}
                       alt=""
                       className="put-edit-modal-user-self-avatar"
                     />
+                    <input
+                      className="user-avatar-input"
+                      type="file"
+                      onChange={(e) => {
+                        handleUserAvatarInputFile(e);
+                      }}
+                    ></input>
                     <EditPictureIcon className="edit-avatar" />
                   </div>
                 </div>

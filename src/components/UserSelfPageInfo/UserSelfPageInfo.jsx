@@ -239,7 +239,6 @@ const UserSelfPageInfo = () => {
      "UserInfoObjectString"
    );
    const userInfoObject = JSON.parse(localStorageUserObjectString);
-   console.log("userInfoObject", userInfoObject);
 
   //串接API: 畫面初始資料
   useEffect(() => {

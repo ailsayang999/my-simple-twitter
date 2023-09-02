@@ -22,7 +22,7 @@
       position: absolute;
       width: 634px;
       height: 610px;
-      top: 32%;
+      top: 40%;
       left: 50%;
       transform: translate(-50%, -50%);
       line-height: 1.4;
@@ -90,6 +90,17 @@
                 object-fit: cover;
                 filter: brightness(70%);
               }
+              .user-cover-input {
+                outline: 1px solid red;
+                position: absolute;
+                z-index: 10001;
+                top: 65px;
+                left: 266px;
+                width: 30px;
+                height: 50px;
+                cursor: pointer;
+                opacity: 0;
+              }
               .edit-cover {
                 position: absolute;
                 z-index: 10000;
@@ -120,12 +131,23 @@
                 object-fit: cover;
                 filter: brightness(50%);
               }
+              .user-avatar-input {
+                outline: 1px solid red;
+                position: absolute;
+                z-index: 10001;
+                top: 29px;
+                left: 52px;
+                width: 30px;
+                height: 50px;
+                cursor: pointer;
+                opacity: 0;
+              }
               .edit-avatar {
                 position: absolute;
                 z-index: 10000;
                 top: 52px;
                 left: 55px;
-                cursor: pointer;
+                // cursor: pointer;
               }
             }
           }
