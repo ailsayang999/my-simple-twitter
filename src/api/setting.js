@@ -22,43 +22,27 @@ axiosInstance.interceptors.request.use(
 export const setting = async ({ id, name, account, email, password , checkPassword }) => {
   try {
     console.log(`setting.js put傳入資料 id:${id}, name:${name}, account: ${account}, email:${email} password:${password} checkpassword: ${checkPassword}`)
-    const {data}  = await axiosInstance.put(`${baseUrl}/users/${id}`,{
-      id: id,
-      name: name,
-      account: account,
-      email: email,
-      password: password,
-      checkPassword: checkPassword
+
+    // api body 為 form-data 形式，資料傳入形式需要調整如下
+    const formData = new FormData();
+    formData.append('id', id);
+    formData.append('name', name);
+    formData.append('account', account);
+    formData.append('email', email);
+    formData.append('password', password);
+    formData.append('checkPassword', checkPassword);
+
+    const data = await axiosInstance.put(`${baseUrl}/users/${id}`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data', // 設定Content-Type為form-data
+      },
     });
 
     console.log(`setting.js {data}: ${JSON.stringify(data)}`)
-    return data.data;
-  } catch (error) {
-    console.error("[Get User Information failed]: ", error);
+    return data;
+  } catch (data) {
+    const errorMsg = data.response.data.message
+    console.log(errorMsg)
+    return Promise.reject(errorMsg)
   }
 };
-
-// 成功格式
-// {
-//     "status": "success",
-//     "message": "Successfully update user.",
-//     "data": {
-//         "id": 12,
-//         "name": "iameva",
-//         "email": "user11@example.com",
-//         "password": "$2b$10$Oan1kN3RB.WXkgneHEwAueQ6GvPKtDsA/vQXidJ9.zgTR6eQU.flG",
-//         "account": "user11",
-//         "introduction": "Tempore ab aut ea similique. Voluptatem et accusamus. Voluptas dolores necessitatibus repellat nesciunt commodi. Praesentium beatae magni quaerat sint. Voluptat",
-//         "avatar": "https://loremflickr.com/320/240/man/?random=45.590225528693026",
-//         "cover": "https://loremflickr.com/1440/480/city/?random=96.2668188582015",
-//         "role": "user",
-//         "createdAt": "2023-08-31T09:24:43.000Z",
-//         "updatedAt": "2023-08-31T15:17:38.000Z"
-//     }
-// }
-
-// 失敗格式
-// {
-//     "status": "error",
-//     "message": "Error: Cannot edit other users profile"
-// }
