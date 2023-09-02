@@ -4,8 +4,8 @@ import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Header from 'components/Header'
 import InputSet from 'components/InputSet'
-import NotiBoxSuccess from 'components/NotiBoxSuccess' //請自行輸入notiText - 註冊成功! 
-import NotiBoxFail from 'components/NotiBoxFail' //請自行輸入notiText - 註冊失敗! / 帳號不存在! / 重複註冊...
+import NotiBoxSuccess from 'components/NotiBoxSuccess' 
+import NotiBoxFail from 'components/NotiBoxFail'
 import { useAuth } from 'context/AuthContext';
 
 const RegisterPage = () => {
@@ -25,40 +25,47 @@ const RegisterPage = () => {
 
   const handleClick = async () => {
     if (account.length === 0) {
-      console.log('帳號為必填')
+      setShowNotiBoxFail(true)
+      setErrorMsg('帳號為必填')
       return;
     }
     if (account.length > 20) {
-      console.log('帳號長度應小於20字')
+      setShowNotiBoxFail(true)
+      setErrorMsg('帳號長度應小於20字')
       return;
     }
     if (account.value === "root") {
-      console.log('此帳號不存在!')
+      setShowNotiBoxFail(true)
+      setErrorMsg('此帳號不存在!')
       return;
     }
     if (name.length > 50) {
-      console.log('名稱長度應小於50字')
+      setShowNotiBoxFail(true)
+      setErrorMsg('名稱長度應小於50字')
       return;
     }
     if (email.length === 0) {
-      console.log('Email為必填')
+      setShowNotiBoxFail(true)
+      setErrorMsg('Email為必填')
       return;
     }
     if (password.length === 0) {
-      console.log('密碼為必填')
+      setShowNotiBoxFail(true)
+      setErrorMsg('密碼為必填')
       return;
     }
     if (password.length < 5 || password.length > 20) {
-      console.log('請設定5~20字英數字密碼!')
+      setShowNotiBoxFail(true)
+      setErrorMsg('請設定5~20字英數字密碼!')
       return;
     }
     if (password !== checkPassword) {
-      console.log('密碼不相符，請重新確認!') //需要再製作errorMsg在InputSet中
+      setShowNotiBoxFail(true)
+      setErrorMsg('密碼不相符，請重新確認!') 
       return;
     }
     if (name.length === 0) {
       setName(account) ;
-     console.log('未設定名稱，預設使用 name = account!預設使用 name = account!')
     }
     const { data } = await register({
       name,
@@ -102,7 +109,7 @@ const RegisterPage = () => {
   return (
     <div className="registerOuterContainer">
       {showNotiBoxSuccess && <NotiBoxSuccess notiText={"註冊成功!"} />}
-      {showNotiBoxFail && <NotiBoxFail notiText={errorMsg? errorMsg:"註冊失敗!"} />}
+      {showNotiBoxFail && <NotiBoxFail notiText={errorMsg} />}
       <Header entryName={"建立你的帳號"}/>
        
       <InputSet 
