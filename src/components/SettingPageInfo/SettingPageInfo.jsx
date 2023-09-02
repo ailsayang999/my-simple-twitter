@@ -36,7 +36,7 @@ const SettingPageInfo = () => {
       setErrorMsg('名稱長度應小於50字')
       return;
     }
-    if (password > 0) {
+    if (password.length > 0) {
       if (password.length < 5 || password.length > 20) {
       setShowNotiBoxFail(true)
       setErrorMsg('請設定5~20字英數字密碼!')
@@ -68,8 +68,10 @@ const SettingPageInfo = () => {
       console.log('沒有成功，請再存一次!')
       setShowNotiBoxFail(true)
 
-    } catch(error) {
-      console.log(`SettingPage error: ${error}`)
+    } catch(errorMsg) {
+      console.log(`SettingPage error: ${errorMsg}`)
+      setShowNotiBoxFail(true)
+      setErrorMsg(errorMsg)
     }
     
   };

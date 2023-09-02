@@ -115,9 +115,8 @@ export const AuthProvider = ({ children }) => {
               console.log(`失敗，未更新userInfo`);
             }
             return data;
-          } catch(data) {
-            console.log(`AuthContext setUserInfo error:${data}`)
-            return Promise.reject(data)
+          } catch(errorMsg) {
+            return Promise.reject(errorMsg)
           }
           
         },
