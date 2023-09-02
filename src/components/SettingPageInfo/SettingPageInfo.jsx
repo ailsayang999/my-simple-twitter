@@ -18,19 +18,15 @@ const SettingPageInfo = () => {
   const { setUserInfo } = useAuth();
 
   const handleClick = async () => {
-    const userId = localStorage.getItem('userInfo')
-    console.log(`userId: ${JSON.parse(userId).id}`)
-    if (account.length === 0) {
-      setShowNotiBoxFail(true)
-      setErrorMsg('帳號為必填')
-      return;
-    }
+    const userId = JSON.parse(localStorage.getItem('userInfo')).id
+    console.log(userId)
+
     if (account.length > 20) {
       setShowNotiBoxFail(true)
       setErrorMsg('帳號長度應小於20字')
       return;
     }
-    if (account.value === "root") {
+    if (account === "root") {
       setShowNotiBoxFail(true)
       setErrorMsg('此帳號不存在!')
       return;
@@ -40,46 +36,42 @@ const SettingPageInfo = () => {
       setErrorMsg('名稱長度應小於50字')
       return;
     }
-    if (email.length === 0) {
-      setShowNotiBoxFail(true)
-      setErrorMsg('Email為必填')
-      return;
-    }
-    if (password.length === 0) {
-      setShowNotiBoxFail(true)
-      setErrorMsg('密碼為必填')
-      return;
-    }
-    if (password.length < 5 || password.length > 20) {
+    if (password > 0) {
+      if (password.length < 5 || password.length > 20) {
       setShowNotiBoxFail(true)
       setErrorMsg('請設定5~20字英數字密碼!')
       return;
+      }
+      if (password !== checkPassword) {
+        setShowNotiBoxFail(true)
+        setErrorMsg('密碼不相符，請重新確認!')
+        return;
+      }
     }
-    if (password !== checkPassword) {
-      setShowNotiBoxFail(true)
-      setErrorMsg('密碼不相符，請重新確認!')
-      return;
-    }
-    if (name.length === 0) {
-      setName(account) ;
-    }
+
     //可能需要useEffect來確保作業完成後資料匯入
-    const success  = await setUserInfo({
+    try {
+      const success  = await setUserInfo({
       id:userId,
       name,
       account,
       email,
       password,
       checkPassword
-    });
-    console.log(`SettingPage中的success:${success}`)
-    if (success) {
-      console.log(`修改成功!`)
-      setShowNotiBoxSuccess(true)
-      return;
-    } 
-    console.log('沒有成功，請再存一次!')
-    setShowNotiBoxFail(true)
+      });
+      console.log(`SettingPage中的success:${success}`)
+      if (success) {
+        console.log(`修改成功!`)
+        setShowNotiBoxSuccess(true)
+        return;
+      } 
+      console.log('沒有成功，請再存一次!')
+      setShowNotiBoxFail(true)
+
+    } catch(error) {
+      console.log(`SettingPage error: ${error}`)
+    }
+    
   };
       
   useEffect(() => {
@@ -116,16 +108,14 @@ const SettingPageInfo = () => {
           placeholder={"請輸入20字以內帳號"} 
           value={account}
           onChange={(accountInputValue) => setAccount(accountInputValue)}
-          // errorMsg={errorMsg}
-          maxLength ="20"
-          required
+          pattern={"[0-9a-zA-Z]+"}
           /> 
         <InputSet 
           label={"名稱"} 
           placeholder={"請輸入使用者名稱(50字以內)"} 
           value={name}
           onChange={(nameInputValue) => setName(nameInputValue)}
-          // errorMsg={errorMsg}
+          pattern={"[0-9a-zA-Z]+"}
           />
         <InputSet 
           label={"Email"} 
@@ -133,8 +123,6 @@ const SettingPageInfo = () => {
           type="email"
           value={email}
           onChange={(emailInputValue) => setEmail(emailInputValue)}
-          // errorMsg={errorMsg}
-          required
           />
         <InputSet 
           type={"password"}
@@ -143,9 +131,6 @@ const SettingPageInfo = () => {
           value={password}
           pattern={"[0-9a-zA-Z]+"}
           onChange={(passwordInputValue) => setPassword(passwordInputValue)}
-          // errorMsg={errorMsg}
-          maxLength ="20"
-          required
           />  
         <InputSet 
           type={"password"}
@@ -153,9 +138,7 @@ const SettingPageInfo = () => {
           placeholder={"請再次輸入密碼"} 
           value={checkPassword}
           onChange={(checkPasswordInputValue) => setCheckPassword(checkPasswordInputValue)}
-          // errorMsg={errorMsg}
-          maxLength ="20"
-          required
+          pattern={"[0-9a-zA-Z]+"}
           />   
         </div>        
         <div className="settingPagefooter">

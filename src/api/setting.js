@@ -21,7 +21,8 @@ axiosInstance.interceptors.request.use(
 
 export const setting = async ({ id, name, account, email, password , checkPassword }) => {
   try {
-    const res = await axiosInstance.put(`${baseUrl}/users/${id}`,{
+    console.log(`setting.js put傳入資料 id:${id}, name:${name}, account: ${account}, email:${email} password:${password} checkpassword: ${checkPassword}`)
+    const {data}  = await axiosInstance.put(`${baseUrl}/users/${id}`,{
       id: id,
       name: name,
       account: account,
@@ -29,7 +30,9 @@ export const setting = async ({ id, name, account, email, password , checkPasswo
       password: password,
       checkPassword: checkPassword
     });
-    return res.data;
+
+    console.log(`setting.js {data}: ${JSON.stringify(data)}`)
+    return data.data;
   } catch (error) {
     console.error("[Get User Information failed]: ", error);
   }
