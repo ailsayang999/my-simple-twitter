@@ -201,18 +201,20 @@ const PutEditUserSelfInfoModal = ({
                   ></input>
                 </div>
                 <div className="edit-user-self-inputNote">
-                  {editFormValue.name.length === 0 && (
+                  {editFormValue && editFormValue.name.length === 0 && (
                     <div className={"edit__cannot-be-blank"}>
                       內容不可為空白
                     </div>
                   )}
-                  {editFormValue.name.length >= 50 && (
+                  {editFormValue && editFormValue.name.length >= 50 && (
                     <div className={"edit__cannot-be-over-limit"}>
                       字數不可以超過50字
                     </div>
                   )}
                   <div className={"edit-user-self-inputCounter"}>
-                    {editFormValue ? `${editFormValue.name.length}/50` : ""}
+                    {editFormValue && editFormValue
+                      ? `${editFormValue.name.length}/50`
+                      : ""}
                   </div>
                 </div>
               </div>
@@ -236,27 +238,35 @@ const PutEditUserSelfInfoModal = ({
                   ></textarea>
                 </div>
                 <div className="edit-intro-inputNote">
-                  {editFormValue.introduction.length === 0 && (
-                    <div className={"edit__cannot-be-blank"}>
-                      內容不可為空白
-                    </div>
-                  )}
-                  {editFormValue.introduction.length >= 160 && (
-                    <div className={"edit__cannot-be-over-limit"}>
-                      字數不可以超過160字
-                    </div>
-                  )}
+                  {editFormValue.introduction === null
+                    ? ""
+                    : editFormValue.introduction.length === 0 && (
+                        <div className={"edit__cannot-be-blank"}>
+                          內容不可為空白
+                        </div>
+                      )}
+                  {editFormValue.introduction === null
+                    ? ""
+                    : editFormValue.introduction.length >= 160 && (
+                        <div className={"edit__cannot-be-over-limit"}>
+                          字數不可以超過160字
+                        </div>
+                      )}
                   <div
                     className={
-                      editFormValue.introduction.length > 160
+                      editFormValue.introduction === null
+                        ? ""
+                        : editFormValue.introduction.length > 160
                         ? "edit-intro-errorMsg"
                         : "edit-intro-hide"
                     }
                   >
-                    "字數超出上限"
+                    
                   </div>
                   <div className={"edit-intro-inputCounter"}>
-                    {editFormValue
+                    {editFormValue.introduction === null
+                      ? ""
+                      : editFormValue
                       ? `${editFormValue.introduction.length}/160`
                       : ""}
                   </div>
