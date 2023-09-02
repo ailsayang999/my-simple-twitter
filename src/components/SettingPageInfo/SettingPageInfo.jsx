@@ -1,8 +1,8 @@
 import "./settingPageInfo.scss";
 import { useState, useEffect } from 'react';
 import InputSet from 'components/InputSet'
-import NotiBoxSuccess from 'components/NotiBoxSuccess' //請自行輸入notiText - 註冊成功! 
-import NotiBoxFail from 'components/NotiBoxFail' //請自行輸入notiText - 註冊失敗! / 帳號不存在! / 重複註冊...
+import NotiBoxSuccess from 'components/NotiBoxSuccess' 
+import NotiBoxFail from 'components/NotiBoxFail' 
 import { useAuth } from 'context/AuthContext';
 
 const SettingPageInfo = () => {
@@ -13,6 +13,7 @@ const SettingPageInfo = () => {
   const [checkPassword, setCheckPassword] = useState('');
   const [showNotiBoxSuccess, setShowNotiBoxSuccess] = useState(false);
   const [showNotiBoxFail, setShowNotiBoxFail] = useState(false);
+  const [errorMsg, setErrorMsg] = useState('');
 
   const { setUserInfo } = useAuth();
 
@@ -20,40 +21,47 @@ const SettingPageInfo = () => {
     const userId = localStorage.getItem('userInfo')
     console.log(`userId: ${JSON.parse(userId).id}`)
     if (account.length === 0) {
-      console.log('帳號為必填')
+      setShowNotiBoxFail(true)
+      setErrorMsg('帳號為必填')
       return;
     }
     if (account.length > 20) {
-      console.log('帳號長度應小於20字')
+      setShowNotiBoxFail(true)
+      setErrorMsg('帳號長度應小於20字')
       return;
     }
     if (account.value === "root") {
-      console.log('此帳號不存在!')
+      setShowNotiBoxFail(true)
+      setErrorMsg('此帳號不存在!')
       return;
     }
     if (name.length > 50) {
-      console.log('名稱長度應小於50字')
+      setShowNotiBoxFail(true)
+      setErrorMsg('名稱長度應小於50字')
       return;
     }
     if (email.length === 0) {
-      console.log('Email為必填')
+      setShowNotiBoxFail(true)
+      setErrorMsg('Email為必填')
       return;
     }
     if (password.length === 0) {
-      console.log('密碼為必填')
+      setShowNotiBoxFail(true)
+      setErrorMsg('密碼為必填')
       return;
     }
     if (password.length < 5 || password.length > 20) {
-      console.log('請設定5~20字英數字密碼!')
+      setShowNotiBoxFail(true)
+      setErrorMsg('請設定5~20字英數字密碼!')
       return;
     }
     if (password !== checkPassword) {
-      console.log('密碼不相符，請重新確認!') //需要再製作errorMsg在InputSet中
+      setShowNotiBoxFail(true)
+      setErrorMsg('密碼不相符，請重新確認!')
       return;
     }
     if (name.length === 0) {
       setName(account) ;
-     console.log('未設定名稱，預設使用 name = account!預設使用 name = account!')
     }
     //可能需要useEffect來確保作業完成後資料匯入
     const success  = await setUserInfo({
@@ -88,17 +96,18 @@ const SettingPageInfo = () => {
   if (showNotiBoxFail) {
     const timeout = setTimeout(() => {
       setShowNotiBoxFail(false);
+      setErrorMsg('');
     }, 1500);
 
     return () => clearTimeout(timeout);
   }
-  }, [showNotiBoxFail]);
+  }, [errorMsg, showNotiBoxFail]);
 
   return (
     <div className="main-info-container">
       <div className="outerContainer">
         {showNotiBoxSuccess && <NotiBoxSuccess notiText={"修改成功!"} />}
-        {showNotiBoxFail && <NotiBoxFail notiText={"沒有成功，請再存一次!"} />}
+        {showNotiBoxFail && <NotiBoxFail notiText={errorMsg} />}
         <div className="settingPageTitle">帳戶設定</div>
         <div className="settingPageInputContainer">
           <InputSet 
