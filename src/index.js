@@ -6,15 +6,12 @@ import reportWebVitals from "./reportWebVitals";
 
 //import Context
 import { NavigationContextProvider } from "context/NavigationContext";
-import { FollowContextProvider } from "context/FollowContext";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <NavigationContextProvider>
-        <FollowContextProvider>
-          <App />
-        </FollowContextProvider>
+      <App />
     </NavigationContextProvider>
   </React.StrictMode>
 );

@@ -1,10 +1,16 @@
-import { createContext, useState } from "react";
+import { createContext, useState, useContext } from "react";
 import { postFollowShip, deleteFollowShip } from "api/tweets";
-import { getUserSelfFollower, getUserSelfFollowing } from "api/tweets";
+import {
+  getUserSelfFollower,
+  getUserSelfFollowing,
+  getUserInfo,
+} from "api/tweets";
+import UserInfoContext from "context/UserInfoContext";
 
 const FollowContext = createContext("");
 
 function FollowContextProvider({ children }) {
+  const { userInfo, setUserInfo } = useContext(UserInfoContext);
   const dummyFollower = [
     {
       followerId: 5,
@@ -72,32 +78,6 @@ function FollowContextProvider({ children }) {
     const localStorageUserObjectString = localStorage.getItem("userInfo");
     // 然後在把他變成object，讓header做渲染
     const userInfoObject = JSON.parse(localStorageUserObjectString);
-
-    // const getUserSelfFollowerAsync = async () => {
-    //   try {
-    //     const backendUserSelfFollower = await getUserSelfFollower(
-    //       userInfoObject.id
-    //     );
-    //     setFollower(backendUserSelfFollower);
-    //   } catch (error) {
-    //     console.error(error);
-    //   }
-    // };
-
-    // const getUserSelfFollowingAsync = async () => {
-    //   try {
-    //     const backendUserSelfFollowing = await getUserSelfFollowing(
-    //       userInfoObject.id
-    //     );
-    //     //後端好了再打開，先用userInfo
-    //     setFollowing(backendUserSelfFollowing);
-    //   } catch (error) {
-    //     console.error(error);
-    //   }
-    // };
-    // getUserSelfFollowerAsync();
-    // getUserSelfFollowingAsync();
-
     console.log("follow id", id);
     const followPayload = {
       id: id,
@@ -156,6 +136,16 @@ function FollowContextProvider({ children }) {
               }
             })
           );
+          //更新使用者個追隨中的數字
+          const userInfoObjectNew = await getUserInfo(userInfoObject.id);
+          localStorage.setItem(
+            "UserInfoObjectString",
+            JSON.stringify(userInfoObjectNew)
+          );
+          if (userInfoObjectNew) {
+            console.log("userInfoObjectNew", userInfoObjectNew);
+            setUserInfo(userInfoObjectNew);
+          }
           //更新
           alert("追蹤成功");
         }
@@ -206,16 +196,25 @@ function FollowContextProvider({ children }) {
               }
             })
           );
-           setUserOtherFollowing(
-             userOtherFollowing.map((personObj) => {
-               if (personObj.followingId === id) {
-                 return { ...personObj, isFollowed: false };
-               } else {
-                 return personObj;
-               }
-             })
-           );
-
+          setUserOtherFollowing(
+            userOtherFollowing.map((personObj) => {
+              if (personObj.followingId === id) {
+                return { ...personObj, isFollowed: false };
+              } else {
+                return personObj;
+              }
+            })
+          );
+          //更新使用者個追隨中的數字
+          const userInfoObjectNew = await getUserInfo(userInfoObject.id);
+          localStorage.setItem(
+            "UserInfoObjectString",
+            JSON.stringify(userInfoObjectNew)
+          );
+          if (userInfoObjectNew) {
+            console.log("userInfoObjectNew", userInfoObjectNew);
+            setUserInfo(userInfoObjectNew);
+          }
           alert("取消追蹤成功");
         }
         if (res.data.status === "error") {

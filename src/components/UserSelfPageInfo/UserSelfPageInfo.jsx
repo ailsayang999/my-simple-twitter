@@ -382,7 +382,7 @@ const UserSelfPageInfo = () => {
             >
               {userInfo.followerCount
                 ? userInfo.followerCount
-                : userInfoObject.followerCount}{" "}
+                : userInfoObject.followerCount}
               個
             </button>
             <span className="following-text">跟隨中</span>
@@ -396,7 +396,7 @@ const UserSelfPageInfo = () => {
             >
               {userInfo.followingCount
                 ? userInfo.followingCount
-                : userInfoObject.followingCount}{" "}
+                : userInfoObject.followingCount}
               個
             </button>
             <span className="follower-text">跟隨者</span>
