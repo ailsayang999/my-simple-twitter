@@ -18,12 +18,15 @@ const AdminMainPage = () => {
     const getTweetsAsync = async () => {
       try {
         const tweets = await getTweets();
+
+        //重新排序貼文，最新最上
         tweets.sort((a, b) => {
           const dateA = new Date(a.createdAt);
           const dateB = new Date(b.createdAt);
-          return dateB - dateA; // 降序排序(最新的在index0)
+          return dateB - dateA; // 降序排序
         });
         setTweets(tweets)
+
       } catch (error) {
         console.error(error);
       }
