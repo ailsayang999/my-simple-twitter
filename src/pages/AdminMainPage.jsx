@@ -4,31 +4,31 @@ import './AdminMainPage.scss'
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getTweets } from '../api/admin';
-import { useAdminAuth} from 'context/AdminAuthContext';
-
-
+import { useAdminAuth } from 'context/AdminAuthContext';
 
 const AdminMainPage = () => {
   const [tweets, setTweets] = useState([]);
   const navigate = useNavigate();
   const { isAuthenticated } = useAdminAuth();
 
-
   useEffect(() => {
     const getTweetsAsync = async () => {
       try {
         const tweets = await getTweets();
-        //tweets先依createAt排序(越舊index越小)，兩個時間直接相減出現NaN
-        // tweets.sort(function(a, b){
-        //   return b.createdAt - a.createdAt
-        // })
+
+        //重新排序貼文，最新最上
+        tweets.sort((a, b) => {
+          const dateA = new Date(a.createdAt);
+          const dateB = new Date(b.createdAt);
+          return dateB - dateA; // 降序排序
+        });
         setTweets(tweets)
       } catch (error) {
         console.error(error);
       }
     };
     getTweetsAsync();
-  }, []);
+  }, [tweets]);
 
   // 若未登入跳轉回"後台登入"頁面
   useEffect(() => {
@@ -46,7 +46,7 @@ const AdminMainPage = () => {
         <div className="mainTweetBoard">
           {tweets.map((tweet) => {
             return (
-              <TweetCard key={tweet.id} authorId={tweet.author.id} tweetId={tweet.id} avatar={tweet.author.avatar} name={tweet.author.name} account={tweet.author.account} description={tweet.description} time={tweet.createdAt}/> 
+              <TweetCard key={tweet.id} authorId={tweet.author.id} tweetId={tweet.id} avatar={tweet.author.avatar} name={tweet.author.name} account={tweet.author.account} description={tweet.description} time={tweet.createdAt} /> 
             )
           })}
         </div>
@@ -56,3 +56,4 @@ const AdminMainPage = () => {
 }
 
 export default AdminMainPage
+

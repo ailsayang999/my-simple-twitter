@@ -57,6 +57,7 @@ export const getTweets = async () => {
 };
 
 export const deleteTweet = async (tweetId) => {
+
   try {
     const res = await axiosInstance.delete(`${baseUrl}/tweets/${tweetId}`);
     return res.data;
