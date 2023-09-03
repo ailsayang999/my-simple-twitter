@@ -1,7 +1,7 @@
 import React from "react";
 import "./putEditUserSelfInfoModal.scss";
 import { ReactComponent as ClosedIcon } from "assets/icons/crossIcon.svg";
-import { useContext, useState, useEffect } from "react";
+import { useContext, useState } from "react";
 import ModalContext from "context/ModalContext";
 import { ReactComponent as EditPictureIcon } from "assets/icons/ImgEditIcon.svg";
 import { ReactComponent as CloseEditIcon } from "assets/icons/ImgCloseIcon.svg";
@@ -29,8 +29,8 @@ const PutEditUserSelfInfoModal = ({
   const { toggleEditModal } = useContext(ModalContext);
 
   const [editFormValue, setEditFormValue] = useState(userInfoObject);
-  const [previewAvatar, setPreviewAvatar] = useState(null);
-  const [previewCover, setPreviewCover] = useState(null);
+  const [previewAvatar, setPreviewAvatar] = useState("");
+  const [previewCover, setPreviewCover] = useState();
 
   console.log("當前的userInfoObject：", userInfoObject);
 
@@ -66,12 +66,10 @@ const PutEditUserSelfInfoModal = ({
   const handleEditFormSubmit = async (e) => {
     e.preventDefault();
     console.log("給後端的payload:", editFormValue);
-
-    if (
-      editFormValue.name.trim().length === 0 ||
-      editFormValue.introduction.trim().length === 0
-    )
+    if (editFormValue.name.length === 0) {
       return;
+    }
+
     if (editFormValue.name.length > 50 || editFormValue.introduction > 160)
       return;
 
@@ -226,7 +224,11 @@ const PutEditUserSelfInfoModal = ({
                   <textarea
                     className="edit-intro-inputField"
                     type="text"
-                    value={editFormValue.introduction || ""}
+                    value={
+                      editFormValue.introduction === "null"
+                        ? ""
+                        : editFormValue.introduction
+                    }
                     placeholder={""}
                     onChange={(e) =>
                       setEditFormValue({
@@ -238,14 +240,14 @@ const PutEditUserSelfInfoModal = ({
                   ></textarea>
                 </div>
                 <div className="edit-intro-inputNote">
-                  {editFormValue.introduction === null
+                  {/* {Object.is(editFormValue.introduction, null)
                     ? ""
                     : editFormValue.introduction.length === 0 && (
                         <div className={"edit__cannot-be-blank"}>
                           內容不可為空白
                         </div>
-                      )}
-                  {editFormValue.introduction === null
+                      )} */}
+                  {Object.is(editFormValue.introduction, null)
                     ? ""
                     : editFormValue.introduction.length >= 160 && (
                         <div className={"edit__cannot-be-over-limit"}>
@@ -254,17 +256,15 @@ const PutEditUserSelfInfoModal = ({
                       )}
                   <div
                     className={
-                      editFormValue.introduction === null
+                      Object.is(editFormValue.introduction, null)
                         ? ""
                         : editFormValue.introduction.length > 160
                         ? "edit-intro-errorMsg"
                         : "edit-intro-hide"
                     }
-                  >
-                    
-                  </div>
+                  ></div>
                   <div className={"edit-intro-inputCounter"}>
-                    {editFormValue.introduction === null
+                    {Object.is(editFormValue.introduction, null)
                       ? ""
                       : editFormValue
                       ? `${editFormValue.introduction.length}/160`

@@ -366,8 +366,8 @@ const UserSelfPageInfo = () => {
           </div>
           {/* 個人介紹 */}
           <div className="user-self-introduction">
-            {userInfo.introduction
-              ? userInfo.introduction
+            {userInfo.introduction === "null"
+              ? ""
               : userInfoObject.introduction}
           </div>
 
