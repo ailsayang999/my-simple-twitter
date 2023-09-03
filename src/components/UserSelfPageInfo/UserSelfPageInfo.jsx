@@ -8,6 +8,7 @@ import { ReactComponent as ReplyIcon } from "assets/icons/replyIcon.svg";
 import { ReactComponent as LikeIcon } from "assets/icons/likeIcon.svg";
 import { ReactComponent as LikeActiveIcon } from "assets/icons/likeIconActive.svg";
 import { useAuth } from "context/AuthContext"; //到AuthContext拿是否已驗證
+import NotiBoxFail from "components/NotiBoxFail";
 
 // 引入Modal元件
 import PostTweetModal from "components/PostTweetModal/PostTweetModal";
@@ -226,6 +227,9 @@ const UserSelfPageInfo = () => {
     toggleEditModal,
   } = useContext(ModalContext);
 
+   const [showNotiBoxFail, setShowNotiBoxFail] = useState(false);
+   const [errorMsg, setErrorMsg] = useState("");
+
   //使用者所有推文
   const [userSelfTweets, setUserSelfTweets] = useState([]);
   //使用者所有回覆
@@ -338,6 +342,7 @@ const UserSelfPageInfo = () => {
 
   return (
     <div className="user-self-page-info">
+      {showNotiBoxFail && <NotiBoxFail notiText={errorMsg} />}
       {/* 以下header UserSelfPage, UserOtherPage UserSelfFollowPage, UserOtherFollowPage 可以重複使用 */}
 
       <div className="header-container">
@@ -410,9 +415,9 @@ const UserSelfPageInfo = () => {
                 handleNavigateToFollowingPage(e.target.value);
               }}
             >
-              {userInfo.followerCount
-                ? userInfo.followerCount
-                : userInfoObject.followerCount}
+              {userInfo.followingCount
+                ? userInfo.followingCount
+                : userInfoObject.followingCount}
               個
             </button>
             <span className="following-text">跟隨中</span>
@@ -424,9 +429,9 @@ const UserSelfPageInfo = () => {
                 handleNavigateToFollowerPage(e.target.value);
               }}
             >
-              {userInfo.followingCount
-                ? userInfo.followingCount
-                : userInfoObject.followingCount}
+              {userInfo.followerCount
+                ? userInfo.followerCount
+                : userInfoObject.followerCount}
               個
             </button>
             <span className="follower-text">跟隨者</span>
@@ -509,6 +514,8 @@ const UserSelfPageInfo = () => {
           getUserSelfTweets={getUserSelfTweets}
           getUserSelfReply={getUserSelfReply}
           getUserSelfLike={getUserSelfLike}
+          setShowNotiBoxFail={setShowNotiBoxFail}
+          setErrorMsg={setErrorMsg}
         />
       )}
     </div>
