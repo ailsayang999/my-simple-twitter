@@ -1,5 +1,5 @@
 import React from 'react'
-import './CommonStyle.scss'
+import './commonStyle.scss'
 import { AClogo } from '../assets/icons';
 
 const Header = ({entryName}) => {

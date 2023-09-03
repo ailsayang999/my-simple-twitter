@@ -1,6 +1,6 @@
 import TweetCard from 'components/TweetCard'
 import LeftNavAdmin from '../components/LeftNavAdmin'
-import './AdminMainPage.scss'
+import './adminMainPage.scss'
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getTweets } from '../api/admin';

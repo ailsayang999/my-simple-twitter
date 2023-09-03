@@ -1,5 +1,5 @@
 import React from 'react';
-import './RegisterPage.scss';
+import './registerPage.scss';
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Header from 'components/Header'

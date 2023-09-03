@@ -1,6 +1,6 @@
 import React from 'react'
 // import { useState } from 'react'
-import './CommonStyle.scss'
+import './commonStyle.scss'
 
 
 const InputSet = ({ item, type, label, value, placeholder, maxLength, onChange }) => {

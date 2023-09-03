@@ -1,6 +1,6 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
-import './CommonStyle.scss'
+import './commonStyle.scss'
 import { FailIcon } from 'assets/icons'
 import { deleteTweet } from '../api/admin';
 import NotiBoxSuccess  from '../components/NotiBoxSuccess';
@@ -42,6 +42,15 @@ const TweetCard = ({authorId, tweetId, avatar, name, account, description, time}
     }
   }
 
+  const hideDescription = (description) => {
+    if (description.length > 30) {
+      const newDescription = description.substring(0, 30) + '...'
+      console.log(newDescription)
+      return newDescription;
+    }
+    return description;
+  }
+
   const handleClick = async (tweetId) => {
     try {
       const data = await deleteTweet(tweetId);
@@ -80,7 +89,7 @@ const TweetCard = ({authorId, tweetId, avatar, name, account, description, time}
           </div>
           <button className="deleteBtn" onClick={()=>handleClick(tweetId)}><FailIcon fill={"#696974"} /></button>
         </div>
-        <div className="tweetContext" >{description}</div>
+        <div className="tweetContext" >{hideDescription(description)}</div>
       </div>
     </div>
   )

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './AdminUsersPage.scss';
+import './adminUsersPage.scss';
 import LeftNavAdmin from 'components/LeftNavAdmin';
 import UserCard from 'components/UserCard';
 import { getUsers } from '../api/admin';

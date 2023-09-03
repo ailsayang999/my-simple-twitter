@@ -1,5 +1,5 @@
 import React from 'react'
-import './CommonStyle.scss'
+import './commonStyle.scss'
 import { TweetIcon, LikeIcon } from '../assets/icons/index' 
 
 const UserCard = ({id, cover, avatar, name, account, tweetCount, likeCount, followingCount, followerCount} ) => {
