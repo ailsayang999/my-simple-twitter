@@ -1,6 +1,6 @@
 import "./settingPageInfo.scss";
 import { useState, useEffect } from 'react';
-import { useNavigation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import InputSet from 'components/InputSet'
 import NotiBoxSuccess from 'components/NotiBoxSuccess' 
 import NotiBoxFail from 'components/NotiBoxFail' 
@@ -16,7 +16,7 @@ const SettingPageInfo = () => {
   const [showNotiBoxFail, setShowNotiBoxFail] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
   const { setUserInfo, isAuthenticated } = useAuth();
-  const navigate = useNavigation();
+  const navigate = useNavigate();
 
 
   const handleClick = async () => {
