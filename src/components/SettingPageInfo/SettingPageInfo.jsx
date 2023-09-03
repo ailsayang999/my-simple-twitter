@@ -1,5 +1,6 @@
 import "./settingPageInfo.scss";
 import { useState, useEffect } from 'react';
+import { useNavigation } from "react-router-dom";
 import InputSet from 'components/InputSet'
 import NotiBoxSuccess from 'components/NotiBoxSuccess' 
 import NotiBoxFail from 'components/NotiBoxFail' 
@@ -14,8 +15,9 @@ const SettingPageInfo = () => {
   const [showNotiBoxSuccess, setShowNotiBoxSuccess] = useState(false);
   const [showNotiBoxFail, setShowNotiBoxFail] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
+  const { setUserInfo, isAuthenticated } = useAuth();
+  const navigate = useNavigation();
 
-  const { setUserInfo } = useAuth();
 
   const handleClick = async () => {
     const userId = JSON.parse(localStorage.getItem('userInfo')).id
@@ -59,23 +61,28 @@ const SettingPageInfo = () => {
       password,
       checkPassword
       });
-      console.log(`SettingPage中的success:${success}`)
       if (success) {
         console.log(`修改成功!`)
         setShowNotiBoxSuccess(true)
         return;
       } 
-      console.log('沒有成功，請再存一次!')
       setShowNotiBoxFail(true)
+      setErrorMsg('沒有成功，請再存一次!')
 
     } catch(errorMsg) {
-      console.log(`SettingPage error: ${errorMsg}`)
       setShowNotiBoxFail(true)
       setErrorMsg(errorMsg)
     }
     
   };
-      
+  useEffect(() => {
+    console.log("execute User Other Follow Page function in useEffect");
+    //  驗證沒有成功的話
+    if (!isAuthenticated) {
+      // 頁面跳轉到login頁面
+      navigate("/login");
+    }
+  }, [])
   useEffect(() => {
     if (showNotiBoxSuccess) {
       const timeout = setTimeout(() => {
@@ -109,6 +116,7 @@ const SettingPageInfo = () => {
           label={"帳號"} 
           placeholder={"請輸入20字以內帳號"} 
           value={account}
+          maxLength={20}
           onChange={(accountInputValue) => setAccount(accountInputValue)}
           pattern={"[0-9a-zA-Z]+"}
           /> 
@@ -116,6 +124,7 @@ const SettingPageInfo = () => {
           label={"名稱"} 
           placeholder={"請輸入使用者名稱(50字以內)"} 
           value={name}
+          maxLength={50}
           onChange={(nameInputValue) => setName(nameInputValue)}
           pattern={"[0-9a-zA-Z]+"}
           />
@@ -132,6 +141,7 @@ const SettingPageInfo = () => {
           placeholder={"請設定5~20字密碼"} 
           value={password}
           pattern={"[0-9a-zA-Z]+"}
+          maxLength={20}
           onChange={(passwordInputValue) => setPassword(passwordInputValue)}
           />  
         <InputSet 
@@ -139,6 +149,7 @@ const SettingPageInfo = () => {
           label={"密碼確認"} 
           placeholder={"請再次輸入密碼"} 
           value={checkPassword}
+          maxLength={20}
           onChange={(checkPasswordInputValue) => setCheckPassword(checkPasswordInputValue)}
           pattern={"[0-9a-zA-Z]+"}
           />   
