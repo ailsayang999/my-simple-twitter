@@ -43,8 +43,8 @@ const TweetCard = ({authorId, tweetId, avatar, name, account, description, time}
   }
 
   const hideDescription = (description) => {
-    if (description.length > 30) {
-      const newDescription = description.substring(0, 30) + '...'
+    if (description.length >= 50) {
+      const newDescription = description.substring(0, 50) + '...'
       console.log(newDescription)
       return newDescription;
     }
