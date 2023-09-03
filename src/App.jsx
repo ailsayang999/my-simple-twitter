@@ -21,10 +21,12 @@ import { UserInfoProvider } from "context/UserInfoContext";
 import { ModalContextProvider } from "context/ModalContext";
 import { FollowContextProvider } from "context/FollowContext";
 
+const basename = process.env.PUBLIC_URL;
+
 function App() {
   return (
     <div className="app">
-      <BrowserRouter>
+      <BrowserRouter basename={basename}>
         <AuthAdminProvider>
           <AuthProvider>
             <UserInfoProvider>
