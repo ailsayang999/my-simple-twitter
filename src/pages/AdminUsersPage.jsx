@@ -20,7 +20,6 @@ const AdminUsersPage = () => {
       try {
         const users = await getUsers();
         setUsers(users)
-        console.log(users)
       } catch (error) {
         console.error(error);
       }
