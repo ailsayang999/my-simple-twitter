@@ -370,11 +370,11 @@
       }
     }
     .tweetContext{
-      display: -webkit-box;
-      -webkit-box-orient: vertical; //垂直方向
-      -webkit-line-clamp: 2; //限定行數 2
-      white-space: pre-wrap; //依空白格跳行
-      overflow: hidden; //超過欄位字隱藏
+      // display: -webkit-box;
+      // -webkit-box-orient: vertical; //垂直方向
+      // -webkit-line-clamp: 2; //限定行數 2
+      // white-space: pre-wrap; //依空白格跳行
+      // overflow: hidden; //超過欄位字隱藏
       height: 52px;
       padding-right: 50px;
       font-size: 16px;
