@@ -29,7 +29,7 @@ const ShowEmptyLike = () => {
 
 /////////////////////////////////////////// Change Content Components //////////////////////////////////
 // 瀏覽使用者所有Tweet
-const UserSelfTweetContent = ({ userSelfTweets }) => {
+const UserSelfTweetContent = ({ userSelfTweets, timeDiff }) => {
   return (
     <>
       {/* 所有user-self 推的文 */}
@@ -59,7 +59,7 @@ const UserSelfTweetContent = ({ userSelfTweets }) => {
                     <div className="user-post-info">
                       <div className="name">{tweetBelongerName}</div>
                       <div className="account">@{tweetBelongerAccount}</div>
-                      <div className="time">· {createdAt}</div>
+                      <div className="time">· {timeDiff(createdAt)}</div>
                     </div>
 
                     <div className="post-content">{description}</div>
@@ -87,7 +87,7 @@ const UserSelfTweetContent = ({ userSelfTweets }) => {
   );
 };
 // 瀏覽使用者所有的Reply
-const UserSelfReplyContent = ({ userSelfReply }) => {
+const UserSelfReplyContent = ({ userSelfReply, timeDiff }) => {
   return (
     <>
       {/* 所有user-self 的回覆 */}
@@ -117,7 +117,7 @@ const UserSelfReplyContent = ({ userSelfReply }) => {
                       <div className="user-reply-info">
                         <div className="replier-name">{replierName}</div>
                         <div className="replier-account">@{replierAccount}</div>
-                        <div className="reply-time">· {createdAt}</div>
+                        <div className="reply-time">· {timeDiff(createdAt)}</div>
                       </div>
 
                       <div className="reply-to-tweet-belonger-account-container">
@@ -139,7 +139,7 @@ const UserSelfReplyContent = ({ userSelfReply }) => {
   );
 };
 // 瀏覽使用者所有的Like
-const UserSelfLikeContent = ({ userSelfLike }) => {
+const UserSelfLikeContent = ({ userSelfLike, timeDiff }) => {
   return (
     <>
       {userSelfLike.length === 0 && <ShowEmptyLike />}
@@ -169,7 +169,7 @@ const UserSelfLikeContent = ({ userSelfLike }) => {
                       <div className="user-post-info">
                         <div className="name">{tweetBelongerName}</div>
                         <div className="account">@{tweetBelongerAccount}</div>
-                        <div className="time">· {createdAt}</div>
+                        <div className="time">· {timeDiff(createdAt)}</div>
                       </div>
 
                       <div className="post-content">{tweetContent}</div>
@@ -205,6 +205,37 @@ const UserOtherPageInfo = () => {
 
   //先從UserInfoContext拿到驗證是否為userInfo
   const { userInfo, setUserInfo } = useContext(UserInfoContext);
+  //處理時間換算timeDiff函式
+  const timeDiff = (time) => {
+    const currentDate = new Date();
+    const createdAtDate = new Date(time);
+
+    const timeDifference = currentDate - createdAtDate + 8 * 60 * 60 * 1000; //補回+8 timezone
+    const minsDifference = Math.floor(timeDifference / (60 * 1000));
+    const daysDifference = Math.floor(timeDifference / (24 * 60 * 60 * 1000));
+    const yearsDifference = Math.floor(
+      timeDifference / (365 * 24 * 60 * 60 * 1000)
+    );
+
+    if (minsDifference < 60) {
+      let newTime = `${Math.floor(timeDifference / (60 * 1000))} 分鐘`;
+      return newTime;
+    } else if (daysDifference < 1) {
+      let newTime = `${Math.floor(timeDifference / (60 * 60 * 1000))} 小時`;
+      return newTime;
+    } else if (daysDifference < 30) {
+      let newTime = `${daysDifference} 天`;
+      return newTime;
+    } else if (daysDifference < 365) {
+      const month = String(createdAtDate.getMonth() + 1).padStart(2, "0");
+      const day = String(createdAtDate.getDate()).padStart(2, "0");
+      let newTime = `${month}-${day}`;
+      return newTime;
+    } else {
+      let newTime = `${yearsDifference} 年`;
+      return newTime;
+    }
+  };
 
   const navigate = useNavigate();
   const handleBackArrowClick = () => {
@@ -237,7 +268,7 @@ const UserOtherPageInfo = () => {
   //  串接API: 畫面初始資料
   useEffect(() => {
     console.log("execute User Self Page function in useEffect");
-    //  驗證沒有成功的話
+    // //  驗證沒有成功的話
     if (!isAuthenticated) {
       // 頁面跳轉到login頁面
       navigate("/login");
@@ -378,7 +409,9 @@ const UserOtherPageInfo = () => {
         </div>
         {/* 個人介紹 */}
         <div className="user-other-introduction">
-          {userOtherInfo?.introduction}
+          {userOtherInfo.introduction === "null"
+            ? ""
+            : userOtherInfo.introduction}
         </div>
 
         {/* 個人跟隨中和跟隨者 */}
@@ -439,16 +472,22 @@ const UserOtherPageInfo = () => {
       </div>
 
       {userOtherContent === "user-other-tweet" && (
-        <UserSelfTweetContent userSelfTweets={userSelfTweets} />
+        <UserSelfTweetContent
+          userSelfTweets={userSelfTweets}
+          timeDiff={timeDiff}
+        />
       )}
       {userOtherContent === "user-other-reply" && (
-        <UserSelfReplyContent userSelfReply={userSelfReply} />
+        <UserSelfReplyContent
+          userSelfReply={userSelfReply}
+          timeDiff={timeDiff}
+        />
       )}
       {userOtherContent === "user-other-like" && (
-        <UserSelfLikeContent userSelfLike={userSelfLike} />
+        <UserSelfLikeContent userSelfLike={userSelfLike} timeDiff={timeDiff} />
       )}
 
-      {/* Modal ：根據postModal的布林值決定是否要跳出PostTweetModal component*/}
+      {/* Modal ：根據postModal的布林值決定是否要跳出PostTweetModal component */}
       {postModal && (
         <PostTweetModal
           userInfo={userInfoObject}

@@ -209,6 +209,7 @@
       justify-content: flex-start;
       margin-bottom: 10px;
       padding: 0 20px;
+      height: 153px;
       .post-item-avatar {
         width: 50px;
         height: 50px;
@@ -232,6 +233,7 @@
           }
         }
         .post-content {
+          margin-block:6px;
           display: flex;
           align-items: center;
           min-height: 80px;
@@ -344,14 +346,17 @@
   .post-item-container {
     border-bottom: 1px solid var(--border);
     margin-bottom: 10px;
-    height: 153px;
+    min-height: 153px;
     z-index: 1;
+    padding: 0 20px;
+
 
     .post-item-wrapper {
       display: flex;
       justify-content: flex-start;
       margin-bottom: 10px;
-      padding: 0 20px;
+      height: 153px;
+    
       .post-item-avatar {
         width: 50px;
         height: 50px;
@@ -377,11 +382,13 @@
           align-items: center;
           min-height: 80px;
           overflow: hidden;
+          margin-block:6px;
         }
         .reply-like-container {
           display: flex;
           justify-content: space-between;
           width: 120px;
+          height:30px;
 
           .reply-container {
             display: flex;
