@@ -42,8 +42,11 @@
         height: 200px;
         background-color: var(--bg-color);
         overflow: hidden;
+        
         .user-other-cover {
-          width: 100%;
+          width: 639px;
+        height: 200px;
+          object-fit: cover;
         }
       }
       .user-self-avatar-container {

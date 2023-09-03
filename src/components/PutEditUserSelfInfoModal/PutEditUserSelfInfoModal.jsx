@@ -16,6 +16,14 @@ const PutEditUserSelfInfoModal = ({
   onEditIntroInputChange,
   userInfoObject,
   putEditSelfInfo,
+  userInfo,
+  setUserInfo,
+  setUserSelfTweets,
+  setUserSelfReply,
+  setUserSelfLike,
+  getUserSelfTweets,
+  getUserSelfReply,
+  getUserSelfLike,
 }) => {
   // 從Context中拿取toggleEditModal的function
   const { toggleEditModal } = useContext(ModalContext);
@@ -93,12 +101,23 @@ const PutEditUserSelfInfoModal = ({
         name: res.data.data.name,
         introduction: res.data.data.introduction,
       });
+      toggleEditModal(); //把modal關起來
       // 把後端傳回來的更新資料放進localStorage
       const userInfoObjectNew = await getUserInfo(res.data.data.id);
       localStorage.setItem(
         "UserInfoObjectString",
         JSON.stringify(userInfoObjectNew)
       );
+      setUserInfo(userInfoObjectNew);
+      // 再呼叫一次getUserSelfTweets來更新avatar
+      const backendUserSelfTweets = await getUserSelfTweets(userInfoObject.id);
+      setUserSelfTweets(backendUserSelfTweets);
+      // 再呼叫一次getUserSelfReply來更新avatar
+      const backendUserSelfReply = await getUserSelfReply(userInfoObject.id);
+      setUserSelfReply(backendUserSelfReply);
+      // 再呼叫一次getUserSelfLike來更新avatar
+      const backendUserSelfLike = await getUserSelfLike(userInfoObject.id);
+      setUserSelfLike(backendUserSelfLike);
       return;
     } else {
       return alert("編輯未成功, 後端回傳內容為：", res);
@@ -136,7 +155,7 @@ const PutEditUserSelfInfoModal = ({
                       }}
                     ></input>
                     <img
-                      src={previewCover? previewCover: editFormValue.cover}
+                      src={previewCover ? previewCover : editFormValue.cover}
                       alt="userSelfCover"
                       className="put-edit-modal-user-self-cover"
                     />
@@ -182,18 +201,20 @@ const PutEditUserSelfInfoModal = ({
                   ></input>
                 </div>
                 <div className="edit-user-self-inputNote">
-                  {editFormValue.name.length === 0 && (
+                  {editFormValue && editFormValue.name.length === 0 && (
                     <div className={"edit__cannot-be-blank"}>
                       內容不可為空白
                     </div>
                   )}
-                  {editFormValue.name.length >= 50 && (
+                  {editFormValue && editFormValue.name.length >= 50 && (
                     <div className={"edit__cannot-be-over-limit"}>
                       字數不可以超過50字
                     </div>
                   )}
                   <div className={"edit-user-self-inputCounter"}>
-                    {editFormValue ? `${editFormValue.name.length}/50` : ""}
+                    {editFormValue && editFormValue
+                      ? `${editFormValue.name.length}/50`
+                      : ""}
                   </div>
                 </div>
               </div>
@@ -217,27 +238,35 @@ const PutEditUserSelfInfoModal = ({
                   ></textarea>
                 </div>
                 <div className="edit-intro-inputNote">
-                  {editFormValue.introduction.length === 0 && (
-                    <div className={"edit__cannot-be-blank"}>
-                      內容不可為空白
-                    </div>
-                  )}
-                  {editFormValue.introduction.length >= 160 && (
-                    <div className={"edit__cannot-be-over-limit"}>
-                      字數不可以超過160字
-                    </div>
-                  )}
+                  {editFormValue.introduction === null
+                    ? ""
+                    : editFormValue.introduction.length === 0 && (
+                        <div className={"edit__cannot-be-blank"}>
+                          內容不可為空白
+                        </div>
+                      )}
+                  {editFormValue.introduction === null
+                    ? ""
+                    : editFormValue.introduction.length >= 160 && (
+                        <div className={"edit__cannot-be-over-limit"}>
+                          字數不可以超過160字
+                        </div>
+                      )}
                   <div
                     className={
-                      editFormValue.introduction.length > 160
+                      editFormValue.introduction === null
+                        ? ""
+                        : editFormValue.introduction.length > 160
                         ? "edit-intro-errorMsg"
                         : "edit-intro-hide"
                     }
                   >
-                    "字數超出上限"
+                    
                   </div>
                   <div className={"edit-intro-inputCounter"}>
-                    {editFormValue
+                    {editFormValue.introduction === null
+                      ? ""
+                      : editFormValue
                       ? `${editFormValue.introduction.length}/160`
                       : ""}
                   </div>

@@ -7,8 +7,8 @@ const PostTweetModal = ({
   inputValue,
   onTweetTextAreaChange,
   onAddTweet,
-  userAvatar,
   userInfo,
+  userInfoObject,
 }) => {
   // 從Context中拿取togglePostModal的function
   const { togglePostModal } = useContext(ModalContext);
@@ -25,7 +25,13 @@ const PostTweetModal = ({
             <div className="modal-content">
               <div className="modal-avatar-text-container">
                 <div className="modal-user-avatar-wrapper">
-                  <img src={userAvatar} alt="" className="modal-user-avatar" />
+                  <img
+                    src={
+                      userInfo.avatar ? userInfo.avatar : userInfoObject.avatar
+                    }
+                    alt=""
+                    className="modal-user-avatar"
+                  />
                 </div>
 
                 <div className="modal-post-area">
