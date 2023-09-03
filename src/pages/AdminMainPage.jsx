@@ -4,7 +4,7 @@ import './AdminMainPage.scss'
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getTweets } from '../api/admin';
-import { useAdminAuth} from 'context/AdminAuthContext';
+import { useAdminAuth } from 'context/AdminAuthContext';
 
 const AdminMainPage = () => {
   const [tweets, setTweets] = useState([]);
@@ -23,13 +23,12 @@ const AdminMainPage = () => {
           return dateB - dateA; // 降序排序
         });
         setTweets(tweets)
-        console.log(`tweet:${JSON.stringify(tweets)}`)
       } catch (error) {
         console.error(error);
       }
     };
     getTweetsAsync();
-  }, []);
+  }, [tweets]);
 
   // 若未登入跳轉回"後台登入"頁面
   useEffect(() => {
@@ -46,9 +45,8 @@ const AdminMainPage = () => {
         <div className="title">推文清單</div>
         <div className="mainTweetBoard">
           {tweets.map((tweet) => {
-            console.log(`進入tweets.map`)
             return (
-              <TweetCard key={tweet.id} authorId={tweet.author.id} tweetId={tweet.id} avatar={tweet.author.avatar} name={tweet.author.name} account={tweet.author.account} description={tweet.description} time={tweet.createdAt}/> 
+              <TweetCard key={tweet.id} authorId={tweet.author.id} tweetId={tweet.id} avatar={tweet.author.avatar} name={tweet.author.name} account={tweet.author.account} description={tweet.description} time={tweet.createdAt} /> 
             )
           })}
         </div>

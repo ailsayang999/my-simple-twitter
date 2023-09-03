@@ -1,9 +1,17 @@
 import React from 'react'
+import { useState, useEffect } from 'react'
 import './CommonStyle.scss'
 import { FailIcon } from 'assets/icons'
 import { deleteTweet } from '../api/admin';
+import NotiBoxSuccess  from '../components/NotiBoxSuccess';
+import NotiBoxFail from '../components/NotiBoxFail';
+
 
 const TweetCard = ({authorId, tweetId, avatar, name, account, description, time}) => {
+  const [showNotiBoxSuccess, setShowNotiBoxSuccess] = useState(false);
+  const [showNotiBoxFail, setShowNotiBoxFail] = useState(false);
+  const [successMsg, setSuccessMsg] = useState('');
+  
 
   const timeDiff = (time) => {
     const currentDate = new Date();
@@ -32,20 +40,33 @@ const TweetCard = ({authorId, tweetId, avatar, name, account, description, time}
       let newTime = `${yearsDifference} y`;
       return newTime
     }
-    
   }
 
   const handleClick = async (tweetId) => {
     try {
       const data = await deleteTweet(tweetId);
-      console.log(`${data.message}`)
+      const successMsg = data.message
+      setShowNotiBoxSuccess(true)
+      setSuccessMsg(successMsg)
     } catch (error) {
       console.error(error);
     }
   }
 
+  useEffect(() => {
+  if (showNotiBoxSuccess) {
+    const timeout = setTimeout(() => {
+    setShowNotiBoxSuccess(false);
+    }, 1000);
+
+    return () => clearTimeout(timeout);
+  }
+  }, [successMsg, showNotiBoxSuccess]);
+
   return (
     <div className="tweetContainer">
+      {showNotiBoxSuccess && <NotiBoxSuccess notiText={successMsg} />}
+      {showNotiBoxFail && <NotiBoxFail notiText={"刪文失敗!"} />}
       <div className="leftSideAvatar" authorId={authorId}>
         <img src={avatar} alt="Avatar" />
       </div>
