@@ -11,7 +11,7 @@ const FollowContext = createContext("");
 
 function FollowContextProvider({ children }) {
   const { userInfo, setUserInfo } = useContext(UserInfoContext);
-  const userID = JSON.parse(localStorage.getItem("userInfo"))
+  const userID = JSON.parse(localStorage.getItem("userInfo"));
   const userIDNum = Number(userID.id);
   const [follower, setFollower] = useState([]);
   const [following, setFollowing] = useState([]);
@@ -28,6 +28,10 @@ function FollowContextProvider({ children }) {
     const localStorageUserObjectString = localStorage.getItem("userInfo");
     // 然後在把他變成object，讓header做渲染
     const userInfoObject = JSON.parse(localStorageUserObjectString);
+    if (id === userInfoObject.id) {
+      alert("不可以追隨自己");
+      return;
+    }
     console.log("follow id", id);
     const followPayload = {
       id: id,
