@@ -120,12 +120,14 @@ const RegisterPage = () => {
         label={"帳號"} 
         placeholder={"請輸入20字以內帳號"} 
         value={account}
+        maxLength={20}
         onChange={(accountInputValue) => setAccount(accountInputValue)}
         /> 
       <InputSet 
         label={"名稱"} 
         placeholder={"請輸入使用者名稱(50字以內)"} 
         value={name}
+        maxLength={50}
         onChange={(nameInputValue) => setName(nameInputValue)}
         />
       <InputSet 
@@ -140,6 +142,7 @@ const RegisterPage = () => {
         label={"密碼"} 
         placeholder={"請設定5~20字密碼"} 
         value={password}
+        maxLength={20}
         onChange={(passwordInputValue) => setPassword(passwordInputValue)}
         />  
       <InputSet 
@@ -147,6 +150,7 @@ const RegisterPage = () => {
         label={"密碼確認"} 
         placeholder={"請再次輸入密碼"} 
         value={checkPassword}
+        maxLength={20}
         onChange={(checkPasswordInputValue) => setCheckPassword(checkPasswordInputValue)}
         />   
       <div className="footer">
