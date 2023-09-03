@@ -53,7 +53,11 @@ const FollowerContent = ({ userOtherFollower, handleFollowBtnClick }) => {
                       {isFollowed ? "正在跟隨" : "跟隨"}
                     </button>
                   </div>
-                  <div className="follower-intro">{follower.introduction}</div>
+                  <div className="follower-intro">
+                    {follower.introduction === "null"
+                      ? ""
+                      : follower.introduction}
+                  </div>
                 </div>
               </div>
             </div>
@@ -95,7 +99,11 @@ const FollowingContent = ({ userOtherFollowing, handleFollowBtnClick }) => {
                       {isFollowed ? "正在跟隨" : "跟隨"}
                     </button>
                   </div>
-                  <div className="follower-intro">{following.introduction}</div>
+                  <div className="follower-intro">
+                    {following.introduction === "null"
+                      ? ""
+                      : following.introduction}
+                  </div>
                 </div>
               </div>
             </div>
