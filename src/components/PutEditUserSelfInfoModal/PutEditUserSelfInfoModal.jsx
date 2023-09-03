@@ -24,6 +24,8 @@ const PutEditUserSelfInfoModal = ({
   getUserSelfTweets,
   getUserSelfReply,
   getUserSelfLike,
+  setShowNotiBoxFail,
+  setErrorMsg,
 }) => {
   // 從Context中拿取toggleEditModal的function
   const { toggleEditModal } = useContext(ModalContext);
@@ -67,11 +69,16 @@ const PutEditUserSelfInfoModal = ({
     e.preventDefault();
     console.log("給後端的payload:", editFormValue);
     if (editFormValue.name.length === 0) {
+      setShowNotiBoxFail(true);
+      setErrorMsg("內容不可為空白");
       return;
     }
 
-    if (editFormValue.name.length > 50 || editFormValue.introduction > 160)
+    if (editFormValue.name.length > 50 || editFormValue.introduction > 160) {
+      setShowNotiBoxFail(true);
+      setErrorMsg("字數超過上限");
       return;
+    }
 
     // API的資訊傳遞(需轉換成 Form-data)
     const formData = new FormData();
@@ -118,7 +125,9 @@ const PutEditUserSelfInfoModal = ({
       setUserSelfLike(backendUserSelfLike);
       return;
     } else {
-      return alert("編輯未成功, 後端回傳內容為：", res);
+      setShowNotiBoxFail(true);
+      setErrorMsg("字數超過上限");
+      return;
     }
   };
 
