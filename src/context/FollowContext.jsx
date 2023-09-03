@@ -11,8 +11,6 @@ const FollowContext = createContext("");
 
 function FollowContextProvider({ children }) {
   const { userInfo, setUserInfo } = useContext(UserInfoContext);
-  const userID = JSON.parse(localStorage.getItem("userInfo"))
-  const userIDNum = Number(userID.id);
   const [follower, setFollower] = useState([]);
   const [following, setFollowing] = useState([]);
   const [topUserArr, setTopUserArr] = useState([]);
@@ -21,13 +19,13 @@ function FollowContextProvider({ children }) {
   const [userOtherInfo, setUserOtherInfo] = useState([]); //在每一頁的useEffect中會去向後端請求登入者的object資料
 
   const handleFollowBtnClick = async (id, isFollowed) => {
-    if (id === userIDNum) {
-      alert("不可以追隨自己");
-      return;
-    }
     const localStorageUserObjectString = localStorage.getItem("userInfo");
     // 然後在把他變成object，讓header做渲染
     const userInfoObject = JSON.parse(localStorageUserObjectString);
+    if (id === userInfoObject.id) {
+      alert("不可以追隨自己");
+      return;
+    }
     console.log("follow id", id);
     const followPayload = {
       id: id,
