@@ -5,6 +5,36 @@ import { deleteTweet } from '../api/admin';
 
 const TweetCard = ({authorId, tweetId, avatar, name, account, description, time}) => {
 
+  const timeDiff = (time) => {
+    const currentDate = new Date();
+    const createdAtDate = new Date(time);
+
+    const timeDifference = currentDate - createdAtDate + (8 * 60 * 60 * 1000); //補回+8 timezone
+    const minsDifference = Math.floor(timeDifference / (60 * 1000)); 
+    const daysDifference = Math.floor(timeDifference / (24 * 60 * 60 * 1000)); 
+    const yearsDifference = Math.floor(timeDifference / (365 * 24 * 60 * 60 * 1000));
+
+    if (minsDifference < 60) {
+      let newTime = `${Math.floor(timeDifference / (60 * 1000))} min`
+      return newTime
+    } else if (daysDifference < 1) {
+      let newTime = `${Math.floor(timeDifference / (60 * 60 * 1000))} h`
+      return newTime
+    } else if (daysDifference < 30) {
+      let newTime = `${daysDifference} d`;
+      return newTime
+    } else if (daysDifference < 365) {
+      const month = String(createdAtDate.getMonth() + 1).padStart(2, '0');
+      const day = String(createdAtDate.getDate()).padStart(2, '0');
+      let newTime = `${month}-${day}`;
+      return newTime
+    } else {
+      let newTime = `${yearsDifference} y`;
+      return newTime
+    }
+    
+  }
+
   const handleClick = async (tweetId) => {
     try {
       const data = await deleteTweet(tweetId);
@@ -25,7 +55,7 @@ const TweetCard = ({authorId, tweetId, avatar, name, account, description, time}
           <div className="userInfo">
             <div className="userAccount">{'@'+account}</div>
             <p>．</p>
-            <div className="timer">{time}</div>
+            <div className="timer">{timeDiff(time)}</div>
           </div>
           <button className="deleteBtn" onClick={()=>handleClick(tweetId)}><FailIcon fill={"#696974"} /></button>
         </div>
