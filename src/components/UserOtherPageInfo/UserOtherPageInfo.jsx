@@ -5,6 +5,7 @@ import { useContext, useState, useEffect } from "react";
 import ModalContext from "context/ModalContext";
 import UserInfoContext from "context/UserInfoContext";
 import { useAuth } from "context/AuthContext"; //到AuthContext拿是否已驗證
+import FollowContext from "context/FollowContext";
 
 import { ReactComponent as ReplyIcon } from "assets/icons/replyIcon.svg";
 import { ReactComponent as LikeIcon } from "assets/icons/likeIcon.svg";
@@ -143,6 +144,7 @@ const UserSelfLikeContent = ({ userSelfLike, timeDiff }) => {
   return (
     <>
       {userSelfLike.length === 0 && <ShowEmptyLike />}
+      {userSelfLike.message === "No likes" && <ShowEmptyLike />}
       {userSelfLike.length > 0 &&
         userSelfLike?.map(
           ({
@@ -202,6 +204,15 @@ const UserSelfLikeContent = ({ userSelfLike, timeDiff }) => {
 const UserOtherPageInfo = () => {
   //先從AuthContext拿到驗證是否為true(isAuthenticated:true)
   const { isAuthenticated } = useAuth();
+    const {
+      handleFollowBtnClick,
+      userOtherFollower,
+      setUserOtherFollower,
+      userOtherFollowing,
+      setUserOtherFollowing,
+      userOtherInfo,
+      setUserOtherInfo,
+    } = useContext(FollowContext);
 
   //先從UserInfoContext拿到驗證是否為userInfo
   const { userInfo, setUserInfo } = useContext(UserInfoContext);
@@ -250,8 +261,8 @@ const UserOtherPageInfo = () => {
   const [userSelfReply, setUserSelfReply] = useState([]);
   // 使用者所有喜歡
   const [userSelfLike, setUserSelfLike] = useState([]);
-  //拿到userInfo的avatar和cover跟個人介紹資料
-  const [userOtherInfo, setUserOtherInfo] = useState([]); //在每一頁的useEffect中會去向後端請求登入者的object資料
+  // //拿到userInfo的avatar和cover跟個人介紹資料
+  // const [userOtherInfo, setUserOtherInfo] = useState([]); //在每一頁的useEffect中會去向後端請求登入者的object資料
 
   // 先拿userInfoObject給PostTweetModal
   const localStorageUserObjectString = localStorage.getItem(
@@ -317,6 +328,7 @@ const UserOtherPageInfo = () => {
           localStorageUserOtherIdNum
         );
         setUserSelfLike(backendUserSelfLike);
+        console.log("userSelfLike", userSelfLike);
       } catch (error) {
         console.error(error);
       }
@@ -392,13 +404,15 @@ const UserOtherPageInfo = () => {
           <MsgIcon className="msg-icon" />
           <button
             className={`${
-              userOtherInfo.isFollowed
+              userOtherInfo?.isFollowed
                 ? "user-other-following-btn"
                 : "user-other-follow-btn"
             }`}
-            // onClick={() => handleFollowerBtnClick(userOtherInfo.id, userOtherInfo.isFollowed)}
+            onClick={() =>
+              handleFollowBtnClick(userOtherInfo.id, userOtherInfo.isFollowed)
+            }
           >
-            {userOtherInfo.isFollowed ? "正在跟隨" : "跟隨"}
+            {userOtherInfo?.isFollowed ? "正在跟隨" : "跟隨"}
           </button>
         </div>
 
@@ -409,9 +423,9 @@ const UserOtherPageInfo = () => {
         </div>
         {/* 個人介紹 */}
         <div className="user-other-introduction">
-          {userOtherInfo.introduction === "null"
+          {userOtherInfo?.introduction === "null"
             ? ""
-            : userOtherInfo.introduction}
+            : userOtherInfo?.introduction}
         </div>
 
         {/* 個人跟隨中和跟隨者 */}
@@ -423,7 +437,7 @@ const UserOtherPageInfo = () => {
               handleNavigateToFollowingPage(e.target.value);
             }}
           >
-            {userOtherInfo?.followerCount} 個
+            {userOtherInfo?.followingCount} 個
           </button>
           <span className="following-text">跟隨中</span>
 
@@ -434,7 +448,7 @@ const UserOtherPageInfo = () => {
               handleNavigateToFollowerPage(e.target.value);
             }}
           >
-            {userOtherInfo?.followingCount} 個
+            {userOtherInfo?.followerCount} 個
           </button>
           <span className="follower-text">跟隨者</span>
         </div>

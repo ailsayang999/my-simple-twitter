@@ -11,70 +11,20 @@ const FollowContext = createContext("");
 
 function FollowContextProvider({ children }) {
   const { userInfo, setUserInfo } = useContext(UserInfoContext);
-  const dummyFollower = [
-    {
-      followerId: 5,
-      followingId: 2,
-      createdAt: "2023-08-28T07:25:10.000Z",
-      updatedAt: "2023-08-28T07:25:10.000Z",
-      isFollowed: false,
-      follower: {
-        id: 5,
-        name: "User4",
-        email: "user4@example.com",
-        account: "user4",
-        introduction:
-          "Asperiores fugiat ratione dolor aperiam. Nesciunt cupiditate omnis consequuntur mollitia. Vitae non rerum beatae aut odit illum consequatur repudiandae est. Rei",
-        avatar:
-          "https://loremflickr.com/320/240/man/?random=23.513182113941646",
-        cover:
-          "https://loremflickr.com/1440/480/city/?random=12.66073706759907",
-        role: "user",
-        createdAt: "2023-08-28T07:25:03.000Z",
-        updatedAt: "2023-08-28T07:25:03.000Z",
-      },
-    },
-  ];
-  const dummyFollowing = [
-    {
-      followerId: 2,
-      followingId: 16,
-      createdAt: "2023-08-30T15:57:23.000Z",
-      updatedAt: "2023-08-30T15:57:23.000Z",
-      isFollowed: false,
-      following: {
-        id: 16,
-        name: "User15",
-        email: "user15@example.com",
-        account: "user15",
-        introduction:
-          "Dolor ea pariatur nemo enim eaque eveniet explicabo.\nQuo debitis sed quidem sit velit quis ad quo aut.\nEt assumenda praesentium voluptatem sapiente facilis qui.",
-        avatar: "https://loremflickr.com/320/240/man/?random=91.99711765606024",
-        cover:
-          "https://loremflickr.com/1440/480/city/?random=70.42234398086744",
-        role: "user",
-        createdAt: "2023-08-28T07:25:03.000Z",
-        updatedAt: "2023-08-28T07:25:03.000Z",
-      },
-    },
-  ];
-  const userTopDummyData = [
-    {
-      id: 1,
-      account: "user14",
-      name: "User14",
-      avatar: "https://loremflickr.com/320/240/man/?random=27.946851311382748",
-      totalFollowers: 5,
-      isFollowed: true,
-    },
-  ];
+  const userID = JSON.parse(localStorage.getItem("userInfo"))
+  const userIDNum = Number(userID.id);
   const [follower, setFollower] = useState([]);
   const [following, setFollowing] = useState([]);
   const [topUserArr, setTopUserArr] = useState([]);
   const [userOtherFollower, setUserOtherFollower] = useState([]);
   const [userOtherFollowing, setUserOtherFollowing] = useState([]);
+  const [userOtherInfo, setUserOtherInfo] = useState([]); //在每一頁的useEffect中會去向後端請求登入者的object資料
 
   const handleFollowBtnClick = async (id, isFollowed) => {
+    if (id === userIDNum) {
+      alert("不可以追隨自己");
+      return;
+    }
     const localStorageUserObjectString = localStorage.getItem("userInfo");
     // 然後在把他變成object，讓header做渲染
     const userInfoObject = JSON.parse(localStorageUserObjectString);
@@ -91,6 +41,8 @@ function FollowContextProvider({ children }) {
       //如果有追蹤成功的話就：
       if (res) {
         if (res.data.status === "success") {
+          //更新
+          alert("追蹤成功");
           setTopUserArr(
             topUserArr.map((personObj) => {
               if (personObj.id === id) {
@@ -100,6 +52,12 @@ function FollowContextProvider({ children }) {
               }
             })
           );
+          //userOtherPage裡面的isFollowed也要跟著改
+          setUserOtherInfo({
+            ...userOtherInfo,
+            isFollowed: true,
+            followerCount: userOtherInfo.followerCount + 1,
+          });
           setFollower(
             follower.map((personObj) => {
               if (personObj.followerId === id) {
@@ -146,8 +104,6 @@ function FollowContextProvider({ children }) {
             console.log("userInfoObjectNew", userInfoObjectNew);
             setUserInfo(userInfoObjectNew);
           }
-          //更新
-          alert("追蹤成功");
         }
         if (res.data.status === "error") {
           alert(res.data.message);
@@ -160,6 +116,7 @@ function FollowContextProvider({ children }) {
       const res = await deleteFollowShip(id);
       if (res) {
         if (res.data.status === "success") {
+          alert("取消追蹤成功");
           setTopUserArr(
             topUserArr.map((personObj) => {
               if (personObj.id === id) {
@@ -169,6 +126,11 @@ function FollowContextProvider({ children }) {
               }
             })
           );
+          setUserOtherInfo({
+            ...userOtherInfo,
+            isFollowed: false,
+            followerCount: userOtherInfo.followerCount - 1,
+          });
           setFollower(
             follower.map((personObj) => {
               if (personObj.followerId === id) {
@@ -215,7 +177,6 @@ function FollowContextProvider({ children }) {
             console.log("userInfoObjectNew", userInfoObjectNew);
             setUserInfo(userInfoObjectNew);
           }
-          alert("取消追蹤成功");
         }
         if (res.data.status === "error") {
           alert(res.data.message);
@@ -237,6 +198,8 @@ function FollowContextProvider({ children }) {
     setUserOtherFollower,
     userOtherFollowing,
     setUserOtherFollowing,
+    userOtherInfo,
+    setUserOtherInfo,
   };
 
   return (
