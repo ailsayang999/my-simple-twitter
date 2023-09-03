@@ -85,6 +85,38 @@ const MainPageInfo = () => {
     navigate("/user/other");
   };
 
+  //處理時間換算timeDiff函式
+  const timeDiff = (time) => {
+    const currentDate = new Date();
+    const createdAtDate = new Date(time);
+
+    const timeDifference = currentDate - createdAtDate + 8 * 60 * 60 * 1000; //補回+8 timezone
+    const minsDifference = Math.floor(timeDifference / (60 * 1000));
+    const daysDifference = Math.floor(timeDifference / (24 * 60 * 60 * 1000));
+    const yearsDifference = Math.floor(
+      timeDifference / (365 * 24 * 60 * 60 * 1000)
+    );
+
+    if (minsDifference < 60) {
+      let newTime = `${Math.floor(timeDifference / (60 * 1000))} 分鐘`;
+      return newTime;
+    } else if (daysDifference < 1) {
+      let newTime = `${Math.floor(timeDifference / (60 * 60 * 1000))} 小時`;
+      return newTime;
+    } else if (daysDifference < 30) {
+      let newTime = `${daysDifference} 天`;
+      return newTime;
+    } else if (daysDifference < 365) {
+      const month = String(createdAtDate.getMonth() + 1).padStart(2, "0");
+      const day = String(createdAtDate.getDate()).padStart(2, "0");
+      let newTime = `${month}-${day}`;
+      return newTime;
+    } else {
+      let newTime = `${yearsDifference} 年`;
+      return newTime;
+    }
+  };
+
   ////////////////////////////////////////////////////////////////////////////////////////////串接API getTweets 和  getUserInfo useEffect做初始畫面渲染 ///////////////////////////
   // const [userInfo, setUserInfo] = useState([]); //在每一頁的useEffect中會去向後端請求登入者的object資料
 
@@ -262,7 +294,7 @@ const MainPageInfo = () => {
                       <div className="user-post-info">
                         <div className="name">{authorName}</div>
                         <div className="account">@{authorAccount}</div>
-                        <div className="time">· {createdAt}</div>
+                        <div className="time">· {timeDiff(createdAt)}</div>
                       </div>
 
                       <div

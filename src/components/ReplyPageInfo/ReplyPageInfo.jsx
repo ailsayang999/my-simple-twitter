@@ -54,6 +54,37 @@ const ReplyPageInfo = () => {
 
   //先從UserInfoContext拿到驗證是否為userInfo
   const { userInfo } = useContext(UserInfoContext);
+  //處理時間換算timeDiff函式
+  const timeDiff = (time) => {
+    const currentDate = new Date();
+    const createdAtDate = new Date(time);
+
+    const timeDifference = currentDate - createdAtDate + 8 * 60 * 60 * 1000; //補回+8 timezone
+    const minsDifference = Math.floor(timeDifference / (60 * 1000));
+    const daysDifference = Math.floor(timeDifference / (24 * 60 * 60 * 1000));
+    const yearsDifference = Math.floor(
+      timeDifference / (365 * 24 * 60 * 60 * 1000)
+    );
+
+    if (minsDifference < 60) {
+      let newTime = `${Math.floor(timeDifference / (60 * 1000))} 分鐘`;
+      return newTime;
+    } else if (daysDifference < 1) {
+      let newTime = `${Math.floor(timeDifference / (60 * 60 * 1000))} 小時`;
+      return newTime;
+    } else if (daysDifference < 30) {
+      let newTime = `${daysDifference} 天`;
+      return newTime;
+    } else if (daysDifference < 365) {
+      const month = String(createdAtDate.getMonth() + 1).padStart(2, "0");
+      const day = String(createdAtDate.getDate()).padStart(2, "0");
+      let newTime = `${month}-${day}`;
+      return newTime;
+    } else {
+      let newTime = `${yearsDifference} 年`;
+      return newTime;
+    }
+  };
 
   // 先拿到初始的資料
   useEffect(() => {
@@ -211,7 +242,7 @@ const ReplyPageInfo = () => {
                     </div>
                     <div className="tweet-text-area">{description}</div>
                     <div className="tweet-time-area">
-                      <div className="tweet-time">{createdAt}</div>
+                      <div className="tweet-time">{timeDiff(createdAt)}</div>
                     </div>
                   </div>
                 </div>
