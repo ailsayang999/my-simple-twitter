@@ -9,12 +9,12 @@ function NavigationContextProvider({ children }) {
   // 導向UserSelfFollowPageInfo畫面使用，根據followContent，followContent= follower，但UserSelfFollowPage的navigate()會先執行，所以現在以下function只變成在UserSelfFollowPage執行
   const handleFollowerClick = (followerValue) => {
     setShowFollowPageContent(followerValue);
-    console.log(showFollowPageContent);
+    // console.log(showFollowPageContent);
   };
   // 導向UserSelfFollowPageInfo畫面使用，根據followContent，followContent= following，但UserSelfFollowPage的navigate()會先執行，所以現在以下function只變成在UserSelfFollowPage執行
   const handleFollowingClick = (followingValue) => {
     setShowFollowPageContent(followingValue);
-    console.log(showFollowPageContent);
+    // console.log(showFollowPageContent);
   };
 
   const NavigationContextValueToShare = {

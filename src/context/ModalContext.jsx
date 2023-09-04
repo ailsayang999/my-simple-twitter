@@ -113,11 +113,11 @@ function ModalContextProvider({ children }) {
       return;
     }
 
-    console.log(ReplyInputValue); //ReplyInputValue有輸入成功，handleTweetReply 點擊反應成功
+    // console.log(ReplyInputValue); //ReplyInputValue有輸入成功，handleTweetReply 點擊反應成功
     //因為他也是非同步的操作，可能會有失敗的狀況，所以我也是用try catch把它包起來
     const specificTweetIdForBackendParam = specificTweet[0].id;
-    console.log("要給後端的param", specificTweetIdForBackendParam);
-    console.log("要給後端的body", ReplyInputValue);
+    // console.log("要給後端的param", specificTweetIdForBackendParam);
+    // console.log("要給後端的body", ReplyInputValue);
 
     try {
       //會給後端儲存的資料有：description
@@ -179,7 +179,7 @@ function ModalContextProvider({ children }) {
           }
         );
         setSpecificTweet(newSpecificTweetReplyNumArr);
-        console.log(newSpecificTweetReplyNumArr);
+        // console.log(newSpecificTweetReplyNumArr);
       }
       return;
     } catch (error) {

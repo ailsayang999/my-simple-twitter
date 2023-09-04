@@ -38,7 +38,7 @@ const LoginPage = () => {
       password,
       });
       if (data.status === "success") {
-        console.log(`登入成功!`)
+        // console.log(`登入成功!`)
         setShowNotiBoxSuccess(true)
         return;
       } 
@@ -51,9 +51,9 @@ const LoginPage = () => {
         //先把user的所有object值存到userInfo這個state
         const LocalStorageUserInfo = JSON.parse(localStorageUserInfoString); // 要把這個string變成object
         const userInfoId = LocalStorageUserInfo.id; //再從這個object拿到登入者的id
-        console.log("userInfoId", userInfoId);
+        // console.log("userInfoId", userInfoId);
         const backendUserInfo = await getUserInfo(userInfoId);
-        console.log("backendUserInfo", backendUserInfo);
+        // console.log("backendUserInfo", backendUserInfo);
         //在login的瞬間就更新userInfo state，之後在UserInfoContext都可以拿到userInfo的值
         setUserInfo(backendUserInfo);
 
