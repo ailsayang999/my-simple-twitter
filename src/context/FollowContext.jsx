@@ -26,12 +26,12 @@ function FollowContextProvider({ children }) {
       alert("不可以追隨自己");
       return;
     }
-    console.log("follow id", id);
+    // console.log("follow id", id);
     const followPayload = {
       id: id,
     };
-    console.log("followPayload", followPayload);
-    console.log("isFollow", isFollowed);
+    // console.log("followPayload", followPayload);
+    // console.log("isFollow", isFollowed);
 
     // 想追蹤某個user
     if (isFollowed === false) {
@@ -99,7 +99,7 @@ function FollowContextProvider({ children }) {
             JSON.stringify(userInfoObjectNew)
           );
           if (userInfoObjectNew) {
-            console.log("userInfoObjectNew", userInfoObjectNew);
+            // console.log("userInfoObjectNew", userInfoObjectNew);
             setUserInfo(userInfoObjectNew);
           }
         }
@@ -172,7 +172,7 @@ function FollowContextProvider({ children }) {
             JSON.stringify(userInfoObjectNew)
           );
           if (userInfoObjectNew) {
-            console.log("userInfoObjectNew", userInfoObjectNew);
+            // console.log("userInfoObjectNew", userInfoObjectNew);
             setUserInfo(userInfoObjectNew);
           }
         }

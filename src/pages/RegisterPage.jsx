@@ -76,7 +76,7 @@ const RegisterPage = () => {
       checkPassword
       });
       if (data.status === "success") {
-        console.log(`註冊成功!`)
+        // console.log(`註冊成功!`)
         setShowNotiBoxSuccess(true)
         return;
       } 

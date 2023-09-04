@@ -78,7 +78,7 @@ export const AuthProvider = ({ children }) => {
             });
             if (data.status === "success") {
               const tempPayload = jwt_decode(data.data.token);
-              console.log(`tempPayload: ${JSON.stringify(tempPayload)}`)
+              // console.log(`tempPayload: ${JSON.stringify(tempPayload)}`)
               setPayload(tempPayload);
               setIsAuthenticated(true);
               localStorage.setItem("authToken", data.data.token);
@@ -102,17 +102,17 @@ export const AuthProvider = ({ children }) => {
             password: data1.password,
             checkPassword: data1.checkPassword,
             });
-            console.log(`data.status:${data.status}`)
+            // console.log(`data.status:${data.status}`)
             if (data.status === "success") {
               const tempPayload = JSON.stringify(data.data);
               setPayload(tempPayload);
               setIsAuthenticated(true);
               localStorage.setItem("userInfo", JSON.stringify(tempPayload));
-              console.log('在localStorage存入更新的userInfo');
+              // console.log('在localStorage存入更新的userInfo');
             } else {
               setPayload(null);
               setIsAuthenticated(false);
-              console.log(`失敗，未更新userInfo`);
+              // console.log(`失敗，未更新userInfo`);
             }
             return data;
           } catch(errorMsg) {
