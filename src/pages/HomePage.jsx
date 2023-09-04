@@ -1,7 +1,7 @@
 import React from 'react'
 import { AClogo } from '../assets/icons';
 import { Link } from 'react-router-dom';
-import './HomePage.scss'
+import './homePage.scss'
 
 const HomePage = () => {
 

@@ -1,6 +1,6 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
-import './CommonStyle.scss'
+import './commonStyle.scss'
 import { FailIcon } from 'assets/icons'
 import { deleteTweet } from '../api/admin';
 import NotiBoxSuccess  from '../components/NotiBoxSuccess';
@@ -23,13 +23,13 @@ const TweetCard = ({authorId, tweetId, avatar, name, account, description, time}
     const yearsDifference = Math.floor(timeDifference / (365 * 24 * 60 * 60 * 1000));
 
     if (minsDifference < 60) {
-      let newTime = `${Math.floor(timeDifference / (60 * 1000))} min`
+      let newTime = `${Math.floor(timeDifference / (60 * 1000))} 分`
       return newTime
     } else if (daysDifference < 1) {
-      let newTime = `${Math.floor(timeDifference / (60 * 60 * 1000))} h`
+      let newTime = `${Math.floor(timeDifference / (60 * 60 * 1000))} 時`
       return newTime
     } else if (daysDifference < 30) {
-      let newTime = `${daysDifference} d`;
+      let newTime = `${daysDifference} 天`;
       return newTime
     } else if (daysDifference < 365) {
       const month = String(createdAtDate.getMonth() + 1).padStart(2, '0');
@@ -37,9 +37,18 @@ const TweetCard = ({authorId, tweetId, avatar, name, account, description, time}
       let newTime = `${month}-${day}`;
       return newTime
     } else {
-      let newTime = `${yearsDifference} y`;
+      let newTime = `${yearsDifference} 年`;
       return newTime
     }
+  }
+
+  const hideDescription = (description) => {
+    if (description.length >= 50) {
+      const newDescription = description.substring(0, 50) + '...'
+      console.log(newDescription)
+      return newDescription;
+    }
+    return description;
   }
 
   const handleClick = async (tweetId) => {
@@ -80,7 +89,7 @@ const TweetCard = ({authorId, tweetId, avatar, name, account, description, time}
           </div>
           <button className="deleteBtn" onClick={()=>handleClick(tweetId)}><FailIcon fill={"#696974"} /></button>
         </div>
-        <div className="tweetContext" >{description}</div>
+        <div className="tweetContext" >{hideDescription(description)}</div>
       </div>
     </div>
   )

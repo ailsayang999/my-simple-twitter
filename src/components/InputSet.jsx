@@ -1,6 +1,6 @@
 import React from 'react'
 // import { useState } from 'react'
-import './CommonStyle.scss'
+import './commonStyle.scss'
 
 
 const InputSet = ({ item, type, label, value, placeholder, maxLength, onChange }) => {
@@ -22,7 +22,10 @@ const InputSet = ({ item, type, label, value, placeholder, maxLength, onChange }
   } else if (label === "密碼" && value.length !== 0 && ((value.length < 5) || (value.length > 20))) {
     errorType = "error";
     errorMsg = "密碼長度至少5字，但不超過20字!";
-  } else if (label === "Email" && value.length > 0) {
+  } else if (label === "密碼確認" && value.length !== 0 && ((value.length < 5) || (value.length > 20))) {
+    errorType = "error";
+    errorMsg = "密碼長度至少5字，但不超過20字!";
+  }else if (label === "Email" && value.length > 0) {
     const valid = emailCheck(value)
     if (!valid) {
       errorType = "error";

@@ -1,4 +1,4 @@
-import './LoginPage.scss';
+import './loginPage.scss';
 import { useState, useEffect, useContext } from "react";
 import { Link, useNavigate } from 'react-router-dom';
 import Header from 'components/Header'
@@ -23,11 +23,13 @@ const LoginPage = () => {
 
   const handleClick = async () => {
     if (account.length === 0) {
-      console.log("帳號為必填");
+      setShowNotiBoxFail(true)
+      setErrorMsg("帳號為必填")
       return;
     }
     if (password.length === 0) {
-      console.log("密碼為必填");
+      setShowNotiBoxFail(true)
+      setErrorMsg("密碼為必填")
       return;
     }
     try {
@@ -40,7 +42,6 @@ const LoginPage = () => {
         setShowNotiBoxSuccess(true)
         return;
       } 
-      console.log(`登入失敗!message: ${data.message}`)
       setErrorMsg(data.message)
       setShowNotiBoxFail(true)
       
@@ -91,9 +92,11 @@ const LoginPage = () => {
       {showNotiBoxFail && <NotiBoxFail notiText={errorMsg} />}
       <Header entryName={"登入 Alphitter"}/>
       <InputSet 
+        item={"前台帳號"}
         label={"帳號"} 
         placeholder={"請輸入帳號"} 
         value={account}
+        maxLength={20}
         onChange={(accountInputValue) => setAccount(accountInputValue)}
       />
       <InputSet
@@ -101,6 +104,7 @@ const LoginPage = () => {
         label={"密碼"}
         placeholder={"請輸入密碼"}
         value={password}
+        maxLength={20}
         onChange={(passwordInputValue) => setPassword(passwordInputValue)}
       />
       <div className="footer">

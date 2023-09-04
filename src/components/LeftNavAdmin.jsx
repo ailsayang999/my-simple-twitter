@@ -1,7 +1,7 @@
 import React from 'react';
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import './CommonStyle.scss';
+import './commonStyle.scss'
 import { AClogo, HomeIcon, HomeIconActive, UserIcon, UserIconActive, LogOutIcon} from '../assets/icons'
 
 
