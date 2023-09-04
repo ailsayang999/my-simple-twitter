@@ -47,7 +47,7 @@ const RightBanner = () => {
   } = useContext(FollowContext);
 
   useEffect(() => {
-    console.log("execute right banner function in useEffect");
+    // console.log("execute right banner function in useEffect");
     const getTop10Async = async () => {
       try {
         const backendTop10 = await getTop10();

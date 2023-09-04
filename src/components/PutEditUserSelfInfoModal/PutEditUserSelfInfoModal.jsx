@@ -34,7 +34,7 @@ const PutEditUserSelfInfoModal = ({
   const [previewAvatar, setPreviewAvatar] = useState("");
   const [previewCover, setPreviewCover] = useState();
 
-  console.log("當前的userInfoObject：", userInfoObject);
+  // console.log("當前的userInfoObject：", userInfoObject);
 
   // const [nameInputValue, setNameInputValue] = useState("");
   // const [intro, setIntro] = useState("");
@@ -67,7 +67,7 @@ const PutEditUserSelfInfoModal = ({
 
   const handleEditFormSubmit = async (e) => {
     e.preventDefault();
-    console.log("給後端的payload:", editFormValue);
+    // console.log("給後端的payload:", editFormValue);
     if (editFormValue.name.length === 0) {
       setShowNotiBoxFail(true);
       setErrorMsg("內容不可為空白");
@@ -92,14 +92,14 @@ const PutEditUserSelfInfoModal = ({
     formData.set("cover", editFormValue.cover);
     // formData.set("avatar", userAvatar);
     // formData.set("banner", banner);
-    for (const pair of formData.entries()) {
-      console.log(`${pair[0]}, ${pair[1]}`);
-    }
+    // for (const pair of formData.entries()) {
+    //   console.log(`${pair[0]}, ${pair[1]}`);
+    // }
 
     const res = await putEditSelfInfo(userInfoObject.id, formData);
     if (res.data.message === "Successfully update user.") {
       alert(res.data.message);
-      console.log("編輯成功, 編輯回傳內容為：", res.data);
+      // console.log("編輯成功, 編輯回傳內容為：", res.data);
       //下次form會顯示上次更新後的name和account
       setEditFormValue({
         ...editFormValue,

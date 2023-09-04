@@ -21,7 +21,7 @@ const SettingPageInfo = () => {
 
   const handleClick = async () => {
     const userId = JSON.parse(localStorage.getItem('userInfo')).id
-    console.log(userId)
+    // console.log(userId)
 
     if (account.length > 20) {
       setShowNotiBoxFail(true)
@@ -62,7 +62,7 @@ const SettingPageInfo = () => {
       checkPassword
       });
       if (success) {
-        console.log(`修改成功!`)
+        // console.log(`修改成功!`)
         setShowNotiBoxSuccess(true)
         return;
       } 
@@ -76,7 +76,7 @@ const SettingPageInfo = () => {
     
   };
   useEffect(() => {
-    console.log("execute User Other Follow Page function in useEffect");
+    // console.log("execute User Other Follow Page function in useEffect");
     //  驗證沒有成功的話
     if (!isAuthenticated) {
       // 頁面跳轉到login頁面

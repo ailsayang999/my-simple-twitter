@@ -3,7 +3,7 @@ import "./userSelfFollowPageInfo.scss";
 import { ReactComponent as BackArrowIcon } from "assets/icons/backArrowIcon.svg";
 import { useNavigate } from "react-router-dom";
 import ModalContext from "context/ModalContext";
-import UserInfoContext from "context/UserInfoContext"
+import UserInfoContext from "context/UserInfoContext";
 import { useAuth } from "context/AuthContext"; //到AuthContext拿是否已驗證;
 import FollowContext from "context/FollowContext";
 // 引入Modal元件
@@ -24,7 +24,7 @@ const ShowEmptyFollowing = () => {
 };
 
 const FollowerContent = ({ follower, handleFollowBtnClick }) => {
-  console.log("render followerContent");
+  // console.log("render followerContent");
   // backendUserSelfFollower裡面還有一層
   return (
     <>
@@ -150,141 +150,27 @@ const UserSelfFellowPageInfo = () => {
   const [showFollowPageContent, setShowFollowPageContent] = useState(
     pageShowFollowContent
   );
-  console.log(showFollowPageContent);
+  // console.log(showFollowPageContent);
   // 頁內切換FollowerContent || FollowingContent
   const handleFollowerClick = (followerValue) => {
     setShowFollowPageContent(followerValue);
-    console.log(showFollowPageContent);
+    // console.log(showFollowPageContent);
   };
   // 頁內切換FollowerContent || FollowingContent
   const handleFollowingClick = (followingValue) => {
     setShowFollowPageContent(followingValue);
-    console.log(showFollowPageContent);
-  };
-
-  ////////////////////////////////////////////////// 追蹤和取消追蹤功能 //////////////////////////////////////////////////
-
-  const handleFollowerBtnClick = async (followerId, isFollowed) => {
-    console.log("follower in handleFollowerClick", follower);
-    console.log("follower id", followerId);
-    const followPayload = {
-      id: followerId,
-    };
-    console.log("followPayload", followPayload);
-
-    // 想追蹤這個follower
-    if (isFollowed === false) {
-      const res = await postFollowShip(followPayload);
-      console.log("後端傳來postFollowShip的結果", res.data.status);
-      //如果有追蹤成功的話就：
-      if (res) {
-        if (res.data.status === "success") {
-          setFollower(
-            follower.map((personObj) => {
-              if (personObj.followerId === followerId) {
-                return { ...personObj, isFollowed: true };
-              } else {
-                return personObj;
-              }
-            })
-          );
-          alert("追蹤成功");
-        }
-        if (res.data.status === "error") {
-          alert(res.data.message);
-          alert("你已追蹤過這個帳戶");
-        }
-      }
-    }
-    // 想取消追蹤這個follower
-    if (isFollowed === true) {
-      const res = await deleteFollowShip(followerId);
-      if (res) {
-        if (res.data.status === "success") {
-          setFollower(
-            follower.map((personObj) => {
-              if (personObj.followerId === followerId) {
-                return { ...personObj, isFollowed: false };
-              } else {
-                return personObj;
-              }
-            })
-          );
-          alert("取消追蹤成功");
-        }
-        if (res.data.status === "error") {
-          alert(res.data.message);
-          alert("你還沒追蹤這個帳戶");
-        }
-      }
-    }
-  };
-
-  const handleFollowingBtnClick = async (followingId, isFollowed) => {
-    console.log("following id", followingId);
-    const followPayload = {
-      id: followingId,
-    };
-    console.log("followPayload", followPayload);
-    console.log("isFollow", isFollowed);
-
-    // 想追蹤某個top ten user
-    if (isFollowed === false) {
-      const res = await postFollowShip(followPayload);
-      console.log("後端傳來postFollowShip的結果", res);
-      //如果有追蹤成功的話就：
-      if (res) {
-        if (res.data.status === "success") {
-          setFollowing(
-            following.map((personObj) => {
-              if (personObj.followingId === followingId) {
-                return { ...personObj, isFollowed: true };
-              } else {
-                return personObj;
-              }
-            })
-          );
-          alert("追蹤成功");
-        }
-        if (res.data.status === "error") {
-          alert(res.data.message);
-          alert("你已追蹤過這個帳戶");
-        }
-      }
-    }
-    // 想取消追蹤這個top ten user
-    if (isFollowed === true) {
-      const res = await deleteFollowShip(followingId);
-      if (res) {
-        if (res.data.status === "success") {
-          setFollowing(
-            following.map((personObj) => {
-              if (personObj.followingId === followingId) {
-                return { ...personObj, isFollowed: false };
-              } else {
-                return personObj;
-              }
-            })
-          );
-          alert("取消追蹤成功");
-        }
-        if (res.data.status === "error") {
-          alert(res.data.message);
-          alert("你還沒追蹤這個帳戶");
-        }
-      }
-    }
+    // console.log(showFollowPageContent);
   };
 
   ///////////////////////////////////////////////////初始畫面渲染 /////////////////////////////////////////////////
-const localStorageUserObjectString = localStorage.getItem(
-  "UserInfoObjectString"
-);
-const userInfoObject = JSON.parse(localStorageUserObjectString);
-console.log("userInfoObject", userInfoObject);
+  const localStorageUserObjectString = localStorage.getItem(
+    "UserInfoObjectString"
+  );
+  const userInfoObject = JSON.parse(localStorageUserObjectString);
+  // console.log("userInfoObject", userInfoObject);
 
   useEffect(() => {
-    console.log("execute User Self Follow Page function in useEffect");
+    // console.log("execute User Self Follow Page function in useEffect");
     //  驗證沒有成功的話
     if (!isAuthenticated) {
       // 頁面跳轉到login頁面
@@ -318,7 +204,7 @@ console.log("userInfoObject", userInfoObject);
     getUserSelfFollowingAsync();
   }, []);
 
-  console.log("follow page follower: ", follower);
+  // console.log("follow page follower: ", follower);
 
   return (
     <div className="user-self-follow-page-info">

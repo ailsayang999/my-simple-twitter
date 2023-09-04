@@ -146,12 +146,12 @@ const UserOtherFollowPageInfo = () => {
   // 頁內切換FollowerContent || FollowingContent
   const handleFollowerClick = (followerValue) => {
     setShowFollowPageContent(followerValue);
-    console.log(showFollowPageContent);
+    // console.log(showFollowPageContent);
   };
   // 頁內切換FollowerContent || FollowingContent
   const handleFollowingClick = (followingValue) => {
     setShowFollowPageContent(followingValue);
-    console.log(showFollowPageContent);
+    // console.log(showFollowPageContent);
   };
 
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -226,7 +226,7 @@ const UserOtherFollowPageInfo = () => {
   const userInfoObject = JSON.parse(localStorageUserObjectString); //因為PostTweetModal裡面的推文者還是登入者本身，userInfoObject是登入者的userInfo
 
   useEffect(() => {
-    console.log("execute User Other Follow Page function in useEffect");
+    // console.log("execute User Other Follow Page function in useEffect");
     //  驗證沒有成功的話
     if (!isAuthenticated) {
       // 頁面跳轉到login頁面
@@ -242,7 +242,7 @@ const UserOtherFollowPageInfo = () => {
           userOtherInfoObject.id
         );
         setUserOtherFollower(backendUserOtherFollower);
-        console.log("backendUserOtherFollower: ", backendUserOtherFollower);
+        // console.log("backendUserOtherFollower: ", backendUserOtherFollower);
       } catch (error) {
         console.error(error);
       }
@@ -255,7 +255,7 @@ const UserOtherFollowPageInfo = () => {
         );
         //後端好了再打開，先用userInfo
         setUserOtherFollowing(backendUserOtherFollowing);
-        console.log("backendUserSelfFollowing: ", backendUserOtherFollowing);
+        // console.log("backendUserSelfFollowing: ", backendUserOtherFollowing);
       } catch (error) {
         console.error(error);
       }

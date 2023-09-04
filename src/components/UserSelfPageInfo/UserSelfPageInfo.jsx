@@ -207,7 +207,7 @@ const UserSelfPageInfo = () => {
 
   //先從UserInfoContext拿到驗證是否為userInfo
   const { userInfo, setUserInfo } = useContext(UserInfoContext);
-  console.log("userSelf page userInfo", userInfo);
+  // console.log("userSelf page userInfo", userInfo);
   const navigate = useNavigate();
   // 返回主畫面使用
   const handleBackArrowClick = () => {
@@ -275,7 +275,7 @@ const UserSelfPageInfo = () => {
 
   //串接API: 畫面初始資料
   useEffect(() => {
-    console.log("execute User Self Page function in useEffect");
+    // console.log("execute User Self Page function in useEffect");
     //  驗證沒有成功的話
     if (!isAuthenticated) {
       // 頁面跳轉到login頁面
@@ -307,7 +307,7 @@ const UserSelfPageInfo = () => {
       try {
         const backendUserSelfLike = await getUserSelfLike(userInfoObject.id);
         setUserSelfLike(backendUserSelfLike);
-        console.log("backendUserSelfLike", backendUserSelfLike);
+        // console.log("backendUserSelfLike", backendUserSelfLike);
       } catch (error) {
         console.error(error);
       }
@@ -337,7 +337,7 @@ const UserSelfPageInfo = () => {
   const [userSelfContent, setUserSelfContent] = useState("user-self-tweet");
   const handleChangeUserSelfContent = (contentValue) => {
     setUserSelfContent(contentValue);
-    console.log(contentValue);
+    // console.log(contentValue);
   };
 
   return (

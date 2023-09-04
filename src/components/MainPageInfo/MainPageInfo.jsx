@@ -54,15 +54,15 @@ const MainPageInfo = () => {
       //因為getSpecificTweet是非同步的操作，有可能會失敗，所以我們要用try catch把它包起來
       try {
         const backendSpecificTweet = await getSpecificTweet(specificTweetId); //用await去取得所有後端specificTweet
-        console.log("specificTweetId", specificTweetId);
-        console.log("backendSpecificTweet", backendSpecificTweet);
-        console.log(
-          "Type of backendSpecificTweet: ",
-          typeof backendSpecificTweet
-        );
+        // console.log("specificTweetId", specificTweetId);
+        // console.log("backendSpecificTweet", backendSpecificTweet);
+        // console.log(
+        //   "Type of backendSpecificTweet: ",
+        //   typeof backendSpecificTweet
+        // );
         const specificTweetArray = [];
         specificTweetArray.push(backendSpecificTweet);
-        console.log(specificTweetArray);
+        // console.log(specificTweetArray);
         setSpecificTweet(specificTweetArray);
         const specificTweetArrayString = JSON.stringify(specificTweetArray);
         localStorage.setItem("specific-tweetArray", specificTweetArrayString);
@@ -122,7 +122,7 @@ const MainPageInfo = () => {
 
   //串接API: tweets畫面初始化，顯示過去tweets內所有資訊
   useEffect(() => {
-    console.log("execute function in useEffect");
+    // console.log("execute function in useEffect");
     //  驗證沒有成功的話
     if (!isAuthenticated) {
       // 頁面跳轉到login頁面
@@ -168,10 +168,10 @@ const MainPageInfo = () => {
   const handleToggleLike = async (id) => {
     // 找出這篇文章
     const specificToggleTweet = tweets.filter((tweet) => tweet.TweetId === id);
-    console.log("specificToggleTweet", specificToggleTweet);
+    // console.log("specificToggleTweet", specificToggleTweet);
     // 拿到這篇文章Like初始狀態
     const specificToggleTweetLike = specificToggleTweet[0].isLiked;
-    console.log("此篇貼文的Like初始狀態: ", specificToggleTweetLike);
+    // console.log("此篇貼文的Like初始狀態: ", specificToggleTweetLike);
 
     if (specificToggleTweetLike === true) {
       const res = await postTweetUnlike(id);
@@ -229,7 +229,7 @@ const MainPageInfo = () => {
     }
   };
 
-  console.log("Main Page userInfo", userInfo);
+  // console.log("Main Page userInfo", userInfo);
 
   return (
     <div className="main-page-info">

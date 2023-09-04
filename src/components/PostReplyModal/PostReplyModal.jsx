@@ -14,26 +14,7 @@ const PostReplyModal = ({
   // 從Context中拿取togglePostModal的function
   const { toggleReplyModal } = useContext(ModalContext);
 
-  // useEffect(() => {
-  //   const getSpecificTweetAsync = async () => {
-  //     //因為getSpecificTweet是非同步的操作，有可能會失敗，所以我們要用try catch把它包起來
-  //     try {
-  //       // 先把mainPage的某個一個特定tweet的id拿出來
-  //       const specificTweetId = localStorage.getItem("specific-tweetId");
-  //       // console.log(typeof specificTweetId);
-  //       const specificTweetIdNum = Number(specificTweetId);
-  //       const backendSpecificTweet = await getSpecificTweet(specificTweetIdNum); //用await去取得所有後端specificTweet
-        
-        
-  //       setSpecificTweet(backendSpecificTweet);
-  //     } catch (error) {
-  //       console.error(error);
-  //     }
-  //   };
-  //   getSpecificTweetAsync();
-  // }, []);
-
-  console.log("specificTweet::::",specificTweet);
+  // console.log("specificTweet:",specificTweet);
  
   return (
     <div className="reply-post-tweet-modal">

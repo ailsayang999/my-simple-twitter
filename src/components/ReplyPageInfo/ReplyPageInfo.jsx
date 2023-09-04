@@ -88,7 +88,7 @@ const ReplyPageInfo = () => {
 
   // 先拿到初始的資料
   useEffect(() => {
-    console.log("Reply page execute useEffect");
+    // console.log("Reply page execute useEffect");
     //  驗證沒有成功的話
     if (!isAuthenticated) {
       // 頁面跳轉到login頁面
@@ -106,7 +106,7 @@ const ReplyPageInfo = () => {
         const backendSpecificTweet = await getSpecificTweet(specificTweetIdNum); //用await去取得所有後端specificTweet
         const specificTweetArray = [];
         specificTweetArray.push(backendSpecificTweet);
-        console.log("specificTweetArray", specificTweetArray);
+        // console.log("specificTweetArray", specificTweetArray);
         setSpecificTweet(specificTweetArray);
       } catch (error) {
         console.error(error);
@@ -133,7 +133,7 @@ const ReplyPageInfo = () => {
   }, []); //後面的dependency是specificTweet和specificTweetReplies，兩者改變就要讓愛心的數字可動態更新
 
   const handleToggleLike = async (specificTweet, setSpecificTweet) => {
-    console.log(specificTweet);
+    // console.log(specificTweet);
     // 拿到這篇文章Like初始狀態
     // console.log("specificTweet:", specificTweet);
     const specificToggleTweetLike = specificTweet[0].isLiked;
@@ -190,7 +190,7 @@ const ReplyPageInfo = () => {
             })
           );
           alert("Like成功");
-          console.log(specificTweet);
+          // console.log(specificTweet);
           return;
         } else {
           return alert("Like未成功！");

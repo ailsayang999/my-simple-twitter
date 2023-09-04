@@ -269,17 +269,17 @@ const UserOtherPageInfo = () => {
     "UserInfoObjectString"
   );
   const userInfoObject = JSON.parse(localStorageUserObjectString);
-  console.log("userInfoObject", userInfoObject);
+  // console.log("userInfoObject", userInfoObject);
 
   // 因為還沒拿到userOtherInfoObject，所以先用localStorageUserOtherIdNum給useEffect裡的非同步
   const localStorageUserOtherId = localStorage.getItem("userOtherId"); //拿下來會是一比string的資料
   const localStorageUserOtherIdNum = Number(localStorageUserOtherId);
-  console.log("localStorageUserOtherIdNum: ", localStorageUserOtherIdNum);
+  // console.log("localStorageUserOtherIdNum: ", localStorageUserOtherIdNum);
 
   //  串接API: 畫面初始資料
   useEffect(() => {
-    console.log("execute User Self Page function in useEffect");
-    // //  驗證沒有成功的話
+    // console.log("execute User Self Page function in useEffect");
+    //  驗證沒有成功的話
     if (!isAuthenticated) {
       // 頁面跳轉到login頁面
       navigate("/login");
@@ -328,7 +328,7 @@ const UserOtherPageInfo = () => {
           localStorageUserOtherIdNum
         );
         setUserSelfLike(backendUserSelfLike);
-        console.log("userSelfLike", userSelfLike);
+        // console.log("userSelfLike", userSelfLike);
       } catch (error) {
         console.error(error);
       }
@@ -358,10 +358,10 @@ const UserOtherPageInfo = () => {
   const [userOtherContent, setUserOtherContent] = useState("user-other-tweet");
   const handleChangeUserOtherContent = (contentValue) => {
     setUserOtherContent(contentValue);
-    console.log(contentValue);
+    // console.log(contentValue);
   };
 
-  console.log("User other page userInfo: ", userOtherInfo);
+  // console.log("User other page userInfo: ", userOtherInfo);
   return (
     <div className="user-other-page-info">
       {/* 以下渲染*/}
