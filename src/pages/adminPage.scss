@@ -1,0 +1,22 @@
+.adminOuterContainer {
+  width: 356px;
+  margin: 0 auto;
+  .footer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-end;
+    width: 356px;
+    margin: 0 auto;
+
+    .linkText {
+      color: #0062ff;
+      padding: 6px 12px;
+      text-decoration: underline;
+    }
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+}

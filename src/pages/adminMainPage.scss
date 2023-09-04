@@ -1,0 +1,29 @@
+.adminContainer {
+  display: flex;
+  width: 1400px;
+  height: 1200px;
+  margin: 0 auto;
+  .rightContainer {
+    display: flex;
+    flex-direction: column;
+    padding: 0 0 54px 0;
+    margin-left: 25px;
+    border-left: 1px solid #E6ECF0;
+    border-right: 1px solid #E6ECF0;
+    height: 1200px;
+    width: 965px;
+    .title {
+      display: flex;
+      align-items: center;
+      padding: 21px;
+      height: 75px;
+      font-size: 24px;
+      font-weight: 700;
+      color: #171725;
+    }
+    .mainTweetBoard {
+      overflow-y: scroll;
+      overflow-x: hidden;
+    }
+  }
+}
