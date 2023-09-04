@@ -92,7 +92,7 @@ const UserSelfReplyContent = ({ userSelfReply, timeDiff }) => {
   return (
     <>
       {/* 所有user-self 的回覆 */}
-      {userSelfReply.status === "error" && <ShowEmptyPostReply />}
+      {/* {userSelfReply.status === "error" && <ShowEmptyPostReply />} */}
       {userSelfReply ? userSelfReply.length === 0 ? <ShowEmptyPostReply />:"":""}
       {userSelfReply.length > 0 &&
         userSelfReply?.map(
