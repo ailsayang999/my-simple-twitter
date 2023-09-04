@@ -17,7 +17,7 @@ const TweetCard = ({authorId, tweetId, avatar, name, account, description, time}
     const currentDate = new Date();
     const createdAtDate = new Date(time);
 
-    const timeDifference = currentDate - createdAtDate + (8 * 60 * 60 * 1000); //補回+8 timezone
+    const timeDifference = currentDate - createdAtDate;
     const minsDifference = Math.floor(timeDifference / (60 * 1000)); 
     const daysDifference = Math.floor(timeDifference / (24 * 60 * 60 * 1000)); 
     const yearsDifference = Math.floor(timeDifference / (365 * 24 * 60 * 60 * 1000));
