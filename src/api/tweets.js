@@ -78,10 +78,10 @@ export const postTweet = async (description) => {
 export const postTweetLike = async (id) => {
   try {
     const res = axiosInstance.post(`/tweets/${id}/like`);
-    console.log(res);
+    // console.log(res);
     return res;
   } catch (error) {
-    console.error("[Post like tweet failed]: ", error.response.data.message);
+    // console.error("[Post like tweet failed]: ", error.response.data.message);
   }
 };
 //////////////////////////////////////////////// postTweetUnLike ////////////////////////////////////////////////
@@ -89,7 +89,7 @@ export const postTweetLike = async (id) => {
 export const postTweetUnlike = async (id) => {
   try {
     const res = axiosInstance.post(`/tweets/${id}/unlike`);
-    console.log(res);
+    // console.log(res);
     return res;
   } catch (error) {
     console.error("[Post unlike tweet failed]: ", error.response.data.message);

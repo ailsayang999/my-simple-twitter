@@ -4,7 +4,7 @@ const baseUrl = 'https://mighty-temple-45104-0d6672fb07d0.herokuapp.com/api';
 
 export const register = async ({ name, account, email, password , checkPassword }) => {
   try {
-    console.log('Try to get data from api /users')
+    // console.log('Try to get data from api /users')
 
     const data = await axios.post(`${baseUrl}/users`, {
       name,
@@ -15,7 +15,7 @@ export const register = async ({ name, account, email, password , checkPassword 
     });
 
     if (data.status ==="success") {
-      console.log('Status : success!')
+      // console.log('Status : success!')
       return data;
     }
     return data;

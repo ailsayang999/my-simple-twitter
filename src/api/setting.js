@@ -21,7 +21,7 @@ axiosInstance.interceptors.request.use(
 
 export const setting = async ({ id, name, account, email, password , checkPassword }) => {
   try {
-    console.log(`setting.js put傳入資料 id:${id}, name:${name}, account: ${account}, email:${email} password:${password} checkpassword: ${checkPassword}`)
+    // console.log(`setting.js put傳入資料 id:${id}, name:${name}, account: ${account}, email:${email} password:${password} checkpassword: ${checkPassword}`)
 
     // api body 為 form-data 形式，資料傳入形式需要調整如下
     const formData = new FormData();
@@ -38,11 +38,11 @@ export const setting = async ({ id, name, account, email, password , checkPasswo
       },
     });
 
-    console.log(`setting.js {data}: ${JSON.stringify(data)}`)
+    // console.log(`setting.js {data}: ${JSON.stringify(data)}`)
     return data;
   } catch (data) {
     const errorMsg = data.response.data.message
-    console.log(errorMsg)
+    // console.log(errorMsg)
     return Promise.reject(errorMsg)
   }
 };
