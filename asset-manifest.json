@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/my-simple-twitter/static/css/main.27c36a96.css",
-    "main.js": "/my-simple-twitter/static/js/main.598cd5f9.js",
+    "main.css": "/my-simple-twitter/static/css/main.e4d1d277.css",
+    "main.js": "/my-simple-twitter/static/js/main.15a22792.js",
     "static/js/787.9bc2b33d.chunk.js": "/my-simple-twitter/static/js/787.9bc2b33d.chunk.js",
     "static/media/SeanAvartar.jpg": "/my-simple-twitter/static/media/SeanAvartar.d91c8bb75a504d1bceab.jpg",
     "static/media/fakeUserOtherCover.png": "/my-simple-twitter/static/media/fakeUserOtherCover.cc67b1d349b61e06178e.png",
@@ -37,12 +37,12 @@
     "static/media/backArrowIcon.svg": "/my-simple-twitter/static/media/backArrowIcon.0b3361faba9858e1c337ccf92d5df475.svg",
     "static/media/likeIconActive.svg": "/my-simple-twitter/static/media/likeIconActive.b9aedf9cf30afd21292a699c307a1cd1.svg",
     "static/media/successIcon.svg": "/my-simple-twitter/static/media/successIcon.05abe9bb79ccce09ca487739447fd59b.svg",
-    "main.27c36a96.css.map": "/my-simple-twitter/static/css/main.27c36a96.css.map",
-    "main.598cd5f9.js.map": "/my-simple-twitter/static/js/main.598cd5f9.js.map",
+    "main.e4d1d277.css.map": "/my-simple-twitter/static/css/main.e4d1d277.css.map",
+    "main.15a22792.js.map": "/my-simple-twitter/static/js/main.15a22792.js.map",
     "787.9bc2b33d.chunk.js.map": "/my-simple-twitter/static/js/787.9bc2b33d.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.27c36a96.css",
-    "static/js/main.598cd5f9.js"
+    "static/css/main.e4d1d277.css",
+    "static/js/main.15a22792.js"
   ]
 }
