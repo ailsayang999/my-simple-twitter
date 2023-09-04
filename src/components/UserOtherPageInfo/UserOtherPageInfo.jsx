@@ -92,7 +92,8 @@ const UserSelfReplyContent = ({ userSelfReply, timeDiff }) => {
   return (
     <>
       {/* 所有user-self 的回覆 */}
-      {userSelfReply.length === 0 && <ShowEmptyPostReply />}
+      {userSelfReply.status === "error" && <ShowEmptyPostReply />}
+      {userSelfReply ? userSelfReply.length === 0 ? <ShowEmptyPostReply />:"":""}
       {userSelfReply.length > 0 &&
         userSelfReply?.map(
           ({
@@ -118,7 +119,9 @@ const UserSelfReplyContent = ({ userSelfReply, timeDiff }) => {
                       <div className="user-reply-info">
                         <div className="replier-name">{replierName}</div>
                         <div className="replier-account">@{replierAccount}</div>
-                        <div className="reply-time">· {timeDiff(createdAt)}</div>
+                        <div className="reply-time">
+                          · {timeDiff(createdAt)}
+                        </div>
                       </div>
 
                       <div className="reply-to-tweet-belonger-account-container">

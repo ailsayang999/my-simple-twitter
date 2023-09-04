@@ -160,7 +160,7 @@ const ReplyPageInfo = () => {
               }
             })
           );
-          alert("Unlike成功");
+          // alert("Unlike成功");
           return;
         }
       } else {
@@ -189,7 +189,7 @@ const ReplyPageInfo = () => {
               }
             })
           );
-          alert("Like成功");
+          // alert("Like成功");
           // console.log(specificTweet);
           return;
         } else {

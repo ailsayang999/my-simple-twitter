@@ -158,15 +158,18 @@
               }
               .like-gray {
                 display: block;
+                cursor: pointer;
               }
 
               .tweet-liked-icon {
                 display: none;
                 width: 17px;
+                cursor: pointer;
               }
               .like-active {
                 display: block;
                 width: 30px;
+                cursor: pointer;
                 cursor: pointer;
               }
             }

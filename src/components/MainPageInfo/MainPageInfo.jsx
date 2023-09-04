@@ -192,7 +192,7 @@ const MainPageInfo = () => {
               }
             })
           );
-          alert("Unlike成功");
+          // alert("Unlike成功");
           return;
         }
       } else {
@@ -220,7 +220,7 @@ const MainPageInfo = () => {
               }
             })
           );
-          alert("Like成功");
+          // alert("Like成功");
           return;
         } else {
           return alert("Like未成功！");
