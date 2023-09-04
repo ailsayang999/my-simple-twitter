@@ -17,7 +17,7 @@ We offer real-time updates to keep you informed at all times. What sets us apart
 - Reply to Tweets: Users can reply to other users' tweets. 
 - Heart Functionality: Users can send the heart by clicking the heart icon.
 - Follow Functionality: Users can follow/unfollow other recommended users on the right side column.<br>
-  (System will list the top 10 users with highest tweet counts for you!)
+  (System will list the top 10 users with highest follower counts for you!)
 - Edit Profile: Users can edit their personal information, including profile picture, background image, name, and self-introduction.
 - Setting: Users can reset their account, name, email, password.
 
