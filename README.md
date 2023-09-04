@@ -1,70 +1,83 @@
-# Getting Started with Create React App
+# Join today for ALPHITTER!
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+![Cover Page](https://github.com/ailsayang999/my-simple-twitter/blob/main/src/assets/images/homePageCover.png)
 
-## Available Scripts
+We offer real-time updates to keep you informed at all times. What sets us apart is our global connectivity, allowing you to connect with people from all corners of the world, sharing your thoughts and experiences. Most importantly, we amplify your voice, ensuring your opinions and perspectives reach a wider audience. Whether you're interested in world news, social issues, tech trends, or cultural arts, we welcome you to join our community. Stay informed, stay connected, and become part of this exciting journey that connects the world. Join us and let your voice resonate globally! (**Adversiting Copy only! Please find below real feature**!)
 
-In the project directory, you can run:
+## Feature
 
-### `npm start`
+![UserPage](https://github.com/ailsayang999/my-simple-twitter/blob/main/src/assets/images/userPageCover.png)
+## Regular User
+- Registration: Users can register a new account by providing username, email, password with speific criteria.
+- Login: Registered users can enter their account credentials in the login form to access the frontend platform. <br>
+  (Only can logined users browse the rest users pages.)
+- Profile Viewing: Users can view their own information. <br>
+  (profile picture, banner, tweet content, reply content, number of following and followers, and liked content).
+- Post Tweets: Users can tweet.
+- Reply to Tweets: Users can reply to other users' tweets. 
+- Heart Functionality: Users can send the heart by clicking the heart icon.
+- Follow Functionality: Users can follow/unfollow other recommended users on the right side column.<br>
+  (System will list the top 10 users with highest tweet counts for you!)
+- Edit Profile: Users can edit their personal information, including profile picture, background image, name, and self-introduction.
+- Setting: Users can reset their account, name, email, password.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+![AdmPage](https://github.com/ailsayang999/my-simple-twitter/blob/main/src/assets/images/adminUserCover.png)
+## Administrator
+- Login: Use below Administrator account to access the backend platform.
+- Browse User Information: Administrator can browse all user information (User List).
+- Browse Tweets: Administrator can browse all tweets posted from the newest to oldest one (Tweet List).
+- Delete Tweets: Administrator can delete any tweet by clicking the 'X' button in the tweet list (Tweet List).
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Test Accounts
+- As **Regular Users** <br>
+  - Account: **user1** <br>
+  - Password: **12345678**<br>
+(Please reset this account and passwod, if you tried to edit in this project!) 
+  
+- As **Administrator**<br>
+  - Account: **root**<br>
+  - Password: **12345678**
 
-### `npm test`
+## Installation and Execution
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Please ensure that Node.js and npm are well installed in your local environment first.
+Here are the steps to install and start the server:
 
-### `npm run build`
+1. Clone the repository:
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+```
+    git clone https://github.com/ailsayang999/my-simple-twitter.git
+```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+2. Install the dependencies and start the server:
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```
+    cd my-simple-twitter
+```
 
-### `npm run eject`
+```
+    npm install
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+```
+    npm start
+```
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+3. Open your browser and navigate to http://localhost:3000
+   (If you are not navigated automatically.)
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+4. You may stop it by typing Ctrl + c anytime
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+5. Interested to back-end repo? [**GO**](https://github.com/seangotjuice/twitter-api-2020)!
 
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## Development Tools
+- react 18.2.0
+- axios 0.27.2
+- jwt-decode 3.1.2
+- react-dom 18.2.0
+- react-router-dom 6.15.0
+- sass 1.66.1
+  
+## Dear Team Members
+- Front-end: [Ailsa](https://github.com/ailsayang999) , [Lynn](https://github.com/Lynn-Hsiao)
+- Back-end: [Eva](https://github.com/EvvvaHsu) , [Sean](https://github.com/seangotjuice)
