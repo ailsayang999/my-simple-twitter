@@ -183,6 +183,11 @@ const UserSelfFellowPageInfo = () => {
         const backendUserSelfFollower = await getUserSelfFollower(
           userInfoObject.id
         );
+        backendUserSelfFollower.sort((a, b) => {
+          const dateA = new Date(a.follower.Followship.createdAt);
+          const dateB = new Date(b.follower.Followship.createdAt);
+          return dateB - dateA; // 降序排序
+        });
         setFollower(backendUserSelfFollower);
       } catch (error) {
         console.error(error);
@@ -194,6 +199,11 @@ const UserSelfFellowPageInfo = () => {
         const backendUserSelfFollowing = await getUserSelfFollowing(
           userInfoObject.id
         );
+        backendUserSelfFollowing.sort((a, b) => {
+          const dateA = new Date(a.following.Followship.createdAt);
+          const dateB = new Date(b.following.Followship.createdAt);
+          return dateB - dateA; // 降序排序
+        });
         //後端好了再打開，先用userInfo
         setFollowing(backendUserSelfFollowing);
       } catch (error) {

@@ -7,10 +7,7 @@ import { useAuth } from "context/AuthContext"; //到AuthContext拿是否已驗�
 import FollowContext from "context/FollowContext";
 // 引入Modal元件
 import PostTweetModal from "components/PostTweetModal/PostTweetModal";
-import {
-  getUserSelfFollower,
-  getUserSelfFollowing,
-} from "api/tweets";
+import { getUserSelfFollower, getUserSelfFollowing } from "api/tweets";
 
 const ShowEmptyFollower = () => {
   return <div className="empty-user-other-follow-page">尚無追蹤者</div>;
@@ -241,6 +238,11 @@ const UserOtherFollowPageInfo = () => {
         const backendUserOtherFollower = await getUserSelfFollower(
           userOtherInfoObject.id
         );
+        backendUserOtherFollower.sort((a, b) => {
+          const dateA = new Date(a.follower.Followship.createdAt);
+          const dateB = new Date(b.follower.Followship.createdAt);
+          return dateB - dateA; // 降序排序
+        });
         setUserOtherFollower(backendUserOtherFollower);
         // console.log("backendUserOtherFollower: ", backendUserOtherFollower);
       } catch (error) {
@@ -253,6 +255,11 @@ const UserOtherFollowPageInfo = () => {
         const backendUserOtherFollowing = await getUserSelfFollowing(
           userOtherInfoObject.id
         );
+        backendUserOtherFollowing.sort((a, b) => {
+          const dateA = new Date(a.following.Followship.createdAt);
+          const dateB = new Date(b.following.Followship.createdAt);
+          return dateB - dateA; // 降序排序
+        });
         //後端好了再打開，先用userInfo
         setUserOtherFollowing(backendUserOtherFollowing);
         // console.log("backendUserSelfFollowing: ", backendUserOtherFollowing);
