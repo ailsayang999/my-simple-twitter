@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const baseUrl = 'https://mighty-temple-45104-0d6672fb07d0.herokuapp.com/api';
+const baseUrl = "https://web-production-5d6e.up.railway.app/api";
 
 export const register = async ({ name, account, email, password , checkPassword }) => {
   try {

@@ -6,7 +6,7 @@ import userOtherInfoCover from "assets/images/fakeUserOtherCover.png";
 // 串切開始
 import axios from "axios";
 
-const baseUrl = "https://mighty-temple-45104-0d6672fb07d0.herokuapp.com/api";
+const baseUrl = "https://web-production-5d6e.up.railway.app/api";
 
 const axiosInstance = axios.create({
   baseURL: baseUrl,
