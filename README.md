@@ -1,6 +1,7 @@
 # Join today for ALPHITTER!
 
 ![Cover Page](https://github.com/ailsayang999/my-simple-twitter/blob/main/src/assets/images/homePageCover.png)
+↳ [Project Link](https://ailsayang999.github.io/my-simple-twitter/)
 
 We offer real-time updates to keep you informed at all times. What sets us apart is our global connectivity, allowing you to connect with people from all corners of the world, sharing your thoughts and experiences. Most importantly, we amplify your voice, ensuring your opinions and perspectives reach a wider audience. Whether you're interested in world news, social issues, tech trends, or cultural arts, we welcome you to join our community. Stay informed, stay connected, and become part of this exciting journey that connects the world. Join us and let your voice resonate globally! (**Adversiting Copy only! Please find below real feature**!)
 
