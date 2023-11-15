@@ -42,11 +42,11 @@ export const AuthAdminProvider = ({ children }) => {
           id: payload.sub, // 取出 sub 字串，可以做為使用者 id
           name: payload.name, // 取出使用者帳號
         },
-        adminLogin: async (data1) => {
+        adminLogin: async (inputData) => {
           try {
-            const {data} = await adminLogin({
-              account: data1.account,
-              password: data1.password,
+            const { data } = await adminLogin({
+              account: inputData.account,
+              password: inputData.password,
             });
             if (data.status === "success") {
               const authToken = data.data.token
