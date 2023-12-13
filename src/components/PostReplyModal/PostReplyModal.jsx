@@ -2,7 +2,6 @@ import "./postReplyModal.scss";
 import { ReactComponent as ClosedIcon } from "assets/icons/crossIcon.svg";
 import { useContext, useEffect } from "react";
 import ModalContext from "context/ModalContext";
-import { getSpecificTweet } from "api/tweets";
 
 const PostReplyModal = ({
   ReplyInputValue,

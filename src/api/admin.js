@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const baseUrl = "https://web-production-5d6e.up.railway.app/api/admin";
+const baseUrl = "https://web-production-b188.up.railway.app/api";
 
 
 export const adminLogin = async ({ account, password }) => {
